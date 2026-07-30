@@ -11,8 +11,8 @@ database/
 *.h5
 database.zip
 
-# 생성 결과
-output/
+# 생성 결과(output/)는 산출물이므로 의도적으로 추적한다.
+# 단 *.bin / *.h5 규칙이 위에 있으니 output에 그런 파일을 두지 말 것.
 
 # 로컬 설정 — API 키가 들어가므로 절대 커밋 금지
 .env

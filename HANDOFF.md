@@ -6,29 +6,41 @@
 
 ---
 
+## git 상태
+
+작업은 `reproduce` 브랜치 커밋 `d59c213`에 있습니다. **push와 PR 생성은 사용자가 직접 합니다.**
+origin은 SSH URL(`git@github.com:brian-223134/AutoSurvey.git`)로 전환돼 있습니다.
+(서버 SSH 키에 passphrase가 있어 TTY 없는 도구에서는 push가 불가합니다.)
+
+---
+
 ## TL;DR — 지금 바로 할 일
 
+**DB 반입·검증은 완료됐습니다** (537,665편, check_db 통과). 남은 건 API 키뿐입니다.
+
 ```bash
-# 1) DB 반입 (로컬 PC에서 OneDrive zip 받아 scp — 서버는 OneDrive 차단됨)
-unzip database.zip -d ./database/
+# 1) .env 의 OPENROUTER_API_KEY 를 실제 키로 채운다 (에디터로 직접)
+#    ⚠️ 값 끝에 개행/공백이 붙지 않도록 주의 (붙어도 코드가 strip 하지만)
 
-# 2) 검증
+# 2) 환경변수로 올리고 스모크 (축소 설정)
 conda activate autosurvey
-python scripts/check_db.py --db-path ./database
-
-# 3) 스모크 (축소 설정)
-export CUDA_VISIBLE_DEVICES=0
-export AUTOSURVEY_MAX_THREADS=4
+source .env
 python main.py \
   --topic "LLMs for education" \
   --saving_path ./output/ --db_path ./database \
+  --embedding_model nomic-ai/nomic-embed-text-v1 \
   --model anthropic/claude-3-haiku \
   --api_url https://openrouter.ai/api/v1/chat/completions \
-  --api_key "$OPENROUTER_API_KEY" \
   --section_num 4 --outline_reference_num 200 --rag_num 15
 ```
 
-3번이 `./output/LLMs for education.md`를 만들면 목표 달성입니다.
+`./output/LLMs for education.md`가 만들어지면 목표 달성입니다.
+
+> **`--api_key`를 일부러 넘기지 않습니다.** 이 서버는 `/proc`에 hidepid가 없어
+> 다른 사용자가 `ps -eo args`로 명령줄을 볼 수 있습니다. `main.py`/`evaluation.py`가
+> `--api_key` → `OPENROUTER_API_KEY` → `AUTOSURVEY_API_KEY` 순으로 키를 찾고,
+> 키가 없으면 **DB 로딩(수 분) 전에 즉시 중단**됩니다.
+> `.env`는 `.gitignore`에 등록돼 있고 권한은 `600`입니다.
 
 ---
 
@@ -96,31 +108,87 @@ cs.CL 97편 샘플로 **수집 → 인덱스 → 검증 → 검색까지 끝까�
 
 ## 남은 작업
 
-### A. DB 반입 및 검증 ← **여기부터**
+### A. ~~DB 반입 및 검증~~ ✅ 완료
 
-로컬 PC에서 README의 OneDrive 링크로 zip을 받아 서버로 scp → `unzip database.zip -d ./database/`
+OneDrive zip을 scp로 반입해 `./database/`에 풀었고 `check_db.py` **통과**:
 
-필요한 파일 4개 (이름이 정확히 일치해야 함):
-
-| 파일 | 용도 |
+| 항목 | 결과 |
 |---|---|
-| `arxiv_paper_db.json` | TinyDB 본체 (id/title/abs/date) |
-| `faiss_paper_title_embeddings.bin` | 제목 인덱스 (인용 → 논문 매핑용) |
-| `faiss_paper_abs_embeddings.bin` | 초록 인덱스 (검색용) |
-| `arxivid_to_index_abs.json` | arXiv id ↔ FAISS 인덱스 매핑 |
+| 논문 수 | **537,665편** |
+| FAISS | title/abs 각 537,665벡터, dim 768 |
+| id 매핑 | 537,665개, TinyDB와 **100% 일치** (유실 0건) |
+| 검색 스모크 | `"large language models"` → 관련 논문 5건 정상 |
 
-`python scripts/check_db.py --db-path ./database` 로 확인. 상주 메모리 ~10GB 예상 (RAM 1TB라 여유).
+arXiv id에 버전 접미사가 붙어 있고(`1811.06122v1`) 스냅샷은 **2024-05** 기준입니다.
+`scripts/harvest_arxiv.py`는 버전 없는 id를 쓰므로 두 DB를 섞지 마세요.
 
-### B. 스모크 실행
+### B. 스모크 실행 ← **여기부터**
 
 TL;DR의 3번. 확인할 것:
 1. 시작 직후 `hello` 응답 — 실패하면 `[APIModel]` 로그와 함께 그 자리에서 죽습니다
 2. `./output/{topic}.md`에 `#` 제목 / `##` 섹션 / `###` 서브섹션 / `## References`가 다 있는지
 3. 본문의 `[n]` 번호가 References 항목과 대응하는지
 
-### C. 본 실행
+### C. 본 실행 — 확정된 3개 토픽
 
 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (논문 설정)
+
+토픽은 **DB에서 직접 커버리지를 측정해** 골랐다 (top-1200 검색 후 거리 분포 비교).
+`d@1200`이 낮을수록 1200번째까지 관련성이 유지된다는 뜻이고, 감쇠(`d@1200 − d@1`)가
+작을수록 관련 논문층이 두텁다.
+
+| 토픽 | d@1200 | 감쇠 | 2023+ | 선정 이유 |
+|---|---|---|---|---|
+| **In-context Learning** | 0.853 | 0.382 | 48% | `examples/In-context Learning.md`에 **저자들의 생성 결과**가 있어 직접 대조 가능. 논문 Table 6 중 인간 서베이 인용수 최고(323) |
+| **Large Multi-Modal Language Models** | **0.744** | **0.238** | 88% | 측정한 24개 중 커버리지 1위 |
+| **Evaluation of LLMs** | 0.849 | 0.254 | 96% | 안정적 커버리지 + 최신성 최고. 인간 서베이 183 인용 |
+
+- In-context Learning은 감쇠가 커서 `--outline_reference_num`을 **800 정도로 낮추는 걸 고려**
+- 피할 토픽: Parameter-Efficient Fine-Tuning(0.958), Chain of Thought(0.942),
+  Hallucination in LLMs(0.940), LLMs for Recommendation(0.946).
+  d@1은 괜찮지만 1200편을 채우면 뒤쪽이 노이즈다
+- DB 스냅샷이 **2024-05**라 그 이후 부상한 주제는 논문이 거의 없다
+
+### D-2. 출력 형식과 PDF 변환 (출력이 나온 뒤 진행)
+
+목적: **품질 체크용 PDF + 원문 둘 다** 필요.
+
+현재 출력은 **Markdown**이다. LaTeX 기능은 없다.
+
+| 항목 | 현재 |
+|---|---|
+| `{topic}.md` | `#`/`##`/`###` 헤딩, 인용은 본문에 `[1; 2]` **평문** |
+| `{topic}.json` | `{"survey": 본문, "reference": {번호 → arXiv id}}` |
+| 참고문헌 | `[n] 논문 제목` — **제목만**. 저자·연도·venue 없음 |
+| `.bib` | 없음 |
+
+변환 시 유의:
+- DB에 **저자 필드가 없다** (`id`/`title`/`abs`/`date`뿐). 제대로 된 `.bib`을 만들려면
+  인용된 논문(서베이당 74~90편)의 저자를 arXiv **OAI-PMH `GetRecord`** 로 따로 받아야 한다
+  (이 서버에서 arXiv REST API는 타임아웃, OAI-PMH는 정상)
+- 시스템 MiKTeX는 `pdflatex.fmt` 포맷 빌드에 실패해 **쓸 수 없다** (admin 권한 필요).
+  대신 conda 환경 **`tex`** 에 pandoc + texlive-core를 설치해 뒀다 → `conda activate tex`
+- pandoc으로 바로 PDF를 뽑으면 인용이 `[1]` 평문으로 남는다. 읽기용으로는 충분하고,
+  `\cite{}` + `.bib`이 필요하면 `.json`의 reference 매핑을 쓰는 변환기를 별도로 만든다
+
+### D. (추후) writer 모델을 open model로 교체
+
+교수님 의견: closed model(Claude-3-Haiku)보다 **비슷한 성능의 open model API**를 쓰는 편이 좋겠다.
+후보는 **GLM-4.6** (OpenRouter 슬러그 확인 필요, `z-ai/glm-4.6` 추정).
+일단 Haiku로 파이프라인을 확인한 뒤 교체한다.
+
+**코드 수정은 불필요** — OpenRouter가 OpenAI 호환이라 `--model` 값만 바꾸면 된다.
+교체 시 확인할 것:
+
+1. **reasoning(thinking) 모드** — 켜져 있으면 출력 토큰이 몇 배가 되어 비용·시간이 늘고,
+   최악의 경우 thinking 내용이 본문에 섞인다. `src/model.py`는 `reasoning` 파라미터를
+   보내지 않으므로 OpenRouter 기본값을 따른다. 문제가 보이면 페이로드에
+   `"reasoning": {"enabled": false}`를 추가한다
+2. **출력 포맷 준수** — 프롬프트가 Haiku에 맞춰 튜닝돼 있고 파서가 문자열 매칭이라 취약하다.
+   `extract_title_sections_descriptions`는 `split('Title: ')[1]`이라 서두 한 줄만 붙어도
+   IndexError로 즉사한다. 아래 "함정 모음" 참고
+3. 논문 Table 4가 writer를 GPT-4 / Gemini-1.5-Pro로 바꾼 ablation을 이미 다루므로,
+   writer 교체 자체는 방법론을 벗어나지 않는다 (세 모델 모두 4.58~4.70)
 
 ---
 

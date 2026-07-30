@@ -30,14 +30,29 @@ def read_survey(path, topic):
         dic = json.loads(f.read())
     return dic['survey'], dic['reference']
 
+def resolve_api_key(args):
+    """--api_key 또는 환경변수에서 키를 얻는다. main.py와 동일한 규칙."""
+    key = (args.api_key
+           or os.environ.get('OPENROUTER_API_KEY')
+           or os.environ.get('AUTOSURVEY_API_KEY')
+           or '')
+    return key.strip()
+
+
 def evaluate(args):
+
+    api_key = resolve_api_key(args)
+    # DB 로딩에 수 분이 걸리므로 키 검사를 먼저 한다.
+    if not api_key:
+        raise RuntimeError(
+            'API 키가 없습니다. `source .env` 후 실행하거나 --api_key로 넘기세요.')
 
     db = database(db_path = args.db_path, embedding_model = args.embedding_model)
 
     if not os.path.exists(args.saving_path):
         os.mkdir(args.saving_path)
 
-    judge = Judge(args.model, args.api_key, args.api_url, db)
+    judge = Judge(args.model, api_key, args.api_url, db)
 
     survey, references = read_survey(args.saving_path, args.topic)
 
