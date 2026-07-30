@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# 데이터베이스 (OneDrive 배포본 또는 scripts/harvest_arxiv.py 산출물)
+database/
+*.bin
+*.h5
+database.zip
+
+# 생성 결과
+output/
+
+# 로컬 설정 — API 키가 들어가므로 절대 커밋 금지
+.env
+*.local.sh

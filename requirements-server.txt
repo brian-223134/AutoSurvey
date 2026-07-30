@@ -1,0 +1,19 @@
+# 서버 실행용 requirements (원본 requirements.txt 대비 변경 사항은 SETTING.md §2 참고)
+#   faiss_gpu==1.7.2    -> faiss-cpu       원본 코드도 인덱스를 GPU에 올리지 않음
+#   torch==2.1.0        -> 2.4.1           sm_89 (L40S) 안정 지원
+#   numpy==1.23.5       -> 1.26.4          torch 2.4 호환, numpy<2 유지
+#   transformers 4.35.1 -> 4.44.2          torch 2.4 호환. 4.45+ 는 nomic 원격 코드 로딩이 깨짐
+#   langchain*          -> 제거            utils.load_pdf 전용이었고 해당 함수를 삭제함
+
+torch==2.4.1
+numpy==1.26.4
+transformers==4.44.2
+sentence-transformers==2.7.0
+einops==0.8.0
+faiss-cpu==1.8.0.post1
+
+tinydb==4.8.0
+h5py==3.11.0
+tiktoken==0.7.0
+requests==2.32.3
+tqdm==4.66.4

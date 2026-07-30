@@ -10,19 +10,36 @@ from tqdm import tqdm
 import faiss
 from tinydb import TinyDB, Query
 
+
+def _resolve_device():
+    # 'cuda' 하드코딩 대신 환경변수로 오버라이드 가능하게 (CPU 노드 디버깅용)
+    name = os.environ.get('AUTOSURVEY_DEVICE', 'auto')
+    if name != 'auto':
+        return torch.device(name)
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    if getattr(torch.backends, 'mps', None) and torch.backends.mps.is_available():
+        return torch.device('mps')
+    return torch.device('cpu')
+
+
 class database():
 
     def __init__(self, db_path, embedding_model) -> None:
-        
+
+        self.db_path = db_path
         self.embedding_model = SentenceTransformer(embedding_model, trust_remote_code=True)
 
-        self.embedding_model.to(torch.device('cuda'))
+        self.embedding_model.to(_resolve_device())
 
         self.db = TinyDB(f'{db_path}/arxiv_paper_db.json')
         self.table = self.db.table('cs_paper_info')
 
         self.User = Query()
         self.token_counter = tokenCounter()
+        # TinyDB의 one_of()는 문서 전체 선형 스캔이라 53만 편 규모에서 호출당 수 분이 걸린다.
+        # 시작 시 1회 메모리 인덱스를 만들어 id 조회를 O(1)로 바꾼다.
+        self._by_id = {p['id']: p for p in self.table.all()}
         self.title_loaded_index = faiss.read_index(f'{db_path}/faiss_paper_title_embeddings.bin')
 
         self.abs_loaded_index = faiss.read_index(f'{db_path}/faiss_paper_abs_embeddings.bin')
@@ -81,27 +98,20 @@ class database():
         return ids
     
     def get_date_from_ids(self, ids):
-        result = self.table.search(self.User.id.one_of(ids))
-        dates = [r['date'] for r in result]
-        return dates
+        return [r['date'] for r in self.get_paper_info_from_ids(ids)]
 
     def get_title_from_ids(self, ids):
-        result = self.table.search(self.User.id.one_of(ids))
-        titles = [r['title'] for r in result]
-        return titles
+        return [r['title'] for r in self.get_paper_info_from_ids(ids)]
 
     def get_abs_from_ids(self, ids):
-        result = self.table.search(self.User.id.one_of(ids))
-        abs_l = [r['abs'] for r in result]
-        return abs_l
+        return [r['abs'] for r in self.get_paper_info_from_ids(ids)]
 
     def get_paper_info_from_ids(self, ids):
-        result = self.table.search(self.User.id.one_of(ids))
-        return result
-    
+        return [self._by_id[i] for i in ids if i in self._by_id]
+
     def get_paper_from_ids(self, ids, max_len = 1500):
         loaded_data = {}
-        with h5py.File('./paper_content.h5', 'r') as f:
+        with h5py.File(f'{self.db_path}/paper_content.h5', 'r') as f:
             for key in f.keys():
                 if key in ids:
                     loaded_data[key] = str(f[key][()])

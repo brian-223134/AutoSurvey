@@ -1,3 +1,4 @@
+import os
 import time
 import requests
 import json
@@ -13,10 +14,13 @@ class APIModel:
         
     def __req(self, text, temperature, max_try = 5):
         url = f"{self.__api_url}"
-        pay_load_dict = {"model": f"{self.model}","messages": [{
-                "role": "user",
-                "temperature":temperature,
-                "content": f"{text}"}]}
+        # temperature는 messages 배열이 아니라 최상위에 와야 실제로 적용된다.
+        # (원본은 message 안에 넣어서 서버 기본값으로 돌고 있었고, vLLM 등은 400을 낼 수 있다)
+        pay_load_dict = {
+            "model": self.model,
+            "temperature": temperature,
+            "messages": [{"role": "user", "content": text}],
+        }
         payload = json.dumps(pay_load_dict)
         headers = {
         'Accept': 'application/json',
@@ -24,18 +28,25 @@ class APIModel:
         'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
         'Content-Type': 'application/json'
         }
-        try:
-            response = requests.request("POST", url, headers=headers, data=payload)
-            return json.loads(response.text)['choices'][0]['message']['content']
-        except:
-            for _ in range(max_try):
-                try:
-                    response = requests.request("POST", url, headers=headers, data=payload)
-                    return json.loads(response.text)['choices'][0]['message']['content']
-                except:
-                    pass
-                time.sleep(0.2)
-            return None
+        last_err = None
+        for attempt in range(max_try):
+            try:
+                response = requests.post(url, headers=headers, data=payload, timeout=300)
+                if response.status_code != 200:
+                    last_err = f"HTTP {response.status_code}: {response.text[:300]}"
+                else:
+                    body = response.json()
+                    # OpenRouter는 업스트림 실패를 200 + {"error": ...} 로 돌려줄 때가 있다.
+                    if 'choices' not in body:
+                        last_err = f"응답에 choices 없음: {str(body)[:300]}"
+                    else:
+                        return body['choices'][0]['message']['content']
+            except Exception as e:
+                last_err = repr(e)
+            time.sleep(min(2 ** attempt, 30))
+        # 조용히 None을 반환하면 호출부에서 엉뚱한 AttributeError로 죽으므로 원인을 남긴다.
+        print(f"[APIModel] 재시도 {max_try}회 실패: {last_err}", flush=True)
+        return None
     
     def chat(self, text, temperature=1):
         response = self.__req(text, temperature=temperature, max_try=5)
@@ -48,7 +59,10 @@ class APIModel:
         return response
         
     def batch_chat(self, text_batch, temperature=0):
-        max_threads=15 # limit max concurrent threads using model API
+        # writer.py가 섹션당 스레드 1개로 batch_chat을 부르므로 실제 동시 요청은
+        # section_num * max_threads 까지 올라간다. 상용 API 레이트리밋에 맞춰
+        # AUTOSURVEY_MAX_THREADS 로 낮출 수 있게 해둔다.
+        max_threads = int(os.environ.get('AUTOSURVEY_MAX_THREADS', 15))
         res_l = ['No response'] * len(text_batch)
         thread_l = []
         for i, text in zip(range(len(text_batch)), text_batch):

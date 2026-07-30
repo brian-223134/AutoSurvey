@@ -40,9 +40,9 @@ class outlineWriter():
         subsection_outlines = self.generate_subsection_outlines(topic=topic, section_outline= section_outline,rag_num= 50)
         
         merged_outline = self.process_outlines(section_outline, subsection_outlines)
-        
+
         # edit final outline
-        final_outline = self.edit_final_outline(merged_outline)
+        final_outline = self.edit_final_outline(merged_outline, topic)
 
         return final_outline
 
@@ -210,7 +210,7 @@ class outlineWriter():
         self.output_token_usage += self.token_counter.num_tokens_from_list_string(sub_outlines)
         return sub_outlines
 
-    def edit_final_outline(self, outline):
+    def edit_final_outline(self, outline, topic):
         '''
         You are an expert in artificial intelligence who wants to write a overall survey about [TOPIC].\n\
         You have created a draft outline below:\n\
@@ -247,7 +247,8 @@ class outlineWriter():
         Only return the final outline without any other informations:
         '''
 
-        prompt = self.__generate_prompt(EDIT_FINAL_OUTLINE_PROMPT, paras={'OVERALL OUTLINE': outline})
+        # TOPIC을 넘기지 않으면 프롬프트에 리터럴 '[TOPIC]'이 그대로 남는다.
+        prompt = self.__generate_prompt(EDIT_FINAL_OUTLINE_PROMPT, paras={'OVERALL OUTLINE': outline, 'TOPIC': topic})
         self.input_token_usage += self.token_counter.num_tokens_from_string(prompt)
         outline = self.api_model.chat(prompt, temperature=1)
         self.output_token_usage += self.token_counter.num_tokens_from_string(outline)
