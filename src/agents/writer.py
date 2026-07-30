@@ -215,24 +215,48 @@ class subsectionWriter():
     
         # Split the outline into lines
         lines = outline.split('\n')
-        
+
+        def description_after(i):
+            # 원본은 '바로 다음 줄'만 봤다. 빈 줄이 끼거나 Description이 없으면
+            # 섹션만 append되고 병렬 리스트는 늘지 않아 길이가 어긋나고,
+            # 아래 write()의 parsed_outline['subsection_descriptions'][i] 에서
+            # IndexError가 나거나 서브섹션이 조용히 밀린다.
+            for line in lines[i + 1:i + 4]:
+                s = line.strip()
+                if not s:
+                    continue
+                if s.lower().startswith('description'):
+                    return s.split(':', 1)[1].strip() if ':' in s else ''
+                return ''   # 다른 내용이 먼저 나오면 설명 없음
+            return ''
+
         for i, line in enumerate(lines):
+            s = line.strip()
             # Match title, sections, subsections and their descriptions
-            if line.startswith('# '):
-                result["title"] = line[2:].strip()
-            elif line.startswith('## '):
-                result["sections"].append(line[3:].strip())
-                # Extract the description in the next line
-                if i + 1 < len(lines) and lines[i + 1].startswith('Description:'):
-                    result["section_descriptions"].append(lines[i + 1].split('Description:', 1)[1].strip())
-                    result["subsections"].append([])
-                    result["subsection_descriptions"].append([])
-            elif line.startswith('### '):
-                if result["subsections"]:
-                    result["subsections"][-1].append(line[4:].strip())
-                    # Extract the description in the next line
-                    if i + 1 < len(lines) and lines[i + 1].startswith('Description:'):
-                        result["subsection_descriptions"][-1].append(lines[i + 1].split('Description:', 1)[1].strip())
+            if s.startswith('### '):
+                if not result["sections"]:
+                    continue      # 섹션보다 먼저 나온 서브섹션은 버린다
+                result["subsections"][-1].append(s[4:].strip().strip('*').strip())
+                result["subsection_descriptions"][-1].append(description_after(i))
+            elif s.startswith('## '):
+                result["sections"].append(s[3:].strip().strip('*').strip())
+                result["section_descriptions"].append(description_after(i))
+                # 네 리스트를 항상 같은 길이로 유지한다.
+                result["subsections"].append([])
+                result["subsection_descriptions"].append([])
+            elif s.startswith('# ') and not result["title"]:
+                result["title"] = s[2:].strip().strip('*').strip()
+
+        # 서브섹션이 하나도 없는 섹션은 이후 단계에서 쓸 수 없으므로 제거한다.
+        keep = [i for i, subs in enumerate(result["subsections"]) if subs]
+        if len(keep) != len(result["sections"]):
+            for key in ("sections", "section_descriptions",
+                        "subsections", "subsection_descriptions"):
+                result[key] = [result[key][i] for i in keep]
+
+        if not result["sections"]:
+            raise RuntimeError(
+                '아웃라인에서 "## 섹션"을 찾지 못했습니다. 원본:\n' + outline[:1000])
 
         return result
     
