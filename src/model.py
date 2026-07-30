@@ -5,13 +5,42 @@ import json
 from tqdm import tqdm
 import threading
 
+TIMEOUT = int(os.environ.get('AUTOSURVEY_TIMEOUT', 900))
+
+
 class APIModel:
 
     def __init__(self, model, api_key, api_url) -> None:
         self.__api_key = api_key
         self.__api_url = api_url
         self.model = model
-        
+        # 재시도는 프롬프트 전체를 다시 청구시키므로 비용에 직결된다.
+        # 원본은 중간 재시도를 전혀 남기지 않아 조용히 돈이 새도 알 수 없었다.
+        self.retry_count = 0
+        self.usage = {'prompt': 0, 'completion': 0, 'reasoning': 0, 'cost': 0.0}
+        self._lock = threading.Lock()
+
+    def _extra_payload(self):
+        """AUTOSURVEY_REASONING=off 면 추론을 끈다.
+
+        deepseek-v4-pro 실측: 추론이 출력 토큰의 45%를 차지하는데 본문 분량은
+        오히려 끈 쪽이 조금 더 길었다. 비용 36% 절감, 응답 31% 단축.
+        """
+        mode = os.environ.get('AUTOSURVEY_REASONING', '').lower()
+        if mode in ('off', 'false', '0', 'disabled'):
+            return {"reasoning": {"enabled": False}}
+        return {}
+
+    def _record(self, usage):
+        if not usage:
+            return
+        det = usage.get('completion_tokens_details') or {}
+        with self._lock:
+            self.usage['prompt'] += usage.get('prompt_tokens', 0)
+            self.usage['completion'] += usage.get('completion_tokens', 0)
+            self.usage['reasoning'] += det.get('reasoning_tokens', 0)
+            self.usage['cost'] += float(usage.get('cost', 0) or 0)
+
     def __req(self, text, temperature, max_try = 5):
         url = f"{self.__api_url}"
         # temperature는 messages 배열이 아니라 최상위에 와야 실제로 적용된다.
@@ -20,6 +49,7 @@ class APIModel:
             "model": self.model,
             "temperature": temperature,
             "messages": [{"role": "user", "content": text}],
+            **self._extra_payload(),
         }
         payload = json.dumps(pay_load_dict)
         headers = {
@@ -31,7 +61,7 @@ class APIModel:
         last_err = None
         for attempt in range(max_try):
             try:
-                response = requests.post(url, headers=headers, data=payload, timeout=300)
+                response = requests.post(url, headers=headers, data=payload, timeout=TIMEOUT)
                 if response.status_code != 200:
                     last_err = f"HTTP {response.status_code}: {response.text[:300]}"
                 else:
@@ -40,12 +70,18 @@ class APIModel:
                     if 'choices' not in body:
                         last_err = f"응답에 choices 없음: {str(body)[:300]}"
                     else:
+                        self._record(body.get('usage'))
                         return body['choices'][0]['message']['content']
             except Exception as e:
                 last_err = repr(e)
+            # 재시도는 프롬프트를 다시 청구시킨다. 반드시 보이게 남긴다.
+            with self._lock:
+                self.retry_count += 1
+            print(f"[APIModel] 재시도 {attempt + 1}/{max_try} "
+                  f"(누적 {self.retry_count}회, 프롬프트 {len(text)}자): {last_err}", flush=True)
             time.sleep(min(2 ** attempt, 30))
         # 조용히 None을 반환하면 호출부에서 엉뚱한 AttributeError로 죽으므로 원인을 남긴다.
-        print(f"[APIModel] 재시도 {max_try}회 실패: {last_err}", flush=True)
+        print(f"[APIModel] 최종 실패 ({max_try}회): {last_err}", flush=True)
         return None
     
     def chat(self, text, temperature=1):

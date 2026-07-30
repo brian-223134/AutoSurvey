@@ -34,8 +34,21 @@ def write_outline(topic, model, section_num, outline_reference_num, db, api_key,
         raise RuntimeError('API 연결 실패: 위의 [APIModel] 로그를 확인하세요 (--api_url / --api_key / 서버 상태)')
     print(hello)
     outline = outline_writer.draft_outline(topic, outline_reference_num, 30000, section_num)
-    print(f'[tokens] outline in={outline_writer.input_token_usage} out={outline_writer.output_token_usage}', flush=True)
+    report_usage('outline', outline_writer)
     return outline, remove_descriptions(outline)
+
+
+def report_usage(stage, agent):
+    """tiktoken 추정치와 API가 실제로 청구한 값을 함께 출력한다.
+
+    둘이 벌어지면 재시도나 추론 토큰 때문이므로 원인을 바로 알 수 있다.
+    """
+    u = agent.api_model.usage
+    print(f'[tokens] {stage:7s} 추정 in={agent.input_token_usage:,} out={agent.output_token_usage:,}',
+          flush=True)
+    print(f'[usage]  {stage:7s} 청구 in={u["prompt"]:,} out={u["completion"]:,} '
+          f'(추론 {u["reasoning"]:,}) 비용 ${u["cost"]:.4f} 재시도 {agent.api_model.retry_count}회',
+          flush=True)
 
 def write_subsection(topic, model, outline, subsection_len, rag_num, db, api_key, api_url, refinement = True):
 
@@ -44,7 +57,7 @@ def write_subsection(topic, model, outline, subsection_len, rag_num, db, api_key
         result = subsection_writer.write(topic, outline, subsection_len = subsection_len, rag_num = rag_num, refining = True)
     else:
         result = subsection_writer.write(topic, outline, subsection_len = subsection_len, rag_num = rag_num, refining = False)
-    print(f'[tokens] writer  in={subsection_writer.input_token_usage} out={subsection_writer.output_token_usage}', flush=True)
+    report_usage('writer', subsection_writer)
     return result
 
 def paras_args():
