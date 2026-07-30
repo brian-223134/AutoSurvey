@@ -1,4 +1,5 @@
 import os
+import re
 import numpy as np
 import tiktoken
 from tqdm import trange,tqdm
@@ -10,8 +11,42 @@ from src.utils import tokenCounter
 from src.prompt import ROUGH_OUTLINE_PROMPT, MERGING_OUTLINE_PROMPT, SUBSECTION_OUTLINE_PROMPT, EDIT_FINAL_OUTLINE_PROMPT
 from transformers import AutoModel, AutoTokenizer,  AutoModelForSequenceClassification
 
+# 원본은 `outline.split('Subsection 1: ')[1]` 처럼 정확한 문자열 일치에 의존했다.
+# Claude-3-Haiku는 형식을 잘 지켰지만 다른 모델은 "**Subsection 1:** ..." 처럼
+# 마크다운 장식을 붙이거나 콜론 뒤 공백을 빠뜨려 IndexError로 죽는다.
+# 번호를 키로 삼는 관대한 정규식으로 바꾼다.
+def _labelled(word):
+    return re.compile(
+        r'^[\s>*_#\-]*' + word + r'\s*(\d+)\s*[:.\-]\s*\**\s*(.+?)\s*\**\s*$',
+        re.MULTILINE)
+
+
+SECTION_RE = re.compile(
+    r'^[\s>*_#\-]*(?<!Sub)Section\s*(\d+)\s*[:.\-]\s*\**\s*(.+?)\s*\**\s*$',
+    re.MULTILINE)
+SUBSECTION_RE = _labelled('Subsection')
+DESCRIPTION_RE = _labelled('Description')
+TITLE_RE = re.compile(r'^[\s>*_#\-]*Title\s*[:.]\s*\**\s*(.+?)\s*\**\s*$', re.MULTILINE)
+
+
+def _strip_decoration(text):
+    return text.strip().strip('*_# ').strip()
+
+
+def _numbered_pairs(outline, name_re):
+    """'<Name> N: 제목' / 'Description N: 설명' 쌍을 번호 기준으로 묶는다.
+
+    설명이 없는 항목은 빈 문자열로 채운다. 호출부가 두 리스트를 zip 하므로
+    길이가 어긋나면 항목이 조용히 유실되기 때문이다.
+    """
+    names = {int(n): _strip_decoration(v) for n, v in name_re.findall(outline)}
+    descs = {int(n): _strip_decoration(v) for n, v in DESCRIPTION_RE.findall(outline)}
+    keys = sorted(names)
+    return [names[k] for k in keys], [descs.get(k, '') for k in keys]
+
+
 class outlineWriter():
-    
+
     def __init__(self, model:str, api_key:str, api_url:str, database) -> None:
         
         self.model, self.api_key, self.api_url = model, api_key, api_url 
@@ -261,21 +296,23 @@ class outlineWriter():
         return prompt
     
     def extract_title_sections_descriptions(self, outline):
-        title = outline.split('Title: ')[1].split('\n')[0]
-        sections, descriptions = [], []
-        for i in range(100):
-            if f'Section {i+1}' in outline:
-                sections.append(outline.split(f'Section {i+1}: ')[1].split('\n')[0])
-                descriptions.append(outline.split(f'Description {i+1}: ')[1].split('\n')[0])
+        title_m = TITLE_RE.search(outline)
+        if title_m:
+            title = title_m.group(1).strip()
+        else:
+            # Title 줄이 없으면 첫 비어있지 않은 줄을 제목으로 쓴다.
+            lines = [l.strip() for l in outline.split('\n') if l.strip()]
+            title = _strip_decoration(lines[0]) if lines else 'Survey'
+
+        sections, descriptions = _numbered_pairs(outline, SECTION_RE)
+        if not sections:
+            raise RuntimeError(
+                'LLM 응답에서 "Section N: ..." 을 찾지 못했습니다. 원본 응답:\n'
+                + outline[:1000])
         return title, sections, descriptions
-    
+
     def extract_subsections_subdescriptions(self, outline):
-        subsections, subdescriptions = [], []
-        for i in range(100):
-            if f'Subsection {i+1}' in outline:
-                subsections.append(outline.split(f'Subsection {i+1}: ')[1].split('\n')[0])
-                subdescriptions.append(outline.split(f'Description {i+1}: ')[1].split('\n')[0])
-        return subsections, subdescriptions
+        return _numbered_pairs(outline, SUBSECTION_RE)
     
     def chunking(self, papers, titles, chunk_size = 14000):
         paper_chunks, title_chunks = [], []
