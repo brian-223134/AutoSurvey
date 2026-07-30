@@ -64,18 +64,35 @@ def paras_args():
     args = parser.parse_args()
     return args
 
+def resolve_api_key(args):
+    """--api_key 또는 환경변수에서 키를 얻는다.
+
+    이 서버는 /proc에 hidepid가 없어 다른 사용자가 ps로 명령줄을 볼 수 있다.
+    커맨드라인 대신 환경변수(.env)를 쓰면 키가 노출되지 않는다.
+    """
+    key = (args.api_key
+           or os.environ.get('OPENROUTER_API_KEY')
+           or os.environ.get('AUTOSURVEY_API_KEY')
+           or '')
+    return key.strip()
+
+
 def main(args):
 
+    api_key = resolve_api_key(args)
+    # DB 로딩에 수 분이 걸리므로 키 검사를 먼저 한다.
+    if not api_key:
+        raise RuntimeError(
+            'API 키가 없습니다. `source .env` 후 실행하거나 --api_key로 넘기세요.')
+
     db = database(db_path = args.db_path, embedding_model = args.embedding_model)
-    
-    api_key = args.api_key
 
     if not os.path.exists(args.saving_path):
         os.mkdir(args.saving_path)
 
-    outline_with_description, outline_wo_description = write_outline(args.topic, args.model, args.section_num, args.outline_reference_num, db, args.api_key, args.api_url)
+    outline_with_description, outline_wo_description = write_outline(args.topic, args.model, args.section_num, args.outline_reference_num, db, api_key, args.api_url)
 
-    raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references = write_subsection(args.topic, args.model, outline_with_description, args.subsection_len, args.rag_num, db, args.api_key, args.api_url)
+    raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references = write_subsection(args.topic, args.model, outline_with_description, args.subsection_len, args.rag_num, db, api_key, args.api_url)
 
     # 'a+' 로 두면 같은 토픽 재실행 시 이어붙어 evaluation.py의 json.loads가 깨진다.
     with open(f'{args.saving_path}/{args.topic}.md', 'w') as f:

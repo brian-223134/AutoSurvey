@@ -372,10 +372,11 @@ python scripts/check_db.py --db-path ./database
 
 **OpenRouter를 씁니다.** `src/model.py`는 OpenAI 호환 `/v1/chat/completions`를 때리는 게 전부이고 OpenRouter가 그 규격이므로 **코드 수정 없이 그대로 붙습니다.** (Anthropic 네이티브 API `/v1/messages`는 요청·응답 스키마가 달라서 어댑터가 필요했을 텐데, OpenRouter 경유로 그 작업이 사라졌습니다.)
 
+키는 저장소 루트의 **`.env`** 에 넣고 `source`로 올립니다 (`.gitignore` 등록됨, 권한 `600`):
+
 ```bash
 conda activate autosurvey
-export CUDA_VISIBLE_DEVICES=0        # 임베딩용 1장이면 충분
-export OPENROUTER_API_KEY=sk-or-v1-...
+source .env                          # OPENROUTER_API_KEY / MAX_THREADS / CUDA_VISIBLE_DEVICES
 
 python main.py \
   --topic "LLMs for education" \
@@ -384,12 +385,15 @@ python main.py \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
   --model anthropic/claude-3-haiku \
   --api_url https://openrouter.ai/api/v1/chat/completions \
-  --api_key "$OPENROUTER_API_KEY" \
   --section_num 8 \
   --subsection_len 700 \
   --rag_num 60 \
   --outline_reference_num 1200
 ```
+
+> ⚠️ **`--api_key`로 키를 넘기지 마세요.** 이 서버는 `/proc`에 `hidepid`가 걸려 있지 않아, 다른 사용자가 `ps -eo args`로 남의 명령줄을 그대로 볼 수 있습니다. 본 실행은 수십 분~수 시간 걸리므로 그동안 내내 노출됩니다. `/proc/<pid>/environ`은 소유자만 읽을 수 있어 환경변수는 안전합니다.
+>
+> `main.py`/`evaluation.py`는 `--api_key` → `OPENROUTER_API_KEY` → `AUTOSURVEY_API_KEY` 순으로 키를 찾고, 앞뒤 공백을 `strip()` 합니다 (파일에 개행이 섞여 401이 나는 흔한 함정 방지). 키가 없으면 **DB 로딩 전에** 즉시 중단됩니다.
 
 - `--api_url`은 **끝에 `/chat/completions`까지** 붙여야 합니다 (`src/model.py`가 경로를 덧붙이지 않고 그대로 씁니다)
 - `--model`은 OpenRouter의 `provider/model` 형식입니다 (`anthropic/claude-3-haiku`, `openai/gpt-4o` 등)
@@ -410,11 +414,7 @@ python main.py \
 
 `src/agents/writer.py`가 섹션당 스레드 1개를 띄우고, 각 스레드가 `batch_chat`(`src/model.py`)을 호출합니다. 즉 **최대 `section_num × max_threads` 개 동시 요청**입니다. 기본값이면 `8 × 15 = 120`개가 한꺼번에 나갑니다 — OpenRouter 레이트리밋에 그대로 걸립니다.
 
-환경변수로 조절하세요 (§3-3에서 추가):
-
-```bash
-export AUTOSURVEY_MAX_THREADS=4      # 8섹션 × 4 = 32 동시 요청
-```
+`.env`의 `AUTOSURVEY_MAX_THREADS`로 조절하세요 (§3-3에서 추가). 기본 `4` = 8섹션 × 4 = 32 동시 요청.
 
 429가 뜨면 §3-3의 지수 백오프가 재시도하지만, 5회 안에 못 뚫으면 해당 서브섹션이 `None`이 되어 파이프라인이 죽습니다. **넉넉히 낮게 잡고 시작하는 편이 안전합니다.**
 
