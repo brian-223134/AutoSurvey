@@ -6,35 +6,68 @@
 
 ---
 
-## git 상태
+## 현재 상태 — 목표 달성
 
-작업은 `reproduce` 브랜치 커밋 `d59c213`에 있습니다. **push와 PR 생성은 사용자가 직접 합니다.**
-origin은 SSH URL(`git@github.com:brian-223134/AutoSurvey.git`)로 전환돼 있습니다.
-(서버 SSH 키에 passphrase가 있어 TTY 없는 도구에서는 push가 불가합니다.)
+**서베이 3편 생성 완료.** 파이프라인이 end-to-end로 동작합니다.
+
+| 서베이 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
+|---|---|---|---|---|---|
+| In-context Learning | 9 / 51 | 32,176 | 383 | 465 | $0.78 |
+| Large Multi-Modal Language Models | 8 / 48 | 30,709 | 378 | 467 | $0.75 |
+| Evaluation of LLMs | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
+
+셋 다 `scripts/check_survey.py` 통과 (댕글링 인용 0 / json 매핑 일치 / 포맷 누출 0).
+편당 6~8분, 합계 약 $2.28. 논문의 32k 토큰 카테고리에 해당하는 분량입니다.
+
+산출물은 `output/{topic}.md` 와 `output/{topic}.json` (인용번호 → arXiv id 매핑).
+`output/smoke/` 는 축소 설정 스모크 결과입니다.
+
+**다음 후보** (추가 생성 시): 논문 20개 토픽 중 커버리지 상위 —
+Explainability for LLMs (d@1200 0.811) / LLM-Generated Texts Detection (0.823) /
+LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
+
+**남은 일**: PDF·LaTeX 변환(사용자 로컬 맥북에서 진행), 벤치마크 평가.
 
 ---
 
-## TL;DR — 지금 바로 할 일
+## git 상태
 
-**DB 반입·검증은 완료됐습니다** (537,665편, check_db 통과). 남은 건 API 키뿐입니다.
+`reproduce` 브랜치. **push와 PR 생성은 사용자가 직접 합니다.**
+origin은 SSH URL(`git@github.com:brian-223134/AutoSurvey.git`)로 전환돼 있습니다.
+(서버 SSH 키에 passphrase가 있어 TTY 없는 도구에서는 push가 불가합니다.)
+
+커밋: 인프라 2개 + 서베이 3개 (서베이 1편당 1커밋).
+
+---
+
+## 재실행 방법
+
+DB(537,665편)와 `.env`는 준비돼 있습니다. 새 토픽 생성은 이 한 줄입니다.
 
 ```bash
-# 1) .env 의 OPENROUTER_API_KEY 를 실제 키로 채운다 (에디터로 직접)
-#    ⚠️ 값 끝에 개행/공백이 붙지 않도록 주의 (붙어도 코드가 strip 하지만)
-
-# 2) 환경변수로 올리고 스모크 (축소 설정)
 conda activate autosurvey
 source .env
 python main.py \
-  --topic "LLMs for education" \
+  --topic "Explainability for LLMs" \
   --saving_path ./output/ --db_path ./database \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
   --model anthropic/claude-3-haiku \
   --api_url https://openrouter.ai/api/v1/chat/completions \
-  --section_num 4 --outline_reference_num 200 --rag_num 15
+  --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200
+
+python scripts/check_survey.py "output/Explainability for LLMs.md"
 ```
 
-`./output/LLMs for education.md`가 만들어지면 목표 달성입니다.
+축소 스모크가 필요하면 `--section_num 4 --outline_reference_num 200 --rag_num 15`
+(약 $0.15, 2분). 결과는 `--saving_path ./output/smoke/` 로 분리하세요.
+
+**크레딧 확인**:
+```bash
+source .env && curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+  https://openrouter.ai/api/v1/credits
+```
+2026-07-30 기준 잔액 $196.85 (충전 $3,021.55 / 사용 $2,824.70).
+**공용 계정으로 보이므로** 대량 생성 전에 확인이 필요합니다.
 
 > **`--api_key`를 일부러 넘기지 않습니다.** 이 서버는 `/proc`에 hidepid가 없어
 > 다른 사용자가 `ps -eo args`로 명령줄을 볼 수 있습니다. `main.py`/`evaluation.py`가
