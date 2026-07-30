@@ -7,7 +7,6 @@ import time
 import requests
 import random
 import json
-from langchain.document_loaders import PyPDFLoader
 
 class tokenCounter():
 
@@ -30,10 +29,3 @@ class tokenCounter():
     def text_truncation(self,text, max_len = 1000):
         encoded_id = self.encoding.encode(text, disallowed_special=())
         return self.encoding.decode(encoded_id[:min(max_len,len(encoded_id))])
-
-def load_pdf(file, max_len = 1000):
-    loader = PyPDFLoader(file)
-    pages = loader.load_and_split()
-    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
-    text = ''.join([p.page_content for p in pages])
-    return encoding.decode(encoding.encode(text)[:max_len])

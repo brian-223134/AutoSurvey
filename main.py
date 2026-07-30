@@ -29,19 +29,23 @@ def write(topic, model, section_num, subsection_len, rag_num, refinement):
 
 def write_outline(topic, model, section_num, outline_reference_num, db, api_key, api_url):
     outline_writer = outlineWriter(model=model, api_key=api_key, api_url = api_url, database=db)
-    print(outline_writer.api_model.chat('hello'))
+    hello = outline_writer.api_model.chat('hello')
+    if hello is None:
+        raise RuntimeError('API 연결 실패: 위의 [APIModel] 로그를 확인하세요 (--api_url / --api_key / 서버 상태)')
+    print(hello)
     outline = outline_writer.draft_outline(topic, outline_reference_num, 30000, section_num)
+    print(f'[tokens] outline in={outline_writer.input_token_usage} out={outline_writer.output_token_usage}', flush=True)
     return outline, remove_descriptions(outline)
 
 def write_subsection(topic, model, outline, subsection_len, rag_num, db, api_key, api_url, refinement = True):
 
     subsection_writer = subsectionWriter(model=model, api_key=api_key, api_url = api_url, database=db)
     if refinement:
-        raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references = subsection_writer.write(topic, outline, subsection_len = subsection_len, rag_num = rag_num, refining = True)
-        return raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references
+        result = subsection_writer.write(topic, outline, subsection_len = subsection_len, rag_num = rag_num, refining = True)
     else:
-        raw_survey, raw_survey_with_references, raw_references = subsection_writer.write(topic, outline, subsection_len = subsection_len, rag_num = rag_num, refining = False)
-        return raw_survey, raw_survey_with_references, raw_references
+        result = subsection_writer.write(topic, outline, subsection_len = subsection_len, rag_num = rag_num, refining = False)
+    print(f'[tokens] writer  in={subsection_writer.input_token_usage} out={subsection_writer.output_token_usage}', flush=True)
+    return result
 
 def paras_args():
     parser = argparse.ArgumentParser(description='')
@@ -73,9 +77,10 @@ def main(args):
 
     raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references = write_subsection(args.topic, args.model, outline_with_description, args.subsection_len, args.rag_num, db, args.api_key, args.api_url)
 
-    with open(f'{args.saving_path}/{args.topic}.md', 'a+') as f:
+    # 'a+' 로 두면 같은 토픽 재실행 시 이어붙어 evaluation.py의 json.loads가 깨진다.
+    with open(f'{args.saving_path}/{args.topic}.md', 'w') as f:
         f.write(refined_survey_with_references)
-    with open(f'{args.saving_path}/{args.topic}.json', 'a+') as f:
+    with open(f'{args.saving_path}/{args.topic}.json', 'w') as f:
         save_dic = {}
         save_dic['survey'] = refined_survey_with_references
         save_dic['reference'] = refined_references

@@ -27,12 +27,15 @@ class subsectionWriter():
     def write(self, topic, outline, rag_num = 30, subsection_len = 500, refining = True, reflection=True):
         # Get database
         parsed_outline = self.parse_outline(outline=outline)
-        section_content = [[]] * len(parsed_outline['sections'])
+        # [[]] * n 은 같은 리스트 객체 n개를 만든다. 아래에서 append로 쌓기 때문에
+        # 그대로 두면 모든 섹션이 첫 섹션의 참고문헌을 공유하게 된다.
+        num_sections = len(parsed_outline['sections'])
+        section_content = [[] for _ in range(num_sections)]
 
-        section_paper_texts = [[]] *  len(parsed_outline['sections'])
-        
+        section_paper_texts = [[] for _ in range(num_sections)]
+
         total_ids = []
-        section_references_ids = [[]] * len(parsed_outline['sections'])
+        section_references_ids = [[] for _ in range(num_sections)]
         for i in range(len(parsed_outline['sections'])):
             descriptions = parsed_outline['subsection_descriptions'][i]
             for d in descriptions:
