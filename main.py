@@ -77,6 +77,30 @@ def paras_args():
     args = parser.parse_args()
     return args
 
+def build_reference_detail(references, db):
+    """{번호: arxiv_id} 에 제목·날짜·링크를 붙인다.
+
+    'reference' 필드만으로는 arXiv id밖에 없고 .md의 References에는 제목밖에
+    없어서, 어느 쪽을 봐도 실제 논문을 찾아갈 수가 없었다. DB에 정보가 다 있으므로
+    저장 시점에 조인해 둔다.
+
+    ⚠ 'reference' 필드는 건드리지 않는다. src/agents/judge.py의 citation_quality()가
+       그 구조({번호: id})에 의존한다.
+    """
+    infos = {p['id']: p for p in db.get_paper_info_from_ids(list(references.values()))}
+    detail = {}
+    for num, rid in references.items():
+        p = infos.get(rid, {})
+        detail[str(num)] = {
+            'id': rid,
+            # arXiv 제목에는 줄바꿈과 들여쓰기가 들어 있다.
+            'title': ' '.join((p.get('title') or '').split()),
+            'date': (p.get('date') or '').strip(),
+            'url': f'https://arxiv.org/abs/{rid}',
+        }
+    return detail
+
+
 def resolve_api_key(args):
     """--api_key 또는 환경변수에서 키를 얻는다.
 
@@ -114,7 +138,8 @@ def main(args):
         save_dic = {}
         save_dic['survey'] = refined_survey_with_references
         save_dic['reference'] = refined_references
-        f.write(json.dumps(save_dic, indent=4))
+        save_dic['reference_detail'] = build_reference_detail(refined_references, db)
+        f.write(json.dumps(save_dic, indent=4, ensure_ascii=False))
 
 if __name__ == '__main__':
 

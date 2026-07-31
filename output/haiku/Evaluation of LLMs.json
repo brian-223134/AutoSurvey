@@ -369,5 +369,2215 @@
         "366": "2105.08018v1",
         "367": "1806.03235v1",
         "368": "2304.00002v2"
+    },
+    "reference_detail": {
+        "1": {
+            "id": "2307.06435v9",
+            "title": "A Comprehensive Overview of Large Language Models",
+            "date": "2023-07-12",
+            "url": "https://arxiv.org/abs/2307.06435v9"
+        },
+        "2": {
+            "id": "2310.12321v1",
+            "title": "A Survey of GPT-3 Family Large Language Models Including ChatGPT and GPT-4",
+            "date": "2023-10-04",
+            "url": "https://arxiv.org/abs/2310.12321v1"
+        },
+        "3": {
+            "id": "2402.06853v1",
+            "title": "History, Development, and Principles of Large Language Models-An Introductory Survey",
+            "date": "2024-02-10",
+            "url": "https://arxiv.org/abs/2402.06853v1"
+        },
+        "4": {
+            "id": "2308.06013v2",
+            "title": "Large Language Models for Telecom Forthcoming Impact on the Industry",
+            "date": "2023-08-11",
+            "url": "https://arxiv.org/abs/2308.06013v2"
+        },
+        "5": {
+            "id": "2403.18105v2",
+            "title": "Large Language Models for Education A Survey and Outlook",
+            "date": "2024-03-26",
+            "url": "https://arxiv.org/abs/2403.18105v2"
+        },
+        "6": {
+            "id": "2404.06404v1",
+            "title": "Apprentices to Research Assistants Advancing Research with Large Language Models",
+            "date": "2024-04-09",
+            "url": "https://arxiv.org/abs/2404.06404v1"
+        },
+        "7": {
+            "id": "2309.14504v2",
+            "title": "People's Perceptions Toward Bias and Related Concepts in Large Language Models A Systematic Review",
+            "date": "2023-09-25",
+            "url": "https://arxiv.org/abs/2309.14504v2"
+        },
+        "8": {
+            "id": "2402.14672v1",
+            "title": "Middleware for LLMs Tools Are Instrumental for Language Agents in Complex Environments",
+            "date": "2024-02-22",
+            "url": "https://arxiv.org/abs/2402.14672v1"
+        },
+        "9": {
+            "id": "2402.15116v1",
+            "title": "Large Multimodal Agents A Survey",
+            "date": "2024-02-23",
+            "url": "https://arxiv.org/abs/2402.15116v1"
+        },
+        "10": {
+            "id": "2402.17970v2",
+            "title": "Exploring Advanced Methodologies in Security Evaluation for LLMs",
+            "date": "2024-02-28",
+            "url": "https://arxiv.org/abs/2402.17970v2"
+        },
+        "11": {
+            "id": "2310.19736v3",
+            "title": "Evaluating Large Language Models A Comprehensive Survey",
+            "date": "2023-10-30",
+            "url": "https://arxiv.org/abs/2310.19736v3"
+        },
+        "12": {
+            "id": "2311.04939v1",
+            "title": "LooGLE Can Long-Context Language Models Understand Long Contexts",
+            "date": "2023-11-08",
+            "url": "https://arxiv.org/abs/2311.04939v1"
+        },
+        "13": {
+            "id": "2404.13940v2",
+            "title": "A User-Centric Benchmark for Evaluating Large Language Models",
+            "date": "2024-04-22",
+            "url": "https://arxiv.org/abs/2404.13940v2"
+        },
+        "14": {
+            "id": "2403.02951v2",
+            "title": "Benchmarking the Text-to-SQL Capability of Large Language Models A Comprehensive Evaluation",
+            "date": "2024-03-05",
+            "url": "https://arxiv.org/abs/2403.02951v2"
+        },
+        "15": {
+            "id": "2304.00457v3",
+            "title": "LLMMaps -- A Visual Metaphor for Stratified Evaluation of Large Language Models",
+            "date": "2023-04-02",
+            "url": "https://arxiv.org/abs/2304.00457v3"
+        },
+        "16": {
+            "id": "2312.11701v1",
+            "title": "Opportunities and Challenges of Applying Large Language Models in Building Energy Efficiency and Decarbonization Studies An Exploratory Overview",
+            "date": "2023-12-18",
+            "url": "https://arxiv.org/abs/2312.11701v1"
+        },
+        "17": {
+            "id": "2404.11338v1",
+            "title": "LLMs for Cyber Security New Opportunities",
+            "date": "2024-04-17",
+            "url": "https://arxiv.org/abs/2404.11338v1"
+        },
+        "18": {
+            "id": "2402.06196v2",
+            "title": "Large Language Models A Survey",
+            "date": "2024-02-09",
+            "url": "https://arxiv.org/abs/2402.06196v2"
+        },
+        "19": {
+            "id": "1601.03483v1",
+            "title": "A survey on feature weighting based K-Means algorithms",
+            "date": "2015-09-22",
+            "url": "https://arxiv.org/abs/1601.03483v1"
+        },
+        "20": {
+            "id": "1804.06035v1",
+            "title": "Reinforced Co-Training",
+            "date": "2018-04-17",
+            "url": "https://arxiv.org/abs/1804.06035v1"
+        },
+        "21": {
+            "id": "2402.07233v1",
+            "title": "TransGPT Multi-modal Generative Pre-trained Transformer for Transportation",
+            "date": "2024-02-11",
+            "url": "https://arxiv.org/abs/2402.07233v1"
+        },
+        "22": {
+            "id": "2304.00612v1",
+            "title": "Eight Things to Know about Large Language Models",
+            "date": "2023-04-02",
+            "url": "https://arxiv.org/abs/2304.00612v1"
+        },
+        "23": {
+            "id": "2402.18041v1",
+            "title": "Datasets for Large Language Models A Comprehensive Survey",
+            "date": "2024-02-28",
+            "url": "https://arxiv.org/abs/2402.18041v1"
+        },
+        "24": {
+            "id": "2112.06905v2",
+            "title": "GLaM Efficient Scaling of Language Models with Mixture-of-Experts",
+            "date": "2021-12-13",
+            "url": "https://arxiv.org/abs/2112.06905v2"
+        },
+        "25": {
+            "id": "2306.10062v1",
+            "title": "Revealing the structure of language model capabilities",
+            "date": "2023-06-14",
+            "url": "https://arxiv.org/abs/2306.10062v1"
+        },
+        "26": {
+            "id": "2310.04680v1",
+            "title": "The Cost of Down-Scaling Language Models Fact Recall Deteriorates before In-Context Learning",
+            "date": "2023-10-07",
+            "url": "https://arxiv.org/abs/2310.04680v1"
+        },
+        "27": {
+            "id": "2310.19671v2",
+            "title": "Large Language Models The Need for Nuance in Current Debates and a Pragmatic Perspective on Understanding",
+            "date": "2023-10-30",
+            "url": "https://arxiv.org/abs/2310.19671v2"
+        },
+        "28": {
+            "id": "2311.11267v2",
+            "title": "Rethinking Large Language Models in Mental Health Applications",
+            "date": "2023-11-19",
+            "url": "https://arxiv.org/abs/2311.11267v2"
+        },
+        "29": {
+            "id": "2311.11811v1",
+            "title": "Large Language Models and Explainable Law a Hybrid Methodology",
+            "date": "2023-11-20",
+            "url": "https://arxiv.org/abs/2311.11811v1"
+        },
+        "30": {
+            "id": "2404.00903v1",
+            "title": "Maximizing User Experience with LLMOps-Driven Personalized Recommendation Systems",
+            "date": "2024-04-01",
+            "url": "https://arxiv.org/abs/2404.00903v1"
+        },
+        "31": {
+            "id": "2304.14347v1",
+            "title": "The Dark Side of ChatGPT Legal and Ethical Challenges from Stochastic Parrots and Hallucination",
+            "date": "2023-04-21",
+            "url": "https://arxiv.org/abs/2304.14347v1"
+        },
+        "32": {
+            "id": "2403.12503v1",
+            "title": "Securing Large Language Models Threats, Vulnerabilities and Responsible Practices",
+            "date": "2024-03-19",
+            "url": "https://arxiv.org/abs/2403.12503v1"
+        },
+        "33": {
+            "id": "2311.12882v3",
+            "title": "LLMs-Healthcare Current Applications and Challenges of Large Language Models in various Medical Specialties",
+            "date": "2023-10-28",
+            "url": "https://arxiv.org/abs/2311.12882v3"
+        },
+        "34": {
+            "id": "2311.01463v1",
+            "title": "Creating Trustworthy LLMs Dealing with Hallucinations in Healthcare AI",
+            "date": "2023-09-26",
+            "url": "https://arxiv.org/abs/2311.01463v1"
+        },
+        "35": {
+            "id": "2403.14473v1",
+            "title": "The Ethics of ChatGPT in Medicine and Healthcare A Systematic Review on Large Language Models (LLMs)",
+            "date": "2024-03-21",
+            "url": "https://arxiv.org/abs/2403.14473v1"
+        },
+        "36": {
+            "id": "2404.00990v1",
+            "title": "Exploring the Nexus of Large Language Models and Legal Systems A Short Survey",
+            "date": "2024-04-01",
+            "url": "https://arxiv.org/abs/2404.00990v1"
+        },
+        "37": {
+            "id": "2401.01301v1",
+            "title": "Large Legal Fictions Profiling Legal Hallucinations in Large Language Models",
+            "date": "2024-01-02",
+            "url": "https://arxiv.org/abs/2401.01301v1"
+        },
+        "38": {
+            "id": "2303.09136v1",
+            "title": "A Short Survey of Viewing Large Language Models in Legal Aspect",
+            "date": "2023-03-16",
+            "url": "https://arxiv.org/abs/2303.09136v1"
+        },
+        "39": {
+            "id": "2401.11641v1",
+            "title": "Revolutionizing Finance with LLMs An Overview of Applications and Insights",
+            "date": "2024-01-22",
+            "url": "https://arxiv.org/abs/2401.11641v1"
+        },
+        "40": {
+            "id": "2311.06207v1",
+            "title": "Vox Populi, Vox ChatGPT Large Language Models, Education and Democracy",
+            "date": "2023-11-10",
+            "url": "https://arxiv.org/abs/2311.06207v1"
+        },
+        "41": {
+            "id": "2401.04471v1",
+            "title": "TransportationGames Benchmarking Transportation Knowledge of (Multimodal) Large Language Models",
+            "date": "2024-01-09",
+            "url": "https://arxiv.org/abs/2401.04471v1"
+        },
+        "42": {
+            "id": "2404.09356v1",
+            "title": "LLeMpower Understanding Disparities in the Control and Access of Large Language Models",
+            "date": "2024-04-14",
+            "url": "https://arxiv.org/abs/2404.09356v1"
+        },
+        "43": {
+            "id": "2403.13309v1",
+            "title": "Mapping LLM Security Landscapes A Comprehensive Stakeholder Risk Assessment Proposal",
+            "date": "2024-03-20",
+            "url": "https://arxiv.org/abs/2403.13309v1"
+        },
+        "44": {
+            "id": "2404.10552v1",
+            "title": "Unveiling the Misuse Potential of Base Large Language Models via In-Context Learning",
+            "date": "2024-04-16",
+            "url": "https://arxiv.org/abs/2404.10552v1"
+        },
+        "45": {
+            "id": "2402.00888v1",
+            "title": "Security and Privacy Challenges of Large Language Models A Survey",
+            "date": "2024-01-30",
+            "url": "https://arxiv.org/abs/2402.00888v1"
+        },
+        "46": {
+            "id": "2403.14814v2",
+            "title": "The opportunities and risks of large language models in mental health",
+            "date": "2024-03-21",
+            "url": "https://arxiv.org/abs/2403.14814v2"
+        },
+        "47": {
+            "id": "2403.13213v2",
+            "title": "From Representational Harms to Quality-of-Service Harms A Case Study on Llama 2 Safety Safeguards",
+            "date": "2024-03-20",
+            "url": "https://arxiv.org/abs/2403.13213v2"
+        },
+        "48": {
+            "id": "2401.13086v1",
+            "title": "Towards Trustable Language Models Investigating Information Quality of Large Language Models",
+            "date": "2024-01-23",
+            "url": "https://arxiv.org/abs/2401.13086v1"
+        },
+        "49": {
+            "id": "2306.06199v1",
+            "title": "Reliability Check An Analysis of GPT-3's Response to Sensitive Topics and Prompt Wording",
+            "date": "2023-06-09",
+            "url": "https://arxiv.org/abs/2306.06199v1"
+        },
+        "50": {
+            "id": "2403.14578v1",
+            "title": "RAmBLA A Framework for Evaluating the Reliability of LLMs as Assistants in the Biomedical Domain",
+            "date": "2024-03-21",
+            "url": "https://arxiv.org/abs/2403.14578v1"
+        },
+        "51": {
+            "id": "2305.18569v1",
+            "title": "Fairness of ChatGPT",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.18569v1"
+        },
+        "52": {
+            "id": "2308.10149v2",
+            "title": "A Survey on Fairness in Large Language Models",
+            "date": "2023-08-20",
+            "url": "https://arxiv.org/abs/2308.10149v2"
+        },
+        "53": {
+            "id": "2312.14804v1",
+            "title": "Use large language models to promote equity",
+            "date": "2023-12-22",
+            "url": "https://arxiv.org/abs/2312.14804v1"
+        },
+        "54": {
+            "id": "2312.01509v1",
+            "title": "Tackling Bias in Pre-trained Language Models Current Trends and Under-represented Societies",
+            "date": "2023-12-03",
+            "url": "https://arxiv.org/abs/2312.01509v1"
+        },
+        "55": {
+            "id": "2306.01941v2",
+            "title": "AI Transparency in the Age of LLMs A Human-Centered Research Roadmap",
+            "date": "2023-06-02",
+            "url": "https://arxiv.org/abs/2306.01941v2"
+        },
+        "56": {
+            "id": "2302.08500v2",
+            "title": "Auditing large language models a three-layered approach",
+            "date": "2023-02-16",
+            "url": "https://arxiv.org/abs/2302.08500v2"
+        },
+        "57": {
+            "id": "2311.09680v5",
+            "title": "Trustworthy Large Models in Vision A Survey",
+            "date": "2023-11-16",
+            "url": "https://arxiv.org/abs/2311.09680v5"
+        },
+        "58": {
+            "id": "2404.12736v1",
+            "title": "Large Language Model Supply Chain A Research Agenda",
+            "date": "2024-04-19",
+            "url": "https://arxiv.org/abs/2404.12736v1"
+        },
+        "59": {
+            "id": "2302.09101v1",
+            "title": "Scaling Dimension",
+            "date": "2023-02-17",
+            "url": "https://arxiv.org/abs/2302.09101v1"
+        },
+        "60": {
+            "id": "2101.09617v2",
+            "title": "A Comprehensive Evaluation Framework for Deep Model Robustness",
+            "date": "2021-01-24",
+            "url": "https://arxiv.org/abs/2101.09617v2"
+        },
+        "61": {
+            "id": "2307.03109v9",
+            "title": "A Survey on Evaluation of Large Language Models",
+            "date": "2023-07-06",
+            "url": "https://arxiv.org/abs/2307.03109v9"
+        },
+        "62": {
+            "id": "2404.13885v1",
+            "title": "Surveying Attitudinal Alignment Between Large Language Models Vs. Humans Towards 17 Sustainable Development Goals",
+            "date": "2024-04-22",
+            "url": "https://arxiv.org/abs/2404.13885v1"
+        },
+        "63": {
+            "id": "2403.15250v1",
+            "title": "Comprehensive Reassessment of Large-Scale Evaluation Outcomes in LLMs A Multifaceted Statistical Approach",
+            "date": "2024-03-22",
+            "url": "https://arxiv.org/abs/2403.15250v1"
+        },
+        "64": {
+            "id": "2306.03100v3",
+            "title": "Rethinking Model Evaluation as Narrowing the Socio-Technical Gap",
+            "date": "2023-06-01",
+            "url": "https://arxiv.org/abs/2306.03100v3"
+        },
+        "65": {
+            "id": "2311.02049v1",
+            "title": "Post Turing Mapping the landscape of LLM Evaluation",
+            "date": "2023-11-03",
+            "url": "https://arxiv.org/abs/2311.02049v1"
+        },
+        "66": {
+            "id": "2310.19740v1",
+            "title": "Collaborative Evaluation Exploring the Synergy of Large Language Models and Humans for Open-ended Generation Evaluation",
+            "date": "2023-10-30",
+            "url": "https://arxiv.org/abs/2310.19740v1"
+        },
+        "67": {
+            "id": "2403.17830v1",
+            "title": "Assessment of Multimodal Large Language Models in Alignment with Human Values",
+            "date": "2024-03-26",
+            "url": "https://arxiv.org/abs/2403.17830v1"
+        },
+        "68": {
+            "id": "2311.05374v1",
+            "title": "TencentLLMEval A Hierarchical Evaluation of Real-World Capabilities for Human-Aligned LLMs",
+            "date": "2023-11-09",
+            "url": "https://arxiv.org/abs/2311.05374v1"
+        },
+        "69": {
+            "id": "2402.12055v1",
+            "title": "Are LLM-based Evaluators Confusing NLG Quality Criteria",
+            "date": "2024-02-19",
+            "url": "https://arxiv.org/abs/2402.12055v1"
+        },
+        "70": {
+            "id": "2310.05204v2",
+            "title": "Towards Optimizing with Large Language Models",
+            "date": "2023-10-08",
+            "url": "https://arxiv.org/abs/2310.05204v2"
+        },
+        "71": {
+            "id": "2310.01386v2",
+            "title": "Who is ChatGPT Benchmarking LLMs' Psychological Portrayal Using PsychoBench",
+            "date": "2023-10-02",
+            "url": "https://arxiv.org/abs/2310.01386v2"
+        },
+        "72": {
+            "id": "2402.13764v3",
+            "title": "CriticBench Evaluating Large Language Models as Critic",
+            "date": "2024-02-21",
+            "url": "https://arxiv.org/abs/2402.13764v3"
+        },
+        "73": {
+            "id": "2404.12744v1",
+            "title": "Beyond Human Norms Unveiling Unique Values of Large Language Models through Interdisciplinary Approaches",
+            "date": "2024-04-19",
+            "url": "https://arxiv.org/abs/2404.12744v1"
+        },
+        "74": {
+            "id": "2403.12675v1",
+            "title": "Pragmatic Competence Evaluation of Large Language Models for Korean",
+            "date": "2024-03-19",
+            "url": "https://arxiv.org/abs/2403.12675v1"
+        },
+        "75": {
+            "id": "2309.16289v1",
+            "title": "LawBench Benchmarking Legal Knowledge of Large Language Models",
+            "date": "2023-09-28",
+            "url": "https://arxiv.org/abs/2309.16289v1"
+        },
+        "76": {
+            "id": "2404.06003v1",
+            "title": "FreeEval A Modular Framework for Trustworthy and Efficient Evaluation of Large Language Models",
+            "date": "2024-04-09",
+            "url": "https://arxiv.org/abs/2404.06003v1"
+        },
+        "77": {
+            "id": "2403.18771v1",
+            "title": "CheckEval Robust Evaluation Framework using Large Language Model via Checklist",
+            "date": "2024-03-27",
+            "url": "https://arxiv.org/abs/2403.18771v1"
+        },
+        "78": {
+            "id": "2402.15754v1",
+            "title": "HD-Eval Aligning Large Language Model Evaluators Through Hierarchical Criteria Decomposition",
+            "date": "2024-02-24",
+            "url": "https://arxiv.org/abs/2402.15754v1"
+        },
+        "79": {
+            "id": "2404.07584v1",
+            "title": "UltraEval A Lightweight Platform for Flexible and Comprehensive Evaluation for LLMs",
+            "date": "2024-04-11",
+            "url": "https://arxiv.org/abs/2404.07584v1"
+        },
+        "80": {
+            "id": "2401.15641v1",
+            "title": "PRE A Peer Review Based Large Language Model Evaluator",
+            "date": "2024-01-28",
+            "url": "https://arxiv.org/abs/2401.15641v1"
+        },
+        "81": {
+            "id": "2403.12025v1",
+            "title": "A Toolbox for Surfacing Health Equity Harms and Biases in Large Language Models",
+            "date": "2024-03-18",
+            "url": "https://arxiv.org/abs/2403.12025v1"
+        },
+        "82": {
+            "id": "2310.11266v1",
+            "title": "Emulating Human Cognitive Processes for Expert-Level Medical Question-Answering with Large Language Models",
+            "date": "2023-10-17",
+            "url": "https://arxiv.org/abs/2310.11266v1"
+        },
+        "83": {
+            "id": "2309.16583v6",
+            "title": "GPT-Fathom Benchmarking Large Language Models to Decipher the Evolutionary Path towards GPT-4 and Beyond",
+            "date": "2023-09-28",
+            "url": "https://arxiv.org/abs/2309.16583v6"
+        },
+        "84": {
+            "id": "2402.01830v2",
+            "title": "PiCO Peer Review in LLMs based on the Consistency Optimization",
+            "date": "2024-02-02",
+            "url": "https://arxiv.org/abs/2402.01830v2"
+        },
+        "85": {
+            "id": "2304.08247v2",
+            "title": "MedAlpaca -- An Open-Source Collection of Medical Conversational AI Models and Training Data",
+            "date": "2023-04-14",
+            "url": "https://arxiv.org/abs/2304.08247v2"
+        },
+        "86": {
+            "id": "2404.16621v1",
+            "title": "Hippocrates An Open-Source Framework for Advancing Large Language Models in Healthcare",
+            "date": "2024-04-25",
+            "url": "https://arxiv.org/abs/2404.16621v1"
+        },
+        "87": {
+            "id": "2403.16446v1",
+            "title": "Towards Automatic Evaluation for LLMs' Clinical Capabilities Metric, Data, and Algorithm",
+            "date": "2024-03-25",
+            "url": "https://arxiv.org/abs/2403.16446v1"
+        },
+        "88": {
+            "id": "2305.18997v1",
+            "title": "GPT Models in Construction Industry Opportunities, Limitations, and a Use Case Validation",
+            "date": "2023-05-30",
+            "url": "https://arxiv.org/abs/2305.18997v1"
+        },
+        "89": {
+            "id": "2307.11088v3",
+            "title": "L-Eval Instituting Standardized Evaluation for Long Context Language Models",
+            "date": "2023-07-20",
+            "url": "https://arxiv.org/abs/2307.11088v3"
+        },
+        "90": {
+            "id": "2008.03082v2",
+            "title": "Perception Score, A Learned Metric for Open-ended Text Generation Evaluation",
+            "date": "2020-08-07",
+            "url": "https://arxiv.org/abs/2008.03082v2"
+        },
+        "91": {
+            "id": "2109.06835v1",
+            "title": "The Perils of Using Mechanical Turk to Evaluate Open-Ended Text Generation",
+            "date": "2021-09-14",
+            "url": "https://arxiv.org/abs/2109.06835v1"
+        },
+        "92": {
+            "id": "2205.06828v1",
+            "title": "Deconstructing NLG Evaluation Evaluation Practices, Assumptions, and Their Implications",
+            "date": "2022-05-13",
+            "url": "https://arxiv.org/abs/2205.06828v1"
+        },
+        "93": {
+            "id": "1904.02792v1",
+            "title": "Unifying Human and Statistical Evaluation for Natural Language Generation",
+            "date": "2019-04-04",
+            "url": "https://arxiv.org/abs/1904.02792v1"
+        },
+        "94": {
+            "id": "2305.18176v1",
+            "title": "Perceived Trustworthiness of Natural Language Generators",
+            "date": "2023-05-29",
+            "url": "https://arxiv.org/abs/2305.18176v1"
+        },
+        "95": {
+            "id": "1901.00398v2",
+            "title": "Judge the Judges A Large-Scale Evaluation Study of Neural Language Models for Online Review Generation",
+            "date": "2019-01-02",
+            "url": "https://arxiv.org/abs/1901.00398v2"
+        },
+        "96": {
+            "id": "2005.09980v2",
+            "title": "Artificial Intelligence versus Maya Angelou Experimental evidence that people cannot differentiate AI-generated from human-written poetry",
+            "date": "2020-05-20",
+            "url": "https://arxiv.org/abs/2005.09980v2"
+        },
+        "97": {
+            "id": "2205.11930v2",
+            "title": "The Authenticity Gap in Human Evaluation",
+            "date": "2022-05-24",
+            "url": "https://arxiv.org/abs/2205.11930v2"
+        },
+        "98": {
+            "id": "2304.01816v1",
+            "title": "Toward Verifiable and Reproducible Human Evaluation for Text-to-Image Generation",
+            "date": "2023-04-04",
+            "url": "https://arxiv.org/abs/2304.01816v1"
+        },
+        "99": {
+            "id": "2212.09746v5",
+            "title": "Evaluating Human-Language Model Interaction",
+            "date": "2022-12-19",
+            "url": "https://arxiv.org/abs/2212.09746v5"
+        },
+        "100": {
+            "id": "2101.06561v4",
+            "title": "GENIE Toward Reproducible and Standardized Human Evaluation for Text Generation",
+            "date": "2021-01-17",
+            "url": "https://arxiv.org/abs/2101.06561v4"
+        },
+        "101": {
+            "id": "2109.05771v1",
+            "title": "Perturbation CheckLists for Evaluating NLG Evaluation Metrics",
+            "date": "2021-09-13",
+            "url": "https://arxiv.org/abs/2109.05771v1"
+        },
+        "102": {
+            "id": "2306.01200v1",
+            "title": "Multi-Dimensional Evaluation of Text Summarization with In-Context Learning",
+            "date": "2023-06-01",
+            "url": "https://arxiv.org/abs/2306.01200v1"
+        },
+        "103": {
+            "id": "2305.01937v1",
+            "title": "Can Large Language Models Be an Alternative to Human Evaluations",
+            "date": "2023-05-03",
+            "url": "https://arxiv.org/abs/2305.01937v1"
+        },
+        "104": {
+            "id": "2303.04048v3",
+            "title": "Is ChatGPT a Good NLG Evaluator A Preliminary Study",
+            "date": "2023-03-07",
+            "url": "https://arxiv.org/abs/2303.04048v3"
+        },
+        "105": {
+            "id": "2104.05224v1",
+            "title": "Estimating Subjective Crowd-Evaluations as an Additional Objective to Improve Natural Language Generation",
+            "date": "2021-04-12",
+            "url": "https://arxiv.org/abs/2104.05224v1"
+        },
+        "106": {
+            "id": "2006.03189v1",
+            "title": "Human or Machine Automating Human Likeliness Evaluation of NLG Texts",
+            "date": "2020-06-05",
+            "url": "https://arxiv.org/abs/2006.03189v1"
+        },
+        "107": {
+            "id": "2309.13308v1",
+            "title": "Calibrating LLM-Based Evaluator",
+            "date": "2023-09-23",
+            "url": "https://arxiv.org/abs/2309.13308v1"
+        },
+        "108": {
+            "id": "2006.06264v2",
+            "title": "Tangled up in BLEU Reevaluating the Evaluation of Automatic Machine Translation Evaluation Metrics",
+            "date": "2020-06-11",
+            "url": "https://arxiv.org/abs/2006.06264v2"
+        },
+        "109": {
+            "id": "2211.08633v2",
+            "title": "MT Metrics Correlate with Human Ratings of Simultaneous Speech Translation",
+            "date": "2022-11-16",
+            "url": "https://arxiv.org/abs/2211.08633v2"
+        },
+        "110": {
+            "id": "1707.06875v1",
+            "title": "Why We Need New Evaluation Metrics for NLG",
+            "date": "2017-07-21",
+            "url": "https://arxiv.org/abs/1707.06875v1"
+        },
+        "111": {
+            "id": "2211.01635v1",
+            "title": "Revisiting Grammatical Error Correction Evaluation and Beyond",
+            "date": "2022-11-03",
+            "url": "https://arxiv.org/abs/2211.01635v1"
+        },
+        "112": {
+            "id": "1610.02124v1",
+            "title": "There's No Comparison Reference-less Evaluation Metrics in Grammatical Error Correction",
+            "date": "2016-10-07",
+            "url": "https://arxiv.org/abs/1610.02124v1"
+        },
+        "113": {
+            "id": "1904.09675v3",
+            "title": "BERTScore Evaluating Text Generation with BERT",
+            "date": "2019-04-21",
+            "url": "https://arxiv.org/abs/1904.09675v3"
+        },
+        "114": {
+            "id": "2004.04696v5",
+            "title": "BLEURT Learning Robust Metrics for Text Generation",
+            "date": "2020-04-09",
+            "url": "https://arxiv.org/abs/2004.04696v5"
+        },
+        "115": {
+            "id": "2009.09025v2",
+            "title": "COMET A Neural Framework for MT Evaluation",
+            "date": "2020-09-18",
+            "url": "https://arxiv.org/abs/2009.09025v2"
+        },
+        "116": {
+            "id": "2305.19144v1",
+            "title": "BLEU Meets COMET Combining Lexical and Neural Metrics Towards Robust Machine Translation Evaluation",
+            "date": "2023-05-30",
+            "url": "https://arxiv.org/abs/2305.19144v1"
+        },
+        "117": {
+            "id": "2209.02317v2",
+            "title": "Layer or Representation Space What makes BERT-based Evaluation Metrics Robust",
+            "date": "2022-09-06",
+            "url": "https://arxiv.org/abs/2209.02317v2"
+        },
+        "118": {
+            "id": "2303.03608v2",
+            "title": "Towards Interpretable and Efficient Automatic Reference-Based Summarization Evaluation",
+            "date": "2023-03-07",
+            "url": "https://arxiv.org/abs/2303.03608v2"
+        },
+        "119": {
+            "id": "2311.00508v1",
+            "title": "Robustness Tests for Automatic Machine Translation Metrics with Adversarial Attacks",
+            "date": "2023-11-01",
+            "url": "https://arxiv.org/abs/2311.00508v1"
+        },
+        "120": {
+            "id": "2010.13588v1",
+            "title": "Curious Case of Language Generation Evaluation Metrics A Cautionary Tale",
+            "date": "2020-10-26",
+            "url": "https://arxiv.org/abs/2010.13588v1"
+        },
+        "121": {
+            "id": "2208.01030v1",
+            "title": "SMART Sentences as Basic Units for Text Evaluation",
+            "date": "2022-08-01",
+            "url": "https://arxiv.org/abs/2208.01030v1"
+        },
+        "122": {
+            "id": "2306.10452v1",
+            "title": "MISMATCH Fine-grained Evaluation of Machine-generated Text with Mismatch Error Types",
+            "date": "2023-06-18",
+            "url": "https://arxiv.org/abs/2306.10452v1"
+        },
+        "123": {
+            "id": "2404.12150v1",
+            "title": "Aligning language models with human preferences",
+            "date": "2024-04-18",
+            "url": "https://arxiv.org/abs/2404.12150v1"
+        },
+        "124": {
+            "id": "2404.15149v1",
+            "title": "Bias patterns in the application of LLMs for clinical decision support A comprehensive study",
+            "date": "2024-04-23",
+            "url": "https://arxiv.org/abs/2404.15149v1"
+        },
+        "125": {
+            "id": "2305.13091v2",
+            "title": "Large Language Models are Not Yet Human-Level Evaluators for Abstractive Summarization",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.13091v2"
+        },
+        "126": {
+            "id": "2402.15987v2",
+            "title": "Likelihood-based Mitigation of Evaluation Bias in Large Language Models",
+            "date": "2024-02-25",
+            "url": "https://arxiv.org/abs/2402.15987v2"
+        },
+        "127": {
+            "id": "2309.17012v1",
+            "title": "Benchmarking Cognitive Biases in Large Language Models as Evaluators",
+            "date": "2023-09-29",
+            "url": "https://arxiv.org/abs/2309.17012v1"
+        },
+        "128": {
+            "id": "2104.14478v1",
+            "title": "Experts, Errors, and Context A Large-Scale Study of Human Evaluation for Machine Translation",
+            "date": "2021-04-29",
+            "url": "https://arxiv.org/abs/2104.14478v1"
+        },
+        "129": {
+            "id": "2401.16788v1",
+            "title": "Can Large Language Models be Trusted for Evaluation Scalable Meta-Evaluation of LLMs as Evaluators via Agent Debate",
+            "date": "2024-01-30",
+            "url": "https://arxiv.org/abs/2401.16788v1"
+        },
+        "130": {
+            "id": "2307.03025v3",
+            "title": "Style Over Substance Evaluation Biases for Large Language Models",
+            "date": "2023-07-06",
+            "url": "https://arxiv.org/abs/2307.03025v3"
+        },
+        "131": {
+            "id": "2403.19305v2",
+            "title": "MATEval A Multi-Agent Discussion Framework for Advancing Open-Ended Text Evaluation",
+            "date": "2024-03-28",
+            "url": "https://arxiv.org/abs/2403.19305v2"
+        },
+        "132": {
+            "id": "2308.07201v1",
+            "title": "ChatEval Towards Better LLM-based Evaluators through Multi-Agent Debate",
+            "date": "2023-08-14",
+            "url": "https://arxiv.org/abs/2308.07201v1"
+        },
+        "133": {
+            "id": "2312.10355v1",
+            "title": "CoAScore Chain-of-Aspects Prompting for NLG Evaluation",
+            "date": "2023-12-16",
+            "url": "https://arxiv.org/abs/2312.10355v1"
+        },
+        "134": {
+            "id": "2205.05256v1",
+            "title": "Evaluation Gaps in Machine Learning Practice",
+            "date": "2022-05-11",
+            "url": "https://arxiv.org/abs/2205.05256v1"
+        },
+        "135": {
+            "id": "2111.08864v3",
+            "title": "Adversarial Tradeoffs in Robust State Estimation",
+            "date": "2021-11-17",
+            "url": "https://arxiv.org/abs/2111.08864v3"
+        },
+        "136": {
+            "id": "2310.19391v2",
+            "title": "Causal Fair Metric Bridging Causality, Individual Fairness, and Adversarial Robustness",
+            "date": "2023-10-30",
+            "url": "https://arxiv.org/abs/2310.19391v2"
+        },
+        "137": {
+            "id": "1902.08336v1",
+            "title": "On the Sensitivity of Adversarial Robustness to Input Data Distributions",
+            "date": "2019-02-22",
+            "url": "https://arxiv.org/abs/1902.08336v1"
+        },
+        "138": {
+            "id": "2002.11572v1",
+            "title": "Revisiting Ensembles in an Adversarial Context Improving Natural Accuracy",
+            "date": "2020-02-26",
+            "url": "https://arxiv.org/abs/2002.11572v1"
+        },
+        "139": {
+            "id": "2307.13885v4",
+            "title": "Efficient Estimation of Average-Case Robustness for Multi-Class Classification",
+            "date": "2023-07-26",
+            "url": "https://arxiv.org/abs/2307.13885v4"
+        },
+        "140": {
+            "id": "2205.13274v2",
+            "title": "Evaluating Multimodal Interactive Agents",
+            "date": "2022-05-26",
+            "url": "https://arxiv.org/abs/2205.13274v2"
+        },
+        "141": {
+            "id": "2010.08618v1",
+            "title": "Substance over Style Document-Level Targeted Content Transfer",
+            "date": "2020-10-16",
+            "url": "https://arxiv.org/abs/2010.08618v1"
+        },
+        "142": {
+            "id": "2402.10669v3",
+            "title": "Humans or LLMs as the Judge A Study on Judgement Biases",
+            "date": "2024-02-16",
+            "url": "https://arxiv.org/abs/2402.10669v3"
+        },
+        "143": {
+            "id": "2302.01928v2",
+            "title": "Aligning Robot and Human Representations",
+            "date": "2023-02-03",
+            "url": "https://arxiv.org/abs/2302.01928v2"
+        },
+        "144": {
+            "id": "1806.02643v2",
+            "title": "Re-evaluating Evaluation",
+            "date": "2018-06-07",
+            "url": "https://arxiv.org/abs/1806.02643v2"
+        },
+        "145": {
+            "id": "1705.07347v4",
+            "title": "Ensemble Sampling",
+            "date": "2017-05-20",
+            "url": "https://arxiv.org/abs/1705.07347v4"
+        },
+        "146": {
+            "id": "2312.15395v1",
+            "title": "Prompt Valuation Based on Shapley Values",
+            "date": "2023-12-24",
+            "url": "https://arxiv.org/abs/2312.15395v1"
+        },
+        "147": {
+            "id": "2402.09346v2",
+            "title": "Developing a Framework for Auditing Large Language Models Using Human-in-the-Loop",
+            "date": "2024-02-14",
+            "url": "https://arxiv.org/abs/2402.09346v2"
+        },
+        "148": {
+            "id": "2106.13219v1",
+            "title": "Towards Understanding and Mitigating Social Biases in Language Models",
+            "date": "2021-06-24",
+            "url": "https://arxiv.org/abs/2106.13219v1"
+        },
+        "149": {
+            "id": "2404.16457v1",
+            "title": "Towards Precise Observations of Neural Model Robustness in Classification",
+            "date": "2024-04-25",
+            "url": "https://arxiv.org/abs/2404.16457v1"
+        },
+        "150": {
+            "id": "2305.06841v2",
+            "title": "Think Twice Measuring the Efficiency of Eliminating Prediction Shortcuts of Question Answering Models",
+            "date": "2023-05-11",
+            "url": "https://arxiv.org/abs/2305.06841v2"
+        },
+        "151": {
+            "id": "2309.00770v2",
+            "title": "Bias and Fairness in Large Language Models A Survey",
+            "date": "2023-09-02",
+            "url": "https://arxiv.org/abs/2309.00770v2"
+        },
+        "152": {
+            "id": "2402.04105v1",
+            "title": "Measuring Implicit Bias in Explicitly Unbiased Large Language Models",
+            "date": "2024-02-06",
+            "url": "https://arxiv.org/abs/2402.04105v1"
+        },
+        "153": {
+            "id": "2311.18140v1",
+            "title": "ROBBIE Robust Bias Evaluation of Large Generative Language Models",
+            "date": "2023-11-29",
+            "url": "https://arxiv.org/abs/2311.18140v1"
+        },
+        "154": {
+            "id": "2305.14540v1",
+            "title": "LLMs as Factual Reasoners Insights from Existing Benchmarks and Beyond",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.14540v1"
+        },
+        "155": {
+            "id": "2305.19187v2",
+            "title": "Generating with Confidence Uncertainty Quantification for Black-box Large Language Models",
+            "date": "2023-05-30",
+            "url": "https://arxiv.org/abs/2305.19187v2"
+        },
+        "156": {
+            "id": "2403.06009v1",
+            "title": "Detectors for Safe and Reliable LLMs Implementations, Uses, and Limitations",
+            "date": "2024-03-09",
+            "url": "https://arxiv.org/abs/2403.06009v1"
+        },
+        "157": {
+            "id": "2105.02590v3",
+            "title": "Reliability Testing for Natural Language Processing Systems",
+            "date": "2021-05-06",
+            "url": "https://arxiv.org/abs/2105.02590v3"
+        },
+        "158": {
+            "id": "2307.10586v2",
+            "title": "A Holistic Assessment of the Reliability of Machine Learning Systems",
+            "date": "2023-07-20",
+            "url": "https://arxiv.org/abs/2307.10586v2"
+        },
+        "159": {
+            "id": "2402.06359v1",
+            "title": "Modelling Human Values for AI Reasoning",
+            "date": "2024-02-09",
+            "url": "https://arxiv.org/abs/2402.06359v1"
+        },
+        "160": {
+            "id": "2310.11053v3",
+            "title": "Denevil Towards Deciphering and Navigating the Ethical Values of Large Language Models via Instruction Learning",
+            "date": "2023-10-17",
+            "url": "https://arxiv.org/abs/2310.11053v3"
+        },
+        "161": {
+            "id": "2310.19677v2",
+            "title": "MoCa Measuring Human-Language Model Alignment on Causal and Moral Judgment Tasks",
+            "date": "2023-10-30",
+            "url": "https://arxiv.org/abs/2310.19677v2"
+        },
+        "162": {
+            "id": "2305.17147v3",
+            "title": "Heterogeneous Value Alignment Evaluation for Large Language Models",
+            "date": "2023-05-26",
+            "url": "https://arxiv.org/abs/2305.17147v3"
+        },
+        "163": {
+            "id": "2303.05453v1",
+            "title": "Personalisation within bounds A risk taxonomy and policy framework for the alignment of large language models with personalised feedback",
+            "date": "2023-03-09",
+            "url": "https://arxiv.org/abs/2303.05453v1"
+        },
+        "164": {
+            "id": "2310.11564v1",
+            "title": "Personalized Soups Personalized Large Language Model Alignment via Post-hoc Parameter Merging",
+            "date": "2023-10-17",
+            "url": "https://arxiv.org/abs/2310.11564v1"
+        },
+        "165": {
+            "id": "2309.14459v2",
+            "title": "Bridging the Gulf of Envisioning Cognitive Design Challenges in LLM Interfaces",
+            "date": "2023-09-25",
+            "url": "https://arxiv.org/abs/2309.14459v2"
+        },
+        "166": {
+            "id": "2310.02457v2",
+            "title": "The Empty Signifier Problem Towards Clearer Paradigms for Operationalising Alignment in Large Language Models",
+            "date": "2023-10-03",
+            "url": "https://arxiv.org/abs/2310.02457v2"
+        },
+        "167": {
+            "id": "2403.14683v1",
+            "title": "A Moral Imperative The Need for Continual Superalignment of Large Language Models",
+            "date": "2024-03-13",
+            "url": "https://arxiv.org/abs/2403.14683v1"
+        },
+        "168": {
+            "id": "2308.01264v2",
+            "title": "Exploring the psychology of LLMs' Moral and Legal Reasoning",
+            "date": "2023-08-02",
+            "url": "https://arxiv.org/abs/2308.01264v2"
+        },
+        "169": {
+            "id": "2401.06730v1",
+            "title": "Relying on the Unreliable The Impact of Language Models' Reluctance to Express Uncertainty",
+            "date": "2024-01-12",
+            "url": "https://arxiv.org/abs/2401.06730v1"
+        },
+        "170": {
+            "id": "2401.03205v1",
+            "title": "The Dawn After the Dark An Empirical Study on Factuality Hallucination in Large Language Models",
+            "date": "2024-01-06",
+            "url": "https://arxiv.org/abs/2401.03205v1"
+        },
+        "171": {
+            "id": "2403.06448v1",
+            "title": "Unsupervised Real-Time Hallucination Detection based on the Internal States of Large Language Models",
+            "date": "2024-03-11",
+            "url": "https://arxiv.org/abs/2403.06448v1"
+        },
+        "172": {
+            "id": "2402.10412v1",
+            "title": "Measuring and Reducing LLM Hallucination without Gold-Standard Answers via Expertise-Weighting",
+            "date": "2024-02-16",
+            "url": "https://arxiv.org/abs/2402.10412v1"
+        },
+        "173": {
+            "id": "2403.04696v1",
+            "title": "Fact-Checking the Output of Large Language Models via Token-Level Uncertainty Quantification",
+            "date": "2024-03-07",
+            "url": "https://arxiv.org/abs/2403.04696v1"
+        },
+        "174": {
+            "id": "2309.01219v2",
+            "title": "Siren's Song in the AI Ocean A Survey on Hallucination in Large Language Models",
+            "date": "2023-09-03",
+            "url": "https://arxiv.org/abs/2309.01219v2"
+        },
+        "175": {
+            "id": "2310.06271v1",
+            "title": "Towards Mitigating Hallucination in Large Language Models via Self-Reflection",
+            "date": "2023-10-10",
+            "url": "https://arxiv.org/abs/2310.06271v1"
+        },
+        "176": {
+            "id": "2312.05200v1",
+            "title": "DelucionQA Detecting Hallucinations in Domain-specific Question Answering",
+            "date": "2023-12-08",
+            "url": "https://arxiv.org/abs/2312.05200v1"
+        },
+        "177": {
+            "id": "2309.05217v1",
+            "title": "Quantifying and Attributing the Hallucination of Large Language Models via Association Analysis",
+            "date": "2023-09-11",
+            "url": "https://arxiv.org/abs/2309.05217v1"
+        },
+        "178": {
+            "id": "2212.06295v1",
+            "title": "Despite super-human performance, current LLMs are unsuited for decisions about ethics and safety",
+            "date": "2022-12-13",
+            "url": "https://arxiv.org/abs/2212.06295v1"
+        },
+        "179": {
+            "id": "2112.14466v2",
+            "title": "Explainability Is in the Mind of the Beholder Establishing the Foundations of Explainable Artificial Intelligence",
+            "date": "2021-12-29",
+            "url": "https://arxiv.org/abs/2112.14466v2"
+        },
+        "180": {
+            "id": "2006.13815v1",
+            "title": "Local Interpretability of Calibrated Prediction Models A Case of Type 2 Diabetes Mellitus Screening Test",
+            "date": "2020-06-02",
+            "url": "https://arxiv.org/abs/2006.13815v1"
+        },
+        "181": {
+            "id": "2211.05667v2",
+            "title": "What Makes a Good Explanation A Harmonized View of Properties of Explanations",
+            "date": "2022-11-10",
+            "url": "https://arxiv.org/abs/2211.05667v2"
+        },
+        "182": {
+            "id": "2402.17013v1",
+            "title": "Towards Explainability and Fairness in Swiss Judgement Prediction Benchmarking on a Multilingual Dataset",
+            "date": "2024-02-26",
+            "url": "https://arxiv.org/abs/2402.17013v1"
+        },
+        "183": {
+            "id": "2311.07286v1",
+            "title": "Explaining black boxes with a SMILE Statistical Model-agnostic Interpretability with Local Explanations",
+            "date": "2023-11-13",
+            "url": "https://arxiv.org/abs/2311.07286v1"
+        },
+        "184": {
+            "id": "2404.07004v1",
+            "title": "LM Transparency Tool Interactive Tool for Analyzing Transformer Language Models",
+            "date": "2024-04-10",
+            "url": "https://arxiv.org/abs/2404.07004v1"
+        },
+        "185": {
+            "id": "2402.11655v1",
+            "title": "Competition of Mechanisms Tracing How Language Models Handle Facts and Counterfactuals",
+            "date": "2024-02-18",
+            "url": "https://arxiv.org/abs/2402.11655v1"
+        },
+        "186": {
+            "id": "2201.08164v3",
+            "title": "From Anecdotal Evidence to Quantitative Evaluation Methods A Systematic Review on Evaluating Explainable AI",
+            "date": "2022-01-20",
+            "url": "https://arxiv.org/abs/2201.08164v3"
+        },
+        "187": {
+            "id": "1901.08558v1",
+            "title": "Quantifying Interpretability and Trust in Machine Learning Systems",
+            "date": "2019-01-20",
+            "url": "https://arxiv.org/abs/1901.08558v1"
+        },
+        "188": {
+            "id": "1711.07414v2",
+            "title": "The Promise and Peril of Human Evaluation for Model Interpretability",
+            "date": "2017-11-20",
+            "url": "https://arxiv.org/abs/1711.07414v2"
+        },
+        "189": {
+            "id": "2004.11440v2",
+            "title": "Human Factors in Model Interpretability Industry Practices, Challenges, and Needs",
+            "date": "2020-04-23",
+            "url": "https://arxiv.org/abs/2004.11440v2"
+        },
+        "190": {
+            "id": "2209.00562v1",
+            "title": "Model Transparency and Interpretability Survey and Application to the Insurance Industry",
+            "date": "2022-09-01",
+            "url": "https://arxiv.org/abs/2209.00562v1"
+        },
+        "191": {
+            "id": "1811.01439v1",
+            "title": "Explaining Explanations in AI",
+            "date": "2018-11-04",
+            "url": "https://arxiv.org/abs/1811.01439v1"
+        },
+        "192": {
+            "id": "2103.13084v1",
+            "title": "Paragraph-level Rationale Extraction through Regularization A case study on European Court of Human Rights Cases",
+            "date": "2021-03-24",
+            "url": "https://arxiv.org/abs/2103.13084v1"
+        },
+        "193": {
+            "id": "2102.08540v2",
+            "title": "Intuitively Assessing ML Model Reliability through Example-Based Explanations and Editing Model Inputs",
+            "date": "2021-02-17",
+            "url": "https://arxiv.org/abs/2102.08540v2"
+        },
+        "194": {
+            "id": "2006.10562v4",
+            "title": "Uncertainty in Gradient Boosting via Ensembles",
+            "date": "2020-06-18",
+            "url": "https://arxiv.org/abs/2006.10562v4"
+        },
+        "195": {
+            "id": "2206.03633v1",
+            "title": "Ensembles for Uncertainty Estimation Benefits of Prior Functions and Bootstrapping",
+            "date": "2022-06-08",
+            "url": "https://arxiv.org/abs/2206.03633v1"
+        },
+        "196": {
+            "id": "2209.09563v1",
+            "title": "Calibrating Ensembles for Scalable Uncertainty Quantification in Deep Learning-based Medical Segmentation",
+            "date": "2022-09-20",
+            "url": "https://arxiv.org/abs/2209.09563v1"
+        },
+        "197": {
+            "id": "2305.04933v2",
+            "title": "Uncertainty Quantification in Machine Learning for Engineering Design and Health Prognostics A Tutorial",
+            "date": "2023-05-07",
+            "url": "https://arxiv.org/abs/2305.04933v2"
+        },
+        "198": {
+            "id": "2105.13283v2",
+            "title": "Deep Ensembles from a Bayesian Perspective",
+            "date": "2021-05-27",
+            "url": "https://arxiv.org/abs/2105.13283v2"
+        },
+        "199": {
+            "id": "2310.00035v2",
+            "title": "LoRA ensembles for large language model fine-tuning",
+            "date": "2023-09-29",
+            "url": "https://arxiv.org/abs/2310.00035v2"
+        },
+        "200": {
+            "id": "2303.08010v3",
+            "title": "Window-Based Early-Exit Cascades for Uncertainty Estimation When Deep Ensembles are More Efficient than Single Models",
+            "date": "2023-03-14",
+            "url": "https://arxiv.org/abs/2303.08010v3"
+        },
+        "201": {
+            "id": "1811.07253v1",
+            "title": "Quantifying Uncertainties in Natural Language Processing Tasks",
+            "date": "2018-11-18",
+            "url": "https://arxiv.org/abs/1811.07253v1"
+        },
+        "202": {
+            "id": "2207.13341v1",
+            "title": "Towards Clear Expectations for Uncertainty Estimation",
+            "date": "2022-07-27",
+            "url": "https://arxiv.org/abs/2207.13341v1"
+        },
+        "203": {
+            "id": "2305.14929v1",
+            "title": "Aligning Language Models to User Opinions",
+            "date": "2023-05-24",
+            "url": "https://arxiv.org/abs/2305.14929v1"
+        },
+        "204": {
+            "id": "2310.11523v1",
+            "title": "Group Preference Optimization Few-Shot Alignment of Large Language Models",
+            "date": "2023-10-17",
+            "url": "https://arxiv.org/abs/2310.11523v1"
+        },
+        "205": {
+            "id": "2402.04401v1",
+            "title": "Democratizing Large Language Models via Personalized Parameter-Efficient Fine-tuning",
+            "date": "2024-02-06",
+            "url": "https://arxiv.org/abs/2402.04401v1"
+        },
+        "206": {
+            "id": "2401.05561v4",
+            "title": "TrustLLM Trustworthiness in Large Language Models",
+            "date": "2024-01-10",
+            "url": "https://arxiv.org/abs/2401.05561v4"
+        },
+        "207": {
+            "id": "2311.06899v4",
+            "title": "Flames Benchmarking Value Alignment of LLMs in Chinese",
+            "date": "2023-11-12",
+            "url": "https://arxiv.org/abs/2311.06899v4"
+        },
+        "208": {
+            "id": "2401.13178v1",
+            "title": "AgentBoard An Analytical Evaluation Board of Multi-turn LLM Agents",
+            "date": "2024-01-24",
+            "url": "https://arxiv.org/abs/2401.13178v1"
+        },
+        "209": {
+            "id": "2401.12794v2",
+            "title": "Benchmarking LLMs via Uncertainty Quantification",
+            "date": "2024-01-23",
+            "url": "https://arxiv.org/abs/2401.12794v2"
+        },
+        "210": {
+            "id": "2310.02778v2",
+            "title": "Integrating UMLS Knowledge into Large Language Models for Medical Question Answering",
+            "date": "2023-10-04",
+            "url": "https://arxiv.org/abs/2310.02778v2"
+        },
+        "211": {
+            "id": "2310.01708v1",
+            "title": "Deciphering Diagnoses How Large Language Models Explanations Influence Clinical Decision Making",
+            "date": "2023-10-03",
+            "url": "https://arxiv.org/abs/2310.01708v1"
+        },
+        "212": {
+            "id": "2309.10895v1",
+            "title": "Large Language Models as Agents in the Clinic",
+            "date": "2023-09-19",
+            "url": "https://arxiv.org/abs/2309.10895v1"
+        },
+        "213": {
+            "id": "2404.04667v1",
+            "title": "Autonomous Artificial Intelligence Agents for Clinical Decision Making in Oncology",
+            "date": "2024-04-06",
+            "url": "https://arxiv.org/abs/2404.04667v1"
+        },
+        "214": {
+            "id": "2403.19790v1",
+            "title": "Bespoke Large Language Models for Digital Triage Assistance in Mental Health Care",
+            "date": "2024-03-28",
+            "url": "https://arxiv.org/abs/2403.19790v1"
+        },
+        "215": {
+            "id": "2002.10998v2",
+            "title": "A Visual Analytics System for Multi-model Comparison on Clinical Data Predictions",
+            "date": "2020-02-18",
+            "url": "https://arxiv.org/abs/2002.10998v2"
+        },
+        "216": {
+            "id": "2403.02558v1",
+            "title": "Updating the Minimum Information about CLinical Artificial Intelligence (MI-CLAIM) checklist for generative modeling research",
+            "date": "2024-03-05",
+            "url": "https://arxiv.org/abs/2403.02558v1"
+        },
+        "217": {
+            "id": "2212.13138v1",
+            "title": "Large Language Models Encode Clinical Knowledge",
+            "date": "2022-12-26",
+            "url": "https://arxiv.org/abs/2212.13138v1"
+        },
+        "218": {
+            "id": "2308.06834v1",
+            "title": "Diagnostic Reasoning Prompts Reveal the Potential for Large Language Model Interpretability in Medicine",
+            "date": "2023-08-13",
+            "url": "https://arxiv.org/abs/2308.06834v1"
+        },
+        "219": {
+            "id": "2112.02625v1",
+            "title": "Explainable Deep Learning in Healthcare A Methodological Survey from an Attribution View",
+            "date": "2021-12-05",
+            "url": "https://arxiv.org/abs/2112.02625v1"
+        },
+        "220": {
+            "id": "2309.02233v2",
+            "title": "Augmenting Black-box LLMs with Medical Textbooks for Clinical Question Answering",
+            "date": "2023-09-05",
+            "url": "https://arxiv.org/abs/2309.02233v2"
+        },
+        "221": {
+            "id": "2306.01815v1",
+            "title": "Prototyping the use of Large Language Models (LLMs) for adult learning content creation at scale",
+            "date": "2023-06-02",
+            "url": "https://arxiv.org/abs/2306.01815v1"
+        },
+        "222": {
+            "id": "2306.02457v1",
+            "title": "Adaptive and Personalized Exercise Generation for Online Language Learning",
+            "date": "2023-06-04",
+            "url": "https://arxiv.org/abs/2306.02457v1"
+        },
+        "223": {
+            "id": "2403.14071v1",
+            "title": "Empowering Personalized Learning through a Conversation-based Tutoring System with Student Modeling",
+            "date": "2024-03-21",
+            "url": "https://arxiv.org/abs/2403.14071v1"
+        },
+        "224": {
+            "id": "2303.13379v2",
+            "title": "Practical and Ethical Challenges of Large Language Models in Education A Systematic Scoping Review",
+            "date": "2023-03-17",
+            "url": "https://arxiv.org/abs/2303.13379v2"
+        },
+        "225": {
+            "id": "2403.01976v2",
+            "title": "SciAssess Benchmarking LLM Proficiency in Scientific Literature Analysis",
+            "date": "2024-03-04",
+            "url": "https://arxiv.org/abs/2403.01976v2"
+        },
+        "226": {
+            "id": "2311.05965v1",
+            "title": "Large Language Models are Zero Shot Hypothesis Proposers",
+            "date": "2023-11-10",
+            "url": "https://arxiv.org/abs/2311.05965v1"
+        },
+        "227": {
+            "id": "2305.03514v3",
+            "title": "Can Large Language Models Transform Computational Social Science",
+            "date": "2023-04-12",
+            "url": "https://arxiv.org/abs/2305.03514v3"
+        },
+        "228": {
+            "id": "2402.02680v1",
+            "title": "Large Language Models are Geographically Biased",
+            "date": "2024-02-05",
+            "url": "https://arxiv.org/abs/2402.02680v1"
+        },
+        "229": {
+            "id": "2309.08969v2",
+            "title": "Rethinking STS and NLI in Large Language Models",
+            "date": "2023-09-16",
+            "url": "https://arxiv.org/abs/2309.08969v2"
+        },
+        "230": {
+            "id": "2308.03688v2",
+            "title": "AgentBench Evaluating LLMs as Agents",
+            "date": "2023-08-07",
+            "url": "https://arxiv.org/abs/2308.03688v2"
+        },
+        "231": {
+            "id": "2308.05481v2",
+            "title": "LLM As DBA",
+            "date": "2023-08-10",
+            "url": "https://arxiv.org/abs/2308.05481v2"
+        },
+        "232": {
+            "id": "1907.02171v2",
+            "title": "Sketched MinDist",
+            "date": "2019-07-04",
+            "url": "https://arxiv.org/abs/1907.02171v2"
+        },
+        "233": {
+            "id": "2402.06596v1",
+            "title": "Understanding the Weakness of Large Language Model Agents within a Complex Android Environment",
+            "date": "2024-02-09",
+            "url": "https://arxiv.org/abs/2402.06596v1"
+        },
+        "234": {
+            "id": "2005.12175v2",
+            "title": "Formal Methods with a Touch of Magic",
+            "date": "2020-05-25",
+            "url": "https://arxiv.org/abs/2005.12175v2"
+        },
+        "235": {
+            "id": "1909.09140v3",
+            "title": "Meta-Neighborhoods",
+            "date": "2019-09-18",
+            "url": "https://arxiv.org/abs/1909.09140v3"
+        },
+        "236": {
+            "id": "2402.01761v1",
+            "title": "Rethinking Interpretability in the Era of Large Language Models",
+            "date": "2024-01-30",
+            "url": "https://arxiv.org/abs/2402.01761v1"
+        },
+        "237": {
+            "id": "2402.10688v2",
+            "title": "Towards Uncovering How Large Language Model Works An Explainability Perspective",
+            "date": "2024-02-16",
+            "url": "https://arxiv.org/abs/2402.10688v2"
+        },
+        "238": {
+            "id": "2401.12273v1",
+            "title": "The Ethics of Interaction Mitigating Security Threats in LLMs",
+            "date": "2024-01-22",
+            "url": "https://arxiv.org/abs/2401.12273v1"
+        },
+        "239": {
+            "id": "2401.02630v1",
+            "title": "Model-Agnostic Interpretation Framework in Machine Learning A Comparative Study in NBA Sports",
+            "date": "2024-01-05",
+            "url": "https://arxiv.org/abs/2401.02630v1"
+        },
+        "240": {
+            "id": "2403.09163v1",
+            "title": "Caveat Lector Large Language Models in Legal Practice",
+            "date": "2024-03-14",
+            "url": "https://arxiv.org/abs/2403.09163v1"
+        },
+        "241": {
+            "id": "2404.12558v1",
+            "title": "Just Like Me The Role of Opinions and Personal Experiences in The Perception of Explanations in Subjective Decision-Making",
+            "date": "2024-04-19",
+            "url": "https://arxiv.org/abs/2404.12558v1"
+        },
+        "242": {
+            "id": "2312.15033v1",
+            "title": "Sparsity-Guided Holistic Explanation for LLMs with Interpretable Inference-Time Intervention",
+            "date": "2023-12-22",
+            "url": "https://arxiv.org/abs/2312.15033v1"
+        },
+        "243": {
+            "id": "2311.08240v1",
+            "title": "Investigating the Encoding of Words in BERT's Neurons using Feature Textualization",
+            "date": "2023-11-14",
+            "url": "https://arxiv.org/abs/2311.08240v1"
+        },
+        "244": {
+            "id": "2404.03623v1",
+            "title": "Unveiling LLMs The Evolution of Latent Representations in a Temporal Knowledge Graph",
+            "date": "2024-04-04",
+            "url": "https://arxiv.org/abs/2404.03623v1"
+        },
+        "245": {
+            "id": "2401.06102v2",
+            "title": "Patchscopes A Unifying Framework for Inspecting Hidden Representations of Language Models",
+            "date": "2024-01-11",
+            "url": "https://arxiv.org/abs/2401.06102v2"
+        },
+        "246": {
+            "id": "2109.05958v2",
+            "title": "Not All Models Localize Linguistic Knowledge in the Same Place A Layer-wise Probing on BERToids' Representations",
+            "date": "2021-09-13",
+            "url": "https://arxiv.org/abs/2109.05958v2"
+        },
+        "247": {
+            "id": "2012.15228v2",
+            "title": "Introducing Orthogonal Constraint in Structural Probes",
+            "date": "2020-12-30",
+            "url": "https://arxiv.org/abs/2012.15228v2"
+        },
+        "248": {
+            "id": "2005.00719v3",
+            "title": "Probing the Probing Paradigm Does Probing Accuracy Entail Task Relevance",
+            "date": "2020-05-02",
+            "url": "https://arxiv.org/abs/2005.00719v3"
+        },
+        "249": {
+            "id": "2109.09234v1",
+            "title": "Conditional probing measuring usable information beyond a baseline",
+            "date": "2021-09-19",
+            "url": "https://arxiv.org/abs/2109.09234v1"
+        },
+        "250": {
+            "id": "1511.07972v9",
+            "title": "Learning with Memory Embeddings",
+            "date": "2015-11-25",
+            "url": "https://arxiv.org/abs/1511.07972v9"
+        },
+        "251": {
+            "id": "2310.06824v2",
+            "title": "The Geometry of Truth Emergent Linear Structure in Large Language Model Representations of True False Datasets",
+            "date": "2023-10-10",
+            "url": "https://arxiv.org/abs/2310.06824v2"
+        },
+        "252": {
+            "id": "2304.14767v3",
+            "title": "Dissecting Recall of Factual Associations in Auto-Regressive Language Models",
+            "date": "2023-04-28",
+            "url": "https://arxiv.org/abs/2304.14767v3"
+        },
+        "253": {
+            "id": "2310.16441v1",
+            "title": "Grokking in Linear Estimators -- A Solvable Model that Groks without Understanding",
+            "date": "2023-10-25",
+            "url": "https://arxiv.org/abs/2310.16441v1"
+        },
+        "254": {
+            "id": "2310.17639v3",
+            "title": "In-Context Learning Dynamics with Random Binary Sequences",
+            "date": "2023-10-26",
+            "url": "https://arxiv.org/abs/2310.17639v3"
+        },
+        "255": {
+            "id": "2402.15175v2",
+            "title": "Unified View of Grokking, Double Descent and Emergent Abilities A Perspective from Circuits Competition",
+            "date": "2024-02-23",
+            "url": "https://arxiv.org/abs/2402.15175v2"
+        },
+        "256": {
+            "id": "2205.10343v2",
+            "title": "Towards Understanding Grokking An Effective Theory of Representation Learning",
+            "date": "2022-05-20",
+            "url": "https://arxiv.org/abs/2205.10343v2"
+        },
+        "257": {
+            "id": "2210.01117v2",
+            "title": "Omnigrok Grokking Beyond Algorithmic Data",
+            "date": "2022-10-03",
+            "url": "https://arxiv.org/abs/2210.01117v2"
+        },
+        "258": {
+            "id": "2303.06173v1",
+            "title": "Unifying Grokking and Double Descent",
+            "date": "2023-03-10",
+            "url": "https://arxiv.org/abs/2303.06173v1"
+        },
+        "259": {
+            "id": "2310.03789v2",
+            "title": "Droplets of Good Representations Grokking as a First Order Phase Transition in Two Layer Networks",
+            "date": "2023-10-05",
+            "url": "https://arxiv.org/abs/2310.03789v2"
+        },
+        "260": {
+            "id": "2301.05217v3",
+            "title": "Progress measures for grokking via mechanistic interpretability",
+            "date": "2023-01-12",
+            "url": "https://arxiv.org/abs/2301.05217v3"
+        },
+        "261": {
+            "id": "2310.06714v2",
+            "title": "Exploring Memorization in Fine-tuned Language Models",
+            "date": "2023-10-10",
+            "url": "https://arxiv.org/abs/2310.06714v2"
+        },
+        "262": {
+            "id": "2205.10770v2",
+            "title": "Memorization Without Overfitting Analyzing the Training Dynamics of Large Language Models",
+            "date": "2022-05-22",
+            "url": "https://arxiv.org/abs/2205.10770v2"
+        },
+        "263": {
+            "id": "2401.12874v2",
+            "title": "From Understanding to Utilization A Survey on Explainability for Large Language Models",
+            "date": "2024-01-23",
+            "url": "https://arxiv.org/abs/2401.12874v2"
+        },
+        "264": {
+            "id": "2305.13172v3",
+            "title": "Editing Large Language Models Problems, Methods, and Opportunities",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.13172v3"
+        },
+        "265": {
+            "id": "2402.18099v1",
+            "title": "Editing Factual Knowledge and Explanatory Ability of Medical Large Language Models",
+            "date": "2024-02-28",
+            "url": "https://arxiv.org/abs/2402.18099v1"
+        },
+        "266": {
+            "id": "2312.00960v1",
+            "title": "The Cost of Compression Investigating the Impact of Compression on Parametric Knowledge in Language Models",
+            "date": "2023-12-01",
+            "url": "https://arxiv.org/abs/2312.00960v1"
+        },
+        "267": {
+            "id": "2309.06384v1",
+            "title": "Towards Reliable and Fluent Large Language Models Incorporating Feedback Learning Loops in QA Systems",
+            "date": "2023-09-08",
+            "url": "https://arxiv.org/abs/2309.06384v1"
+        },
+        "268": {
+            "id": "2301.00355v2",
+            "title": "Second Thoughts are Best Learning to Re-Align With Human Values from Text Edits",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2301.00355v2"
+        },
+        "269": {
+            "id": "2403.05636v1",
+            "title": "Tuning-Free Accountable Intervention for LLM Deployment -- A Metacognitive Approach",
+            "date": "2024-03-08",
+            "url": "https://arxiv.org/abs/2403.05636v1"
+        },
+        "270": {
+            "id": "2402.08277v3",
+            "title": "Towards Faithful and Robust LLM Specialists for Evidence-Based Question-Answering",
+            "date": "2024-02-13",
+            "url": "https://arxiv.org/abs/2402.08277v3"
+        },
+        "271": {
+            "id": "2404.03189v1",
+            "title": "The Probabilities Also Matter A More Faithful Metric for Faithfulness of Free-Text Explanations in Large Language Models",
+            "date": "2024-04-04",
+            "url": "https://arxiv.org/abs/2404.03189v1"
+        },
+        "272": {
+            "id": "2304.08174v1",
+            "title": "Benchmarking Faithfulness Towards Accurate Natural Language Explanations in Vision-Language Tasks",
+            "date": "2023-04-03",
+            "url": "https://arxiv.org/abs/2304.08174v1"
+        },
+        "273": {
+            "id": "2311.03533v1",
+            "title": "Quantifying Uncertainty in Natural Language Explanations of Large Language Models",
+            "date": "2023-11-06",
+            "url": "https://arxiv.org/abs/2311.03533v1"
+        },
+        "274": {
+            "id": "1806.08049v1",
+            "title": "On the Robustness of Interpretability Methods",
+            "date": "2018-06-21",
+            "url": "https://arxiv.org/abs/1806.08049v1"
+        },
+        "275": {
+            "id": "2311.07466v2",
+            "title": "On Measuring Faithfulness or Self-consistency of Natural Language Explanations",
+            "date": "2023-11-13",
+            "url": "https://arxiv.org/abs/2311.07466v2"
+        },
+        "276": {
+            "id": "2205.12469v1",
+            "title": "Logical Satisfiability of Counterfactuals for Faithful Explanations in NLI",
+            "date": "2022-05-25",
+            "url": "https://arxiv.org/abs/2205.12469v1"
+        },
+        "277": {
+            "id": "2305.00050v2",
+            "title": "Causal Reasoning and Large Language Models Opening a New Frontier for Causality",
+            "date": "2023-04-28",
+            "url": "https://arxiv.org/abs/2305.00050v2"
+        },
+        "278": {
+            "id": "2311.02807v1",
+            "title": "QualEval Qualitative Evaluation for Model Improvement",
+            "date": "2023-11-06",
+            "url": "https://arxiv.org/abs/2311.02807v1"
+        },
+        "279": {
+            "id": "2205.05057v1",
+            "title": "Sensible AI Re-imagining Interpretability and Explainability using Sensemaking Theory",
+            "date": "2022-05-10",
+            "url": "https://arxiv.org/abs/2205.05057v1"
+        },
+        "280": {
+            "id": "2007.09028v1",
+            "title": "Sequential Explanations with Mental Model-Based Policies",
+            "date": "2020-07-17",
+            "url": "https://arxiv.org/abs/2007.09028v1"
+        },
+        "281": {
+            "id": "2105.14171v1",
+            "title": "The Definitions of Interpretability and Learning of Interpretable Models",
+            "date": "2021-05-29",
+            "url": "https://arxiv.org/abs/2105.14171v1"
+        },
+        "282": {
+            "id": "2009.06675v1",
+            "title": "The Role of Individual User Differences in Interpretable and Explainable Machine Learning Systems",
+            "date": "2020-09-14",
+            "url": "https://arxiv.org/abs/2009.06675v1"
+        },
+        "283": {
+            "id": "1705.08504v6",
+            "title": "Interpreting Blackbox Models via Model Extraction",
+            "date": "2017-05-23",
+            "url": "https://arxiv.org/abs/1705.08504v6"
+        },
+        "284": {
+            "id": "1811.10799v2",
+            "title": "What is Interpretable Using Machine Learning to Design Interpretable Decision-Support Systems",
+            "date": "2018-11-27",
+            "url": "https://arxiv.org/abs/1811.10799v2"
+        },
+        "285": {
+            "id": "2112.03245v1",
+            "title": "GAM Changer Editing Generalized Additive Models with Interactive Visualization",
+            "date": "2021-12-06",
+            "url": "https://arxiv.org/abs/2112.03245v1"
+        },
+        "286": {
+            "id": "2203.04303v1",
+            "title": "Policy Regularization for Legible Behavior",
+            "date": "2022-03-08",
+            "url": "https://arxiv.org/abs/2203.04303v1"
+        },
+        "287": {
+            "id": "2311.01732v2",
+            "title": "Proto-lm A Prototypical Network-Based Framework for Built-in Interpretability in Large Language Models",
+            "date": "2023-11-03",
+            "url": "https://arxiv.org/abs/2311.01732v2"
+        },
+        "288": {
+            "id": "2101.00633v5",
+            "title": "Outcome-Explorer A Causality Guided Interactive Visual Interface for Interpretable Algorithmic Decision Making",
+            "date": "2021-01-03",
+            "url": "https://arxiv.org/abs/2101.00633v5"
+        },
+        "289": {
+            "id": "2307.00660v1",
+            "title": "Minimum Levels of Interpretability for Artificial Moral Agents",
+            "date": "2023-07-02",
+            "url": "https://arxiv.org/abs/2307.00660v1"
+        },
+        "290": {
+            "id": "2103.03103v1",
+            "title": "Interpretable Artificial Intelligence through the Lens of Feature Interaction",
+            "date": "2021-03-01",
+            "url": "https://arxiv.org/abs/2103.03103v1"
+        },
+        "291": {
+            "id": "2208.08149v1",
+            "title": "A Concept and Argumentation based Interpretable Model in High Risk Domains",
+            "date": "2022-08-17",
+            "url": "https://arxiv.org/abs/2208.08149v1"
+        },
+        "292": {
+            "id": "2402.06782v2",
+            "title": "Debating with More Persuasive LLMs Leads to More Truthful Answers",
+            "date": "2024-02-09",
+            "url": "https://arxiv.org/abs/2402.06782v2"
+        },
+        "293": {
+            "id": "1907.07374v5",
+            "title": "A Survey on Explainable Artificial Intelligence (XAI) Towards Medical XAI",
+            "date": "2019-07-17",
+            "url": "https://arxiv.org/abs/1907.07374v5"
+        },
+        "294": {
+            "id": "2401.13835v1",
+            "title": "The Calibration Gap between Model and Human Confidence in Large Language Models",
+            "date": "2024-01-24",
+            "url": "https://arxiv.org/abs/2401.13835v1"
+        },
+        "295": {
+            "id": "2310.06746v1",
+            "title": "Causal Rule Learning Enhancing the Understanding of Heterogeneous Treatment Effect via Weighted Causal Rules",
+            "date": "2023-10-10",
+            "url": "https://arxiv.org/abs/2310.06746v1"
+        },
+        "296": {
+            "id": "1607.00279v1",
+            "title": "Meaningful Models Utilizing Conceptual Structure to Improve Machine Learning Interpretability",
+            "date": "2016-07-01",
+            "url": "https://arxiv.org/abs/1607.00279v1"
+        },
+        "297": {
+            "id": "2403.09606v1",
+            "title": "Large Language Models and Causal Inference in Collaboration A Comprehensive Survey",
+            "date": "2024-03-14",
+            "url": "https://arxiv.org/abs/2403.09606v1"
+        },
+        "298": {
+            "id": "2401.00139v1",
+            "title": "Is Knowledge All Large Language Models Needed for Causal Reasoning",
+            "date": "2023-12-30",
+            "url": "https://arxiv.org/abs/2401.00139v1"
+        },
+        "299": {
+            "id": "2304.03347v4",
+            "title": "Towards Interpretable Mental Health Analysis with Large Language Models",
+            "date": "2023-04-06",
+            "url": "https://arxiv.org/abs/2304.03347v4"
+        },
+        "300": {
+            "id": "2310.16436v2",
+            "title": "DDCoT Duty-Distinct Chain-of-Thought Prompting for Multimodal Reasoning in Language Models",
+            "date": "2023-10-25",
+            "url": "https://arxiv.org/abs/2310.16436v2"
+        },
+        "301": {
+            "id": "2403.08743v1",
+            "title": "Steering LLMs Towards Unbiased Responses A Causality-Guided Debiasing Framework",
+            "date": "2024-03-13",
+            "url": "https://arxiv.org/abs/2403.08743v1"
+        },
+        "302": {
+            "id": "2006.16789v2",
+            "title": "Causality Learning A New Perspective for Interpretable Machine Learning",
+            "date": "2020-06-27",
+            "url": "https://arxiv.org/abs/2006.16789v2"
+        },
+        "303": {
+            "id": "2103.11251v2",
+            "title": "Interpretable Machine Learning Fundamental Principles and 10 Grand Challenges",
+            "date": "2021-03-20",
+            "url": "https://arxiv.org/abs/2103.11251v2"
+        },
+        "304": {
+            "id": "2311.08152v2",
+            "title": "Towards Reasoning in Large Language Models via Multi-Agent Peer Review Collaboration",
+            "date": "2023-11-14",
+            "url": "https://arxiv.org/abs/2311.08152v2"
+        },
+        "305": {
+            "id": "2403.12316v1",
+            "title": "OpenEval Benchmarking Chinese LLMs across Capability, Alignment and Safety",
+            "date": "2024-03-18",
+            "url": "https://arxiv.org/abs/2403.12316v1"
+        },
+        "306": {
+            "id": "2310.08491v2",
+            "title": "Prometheus Inducing Fine-grained Evaluation Capability in Language Models",
+            "date": "2023-10-12",
+            "url": "https://arxiv.org/abs/2310.08491v2"
+        },
+        "307": {
+            "id": "2308.04026v1",
+            "title": "AgentSims An Open-Source Sandbox for Large Language Model Evaluation",
+            "date": "2023-08-08",
+            "url": "https://arxiv.org/abs/2308.04026v1"
+        },
+        "308": {
+            "id": "2403.04132v1",
+            "title": "Chatbot Arena An Open Platform for Evaluating LLMs by Human Preference",
+            "date": "2024-03-07",
+            "url": "https://arxiv.org/abs/2403.04132v1"
+        },
+        "309": {
+            "id": "2308.01681v3",
+            "title": "NBIAS A Natural Language Processing Framework for Bias Identification in Text",
+            "date": "2023-08-03",
+            "url": "https://arxiv.org/abs/2308.01681v3"
+        },
+        "310": {
+            "id": "2402.14258v1",
+            "title": "Eagle Ethical Dataset Given from Real Interactions",
+            "date": "2024-02-22",
+            "url": "https://arxiv.org/abs/2402.14258v1"
+        },
+        "311": {
+            "id": "2308.10397v2",
+            "title": "FairMonitor A Four-Stage Automatic Framework for Detecting Stereotypes and Biases in Large Language Models",
+            "date": "2023-08-21",
+            "url": "https://arxiv.org/abs/2308.10397v2"
+        },
+        "312": {
+            "id": "2402.12649v1",
+            "title": "Bias in Language Models Beyond Trick Tests and Toward RUTEd Evaluation",
+            "date": "2024-02-20",
+            "url": "https://arxiv.org/abs/2402.12649v1"
+        },
+        "313": {
+            "id": "2307.02762v1",
+            "title": "PRD Peer Rank and Discussion Improve Large Language Model based Evaluations",
+            "date": "2023-07-06",
+            "url": "https://arxiv.org/abs/2307.02762v1"
+        },
+        "314": {
+            "id": "2402.05252v1",
+            "title": "Learning Fair Ranking Policies via Differentiable Optimization of Ordered Weighted Averages",
+            "date": "2024-02-07",
+            "url": "https://arxiv.org/abs/2402.05252v1"
+        },
+        "315": {
+            "id": "2310.13012v2",
+            "title": "H2O Open Ecosystem for State-of-the-art Large Language Models",
+            "date": "2023-10-17",
+            "url": "https://arxiv.org/abs/2310.13012v2"
+        },
+        "316": {
+            "id": "2311.10537v3",
+            "title": "MedAgents Large Language Models as Collaborators for Zero-shot Medical Reasoning",
+            "date": "2023-11-16",
+            "url": "https://arxiv.org/abs/2311.10537v3"
+        },
+        "317": {
+            "id": "2305.12031v2",
+            "title": "Clinical Camel An Open Expert-Level Medical Language Model with Dialogue-Based Knowledge Encoding",
+            "date": "2023-05-19",
+            "url": "https://arxiv.org/abs/2305.12031v2"
+        },
+        "318": {
+            "id": "2304.14454v3",
+            "title": "PMC-LLaMA Towards Building Open-source Language Models for Medicine",
+            "date": "2023-04-27",
+            "url": "https://arxiv.org/abs/2304.14454v3"
+        },
+        "319": {
+            "id": "2311.16079v1",
+            "title": "MEDITRON-70B Scaling Medical Pretraining for Large Language Models",
+            "date": "2023-11-27",
+            "url": "https://arxiv.org/abs/2311.16079v1"
+        },
+        "320": {
+            "id": "2404.04067v2",
+            "title": "CLUE A Clinical Language Understanding Evaluation for LLMs",
+            "date": "2024-04-05",
+            "url": "https://arxiv.org/abs/2404.04067v2"
+        },
+        "321": {
+            "id": "2306.09928v1",
+            "title": "Friend or Foe Exploring the Implications of Large Language Models on the Science System",
+            "date": "2023-06-16",
+            "url": "https://arxiv.org/abs/2306.09928v1"
+        },
+        "322": {
+            "id": "2403.08495v2",
+            "title": "Automatic Interactive Evaluation for Large Language Models with State Aware Patient Simulator",
+            "date": "2024-03-13",
+            "url": "https://arxiv.org/abs/2403.08495v2"
+        },
+        "323": {
+            "id": "2309.02077v1",
+            "title": "An Automatic Evaluation Framework for Multi-turn Medical Consultations Capabilities of Large Language Models",
+            "date": "2023-09-05",
+            "url": "https://arxiv.org/abs/2309.02077v1"
+        },
+        "324": {
+            "id": "2402.05136v1",
+            "title": "LV-Eval A Balanced Long-Context Benchmark with 5 Length Levels Up to 256K",
+            "date": "2024-02-06",
+            "url": "https://arxiv.org/abs/2402.05136v1"
+        },
+        "325": {
+            "id": "2311.17330v1",
+            "title": "Biomedical knowledge graph-enhanced prompt generation for large language models",
+            "date": "2023-11-29",
+            "url": "https://arxiv.org/abs/2311.17330v1"
+        },
+        "326": {
+            "id": "2305.04757v2",
+            "title": "Augmented Large Language Models with Parametric Knowledge Guiding",
+            "date": "2023-05-08",
+            "url": "https://arxiv.org/abs/2305.04757v2"
+        },
+        "327": {
+            "id": "2305.19213v1",
+            "title": "The Magic of IF Investigating Causal Reasoning Abilities in Large Language Models of Code",
+            "date": "2023-05-30",
+            "url": "https://arxiv.org/abs/2305.19213v1"
+        },
+        "328": {
+            "id": "2311.11212v1",
+            "title": "Can We Utilize Pre-trained Language Models within Causal Discovery Algorithms",
+            "date": "2023-11-19",
+            "url": "https://arxiv.org/abs/2311.11212v1"
+        },
+        "329": {
+            "id": "2402.18139v2",
+            "title": "Cause and Effect Can Large Language Models Truly Understand Causality",
+            "date": "2024-02-28",
+            "url": "https://arxiv.org/abs/2402.18139v2"
+        },
+        "330": {
+            "id": "2404.05545v1",
+            "title": "Evaluating Interventional Reasoning Capabilities of Large Language Models",
+            "date": "2024-04-08",
+            "url": "https://arxiv.org/abs/2404.05545v1"
+        },
+        "331": {
+            "id": "2109.01904v6",
+            "title": "Estimating Categorical Counterfactuals via Deep Twin Networks",
+            "date": "2021-09-04",
+            "url": "https://arxiv.org/abs/2109.01904v6"
+        },
+        "332": {
+            "id": "2312.04350v3",
+            "title": "CLadder Assessing Causal Reasoning in Language Models",
+            "date": "2023-12-07",
+            "url": "https://arxiv.org/abs/2312.04350v3"
+        },
+        "333": {
+            "id": "2306.16902v1",
+            "title": "From Query Tools to Causal Architects Harnessing Large Language Models for Advanced Causal Discovery from Data",
+            "date": "2023-06-29",
+            "url": "https://arxiv.org/abs/2306.16902v1"
+        },
+        "334": {
+            "id": "2402.11068v1",
+            "title": "Bridging Causal Discovery and Large Language Models A Comprehensive Survey of Integrative Approaches and Future Directions",
+            "date": "2024-02-16",
+            "url": "https://arxiv.org/abs/2402.11068v1"
+        },
+        "335": {
+            "id": "2209.14279v1",
+            "title": "Causal Proxy Models for Concept-Based Model Explanations",
+            "date": "2022-09-28",
+            "url": "https://arxiv.org/abs/2209.14279v1"
+        },
+        "336": {
+            "id": "2303.02186v2",
+            "title": "Causal Deep Learning",
+            "date": "2023-03-03",
+            "url": "https://arxiv.org/abs/2303.02186v2"
+        },
+        "337": {
+            "id": "2306.05836v3",
+            "title": "Can Large Language Models Infer Causation from Correlation",
+            "date": "2023-06-09",
+            "url": "https://arxiv.org/abs/2306.05836v3"
+        },
+        "338": {
+            "id": "2402.12091v1",
+            "title": "Do Large Language Models Understand Logic or Just Mimick Context",
+            "date": "2024-02-19",
+            "url": "https://arxiv.org/abs/2402.12091v1"
+        },
+        "339": {
+            "id": "2310.15117v1",
+            "title": "Causal Inference Using LLM-Guided Discovery",
+            "date": "2023-10-23",
+            "url": "https://arxiv.org/abs/2310.15117v1"
+        },
+        "340": {
+            "id": "2402.03941v1",
+            "title": "Discovery of the Hidden World with Large Language Models",
+            "date": "2024-02-06",
+            "url": "https://arxiv.org/abs/2402.03941v1"
+        },
+        "341": {
+            "id": "2402.16713v1",
+            "title": "Navigating Complexity Orchestrated Problem Solving with Multi-Agent LLMs",
+            "date": "2024-02-26",
+            "url": "https://arxiv.org/abs/2402.16713v1"
+        },
+        "342": {
+            "id": "2402.01108v1",
+            "title": "Reasoning Capacity in Multi-Agent Systems Limitations, Challenges and Human-Centered Solutions",
+            "date": "2024-02-02",
+            "url": "https://arxiv.org/abs/2402.01108v1"
+        },
+        "343": {
+            "id": "2402.11291v2",
+            "title": "Puzzle Solving using Reasoning of Large Language Models A Survey",
+            "date": "2024-02-17",
+            "url": "https://arxiv.org/abs/2402.11291v2"
+        },
+        "344": {
+            "id": "2210.13312v2",
+            "title": "Neural Theory-of-Mind On the Limits of Social Intelligence in Large LMs",
+            "date": "2022-10-24",
+            "url": "https://arxiv.org/abs/2210.13312v2"
+        },
+        "345": {
+            "id": "2403.02451v1",
+            "title": "Views Are My Own, But Also Yours Benchmarking Theory of Mind using Common Ground",
+            "date": "2024-03-04",
+            "url": "https://arxiv.org/abs/2403.02451v1"
+        },
+        "346": {
+            "id": "2305.15068v2",
+            "title": "ToMChallenges A Principle-Guided Dataset and Diverse Evaluation Tasks for Exploring Theory of Mind",
+            "date": "2023-05-24",
+            "url": "https://arxiv.org/abs/2305.15068v2"
+        },
+        "347": {
+            "id": "2305.03353v2",
+            "title": "MindGames Targeting Theory of Mind in Large Language Models with Dynamic Epistemic Modal Logic",
+            "date": "2023-05-05",
+            "url": "https://arxiv.org/abs/2305.03353v2"
+        },
+        "348": {
+            "id": "2404.13627v1",
+            "title": "NegotiationToM A Benchmark for Stress-testing Machine Theory of Mind on Negotiation Surrounding",
+            "date": "2024-04-21",
+            "url": "https://arxiv.org/abs/2404.13627v1"
+        },
+        "349": {
+            "id": "2401.13311v1",
+            "title": "ConTextual Evaluating Context-Sensitive Text-Rich Visual Reasoning in Large Multimodal Models",
+            "date": "2024-01-24",
+            "url": "https://arxiv.org/abs/2401.13311v1"
+        },
+        "350": {
+            "id": "2312.17122v3",
+            "title": "Large Language Model for Causal Decision Making",
+            "date": "2023-12-28",
+            "url": "https://arxiv.org/abs/2312.17122v3"
+        },
+        "351": {
+            "id": "2404.06349v1",
+            "title": "CausalBench A Comprehensive Benchmark for Causal Learning Capability of Large Language Models",
+            "date": "2024-04-09",
+            "url": "https://arxiv.org/abs/2404.06349v1"
+        },
+        "352": {
+            "id": "2304.05524v1",
+            "title": "Understanding Causality with Large Language Models Feasibility and Opportunities",
+            "date": "2023-04-11",
+            "url": "https://arxiv.org/abs/2304.05524v1"
+        },
+        "353": {
+            "id": "2403.18346v3",
+            "title": "Quantifying and Mitigating Unimodal Biases in Multimodal Large Language Models A Causal Perspective",
+            "date": "2024-03-27",
+            "url": "https://arxiv.org/abs/2403.18346v3"
+        },
+        "354": {
+            "id": "2312.06685v1",
+            "title": "Causal-CoG A Causal-Effect Look at Context Generation for Boosting Multi-modal Language Models",
+            "date": "2023-12-09",
+            "url": "https://arxiv.org/abs/2312.06685v1"
+        },
+        "355": {
+            "id": "2401.08103v3",
+            "title": "Resolving Ethics Trade-offs in Implementing Responsible AI",
+            "date": "2024-01-16",
+            "url": "https://arxiv.org/abs/2401.08103v3"
+        },
+        "356": {
+            "id": "2005.04949v2",
+            "title": "Designing for Human Rights in AI",
+            "date": "2020-05-11",
+            "url": "https://arxiv.org/abs/2005.04949v2"
+        },
+        "357": {
+            "id": "2310.18303v1",
+            "title": "Socially Cognizant Robotics for a Technology Enhanced Society",
+            "date": "2023-10-27",
+            "url": "https://arxiv.org/abs/2310.18303v1"
+        },
+        "358": {
+            "id": "2306.05949v2",
+            "title": "Evaluating the Social Impact of Generative AI Systems in Systems and Society",
+            "date": "2023-06-09",
+            "url": "https://arxiv.org/abs/2306.05949v2"
+        },
+        "359": {
+            "id": "2212.12633v2",
+            "title": "Inclusive Artificial Intelligence",
+            "date": "2022-12-24",
+            "url": "https://arxiv.org/abs/2212.12633v2"
+        },
+        "360": {
+            "id": "2302.11565v1",
+            "title": "Responsible and Inclusive Technology Framework A Formative Framework to Promote Societal Considerations in Information Technology Contexts",
+            "date": "2023-02-22",
+            "url": "https://arxiv.org/abs/2302.11565v1"
+        },
+        "361": {
+            "id": "2403.04226v1",
+            "title": "Disciplining deliberation a sociotechnical perspective on machine learning trade-offs",
+            "date": "2024-03-07",
+            "url": "https://arxiv.org/abs/2403.04226v1"
+        },
+        "362": {
+            "id": "2001.04348v1",
+            "title": "Leveraging Multi-Method Evaluation for Multi-Stakeholder Settings",
+            "date": "2019-12-14",
+            "url": "https://arxiv.org/abs/2001.04348v1"
+        },
+        "363": {
+            "id": "2404.00021v1",
+            "title": "Evaluatology The Science and Engineering of Evaluation",
+            "date": "2024-03-19",
+            "url": "https://arxiv.org/abs/2404.00021v1"
+        },
+        "364": {
+            "id": "2105.06551v1",
+            "title": "Axes for Sociotechnical Inquiry in AI Research",
+            "date": "2021-04-26",
+            "url": "https://arxiv.org/abs/2105.06551v1"
+        },
+        "365": {
+            "id": "1306.5247v1",
+            "title": "A Modest Proposal (Possible) Implications for Appropriation",
+            "date": "2013-06-21",
+            "url": "https://arxiv.org/abs/1306.5247v1"
+        },
+        "366": {
+            "id": "2105.08018v1",
+            "title": "Buying time in software development how estimates become commitments",
+            "date": "2021-05-17",
+            "url": "https://arxiv.org/abs/2105.08018v1"
+        },
+        "367": {
+            "id": "1806.03235v1",
+            "title": "Policy Scan and Technology Strategy Design methodology",
+            "date": "2018-05-28",
+            "url": "https://arxiv.org/abs/1806.03235v1"
+        },
+        "368": {
+            "id": "2304.00002v2",
+            "title": "Beyond Interpretable Benchmarks Contextual Learning through Cognitive and Multimodal Perception",
+            "date": "2022-12-04",
+            "url": "https://arxiv.org/abs/2304.00002v2"
+        }
     }
 }

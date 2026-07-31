@@ -108,5 +108,649 @@
         "105": "2212.10873v3",
         "106": "2207.01736v1",
         "107": "2402.10424v1"
+    },
+    "reference_detail": {
+        "1": {
+            "id": "2208.01066v3",
+            "title": "What Can Transformers Learn In-Context A Case Study of Simple Function Classes",
+            "date": "2022-08-01",
+            "url": "https://arxiv.org/abs/2208.01066v3"
+        },
+        "2": {
+            "id": "2403.09703v1",
+            "title": "Concept-aware Data Construction Improves In-context Learning of Language Models",
+            "date": "2024-03-08",
+            "url": "https://arxiv.org/abs/2403.09703v1"
+        },
+        "3": {
+            "id": "2305.13775v1",
+            "title": "Concept-aware Training Improves In-context Learning Ability of Language Models",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.13775v1"
+        },
+        "4": {
+            "id": "2305.04320v2",
+            "title": "Unified Demonstration Retriever for In-Context Learning",
+            "date": "2023-05-07",
+            "url": "https://arxiv.org/abs/2305.04320v2"
+        },
+        "5": {
+            "id": "2309.06054v2",
+            "title": "Breaking through the learning plateaus of in-context learning in Transformer",
+            "date": "2023-09-12",
+            "url": "https://arxiv.org/abs/2309.06054v2"
+        },
+        "6": {
+            "id": "2305.14210v2",
+            "title": "Skill-Based Few-Shot Selection for In-Context Learning",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.14210v2"
+        },
+        "7": {
+            "id": "2402.12976v1",
+            "title": "The Impact of Demonstrations on Multilingual In-Context Learning A Multidimensional Analysis",
+            "date": "2024-02-20",
+            "url": "https://arxiv.org/abs/2402.12976v1"
+        },
+        "8": {
+            "id": "2310.12300v2",
+            "title": "Measuring Pointwise $\\mathcal{V}$-Usable Information In-Context-ly",
+            "date": "2023-10-18",
+            "url": "https://arxiv.org/abs/2310.12300v2"
+        },
+        "9": {
+            "id": "2311.09606v2",
+            "title": "GistScore Learning Better Representations for In-Context Example Selection with Gist Bottlenecks",
+            "date": "2023-11-16",
+            "url": "https://arxiv.org/abs/2311.09606v2"
+        },
+        "10": {
+            "id": "2305.16938v2",
+            "title": "Few-shot Fine-tuning vs. In-context Learning A Fair Comparison and Evaluation",
+            "date": "2023-05-26",
+            "url": "https://arxiv.org/abs/2305.16938v2"
+        },
+        "11": {
+            "id": "2305.16704v1",
+            "title": "A Closer Look at In-Context Learning under Distribution Shifts",
+            "date": "2023-05-26",
+            "url": "https://arxiv.org/abs/2305.16704v1"
+        },
+        "12": {
+            "id": "2401.03385v2",
+            "title": "Grimoire is All You Need for Enhancing Large Language Models",
+            "date": "2024-01-07",
+            "url": "https://arxiv.org/abs/2401.03385v2"
+        },
+        "13": {
+            "id": "2303.07895v1",
+            "title": "The Learnability of In-Context Learning",
+            "date": "2023-03-14",
+            "url": "https://arxiv.org/abs/2303.07895v1"
+        },
+        "14": {
+            "id": "2305.12600v1",
+            "title": "PRODIGY Enabling In-context Learning Over Graphs",
+            "date": "2023-05-21",
+            "url": "https://arxiv.org/abs/2305.12600v1"
+        },
+        "15": {
+            "id": "2303.07971v1",
+            "title": "A Theory of Emergent In-Context Learning as Implicit Structure Induction",
+            "date": "2023-03-14",
+            "url": "https://arxiv.org/abs/2303.07971v1"
+        },
+        "16": {
+            "id": "1810.04805v2",
+            "title": "BERT Pre-training of Deep Bidirectional Transformers for Language Understanding",
+            "date": "2018-10-11",
+            "url": "https://arxiv.org/abs/1810.04805v2"
+        },
+        "17": {
+            "id": "2010.02194v1",
+            "title": "Self-training Improves Pre-training for Natural Language Understanding",
+            "date": "2020-10-05",
+            "url": "https://arxiv.org/abs/2010.02194v1"
+        },
+        "18": {
+            "id": "2112.11446v2",
+            "title": "Scaling Language Models Methods, Analysis & Insights from Training Gopher",
+            "date": "2021-12-08",
+            "url": "https://arxiv.org/abs/2112.11446v2"
+        },
+        "19": {
+            "id": "2404.02204v1",
+            "title": "Emergent Abilities in Reduced-Scale Generative Language Models",
+            "date": "2024-04-02",
+            "url": "https://arxiv.org/abs/2404.02204v1"
+        },
+        "20": {
+            "id": "2404.03558v1",
+            "title": "How does Multi-Task Training Affect Transformer In-Context Capabilities Investigations with Function Classes",
+            "date": "2024-04-04",
+            "url": "https://arxiv.org/abs/2404.03558v1"
+        },
+        "21": {
+            "id": "2305.12907v1",
+            "title": "Meta-in-context learning in large language models",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.12907v1"
+        },
+        "22": {
+            "id": "2309.12727v1",
+            "title": "In-context Interference in Chat-based Large Language Models",
+            "date": "2023-09-22",
+            "url": "https://arxiv.org/abs/2309.12727v1"
+        },
+        "23": {
+            "id": "2111.02080v6",
+            "title": "An Explanation of In-context Learning as Implicit Bayesian Inference",
+            "date": "2021-11-03",
+            "url": "https://arxiv.org/abs/2111.02080v6"
+        },
+        "24": {
+            "id": "2307.06435v9",
+            "title": "A Comprehensive Overview of Large Language Models",
+            "date": "2023-07-12",
+            "url": "https://arxiv.org/abs/2307.06435v9"
+        },
+        "25": {
+            "id": "2312.02520v2",
+            "title": "Towards More Unified In-context Visual Understanding",
+            "date": "2023-12-05",
+            "url": "https://arxiv.org/abs/2312.02520v2"
+        },
+        "26": {
+            "id": "2308.05061v4",
+            "title": "Fine-Tune Language Models as Multi-Modal Differential Equation Solvers",
+            "date": "2023-08-09",
+            "url": "https://arxiv.org/abs/2308.05061v4"
+        },
+        "27": {
+            "id": "2311.03648v1",
+            "title": "Instruct Me More! Random Prompting for Visual In-Context Learning",
+            "date": "2023-11-07",
+            "url": "https://arxiv.org/abs/2311.03648v1"
+        },
+        "28": {
+            "id": "2311.18021v1",
+            "title": "Understanding and Improving In-Context Learning on Vision-language Models",
+            "date": "2023-11-29",
+            "url": "https://arxiv.org/abs/2311.18021v1"
+        },
+        "29": {
+            "id": "2304.06729v1",
+            "title": "Meta-Learned Models of Cognition",
+            "date": "2023-04-12",
+            "url": "https://arxiv.org/abs/2304.06729v1"
+        },
+        "30": {
+            "id": "1812.04955v5",
+            "title": "Prior-Knowledge and Attention-based Meta-Learning for Few-Shot Learning",
+            "date": "2018-12-11",
+            "url": "https://arxiv.org/abs/1812.04955v5"
+        },
+        "31": {
+            "id": "2212.10670v1",
+            "title": "In-context Learning Distillation Transferring Few-shot Learning Ability of Pre-trained Language Models",
+            "date": "2022-12-20",
+            "url": "https://arxiv.org/abs/2212.10670v1"
+        },
+        "32": {
+            "id": "1905.12917v3",
+            "title": "Learning to Balance Bayesian Meta-Learning for Imbalanced and Out-of-distribution Tasks",
+            "date": "2019-05-30",
+            "url": "https://arxiv.org/abs/1905.12917v3"
+        },
+        "33": {
+            "id": "2108.12104v1",
+            "title": "Binocular Mutual Learning for Improving Few-shot Classification",
+            "date": "2021-08-27",
+            "url": "https://arxiv.org/abs/2108.12104v1"
+        },
+        "34": {
+            "id": "2403.03472v1",
+            "title": "Boosting Meta-Training with Base Class Information for Few-Shot Learning",
+            "date": "2024-03-06",
+            "url": "https://arxiv.org/abs/2403.03472v1"
+        },
+        "35": {
+            "id": "2310.08049v3",
+            "title": "Is attention required for ICL Exploring the Relationship Between Model Architecture and In-Context Learning Ability",
+            "date": "2023-10-12",
+            "url": "https://arxiv.org/abs/2310.08049v3"
+        },
+        "36": {
+            "id": "2306.15091v1",
+            "title": "Understanding In-Context Learning via Supportive Pretraining Data",
+            "date": "2023-06-26",
+            "url": "https://arxiv.org/abs/2306.15091v1"
+        },
+        "37": {
+            "id": "2305.13299v1",
+            "title": "Measuring Inductive Biases of In-Context Learning with Underspecified Demonstrations",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.13299v1"
+        },
+        "38": {
+            "id": "2312.03002v1",
+            "title": "The mechanistic basis of data dependence and abrupt learning in an in-context classification task",
+            "date": "2023-12-03",
+            "url": "https://arxiv.org/abs/2312.03002v1"
+        },
+        "39": {
+            "id": "2402.08674v1",
+            "title": "Human Curriculum Effects Emerge with In-Context Learning in Neural Networks",
+            "date": "2024-02-13",
+            "url": "https://arxiv.org/abs/2402.08674v1"
+        },
+        "40": {
+            "id": "2306.15063v2",
+            "title": "Pretraining task diversity and the emergence of non-Bayesian in-context learning for regression",
+            "date": "2023-06-26",
+            "url": "https://arxiv.org/abs/2306.15063v2"
+        },
+        "41": {
+            "id": "2305.19420v2",
+            "title": "What and How does In-Context Learning Learn Bayesian Model Averaging, Parameterization, and Generalization",
+            "date": "2023-05-30",
+            "url": "https://arxiv.org/abs/2305.19420v2"
+        },
+        "42": {
+            "id": "1612.02803v5",
+            "title": "The Physical Systems Behind Optimization Algorithms",
+            "date": "2016-12-08",
+            "url": "https://arxiv.org/abs/1612.02803v5"
+        },
+        "43": {
+            "id": "2110.14048v2",
+            "title": "Conflict-Averse Gradient Descent for Multi-task Learning",
+            "date": "2021-10-26",
+            "url": "https://arxiv.org/abs/2110.14048v2"
+        },
+        "44": {
+            "id": "2111.05323v1",
+            "title": "Variational Multi-Task Learning with Gumbel-Softmax Priors",
+            "date": "2021-11-09",
+            "url": "https://arxiv.org/abs/2111.05323v1"
+        },
+        "45": {
+            "id": "2402.04005v1",
+            "title": "Bayesian Uncertainty for Gradient Aggregation in Multi-Task Learning",
+            "date": "2024-02-06",
+            "url": "https://arxiv.org/abs/2402.04005v1"
+        },
+        "46": {
+            "id": "2310.08391v2",
+            "title": "How Many Pretraining Tasks Are Needed for In-Context Learning of Linear Regression",
+            "date": "2023-10-12",
+            "url": "https://arxiv.org/abs/2310.08391v2"
+        },
+        "47": {
+            "id": "2403.06826v1",
+            "title": "In-context Exploration-Exploitation for Reinforcement Learning",
+            "date": "2024-03-11",
+            "url": "https://arxiv.org/abs/2403.06826v1"
+        },
+        "48": {
+            "id": "2004.03573v5",
+            "title": "Neural Analogical Matching",
+            "date": "2020-04-07",
+            "url": "https://arxiv.org/abs/2004.03573v5"
+        },
+        "49": {
+            "id": "2401.06471v1",
+            "title": "A Brain-inspired Computational Model for Human-like Concept Learning",
+            "date": "2024-01-12",
+            "url": "https://arxiv.org/abs/2401.06471v1"
+        },
+        "50": {
+            "id": "2403.12736v1",
+            "title": "Towards Multimodal In-Context Learning for Vision & Language Models",
+            "date": "2024-03-19",
+            "url": "https://arxiv.org/abs/2403.12736v1"
+        },
+        "51": {
+            "id": "2112.08633v2",
+            "title": "Learning To Retrieve Prompts for In-Context Learning",
+            "date": "2021-12-16",
+            "url": "https://arxiv.org/abs/2112.08633v2"
+        },
+        "52": {
+            "id": "2206.03950v3",
+            "title": "Transfer learning to decode brain states reflecting the relationship between cognitive tasks",
+            "date": "2022-06-07",
+            "url": "https://arxiv.org/abs/2206.03950v3"
+        },
+        "53": {
+            "id": "2208.04707v1",
+            "title": "Context sequence theory a common explanation for multiple types of learning",
+            "date": "2022-07-17",
+            "url": "https://arxiv.org/abs/2208.04707v1"
+        },
+        "54": {
+            "id": "2212.02499v2",
+            "title": "Images Speak in Images A Generalist Painter for In-Context Visual Learning",
+            "date": "2022-12-05",
+            "url": "https://arxiv.org/abs/2212.02499v2"
+        },
+        "55": {
+            "id": "2312.01771v1",
+            "title": "IMProv Inpainting-based Multimodal Prompting for Computer Vision Tasks",
+            "date": "2023-12-04",
+            "url": "https://arxiv.org/abs/2312.01771v1"
+        },
+        "56": {
+            "id": "2304.04748v1",
+            "title": "Exploring Effective Factors for Improving Visual In-Context Learning",
+            "date": "2023-04-10",
+            "url": "https://arxiv.org/abs/2304.04748v1"
+        },
+        "57": {
+            "id": "2305.14800v6",
+            "title": "Exploring Diverse In-Context Configurations for Image Captioning",
+            "date": "2023-05-24",
+            "url": "https://arxiv.org/abs/2305.14800v6"
+        },
+        "58": {
+            "id": "2309.07915v3",
+            "title": "MMICL Empowering Vision-language Model with Multi-Modal In-Context Learning",
+            "date": "2023-09-14",
+            "url": "https://arxiv.org/abs/2309.07915v3"
+        },
+        "59": {
+            "id": "2310.12520v1",
+            "title": "Lost in Translation When GPT-4V(ision) Can't See Eye to Eye with Text. A Vision-Language-Consistency Analysis of VLLMs and Beyond",
+            "date": "2023-10-19",
+            "url": "https://arxiv.org/abs/2310.12520v1"
+        },
+        "60": {
+            "id": "2307.06281v3",
+            "title": "MMBench Is Your Multi-modal Model an All-around Player",
+            "date": "2023-07-12",
+            "url": "https://arxiv.org/abs/2307.06281v3"
+        },
+        "61": {
+            "id": "2402.13607v2",
+            "title": "CODIS Benchmarking Context-Dependent Visual Comprehension for Multimodal Large Language Models",
+            "date": "2024-02-21",
+            "url": "https://arxiv.org/abs/2402.13607v2"
+        },
+        "62": {
+            "id": "2201.11732v2",
+            "title": "IGLUE A Benchmark for Transfer Learning across Modalities, Tasks, and Languages",
+            "date": "2022-01-27",
+            "url": "https://arxiv.org/abs/2201.11732v2"
+        },
+        "63": {
+            "id": "2311.07230v1",
+            "title": "How are Prompts Different in Terms of Sensitivity",
+            "date": "2023-11-13",
+            "url": "https://arxiv.org/abs/2311.07230v1"
+        },
+        "64": {
+            "id": "2211.11890v1",
+            "title": "TEMPERA Test-Time Prompting via Reinforcement Learning",
+            "date": "2022-11-21",
+            "url": "https://arxiv.org/abs/2211.11890v1"
+        },
+        "65": {
+            "id": "2206.01958v1",
+            "title": "Instance-wise Prompt Tuning for Pretrained Language Models",
+            "date": "2022-06-04",
+            "url": "https://arxiv.org/abs/2206.01958v1"
+        },
+        "66": {
+            "id": "2305.03937v1",
+            "title": "Residual Prompt Tuning Improving Prompt Tuning with Residual Reparameterization",
+            "date": "2023-05-06",
+            "url": "https://arxiv.org/abs/2305.03937v1"
+        },
+        "67": {
+            "id": "2306.04933v1",
+            "title": "InfoPrompt Information-Theoretic Soft Prompt Tuning for Natural Language Understanding",
+            "date": "2023-06-08",
+            "url": "https://arxiv.org/abs/2306.04933v1"
+        },
+        "68": {
+            "id": "2210.10362v3",
+            "title": "CPL Counterfactual Prompt Learning for Vision and Language Models",
+            "date": "2022-10-19",
+            "url": "https://arxiv.org/abs/2210.10362v3"
+        },
+        "69": {
+            "id": "2204.00166v1",
+            "title": "Making Pre-trained Language Models End-to-end Few-shot Learners with Contrastive Prompt Tuning",
+            "date": "2022-04-01",
+            "url": "https://arxiv.org/abs/2204.00166v1"
+        },
+        "70": {
+            "id": "2303.13283v1",
+            "title": "Visual-Language Prompt Tuning with Knowledge-guided Context Optimization",
+            "date": "2023-03-23",
+            "url": "https://arxiv.org/abs/2303.13283v1"
+        },
+        "71": {
+            "id": "2402.06733v2",
+            "title": "NICE To Optimize In-Context Examples or Not",
+            "date": "2024-02-09",
+            "url": "https://arxiv.org/abs/2402.06733v2"
+        },
+        "72": {
+            "id": "2302.13539v3",
+            "title": "Finding Support Examples for In-Context Learning",
+            "date": "2023-02-27",
+            "url": "https://arxiv.org/abs/2302.13539v3"
+        },
+        "73": {
+            "id": "2305.14907v3",
+            "title": "Coverage-based Example Selection for In-Context Learning",
+            "date": "2023-05-24",
+            "url": "https://arxiv.org/abs/2305.14907v3"
+        },
+        "74": {
+            "id": "2305.14502v2",
+            "title": "RetICL Sequential Retrieval of In-Context Examples with Reinforcement Learning",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.14502v2"
+        },
+        "75": {
+            "id": "1504.04596v2",
+            "title": "Structural Learning of Diverse Ranking",
+            "date": "2015-04-17",
+            "url": "https://arxiv.org/abs/1504.04596v2"
+        },
+        "76": {
+            "id": "2212.10378v2",
+            "title": "Data Curation Alone Can Stabilize In-context Learning",
+            "date": "2022-12-20",
+            "url": "https://arxiv.org/abs/2212.10378v2"
+        },
+        "77": {
+            "id": "2312.02614v2",
+            "title": "Prompt Optimization via Adversarial In-Context Learning",
+            "date": "2023-12-05",
+            "url": "https://arxiv.org/abs/2312.02614v2"
+        },
+        "78": {
+            "id": "1902.08438v4",
+            "title": "Online Meta-Learning",
+            "date": "2019-02-22",
+            "url": "https://arxiv.org/abs/1902.08438v4"
+        },
+        "79": {
+            "id": "2011.08899v1",
+            "title": "Multimodal Prototypical Networks for Few-shot Learning",
+            "date": "2020-11-17",
+            "url": "https://arxiv.org/abs/2011.08899v1"
+        },
+        "80": {
+            "id": "1703.03400v3",
+            "title": "Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks",
+            "date": "2017-03-09",
+            "url": "https://arxiv.org/abs/1703.03400v3"
+        },
+        "81": {
+            "id": "2110.15943v2",
+            "title": "MetaICL Learning to Learn In Context",
+            "date": "2021-10-29",
+            "url": "https://arxiv.org/abs/2110.15943v2"
+        },
+        "82": {
+            "id": "2303.06571v2",
+            "title": "Gradient-Regulated Meta-Prompt Learning for Generalizable Vision-Language Models",
+            "date": "2023-03-12",
+            "url": "https://arxiv.org/abs/2303.06571v2"
+        },
+        "83": {
+            "id": "2012.07769v1",
+            "title": "Variable-Shot Adaptation for Online Meta-Learning",
+            "date": "2020-12-14",
+            "url": "https://arxiv.org/abs/2012.07769v1"
+        },
+        "84": {
+            "id": "2303.12314v4",
+            "title": "Self-supervised Meta-Prompt Learning with Meta-Gradient Regularization for Few-shot Generalization",
+            "date": "2023-03-22",
+            "url": "https://arxiv.org/abs/2303.12314v4"
+        },
+        "85": {
+            "id": "2007.14658v2",
+            "title": "Meta-Learning with Context-Agnostic Initialisations",
+            "date": "2020-07-29",
+            "url": "https://arxiv.org/abs/2007.14658v2"
+        },
+        "86": {
+            "id": "2101.08587v1",
+            "title": "Stress Testing of Meta-learning Approaches for Few-shot Learning",
+            "date": "2021-01-21",
+            "url": "https://arxiv.org/abs/2101.08587v1"
+        },
+        "87": {
+            "id": "2305.19148v3",
+            "title": "Mitigating Label Biases for In-context Learning",
+            "date": "2023-05-28",
+            "url": "https://arxiv.org/abs/2305.19148v3"
+        },
+        "88": {
+            "id": "2309.17249v2",
+            "title": "Batch Calibration Rethinking Calibration for In-Context Learning and Prompt Engineering",
+            "date": "2023-09-29",
+            "url": "https://arxiv.org/abs/2309.17249v2"
+        },
+        "89": {
+            "id": "2310.10266v1",
+            "title": "Generative Calibration for In-context Learning",
+            "date": "2023-10-16",
+            "url": "https://arxiv.org/abs/2310.10266v1"
+        },
+        "90": {
+            "id": "2303.13217v3",
+            "title": "Fairness-guided Few-shot Prompting for Large Language Models",
+            "date": "2023-03-23",
+            "url": "https://arxiv.org/abs/2303.13217v3"
+        },
+        "91": {
+            "id": "2312.07476v2",
+            "title": "Comparable Demonstrations are Important in In-Context Learning A Novel Perspective on Demonstration Selection",
+            "date": "2023-12-12",
+            "url": "https://arxiv.org/abs/2312.07476v2"
+        },
+        "92": {
+            "id": "2205.12685v2",
+            "title": "Ground-Truth Labels Matter A Deeper Look into Input-Label Demonstrations",
+            "date": "2022-05-25",
+            "url": "https://arxiv.org/abs/2205.12685v2"
+        },
+        "93": {
+            "id": "2209.07661v3",
+            "title": "On the Relation between Sensitivity and Accuracy in In-context Learning",
+            "date": "2022-09-16",
+            "url": "https://arxiv.org/abs/2209.07661v3"
+        },
+        "94": {
+            "id": "2302.11042v2",
+            "title": "In-context Example Selection with Influences",
+            "date": "2023-02-21",
+            "url": "https://arxiv.org/abs/2302.11042v2"
+        },
+        "95": {
+            "id": "2403.17125v1",
+            "title": "The Strong Pull of Prior Knowledge in Large Language Models and Its Impact on Emotion Recognition",
+            "date": "2024-03-25",
+            "url": "https://arxiv.org/abs/2403.17125v1"
+        },
+        "96": {
+            "id": "2311.00237v2",
+            "title": "The Mystery of In-Context Learning A Comprehensive Survey on Interpretation and Analysis",
+            "date": "2023-11-01",
+            "url": "https://arxiv.org/abs/2311.00237v2"
+        },
+        "97": {
+            "id": "2401.02630v1",
+            "title": "Model-Agnostic Interpretation Framework in Machine Learning A Comparative Study in NBA Sports",
+            "date": "2024-01-05",
+            "url": "https://arxiv.org/abs/2401.02630v1"
+        },
+        "98": {
+            "id": "2402.02933v1",
+            "title": "InterpretCC Conditional Computation for Inherently Interpretable Neural Networks",
+            "date": "2024-02-05",
+            "url": "https://arxiv.org/abs/2402.02933v1"
+        },
+        "99": {
+            "id": "2305.14171v3",
+            "title": "In-Context Probing Toward Building Robust Classifiers via Probing Large Language Models",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.14171v3"
+        },
+        "100": {
+            "id": "2307.02690v1",
+            "title": "Scaling In-Context Demonstrations with Structured Attention",
+            "date": "2023-07-05",
+            "url": "https://arxiv.org/abs/2307.02690v1"
+        },
+        "101": {
+            "id": "2402.04248v2",
+            "title": "Can Mamba Learn How to Learn A Comparative Study on In-Context Learning Tasks",
+            "date": "2024-02-06",
+            "url": "https://arxiv.org/abs/2402.04248v2"
+        },
+        "102": {
+            "id": "2402.00743v1",
+            "title": "Benefits of Transformer In-Context Learning in Linear Regression Tasks with Unstructured Data",
+            "date": "2024-02-01",
+            "url": "https://arxiv.org/abs/2402.00743v1"
+        },
+        "103": {
+            "id": "2104.06045v1",
+            "title": "Structural analysis of an all-purpose question answering model",
+            "date": "2021-04-13",
+            "url": "https://arxiv.org/abs/2104.06045v1"
+        },
+        "104": {
+            "id": "2402.02364v1",
+            "title": "The Developmental Landscape of In-Context Learning",
+            "date": "2024-02-04",
+            "url": "https://arxiv.org/abs/2402.02364v1"
+        },
+        "105": {
+            "id": "2212.10873v3",
+            "title": "Prompt-Augmented Linear Probing Scaling beyond the Limit of Few-shot In-Context Learners",
+            "date": "2022-12-21",
+            "url": "https://arxiv.org/abs/2212.10873v3"
+        },
+        "106": {
+            "id": "2207.01736v1",
+            "title": "Probing via Prompting",
+            "date": "2022-07-04",
+            "url": "https://arxiv.org/abs/2207.01736v1"
+        },
+        "107": {
+            "id": "2402.10424v1",
+            "title": "Understanding In-Context Learning with a Pelican Soup Framework",
+            "date": "2024-02-16",
+            "url": "https://arxiv.org/abs/2402.10424v1"
+        }
     }
 }

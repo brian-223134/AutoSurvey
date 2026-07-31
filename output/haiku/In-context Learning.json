@@ -384,5 +384,2305 @@
         "381": "2103.06769v1",
         "382": "2205.10123v1",
         "383": "2005.00582v1"
+    },
+    "reference_detail": {
+        "1": {
+            "id": "2303.07895v1",
+            "title": "The Learnability of In-Context Learning",
+            "date": "2023-03-14",
+            "url": "https://arxiv.org/abs/2303.07895v1"
+        },
+        "2": {
+            "id": "2305.12907v1",
+            "title": "Meta-in-context learning in large language models",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.12907v1"
+        },
+        "3": {
+            "id": "2111.02080v6",
+            "title": "An Explanation of In-context Learning as Implicit Bayesian Inference",
+            "date": "2021-11-03",
+            "url": "https://arxiv.org/abs/2111.02080v6"
+        },
+        "4": {
+            "id": "2309.01809v1",
+            "title": "Are Emergent Abilities in Large Language Models just In-Context Learning",
+            "date": "2023-09-04",
+            "url": "https://arxiv.org/abs/2309.01809v1"
+        },
+        "5": {
+            "id": "2205.05055v6",
+            "title": "Data Distributional Properties Drive Emergent In-Context Learning in Transformers",
+            "date": "2022-04-22",
+            "url": "https://arxiv.org/abs/2205.05055v6"
+        },
+        "6": {
+            "id": "2311.00237v2",
+            "title": "The Mystery of In-Context Learning A Comprehensive Survey on Interpretation and Analysis",
+            "date": "2023-11-01",
+            "url": "https://arxiv.org/abs/2311.00237v2"
+        },
+        "7": {
+            "id": "2305.12766v2",
+            "title": "Explaining Emergent In-Context Learning as Kernel Regression",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.12766v2"
+        },
+        "8": {
+            "id": "2312.15918v2",
+            "title": "Supervised Knowledge Makes Large Language Models Better In-context Learners",
+            "date": "2023-12-26",
+            "url": "https://arxiv.org/abs/2312.15918v2"
+        },
+        "9": {
+            "id": "2311.03648v1",
+            "title": "Instruct Me More! Random Prompting for Visual In-Context Learning",
+            "date": "2023-11-07",
+            "url": "https://arxiv.org/abs/2311.03648v1"
+        },
+        "10": {
+            "id": "2310.03331v1",
+            "title": "Fine-tune Language Models to Approximate Unbiased In-context Learning",
+            "date": "2023-10-05",
+            "url": "https://arxiv.org/abs/2310.03331v1"
+        },
+        "11": {
+            "id": "2312.02520v2",
+            "title": "Towards More Unified In-context Visual Understanding",
+            "date": "2023-12-05",
+            "url": "https://arxiv.org/abs/2312.02520v2"
+        },
+        "12": {
+            "id": "2305.12600v1",
+            "title": "PRODIGY Enabling In-context Learning Over Graphs",
+            "date": "2023-05-21",
+            "url": "https://arxiv.org/abs/2305.12600v1"
+        },
+        "13": {
+            "id": "2212.09095v2",
+            "title": "Rethinking the Role of Scale for In-Context Learning An Interpretability-based Case Study at 66 Billion Scale",
+            "date": "2022-12-18",
+            "url": "https://arxiv.org/abs/2212.09095v2"
+        },
+        "14": {
+            "id": "2112.08633v2",
+            "title": "Learning To Retrieve Prompts for In-Context Learning",
+            "date": "2021-12-16",
+            "url": "https://arxiv.org/abs/2112.08633v2"
+        },
+        "15": {
+            "id": "2401.12087v1",
+            "title": "Revisiting Demonstration Selection Strategies in In-Context Learning",
+            "date": "2024-01-22",
+            "url": "https://arxiv.org/abs/2401.12087v1"
+        },
+        "16": {
+            "id": "2403.17125v1",
+            "title": "The Strong Pull of Prior Knowledge in Large Language Models and Its Impact on Emotion Recognition",
+            "date": "2024-03-25",
+            "url": "https://arxiv.org/abs/2403.17125v1"
+        },
+        "17": {
+            "id": "2310.19572v1",
+            "title": "Improving Input-label Mapping with Demonstration Replay for In-context Learning",
+            "date": "2023-10-30",
+            "url": "https://arxiv.org/abs/2310.19572v1"
+        },
+        "18": {
+            "id": "2305.04320v2",
+            "title": "Unified Demonstration Retriever for In-Context Learning",
+            "date": "2023-05-07",
+            "url": "https://arxiv.org/abs/2305.04320v2"
+        },
+        "19": {
+            "id": "2305.13016v2",
+            "title": "Iterative Forward Tuning Boosts In-context Learning in Language Models",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.13016v2"
+        },
+        "20": {
+            "id": "2310.12477v1",
+            "title": "An Exploration of In-Context Learning for Speech Language Model",
+            "date": "2023-10-19",
+            "url": "https://arxiv.org/abs/2310.12477v1"
+        },
+        "21": {
+            "id": "2305.13246v1",
+            "title": "Interactive Natural Language Processing",
+            "date": "2023-05-22",
+            "url": "https://arxiv.org/abs/2305.13246v1"
+        },
+        "22": {
+            "id": "2212.10670v1",
+            "title": "In-context Learning Distillation Transferring Few-shot Learning Ability of Pre-trained Language Models",
+            "date": "2022-12-20",
+            "url": "https://arxiv.org/abs/2212.10670v1"
+        },
+        "23": {
+            "id": "2107.02378v3",
+            "title": "Learning an Explicit Hyperparameter Prediction Function Conditioned on Tasks",
+            "date": "2021-07-06",
+            "url": "https://arxiv.org/abs/2107.02378v3"
+        },
+        "24": {
+            "id": "2304.04748v1",
+            "title": "Exploring Effective Factors for Improving Visual In-Context Learning",
+            "date": "2023-04-10",
+            "url": "https://arxiv.org/abs/2304.04748v1"
+        },
+        "25": {
+            "id": "1912.03820v3",
+            "title": "Meta-Learning without Memorization",
+            "date": "2019-12-09",
+            "url": "https://arxiv.org/abs/1912.03820v3"
+        },
+        "26": {
+            "id": "2007.14658v2",
+            "title": "Meta-Learning with Context-Agnostic Initialisations",
+            "date": "2020-07-29",
+            "url": "https://arxiv.org/abs/2007.14658v2"
+        },
+        "27": {
+            "id": "2007.10143v1",
+            "title": "Contextualizing Enhances Gradient Based Meta Learning",
+            "date": "2020-07-17",
+            "url": "https://arxiv.org/abs/2007.10143v1"
+        },
+        "28": {
+            "id": "2004.05439v2",
+            "title": "Meta-Learning in Neural Networks A Survey",
+            "date": "2020-04-11",
+            "url": "https://arxiv.org/abs/2004.05439v2"
+        },
+        "29": {
+            "id": "2310.08863v1",
+            "title": "In-Context Learning for Few-Shot Molecular Property Prediction",
+            "date": "2023-10-13",
+            "url": "https://arxiv.org/abs/2310.08863v1"
+        },
+        "30": {
+            "id": "2005.13826v1",
+            "title": "Boosting Few-Shot Learning With Adaptive Margin Loss",
+            "date": "2020-05-28",
+            "url": "https://arxiv.org/abs/2005.13826v1"
+        },
+        "31": {
+            "id": "2303.12489v1",
+            "title": "Few-shot Multimodal Multitask Multilingual Learning",
+            "date": "2023-02-19",
+            "url": "https://arxiv.org/abs/2303.12489v1"
+        },
+        "32": {
+            "id": "2307.14856v1",
+            "title": "Exploiting the Potential of Seq2Seq Models as Robust Few-Shot Learners",
+            "date": "2023-07-27",
+            "url": "https://arxiv.org/abs/2307.14856v1"
+        },
+        "33": {
+            "id": "1912.06679v3",
+            "title": "Towards Contextual Learning in Few-shot Object Classification",
+            "date": "2019-12-13",
+            "url": "https://arxiv.org/abs/1912.06679v3"
+        },
+        "34": {
+            "id": "2007.04546v3",
+            "title": "Wandering Within a World Online Contextualized Few-Shot Learning",
+            "date": "2020-07-09",
+            "url": "https://arxiv.org/abs/2007.04546v3"
+        },
+        "35": {
+            "id": "1902.07104v3",
+            "title": "Adaptive Cross-Modal Few-Shot Learning",
+            "date": "2019-02-19",
+            "url": "https://arxiv.org/abs/1902.07104v3"
+        },
+        "36": {
+            "id": "2106.02636v3",
+            "title": "MERLOT Multimodal Neural Script Knowledge Models",
+            "date": "2021-06-04",
+            "url": "https://arxiv.org/abs/2106.02636v3"
+        },
+        "37": {
+            "id": "2404.10357v2",
+            "title": "Optimization of Prompt Learning via Multi-Knowledge Representation for Vision-Language Models",
+            "date": "2024-04-16",
+            "url": "https://arxiv.org/abs/2404.10357v2"
+        },
+        "38": {
+            "id": "2111.01024v1",
+            "title": "With a Little Help from my Temporal Context Multimodal Egocentric Action Recognition",
+            "date": "2021-11-01",
+            "url": "https://arxiv.org/abs/2111.01024v1"
+        },
+        "39": {
+            "id": "2312.06363v2",
+            "title": "MMICT Boosting Multi-Modal Fine-Tuning with In-Context Examples",
+            "date": "2023-12-11",
+            "url": "https://arxiv.org/abs/2312.06363v2"
+        },
+        "40": {
+            "id": "1812.05252v4",
+            "title": "Dynamic Fusion with Intra- and Inter- Modality Attention Flow for Visual Question Answering",
+            "date": "2018-12-13",
+            "url": "https://arxiv.org/abs/1812.05252v4"
+        },
+        "41": {
+            "id": "2207.10062v4",
+            "title": "DataPerf Benchmarks for Data-Centric AI Development",
+            "date": "2022-07-20",
+            "url": "https://arxiv.org/abs/2207.10062v4"
+        },
+        "42": {
+            "id": "2206.11249v3",
+            "title": "GEMv2 Multilingual NLG Benchmarking in a Single Line of Code",
+            "date": "2022-06-22",
+            "url": "https://arxiv.org/abs/2206.11249v3"
+        },
+        "43": {
+            "id": "2307.00259v2",
+            "title": "InstructEval Systematic Evaluation of Instruction Selection Methods",
+            "date": "2023-07-01",
+            "url": "https://arxiv.org/abs/2307.00259v2"
+        },
+        "44": {
+            "id": "2111.04260v1",
+            "title": "Personalized Benchmarking with the Ludwig Benchmarking Toolkit",
+            "date": "2021-11-08",
+            "url": "https://arxiv.org/abs/2111.04260v1"
+        },
+        "45": {
+            "id": "2402.06733v2",
+            "title": "NICE To Optimize In-Context Examples or Not",
+            "date": "2024-02-09",
+            "url": "https://arxiv.org/abs/2402.06733v2"
+        },
+        "46": {
+            "id": "2310.12300v2",
+            "title": "Measuring Pointwise $\\mathcal{V}$-Usable Information In-Context-ly",
+            "date": "2023-10-18",
+            "url": "https://arxiv.org/abs/2310.12300v2"
+        },
+        "47": {
+            "id": "2202.03799v4",
+            "title": "What are the best systems New perspectives on NLP Benchmarking",
+            "date": "2022-02-08",
+            "url": "https://arxiv.org/abs/2202.03799v4"
+        },
+        "48": {
+            "id": "2401.06766v2",
+            "title": "Mind Your Format Towards Consistent Evaluation of In-Context Learning Improvements",
+            "date": "2024-01-12",
+            "url": "https://arxiv.org/abs/2401.06766v2"
+        },
+        "49": {
+            "id": "2205.05256v1",
+            "title": "Evaluation Gaps in Machine Learning Practice",
+            "date": "2022-05-11",
+            "url": "https://arxiv.org/abs/2205.05256v1"
+        },
+        "50": {
+            "id": "2404.13020v1",
+            "title": "Stronger Random Baselines for In-Context Learning",
+            "date": "2024-04-19",
+            "url": "https://arxiv.org/abs/2404.13020v1"
+        },
+        "51": {
+            "id": "2311.07230v1",
+            "title": "How are Prompts Different in Terms of Sensitivity",
+            "date": "2023-11-13",
+            "url": "https://arxiv.org/abs/2311.07230v1"
+        },
+        "52": {
+            "id": "2304.03738v3",
+            "title": "Should ChatGPT be Biased Challenges and Risks of Bias in Large Language Models",
+            "date": "2023-04-07",
+            "url": "https://arxiv.org/abs/2304.03738v3"
+        },
+        "53": {
+            "id": "2106.13219v1",
+            "title": "Towards Understanding and Mitigating Social Biases in Language Models",
+            "date": "2021-06-24",
+            "url": "https://arxiv.org/abs/2106.13219v1"
+        },
+        "54": {
+            "id": "2201.07677v4",
+            "title": "Tiny, always-on and fragile Bias propagation through design choices in on-device machine learning workflows",
+            "date": "2022-01-19",
+            "url": "https://arxiv.org/abs/2201.07677v4"
+        },
+        "55": {
+            "id": "2209.08312v2",
+            "title": "Base rate neglect in computer science education",
+            "date": "2022-09-17",
+            "url": "https://arxiv.org/abs/2209.08312v2"
+        },
+        "56": {
+            "id": "2005.04949v2",
+            "title": "Designing for Human Rights in AI",
+            "date": "2020-05-11",
+            "url": "https://arxiv.org/abs/2005.04949v2"
+        },
+        "57": {
+            "id": "1807.00553v2",
+            "title": "A Broader View on Bias in Automated Decision-Making Reflecting on Epistemology and Dynamics",
+            "date": "2018-07-02",
+            "url": "https://arxiv.org/abs/1807.00553v2"
+        },
+        "58": {
+            "id": "2207.03444v2",
+            "title": "Fairness and Bias in Robot Learning",
+            "date": "2022-07-07",
+            "url": "https://arxiv.org/abs/2207.03444v2"
+        },
+        "59": {
+            "id": "2102.10750v1",
+            "title": "Coping with Mistreatment in Fair Algorithms",
+            "date": "2021-02-22",
+            "url": "https://arxiv.org/abs/2102.10750v1"
+        },
+        "60": {
+            "id": "2208.06308v2",
+            "title": "Developing a Philosophical Framework for Fair Machine Learning Lessons From The Case of Algorithmic Collusion",
+            "date": "2022-07-05",
+            "url": "https://arxiv.org/abs/2208.06308v2"
+        },
+        "61": {
+            "id": "2308.13591v1",
+            "title": "Queering the ethics of AI",
+            "date": "2023-08-25",
+            "url": "https://arxiv.org/abs/2308.13591v1"
+        },
+        "62": {
+            "id": "1711.06035v1",
+            "title": "From Algorithmic Black Boxes to Adaptive White Boxes Declarative Decision-Theoretic Ethical Programs as Codes of Ethics",
+            "date": "2017-11-16",
+            "url": "https://arxiv.org/abs/1711.06035v1"
+        },
+        "63": {
+            "id": "2003.10354v6",
+            "title": "Fairway A Way to Build Fair ML Software",
+            "date": "2020-03-23",
+            "url": "https://arxiv.org/abs/2003.10354v6"
+        },
+        "64": {
+            "id": "2110.13054v2",
+            "title": "Adaptive Data Debiasing through Bounded Exploration",
+            "date": "2021-10-25",
+            "url": "https://arxiv.org/abs/2110.13054v2"
+        },
+        "65": {
+            "id": "1903.07171v1",
+            "title": "Responsible and Representative Multimodal Data Acquisition and Analysis On Auditability, Benchmarking, Confidence, Data-Reliance & Explainability",
+            "date": "2019-03-17",
+            "url": "https://arxiv.org/abs/1903.07171v1"
+        },
+        "66": {
+            "id": "2008.11463v1",
+            "title": "Ethical behavior in humans and machines -- Evaluating training data quality for beneficial machine learning",
+            "date": "2020-08-26",
+            "url": "https://arxiv.org/abs/2008.11463v1"
+        },
+        "67": {
+            "id": "2112.01242v1",
+            "title": "An AI-based Learning Companion Promoting Lifelong Learning Opportunities for All",
+            "date": "2021-11-16",
+            "url": "https://arxiv.org/abs/2112.01242v1"
+        },
+        "68": {
+            "id": "2111.12146v6",
+            "title": "Sharing to learn and learning to share -- Fitting together Meta-Learning, Multi-Task Learning, and Transfer Learning A meta review",
+            "date": "2021-11-23",
+            "url": "https://arxiv.org/abs/2111.12146v6"
+        },
+        "69": {
+            "id": "2307.04722v1",
+            "title": "Advances and Challenges in Meta-Learning A Technical Review",
+            "date": "2023-07-10",
+            "url": "https://arxiv.org/abs/2307.04722v1"
+        },
+        "70": {
+            "id": "2308.05061v4",
+            "title": "Fine-Tune Language Models as Multi-Modal Differential Equation Solvers",
+            "date": "2023-08-09",
+            "url": "https://arxiv.org/abs/2308.05061v4"
+        },
+        "71": {
+            "id": "2103.04037v2",
+            "title": "Perspectives and Prospects on Transformer Architecture for Cross-Modal Tasks with Language and Vision",
+            "date": "2021-03-06",
+            "url": "https://arxiv.org/abs/2103.04037v2"
+        },
+        "72": {
+            "id": "2306.14182v1",
+            "title": "Switch-BERT Learning to Model Multimodal Interactions by Switching Attention and Input",
+            "date": "2023-06-25",
+            "url": "https://arxiv.org/abs/2306.14182v1"
+        },
+        "73": {
+            "id": "2312.06037v2",
+            "title": "Multimodality of AI for Education Towards Artificial General Intelligence",
+            "date": "2023-12-10",
+            "url": "https://arxiv.org/abs/2312.06037v2"
+        },
+        "74": {
+            "id": "1911.03977v3",
+            "title": "Multimodal Intelligence Representation Learning, Information Fusion, and Applications",
+            "date": "2019-11-10",
+            "url": "https://arxiv.org/abs/1911.03977v3"
+        },
+        "75": {
+            "id": "2210.16960v1",
+            "title": "Multilingual Multimodality A Taxonomical Survey of Datasets, Techniques, Challenges and Opportunities",
+            "date": "2022-10-30",
+            "url": "https://arxiv.org/abs/2210.16960v1"
+        },
+        "76": {
+            "id": "2307.04361v1",
+            "title": "Enhancing Cross-lingual Transfer via Phonemic Transcription Integration",
+            "date": "2023-07-10",
+            "url": "https://arxiv.org/abs/2307.04361v1"
+        },
+        "77": {
+            "id": "2305.15233v1",
+            "title": "Boosting Cross-lingual Transferability in Multilingual Models via In-Context Learning",
+            "date": "2023-05-24",
+            "url": "https://arxiv.org/abs/2305.15233v1"
+        },
+        "78": {
+            "id": "2201.02734v1",
+            "title": "Building Human-like Communicative Intelligence A Grounded Perspective",
+            "date": "2022-01-02",
+            "url": "https://arxiv.org/abs/2201.02734v1"
+        },
+        "79": {
+            "id": "2306.07198v1",
+            "title": "A Survey of Vision-Language Pre-training from the Lens of Multimodal Machine Translation",
+            "date": "2023-06-12",
+            "url": "https://arxiv.org/abs/2306.07198v1"
+        },
+        "80": {
+            "id": "2310.14735v2",
+            "title": "Unleashing the potential of prompt engineering in Large Language Models a comprehensive review",
+            "date": "2023-10-23",
+            "url": "https://arxiv.org/abs/2310.14735v2"
+        },
+        "81": {
+            "id": "2304.06962v1",
+            "title": "Prompt Engineering and Calibration for Zero-Shot Commonsense Reasoning",
+            "date": "2023-04-14",
+            "url": "https://arxiv.org/abs/2304.06962v1"
+        },
+        "82": {
+            "id": "2401.14423v3",
+            "title": "Prompt Design and Engineering Introduction and Advanced Methods",
+            "date": "2024-01-24",
+            "url": "https://arxiv.org/abs/2401.14423v3"
+        },
+        "83": {
+            "id": "2310.15829v1",
+            "title": "Unnatural language processing How do language models handle machine-generated prompts",
+            "date": "2023-10-24",
+            "url": "https://arxiv.org/abs/2310.15829v1"
+        },
+        "84": {
+            "id": "2305.14493v3",
+            "title": "Do prompt positions really matter",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.14493v3"
+        },
+        "85": {
+            "id": "2306.06770v4",
+            "title": "Improving Knowledge Extraction from LLMs for Task Learning through Agent Analysis",
+            "date": "2023-06-11",
+            "url": "https://arxiv.org/abs/2306.06770v4"
+        },
+        "86": {
+            "id": "2304.14670v2",
+            "title": "Prompt Engineering for Healthcare Methodologies and Applications",
+            "date": "2023-04-28",
+            "url": "https://arxiv.org/abs/2304.14670v2"
+        },
+        "87": {
+            "id": "2404.08164v1",
+            "title": "Language Model Prompt Selection via Simulation Optimization",
+            "date": "2024-04-12",
+            "url": "https://arxiv.org/abs/2404.08164v1"
+        },
+        "88": {
+            "id": "2309.16797v1",
+            "title": "Promptbreeder Self-Referential Self-Improvement Via Prompt Evolution",
+            "date": "2023-09-28",
+            "url": "https://arxiv.org/abs/2309.16797v1"
+        },
+        "89": {
+            "id": "2303.02861v1",
+            "title": "Multitask Prompt Tuning Enables Parameter-Efficient Transfer Learning",
+            "date": "2023-03-06",
+            "url": "https://arxiv.org/abs/2303.02861v1"
+        },
+        "90": {
+            "id": "2311.09773v1",
+            "title": "To be or not to be an exploration of continuously controllable prompt engineering",
+            "date": "2023-11-16",
+            "url": "https://arxiv.org/abs/2311.09773v1"
+        },
+        "91": {
+            "id": "2011.09671v1",
+            "title": "Multi-Modal Subjective Context Modelling and Recognition",
+            "date": "2020-11-19",
+            "url": "https://arxiv.org/abs/2011.09671v1"
+        },
+        "92": {
+            "id": "2403.00504v1",
+            "title": "Learning and Leveraging World Models in Visual Representation Learning",
+            "date": "2024-03-01",
+            "url": "https://arxiv.org/abs/2403.00504v1"
+        },
+        "93": {
+            "id": "2209.11471v1",
+            "title": "Modeling and Leveraging Prerequisite Context in Recommendation",
+            "date": "2022-09-23",
+            "url": "https://arxiv.org/abs/2209.11471v1"
+        },
+        "94": {
+            "id": "1211.0656v1",
+            "title": "Electoral Susceptibility",
+            "date": "2012-11-04",
+            "url": "https://arxiv.org/abs/1211.0656v1"
+        },
+        "95": {
+            "id": "2203.11364v1",
+            "title": "An Information-theoretic Approach to Prompt Engineering Without Ground Truth Labels",
+            "date": "2022-03-21",
+            "url": "https://arxiv.org/abs/2203.11364v1"
+        },
+        "96": {
+            "id": "1703.03400v3",
+            "title": "Model-Agnostic Meta-Learning for Fast Adaptation of Deep Networks",
+            "date": "2017-03-09",
+            "url": "https://arxiv.org/abs/1703.03400v3"
+        },
+        "97": {
+            "id": "1801.08930v1",
+            "title": "Recasting Gradient-Based Meta-Learning as Hierarchical Bayes",
+            "date": "2018-01-26",
+            "url": "https://arxiv.org/abs/1801.08930v1"
+        },
+        "98": {
+            "id": "2012.02684v2",
+            "title": "Model-Agnostic Learning to Meta-Learn",
+            "date": "2020-12-04",
+            "url": "https://arxiv.org/abs/2012.02684v2"
+        },
+        "99": {
+            "id": "1910.13603v3",
+            "title": "When MAML Can Adapt Fast and How to Assist When It Cannot",
+            "date": "2019-10-30",
+            "url": "https://arxiv.org/abs/1910.13603v3"
+        },
+        "100": {
+            "id": "2011.08899v1",
+            "title": "Multimodal Prototypical Networks for Few-shot Learning",
+            "date": "2020-11-17",
+            "url": "https://arxiv.org/abs/2011.08899v1"
+        },
+        "101": {
+            "id": "1810.09502v3",
+            "title": "How to train your MAML",
+            "date": "2018-10-22",
+            "url": "https://arxiv.org/abs/1810.09502v3"
+        },
+        "102": {
+            "id": "1905.07435v1",
+            "title": "Alpha MAML Adaptive Model-Agnostic Meta-Learning",
+            "date": "2019-05-17",
+            "url": "https://arxiv.org/abs/1905.07435v1"
+        },
+        "103": {
+            "id": "2110.10353v1",
+            "title": "Contextual Gradient Scaling for Few-Shot Learning",
+            "date": "2021-10-20",
+            "url": "https://arxiv.org/abs/2110.10353v1"
+        },
+        "104": {
+            "id": "2010.14672v5",
+            "title": "How Does the Task Landscape Affect MAML Performance",
+            "date": "2020-10-27",
+            "url": "https://arxiv.org/abs/2010.14672v5"
+        },
+        "105": {
+            "id": "1805.07722v1",
+            "title": "Task-Agnostic Meta-Learning for Few-shot Learning",
+            "date": "2018-05-20",
+            "url": "https://arxiv.org/abs/1805.07722v1"
+        },
+        "106": {
+            "id": "1910.13616v1",
+            "title": "Multimodal Model-Agnostic Meta-Learning via Task-Aware Modulation",
+            "date": "2019-10-30",
+            "url": "https://arxiv.org/abs/1910.13616v1"
+        },
+        "107": {
+            "id": "1909.09157v2",
+            "title": "Rapid Learning or Feature Reuse Towards Understanding the Effectiveness of MAML",
+            "date": "2019-09-19",
+            "url": "https://arxiv.org/abs/1909.09157v2"
+        },
+        "108": {
+            "id": "2008.08882v2",
+            "title": "BOIL Towards Representation Change for Few-shot Learning",
+            "date": "2020-08-20",
+            "url": "https://arxiv.org/abs/2008.08882v2"
+        },
+        "109": {
+            "id": "2203.04291v1",
+            "title": "Learning from Few Examples A Summary of Approaches to Few-Shot Learning",
+            "date": "2022-03-07",
+            "url": "https://arxiv.org/abs/2203.04291v1"
+        },
+        "110": {
+            "id": "2007.09604v1",
+            "title": "Meta-learning for Few-shot Natural Language Processing A Survey",
+            "date": "2020-07-19",
+            "url": "https://arxiv.org/abs/2007.09604v1"
+        },
+        "111": {
+            "id": "1905.11116v1",
+            "title": "Finding Task-Relevant Features for Few-Shot Learning by Category Traversal",
+            "date": "2019-05-27",
+            "url": "https://arxiv.org/abs/1905.11116v1"
+        },
+        "112": {
+            "id": "1911.10713v4",
+            "title": "Prototype Rectification for Few-Shot Learning",
+            "date": "2019-11-25",
+            "url": "https://arxiv.org/abs/1911.10713v4"
+        },
+        "113": {
+            "id": "2103.07552v1",
+            "title": "Few-Shot Text Classification with Triplet Networks, Data Augmentation, and Curriculum Learning",
+            "date": "2021-03-12",
+            "url": "https://arxiv.org/abs/2103.07552v1"
+        },
+        "114": {
+            "id": "1910.00216v2",
+            "title": "Revisiting Fine-tuning for Few-shot Learning",
+            "date": "2019-10-01",
+            "url": "https://arxiv.org/abs/1910.00216v2"
+        },
+        "115": {
+            "id": "2209.02073v1",
+            "title": "A Study on Representation Transfer for Few-Shot Learning",
+            "date": "2022-09-05",
+            "url": "https://arxiv.org/abs/2209.02073v1"
+        },
+        "116": {
+            "id": "2102.03983v1",
+            "title": "Partial Is Better Than All Revisiting Fine-tuning Strategy for Few-shot Learning",
+            "date": "2021-02-08",
+            "url": "https://arxiv.org/abs/2102.03983v1"
+        },
+        "117": {
+            "id": "1906.07079v1",
+            "title": "Boosting Supervision with Self-Supervision for Few-shot Learning",
+            "date": "2019-06-17",
+            "url": "https://arxiv.org/abs/1906.07079v1"
+        },
+        "118": {
+            "id": "2006.11325v1",
+            "title": "Self-Supervised Prototypical Transfer Learning for Few-Shot Classification",
+            "date": "2020-06-19",
+            "url": "https://arxiv.org/abs/2006.11325v1"
+        },
+        "119": {
+            "id": "2010.02430v2",
+            "title": "Shot in the Dark Few-Shot Learning with No Base-Class Labels",
+            "date": "2020-10-06",
+            "url": "https://arxiv.org/abs/2010.02430v2"
+        },
+        "120": {
+            "id": "2006.04969v2",
+            "title": "Scalability in Computing and Robotics",
+            "date": "2020-06-08",
+            "url": "https://arxiv.org/abs/2006.04969v2"
+        },
+        "121": {
+            "id": "1805.11546v2",
+            "title": "Like a Baby Visually Situated Neural Language Acquisition",
+            "date": "2018-05-29",
+            "url": "https://arxiv.org/abs/1805.11546v2"
+        },
+        "122": {
+            "id": "1801.00532v1",
+            "title": "Learning Multimodal Word Representation via Dynamic Fusion Methods",
+            "date": "2018-01-02",
+            "url": "https://arxiv.org/abs/1801.00532v1"
+        },
+        "123": {
+            "id": "2109.01797v1",
+            "title": "Hybrid Contrastive Learning of Tri-Modal Representation for Multimodal Sentiment Analysis",
+            "date": "2021-09-04",
+            "url": "https://arxiv.org/abs/2109.01797v1"
+        },
+        "124": {
+            "id": "2107.05624v2",
+            "title": "End-to-end Multi-modal Video Temporal Grounding",
+            "date": "2021-07-12",
+            "url": "https://arxiv.org/abs/2107.05624v2"
+        },
+        "125": {
+            "id": "2312.06685v1",
+            "title": "Causal-CoG A Causal-Effect Look at Context Generation for Boosting Multi-modal Language Models",
+            "date": "2023-12-09",
+            "url": "https://arxiv.org/abs/2312.06685v1"
+        },
+        "126": {
+            "id": "2308.12320v2",
+            "title": "Understanding Dark Scenes by Contrasting Multi-Modal Observations",
+            "date": "2023-08-23",
+            "url": "https://arxiv.org/abs/2308.12320v2"
+        },
+        "127": {
+            "id": "2206.12849v1",
+            "title": "Semantic Role Aware Correlation Transformer for Text to Video Retrieval",
+            "date": "2022-06-26",
+            "url": "https://arxiv.org/abs/2206.12849v1"
+        },
+        "128": {
+            "id": "1709.10426v1",
+            "title": "Training an adaptive dialogue policy for interactive learning of visually grounded word meanings",
+            "date": "2017-09-29",
+            "url": "https://arxiv.org/abs/1709.10426v1"
+        },
+        "129": {
+            "id": "2305.09333v1",
+            "title": "Multi-modal Visual Understanding with Prompts for Semantic Information Disentanglement of Image",
+            "date": "2023-05-16",
+            "url": "https://arxiv.org/abs/2305.09333v1"
+        },
+        "130": {
+            "id": "2402.11574v1",
+            "title": "Visual In-Context Learning for Large Vision-Language Models",
+            "date": "2024-02-18",
+            "url": "https://arxiv.org/abs/2402.11574v1"
+        },
+        "131": {
+            "id": "2210.14556v1",
+            "title": "Multimodal Contrastive Learning via Uni-Modal Coding and Cross-Modal Prediction for Multimodal Sentiment Analysis",
+            "date": "2022-10-26",
+            "url": "https://arxiv.org/abs/2210.14556v1"
+        },
+        "132": {
+            "id": "2311.18021v1",
+            "title": "Understanding and Improving In-Context Learning on Vision-language Models",
+            "date": "2023-11-29",
+            "url": "https://arxiv.org/abs/2311.18021v1"
+        },
+        "133": {
+            "id": "2402.09036v1",
+            "title": "Can Text-to-image Model Assist Multi-modal Learning for Visual Recognition with Visual Modality Missing",
+            "date": "2024-02-14",
+            "url": "https://arxiv.org/abs/2402.09036v1"
+        },
+        "134": {
+            "id": "1810.04547v1",
+            "title": "Temporal Cross-Media Retrieval with Soft-Smoothing",
+            "date": "2018-10-10",
+            "url": "https://arxiv.org/abs/1810.04547v1"
+        },
+        "135": {
+            "id": "1909.09252v1",
+            "title": "HyperLearn A Distributed Approach for Representation Learning in Datasets With Many Modalities",
+            "date": "2019-09-19",
+            "url": "https://arxiv.org/abs/1909.09252v1"
+        },
+        "136": {
+            "id": "2305.13697v1",
+            "title": "UNIMO-3 Multi-granularity Interaction for Vision-Language Representation Learning",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.13697v1"
+        },
+        "137": {
+            "id": "2307.05435v3",
+            "title": "One-Versus-Others Attention Scalable Multimodal Integration for Clinical Data",
+            "date": "2023-07-11",
+            "url": "https://arxiv.org/abs/2307.05435v3"
+        },
+        "138": {
+            "id": "2312.11570v3",
+            "title": "Understanding the Multi-modal Prompts of the Pre-trained Vision-Language Model",
+            "date": "2023-12-18",
+            "url": "https://arxiv.org/abs/2312.11570v3"
+        },
+        "139": {
+            "id": "1911.07349v3",
+            "title": "Putting visual object recognition in context",
+            "date": "2019-11-17",
+            "url": "https://arxiv.org/abs/1911.07349v3"
+        },
+        "140": {
+            "id": "2402.08086v1",
+            "title": "Text-centric Alignment for Multi-Modality Learning",
+            "date": "2024-02-12",
+            "url": "https://arxiv.org/abs/2402.08086v1"
+        },
+        "141": {
+            "id": "2302.05011v1",
+            "title": "Context Understanding in Computer Vision A Survey",
+            "date": "2023-02-10",
+            "url": "https://arxiv.org/abs/2302.05011v1"
+        },
+        "142": {
+            "id": "2105.14445v1",
+            "title": "Modeling Text-visual Mutual Dependency for Multi-modal Dialog Generation",
+            "date": "2021-05-30",
+            "url": "https://arxiv.org/abs/2105.14445v1"
+        },
+        "143": {
+            "id": "2403.20026v1",
+            "title": "FSMR A Feature Swapping Multi-modal Reasoning Approach with Joint Textual and Visual Clues",
+            "date": "2024-03-29",
+            "url": "https://arxiv.org/abs/2403.20026v1"
+        },
+        "144": {
+            "id": "2203.06107v1",
+            "title": "REX Reasoning-aware and Grounded Explanation",
+            "date": "2022-03-11",
+            "url": "https://arxiv.org/abs/2203.06107v1"
+        },
+        "145": {
+            "id": "2304.10756v1",
+            "title": "Missing Modality Robustness in Semi-Supervised Multi-Modal Semantic Segmentation",
+            "date": "2023-04-21",
+            "url": "https://arxiv.org/abs/2304.10756v1"
+        },
+        "146": {
+            "id": "2102.11115v1",
+            "title": "Probing Multimodal Embeddings for Linguistic Properties the Visual-Semantic Case",
+            "date": "2021-02-22",
+            "url": "https://arxiv.org/abs/2102.11115v1"
+        },
+        "147": {
+            "id": "2206.06404v1",
+            "title": "Compositional Mixture Representations for Vision and Text",
+            "date": "2022-06-13",
+            "url": "https://arxiv.org/abs/2206.06404v1"
+        },
+        "148": {
+            "id": "2312.01771v1",
+            "title": "IMProv Inpainting-based Multimodal Prompting for Computer Vision Tasks",
+            "date": "2023-12-04",
+            "url": "https://arxiv.org/abs/2312.01771v1"
+        },
+        "149": {
+            "id": "2303.10093v2",
+            "title": "Investigating the Role of Attribute Context in Vision-Language Models for Object Recognition and Detection",
+            "date": "2023-03-17",
+            "url": "https://arxiv.org/abs/2303.10093v2"
+        },
+        "150": {
+            "id": "2101.05208v1",
+            "title": "Efficient Object-Level Visual Context Modeling for Multimodal Machine Translation Masking Irrelevant Objects Helps Grounding",
+            "date": "2020-12-18",
+            "url": "https://arxiv.org/abs/2101.05208v1"
+        },
+        "151": {
+            "id": "1801.03150v3",
+            "title": "Moments in Time Dataset one million videos for event understanding",
+            "date": "2018-01-09",
+            "url": "https://arxiv.org/abs/1801.03150v3"
+        },
+        "152": {
+            "id": "2106.03152v2",
+            "title": "Technical Report Temporal Aggregate Representations",
+            "date": "2021-06-06",
+            "url": "https://arxiv.org/abs/2106.03152v2"
+        },
+        "153": {
+            "id": "1907.08340v2",
+            "title": "Only Time Can Tell Discovering Temporal Data for Temporal Modeling",
+            "date": "2019-07-19",
+            "url": "https://arxiv.org/abs/1907.08340v2"
+        },
+        "154": {
+            "id": "2212.10467v2",
+            "title": "Generic Temporal Reasoning with Differential Analysis and Explanation",
+            "date": "2022-12-20",
+            "url": "https://arxiv.org/abs/2212.10467v2"
+        },
+        "155": {
+            "id": "2309.02290v1",
+            "title": "ATM Action Temporality Modeling for Video Question Answering",
+            "date": "2023-09-05",
+            "url": "https://arxiv.org/abs/2309.02290v1"
+        },
+        "156": {
+            "id": "2210.03941v1",
+            "title": "Learning Fine-Grained Visual Understanding for Video Question Answering via Decoupling Spatial-Temporal Modeling",
+            "date": "2022-10-08",
+            "url": "https://arxiv.org/abs/2210.03941v1"
+        },
+        "157": {
+            "id": "2011.13046v1",
+            "title": "Can Temporal Information Help with Contrastive Self-Supervised Learning",
+            "date": "2020-11-25",
+            "url": "https://arxiv.org/abs/2011.13046v1"
+        },
+        "158": {
+            "id": "2207.09067v1",
+            "title": "Time Is MattEr Temporal Self-supervision for Video Transformers",
+            "date": "2022-07-19",
+            "url": "https://arxiv.org/abs/2207.09067v1"
+        },
+        "159": {
+            "id": "2301.02074v2",
+            "title": "Test of Time Instilling Video-Language Models with a Sense of Time",
+            "date": "2023-01-05",
+            "url": "https://arxiv.org/abs/2301.02074v2"
+        },
+        "160": {
+            "id": "2206.01720v1",
+            "title": "Revisiting the Video in Video-Language Understanding",
+            "date": "2022-06-03",
+            "url": "https://arxiv.org/abs/2206.01720v1"
+        },
+        "161": {
+            "id": "2103.15662v1",
+            "title": "Unified Graph Structured Models for Video Understanding",
+            "date": "2021-03-29",
+            "url": "https://arxiv.org/abs/2103.15662v1"
+        },
+        "162": {
+            "id": "1806.01810v2",
+            "title": "Videos as Space-Time Region Graphs",
+            "date": "2018-06-05",
+            "url": "https://arxiv.org/abs/1806.01810v2"
+        },
+        "163": {
+            "id": "2107.10300v1",
+            "title": "iReason Multimodal Commonsense Reasoning using Videos and Natural Language with Interpretability",
+            "date": "2021-06-25",
+            "url": "https://arxiv.org/abs/2107.10300v1"
+        },
+        "164": {
+            "id": "2403.11021v1",
+            "title": "Neuro-Symbolic Video Search",
+            "date": "2024-03-16",
+            "url": "https://arxiv.org/abs/2403.11021v1"
+        },
+        "165": {
+            "id": "2210.03659v2",
+            "title": "Spatio-temporal Tendency Reasoning for Human Body Pose and Shape Estimation from Videos",
+            "date": "2022-10-07",
+            "url": "https://arxiv.org/abs/2210.03659v2"
+        },
+        "166": {
+            "id": "1910.01442v2",
+            "title": "CLEVRER CoLlision Events for Video REpresentation and Reasoning",
+            "date": "2019-10-03",
+            "url": "https://arxiv.org/abs/1910.01442v2"
+        },
+        "167": {
+            "id": "2112.02991v1",
+            "title": "Cross-Modality Attentive Feature Fusion for Object Detection in Multispectral Remote Sensing Imagery",
+            "date": "2021-12-06",
+            "url": "https://arxiv.org/abs/2112.02991v1"
+        },
+        "168": {
+            "id": "2403.06355v1",
+            "title": "Multi-modal Semantic Understanding with Contrastive Cross-modal Feature Alignment",
+            "date": "2024-03-11",
+            "url": "https://arxiv.org/abs/2403.06355v1"
+        },
+        "169": {
+            "id": "2012.07175v2",
+            "title": "MSAF Multimodal Split Attention Fusion",
+            "date": "2020-12-13",
+            "url": "https://arxiv.org/abs/2012.07175v2"
+        },
+        "170": {
+            "id": "2305.13583v4",
+            "title": "Cross-Attention is Not Enough Incongruity-Aware Dynamic Hierarchical Fusion for Multimodal Affect Recognition",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.13583v4"
+        },
+        "171": {
+            "id": "2203.14779v3",
+            "title": "A Joint Cross-Attention Model for Audio-Visual Fusion in Dimensional Emotion Recognition",
+            "date": "2022-03-28",
+            "url": "https://arxiv.org/abs/2203.14779v3"
+        },
+        "172": {
+            "id": "2403.04650v2",
+            "title": "Context-Based Multimodal Fusion",
+            "date": "2024-03-07",
+            "url": "https://arxiv.org/abs/2403.04650v2"
+        },
+        "173": {
+            "id": "2304.00495v1",
+            "title": "Multimodal Hyperspectral Image Classification via Interconnected Fusion",
+            "date": "2023-04-02",
+            "url": "https://arxiv.org/abs/2304.00495v1"
+        },
+        "174": {
+            "id": "2212.11772v1",
+            "title": "A Self-Adjusting Fusion Representation Learning Model for Unaligned Text-Audio Sequences",
+            "date": "2022-11-12",
+            "url": "https://arxiv.org/abs/2212.11772v1"
+        },
+        "175": {
+            "id": "1911.03821v2",
+            "title": "Adaptive Fusion Techniques for Multimodal Data",
+            "date": "2019-11-10",
+            "url": "https://arxiv.org/abs/1911.03821v2"
+        },
+        "176": {
+            "id": "2201.10274v1",
+            "title": "Multi-channel Attentive Graph Convolutional Network With Sentiment Fusion For Multimodal Sentiment Analysis",
+            "date": "2022-01-25",
+            "url": "https://arxiv.org/abs/2201.10274v1"
+        },
+        "177": {
+            "id": "2209.02518v1",
+            "title": "Sequential Cross Attention Based Multi-task Learning",
+            "date": "2022-09-06",
+            "url": "https://arxiv.org/abs/2209.02518v1"
+        },
+        "178": {
+            "id": "2312.15890v2",
+            "title": "Towards Robust Multimodal Prompting With Missing Modalities",
+            "date": "2023-12-26",
+            "url": "https://arxiv.org/abs/2312.15890v2"
+        },
+        "179": {
+            "id": "2303.03369v2",
+            "title": "Multimodal Prompting with Missing Modalities for Visual Recognition",
+            "date": "2023-03-06",
+            "url": "https://arxiv.org/abs/2303.03369v2"
+        },
+        "180": {
+            "id": "2212.04196v2",
+            "title": "Learning Domain Invariant Prompt for Vision-Language Models",
+            "date": "2022-12-08",
+            "url": "https://arxiv.org/abs/2212.04196v2"
+        },
+        "181": {
+            "id": "2305.00201v1",
+            "title": "Instruction-ViT Multi-Modal Prompts for Instruction Learning in ViT",
+            "date": "2023-04-29",
+            "url": "https://arxiv.org/abs/2305.00201v1"
+        },
+        "182": {
+            "id": "2403.12768v1",
+            "title": "ContextVis Envision Contextual Learning and Interaction with Generative Models",
+            "date": "2024-03-19",
+            "url": "https://arxiv.org/abs/2403.12768v1"
+        },
+        "183": {
+            "id": "2310.15147v2",
+            "title": "S3Eval A Synthetic, Scalable, Systematic Evaluation Suite for Large Language Models",
+            "date": "2023-10-23",
+            "url": "https://arxiv.org/abs/2310.15147v2"
+        },
+        "184": {
+            "id": "2401.13311v1",
+            "title": "ConTextual Evaluating Context-Sensitive Text-Rich Visual Reasoning in Large Multimodal Models",
+            "date": "2024-01-24",
+            "url": "https://arxiv.org/abs/2401.13311v1"
+        },
+        "185": {
+            "id": "2012.14666v1",
+            "title": "RADDLE An Evaluation Benchmark and Analysis Platform for Robust Task-oriented Dialog Systems",
+            "date": "2020-12-29",
+            "url": "https://arxiv.org/abs/2012.14666v1"
+        },
+        "186": {
+            "id": "1708.04352v1",
+            "title": "Benchmark Environments for Multitask Learning in Continuous Domains",
+            "date": "2017-08-14",
+            "url": "https://arxiv.org/abs/1708.04352v1"
+        },
+        "187": {
+            "id": "2202.02896v1",
+            "title": "Evaluation Methods and Measures for Causal Learning Algorithms",
+            "date": "2022-02-07",
+            "url": "https://arxiv.org/abs/2202.02896v1"
+        },
+        "188": {
+            "id": "2402.07368v1",
+            "title": "Assessing Generalization for Subpopulation Representative Modeling via In-Context Learning",
+            "date": "2024-02-12",
+            "url": "https://arxiv.org/abs/2402.07368v1"
+        },
+        "189": {
+            "id": "2207.01059v2",
+            "title": "Identifying the Context Shift between Test Benchmarks and Production Data",
+            "date": "2022-07-03",
+            "url": "https://arxiv.org/abs/2207.01059v2"
+        },
+        "190": {
+            "id": "2202.08836v3",
+            "title": "Data-SUITE Data-centric identification of in-distribution incongruous examples",
+            "date": "2022-02-17",
+            "url": "https://arxiv.org/abs/2202.08836v3"
+        },
+        "191": {
+            "id": "2404.02117v1",
+            "title": "Pre-trained Vision and Language Transformers Are Few-Shot Incremental Learners",
+            "date": "2024-04-02",
+            "url": "https://arxiv.org/abs/2404.02117v1"
+        },
+        "192": {
+            "id": "2005.14165v4",
+            "title": "Language Models are Few-Shot Learners",
+            "date": "2020-05-28",
+            "url": "https://arxiv.org/abs/2005.14165v4"
+        },
+        "193": {
+            "id": "2204.02311v5",
+            "title": "PaLM Scaling Language Modeling with Pathways",
+            "date": "2022-04-05",
+            "url": "https://arxiv.org/abs/2204.02311v5"
+        },
+        "194": {
+            "id": "2310.17639v3",
+            "title": "In-Context Learning Dynamics with Random Binary Sequences",
+            "date": "2023-10-26",
+            "url": "https://arxiv.org/abs/2310.17639v3"
+        },
+        "195": {
+            "id": "2305.11426v3",
+            "title": "Post Hoc Explanations of Language Models Can Improve Language Models",
+            "date": "2023-05-19",
+            "url": "https://arxiv.org/abs/2305.11426v3"
+        },
+        "196": {
+            "id": "2211.13892v2",
+            "title": "Complementary Explanations for Effective In-Context Learning",
+            "date": "2022-11-25",
+            "url": "https://arxiv.org/abs/2211.13892v2"
+        },
+        "197": {
+            "id": "2309.01219v2",
+            "title": "Siren's Song in the AI Ocean A Survey on Hallucination in Large Language Models",
+            "date": "2023-09-03",
+            "url": "https://arxiv.org/abs/2309.01219v2"
+        },
+        "198": {
+            "id": "2311.08401v1",
+            "title": "Fine-tuning Language Models for Factuality",
+            "date": "2023-11-14",
+            "url": "https://arxiv.org/abs/2311.08401v1"
+        },
+        "199": {
+            "id": "2403.09162v1",
+            "title": "Unveiling the Generalization Power of Fine-Tuned Large Language Models",
+            "date": "2024-03-14",
+            "url": "https://arxiv.org/abs/2403.09162v1"
+        },
+        "200": {
+            "id": "2311.04046v1",
+            "title": "Reinforcement Learning Fine-tuning of Language Models is Biased Towards More Extractable Features",
+            "date": "2023-11-07",
+            "url": "https://arxiv.org/abs/2311.04046v1"
+        },
+        "201": {
+            "id": "2402.03969v1",
+            "title": "In-context learning agents are asymmetric belief updaters",
+            "date": "2024-02-06",
+            "url": "https://arxiv.org/abs/2402.03969v1"
+        },
+        "202": {
+            "id": "2310.11207v1",
+            "title": "Can Large Language Models Explain Themselves A Study of LLM-Generated Self-Explanations",
+            "date": "2023-10-17",
+            "url": "https://arxiv.org/abs/2310.11207v1"
+        },
+        "203": {
+            "id": "2205.03401v2",
+            "title": "The Unreliability of Explanations in Few-shot Prompting for Textual Reasoning",
+            "date": "2022-05-06",
+            "url": "https://arxiv.org/abs/2205.03401v2"
+        },
+        "204": {
+            "id": "2402.12038v2",
+            "title": "Self-AMPLIFY Improving Small Language Models with Self Post Hoc Explanations",
+            "date": "2024-02-19",
+            "url": "https://arxiv.org/abs/2402.12038v2"
+        },
+        "205": {
+            "id": "2210.06726v1",
+            "title": "Explanations from Large Language Models Make Small Reasoners Better",
+            "date": "2022-10-13",
+            "url": "https://arxiv.org/abs/2210.06726v1"
+        },
+        "206": {
+            "id": "2301.10521v2",
+            "title": "ExaRanker Explanation-Augmented Neural Ranker",
+            "date": "2023-01-25",
+            "url": "https://arxiv.org/abs/2301.10521v2"
+        },
+        "207": {
+            "id": "2105.04505v1",
+            "title": "Towards Benchmarking the Utility of Explanations for Model Debugging",
+            "date": "2021-05-10",
+            "url": "https://arxiv.org/abs/2105.04505v1"
+        },
+        "208": {
+            "id": "2310.05797v3",
+            "title": "Are Large Language Models Post Hoc Explainers",
+            "date": "2023-10-09",
+            "url": "https://arxiv.org/abs/2310.05797v3"
+        },
+        "209": {
+            "id": "2402.04678v1",
+            "title": "Large Language Models As Faithful Explainers",
+            "date": "2024-02-07",
+            "url": "https://arxiv.org/abs/2402.04678v1"
+        },
+        "210": {
+            "id": "2402.04787v1",
+            "title": "A Hypothesis-Driven Framework for the Analysis of Self-Rationalising Models",
+            "date": "2024-02-07",
+            "url": "https://arxiv.org/abs/2402.04787v1"
+        },
+        "211": {
+            "id": "2402.12091v1",
+            "title": "Do Large Language Models Understand Logic or Just Mimick Context",
+            "date": "2024-02-19",
+            "url": "https://arxiv.org/abs/2402.12091v1"
+        },
+        "212": {
+            "id": "2311.17438v3",
+            "title": "CLOMO Counterfactual Logical Modification with Large Language Models",
+            "date": "2023-11-29",
+            "url": "https://arxiv.org/abs/2311.17438v3"
+        },
+        "213": {
+            "id": "2402.16363v5",
+            "title": "LLM Inference Unveiled Survey and Roofline Model Insights",
+            "date": "2024-02-26",
+            "url": "https://arxiv.org/abs/2402.16363v5"
+        },
+        "214": {
+            "id": "2403.01384v1",
+            "title": "On the Compressibility of Quantized Large Language Models",
+            "date": "2024-03-03",
+            "url": "https://arxiv.org/abs/2403.01384v1"
+        },
+        "215": {
+            "id": "2310.05015v2",
+            "title": "Compresso Structured Pruning with Collaborative Prompting Learns Compact Large Language Models",
+            "date": "2023-10-08",
+            "url": "https://arxiv.org/abs/2310.05015v2"
+        },
+        "216": {
+            "id": "2310.01119v2",
+            "title": "Synthetic Data Generation in Low-Resource Settings via Fine-Tuning of Large Language Models",
+            "date": "2023-10-02",
+            "url": "https://arxiv.org/abs/2310.01119v2"
+        },
+        "217": {
+            "id": "2310.15594v1",
+            "title": "Retrieval-based Knowledge Transfer An Effective Approach for Extreme Large Language Model Compression",
+            "date": "2023-10-24",
+            "url": "https://arxiv.org/abs/2310.15594v1"
+        },
+        "218": {
+            "id": "2307.02690v1",
+            "title": "Scaling In-Context Demonstrations with Structured Attention",
+            "date": "2023-07-05",
+            "url": "https://arxiv.org/abs/2307.02690v1"
+        },
+        "219": {
+            "id": "2310.08152v2",
+            "title": "Context Compression for Auto-regressive Transformers with Sentinel Tokens",
+            "date": "2023-10-12",
+            "url": "https://arxiv.org/abs/2310.08152v2"
+        },
+        "220": {
+            "id": "2204.02329v4",
+            "title": "Can language models learn from explanations in context",
+            "date": "2022-04-05",
+            "url": "https://arxiv.org/abs/2204.02329v4"
+        },
+        "221": {
+            "id": "2305.15520v1",
+            "title": "Exploring Automatically Perturbed Natural Language Explanations in Relation Extraction",
+            "date": "2023-05-24",
+            "url": "https://arxiv.org/abs/2305.15520v1"
+        },
+        "222": {
+            "id": "2302.04813v3",
+            "title": "Explanation Selection Using Unlabeled Data for Chain-of-Thought Prompting",
+            "date": "2023-02-09",
+            "url": "https://arxiv.org/abs/2302.04813v3"
+        },
+        "223": {
+            "id": "2207.00747v1",
+            "title": "Rationale-Augmented Ensembles in Language Models",
+            "date": "2022-07-02",
+            "url": "https://arxiv.org/abs/2207.00747v1"
+        },
+        "224": {
+            "id": "2312.12112v2",
+            "title": "Curated LLM Synergy of LLMs and Data Curation for tabular augmentation in ultra low-data regimes",
+            "date": "2023-12-19",
+            "url": "https://arxiv.org/abs/2312.12112v2"
+        },
+        "225": {
+            "id": "2403.15042v1",
+            "title": "LLM2LLM Boosting LLMs with Novel Iterative Data Enhancement",
+            "date": "2024-03-22",
+            "url": "https://arxiv.org/abs/2403.15042v1"
+        },
+        "226": {
+            "id": "2403.04190v1",
+            "title": "Generative AI for Synthetic Data Generation Methods, Challenges and the Future",
+            "date": "2024-03-07",
+            "url": "https://arxiv.org/abs/2403.04190v1"
+        },
+        "227": {
+            "id": "2305.13718v6",
+            "title": "Exploring Self-supervised Logic-enhanced Training for Large Language Models",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.13718v6"
+        },
+        "228": {
+            "id": "2404.11018v1",
+            "title": "Many-Shot In-Context Learning",
+            "date": "2024-04-17",
+            "url": "https://arxiv.org/abs/2404.11018v1"
+        },
+        "229": {
+            "id": "2402.02244v1",
+            "title": "Beyond the Limits A Survey of Techniques to Extend the Context Length in Large Language Models",
+            "date": "2024-02-03",
+            "url": "https://arxiv.org/abs/2402.02244v1"
+        },
+        "230": {
+            "id": "2403.14932v2",
+            "title": "Attention-Driven Reasoning Unlocking the Potential of Large Language Models",
+            "date": "2024-03-22",
+            "url": "https://arxiv.org/abs/2403.14932v2"
+        },
+        "231": {
+            "id": "2110.13412v1",
+            "title": "TriBERT Full-body Human-centric Audio-visual Representation Learning for Visual Sound Separation",
+            "date": "2021-10-26",
+            "url": "https://arxiv.org/abs/2110.13412v1"
+        },
+        "232": {
+            "id": "2307.13721v1",
+            "title": "Foundational Models Defining a New Era in Vision A Survey and Outlook",
+            "date": "2023-07-25",
+            "url": "https://arxiv.org/abs/2307.13721v1"
+        },
+        "233": {
+            "id": "2309.01155v2",
+            "title": "LoGoPrompt Synthetic Text Images Can Be Good Visual Prompts for Vision-Language Models",
+            "date": "2023-09-03",
+            "url": "https://arxiv.org/abs/2309.01155v2"
+        },
+        "234": {
+            "id": "1808.01342v1",
+            "title": "A Cooperative Group Optimization System",
+            "date": "2018-08-03",
+            "url": "https://arxiv.org/abs/1808.01342v1"
+        },
+        "235": {
+            "id": "2210.10841v1",
+            "title": "Prompting through Prototype A Prototype-based Prompt Learning on Pretrained Vision-Language Models",
+            "date": "2022-10-19",
+            "url": "https://arxiv.org/abs/2210.10841v1"
+        },
+        "236": {
+            "id": "2310.09676v1",
+            "title": "Mastering Robot Manipulation with Multimodal Prompts through Pretraining and Multi-task Fine-tuning",
+            "date": "2023-10-14",
+            "url": "https://arxiv.org/abs/2310.09676v1"
+        },
+        "237": {
+            "id": "2306.02243v1",
+            "title": "Retrieval-Enhanced Visual Prompt Learning for Few-shot Classification",
+            "date": "2023-06-04",
+            "url": "https://arxiv.org/abs/2306.02243v1"
+        },
+        "238": {
+            "id": "2303.15591v1",
+            "title": "Learning Expressive Prompting With Residuals for Vision Transformers",
+            "date": "2023-03-27",
+            "url": "https://arxiv.org/abs/2303.15591v1"
+        },
+        "239": {
+            "id": "2212.10559v3",
+            "title": "Why Can GPT Learn In-Context Language Models Implicitly Perform Gradient Descent as Meta-Optimizers",
+            "date": "2022-12-20",
+            "url": "https://arxiv.org/abs/2212.10559v3"
+        },
+        "240": {
+            "id": "2210.08457v1",
+            "title": "Scratching Visual Transformer's Back with Uniform Attention",
+            "date": "2022-10-16",
+            "url": "https://arxiv.org/abs/2210.08457v1"
+        },
+        "241": {
+            "id": "2306.01311v1",
+            "title": "MetaVL Transferring In-Context Learning Ability From Language Models to Vision-Language Models",
+            "date": "2023-06-02",
+            "url": "https://arxiv.org/abs/2306.01311v1"
+        },
+        "242": {
+            "id": "2006.07438v1",
+            "title": "Attentive Feature Reuse for Multi Task Meta learning",
+            "date": "2020-06-12",
+            "url": "https://arxiv.org/abs/2006.07438v1"
+        },
+        "243": {
+            "id": "2202.09263v1",
+            "title": "Is Cross-Attention Preferable to Self-Attention for Multi-Modal Emotion Recognition",
+            "date": "2022-02-18",
+            "url": "https://arxiv.org/abs/2202.09263v1"
+        },
+        "244": {
+            "id": "2305.17903v3",
+            "title": "Deeply Coupled Cross-Modal Prompt Learning",
+            "date": "2023-05-29",
+            "url": "https://arxiv.org/abs/2305.17903v3"
+        },
+        "245": {
+            "id": "2201.11732v2",
+            "title": "IGLUE A Benchmark for Transfer Learning across Modalities, Tasks, and Languages",
+            "date": "2022-01-27",
+            "url": "https://arxiv.org/abs/2201.11732v2"
+        },
+        "246": {
+            "id": "2307.06281v3",
+            "title": "MMBench Is Your Multi-modal Model an All-around Player",
+            "date": "2023-07-12",
+            "url": "https://arxiv.org/abs/2307.06281v3"
+        },
+        "247": {
+            "id": "2212.02499v2",
+            "title": "Images Speak in Images A Generalist Painter for In-Context Visual Learning",
+            "date": "2022-12-05",
+            "url": "https://arxiv.org/abs/2212.02499v2"
+        },
+        "248": {
+            "id": "2404.12390v2",
+            "title": "BLINK Multimodal Large Language Models Can See but Not Perceive",
+            "date": "2024-04-18",
+            "url": "https://arxiv.org/abs/2404.12390v2"
+        },
+        "249": {
+            "id": "2311.12610v2",
+            "title": "VALUED -- Vision and Logical Understanding Evaluation Dataset",
+            "date": "2023-11-21",
+            "url": "https://arxiv.org/abs/2311.12610v2"
+        },
+        "250": {
+            "id": "2309.11710v1",
+            "title": "ContextRef Evaluating Referenceless Metrics For Image Description Generation",
+            "date": "2023-09-21",
+            "url": "https://arxiv.org/abs/2309.11710v1"
+        },
+        "251": {
+            "id": "2302.08572v1",
+            "title": "Towards Reliable Assessments of Demographic Disparities in Multi-Label Image Classifiers",
+            "date": "2023-02-16",
+            "url": "https://arxiv.org/abs/2302.08572v1"
+        },
+        "252": {
+            "id": "1807.00493v1",
+            "title": "Active Testing An Efficient and Robust Framework for Estimating Accuracy",
+            "date": "2018-07-02",
+            "url": "https://arxiv.org/abs/1807.00493v1"
+        },
+        "253": {
+            "id": "2403.07407v1",
+            "title": "In-context learning enables multimodal large language models to classify cancer pathology images",
+            "date": "2024-03-12",
+            "url": "https://arxiv.org/abs/2403.07407v1"
+        },
+        "254": {
+            "id": "2311.05861v1",
+            "title": "Domain Generalization by Learning from Privileged Medical Imaging Information",
+            "date": "2023-11-10",
+            "url": "https://arxiv.org/abs/2311.05861v1"
+        },
+        "255": {
+            "id": "2311.05332v2",
+            "title": "On the Road with GPT-4V(ision) Early Explorations of Visual-Language Model on Autonomous Driving",
+            "date": "2023-11-09",
+            "url": "https://arxiv.org/abs/2311.05332v2"
+        },
+        "256": {
+            "id": "2404.04804v1",
+            "title": "Light the Night A Multi-Condition Diffusion Framework for Unpaired Low-Light Enhancement in Autonomous Driving",
+            "date": "2024-04-07",
+            "url": "https://arxiv.org/abs/2404.04804v1"
+        },
+        "257": {
+            "id": "2202.03651v2",
+            "title": "Causal Scene BERT Improving object detection by searching for challenging groups of data",
+            "date": "2022-02-08",
+            "url": "https://arxiv.org/abs/2202.03651v2"
+        },
+        "258": {
+            "id": "2303.00423v1",
+            "title": "Multiperspective Teaching of Unknown Objects via Shared-gaze-based Multimodal Human-Robot Interaction",
+            "date": "2023-03-01",
+            "url": "https://arxiv.org/abs/2303.00423v1"
+        },
+        "259": {
+            "id": "2003.00385v1",
+            "title": "Vision-based Robot Manipulation Learning via Human Demonstrations",
+            "date": "2020-03-01",
+            "url": "https://arxiv.org/abs/2003.00385v1"
+        },
+        "260": {
+            "id": "2309.14381v1",
+            "title": "Survey of Social Bias in Vision-Language Models",
+            "date": "2023-09-24",
+            "url": "https://arxiv.org/abs/2309.14381v1"
+        },
+        "261": {
+            "id": "2104.13874v2",
+            "title": "Exploring Relational Context for Multi-Task Dense Prediction",
+            "date": "2021-04-28",
+            "url": "https://arxiv.org/abs/2104.13874v2"
+        },
+        "262": {
+            "id": "2108.08481v5",
+            "title": "Neural Operator Learning Maps Between Function Spaces",
+            "date": "2021-08-19",
+            "url": "https://arxiv.org/abs/2108.08481v5"
+        },
+        "263": {
+            "id": "2404.14688v1",
+            "title": "FMint Bridging Human Designed and Data Pretrained Models for Differential Equation Foundation Model",
+            "date": "2024-04-23",
+            "url": "https://arxiv.org/abs/2404.14688v1"
+        },
+        "264": {
+            "id": "2106.04781v2",
+            "title": "Encoding physics to learn reaction-diffusion processes",
+            "date": "2021-06-09",
+            "url": "https://arxiv.org/abs/2106.04781v2"
+        },
+        "265": {
+            "id": "2009.03730v1",
+            "title": "Large-scale Neural Solvers for Partial Differential Equations",
+            "date": "2020-09-08",
+            "url": "https://arxiv.org/abs/2009.03730v1"
+        },
+        "266": {
+            "id": "2004.03454v1",
+            "title": "Deep-learning enhancement of large scale numerical simulations",
+            "date": "2020-03-30",
+            "url": "https://arxiv.org/abs/2004.03454v1"
+        },
+        "267": {
+            "id": "2204.10323v1",
+            "title": "Accelerating Physics Simulations with TPUs An Inundation Modeling Example",
+            "date": "2022-04-21",
+            "url": "https://arxiv.org/abs/2204.10323v1"
+        },
+        "268": {
+            "id": "2007.01836v2",
+            "title": "Pretrained Semantic Speech Embeddings for End-to-End Spoken Language Understanding via Cross-Modal Teacher-Student Learning",
+            "date": "2020-07-03",
+            "url": "https://arxiv.org/abs/2007.01836v2"
+        },
+        "269": {
+            "id": "2210.16663v2",
+            "title": "BERT Meets CTC New Formulation of End-to-End Speech Recognition with Pre-trained Masked Language Model",
+            "date": "2022-10-29",
+            "url": "https://arxiv.org/abs/2210.16663v2"
+        },
+        "270": {
+            "id": "2309.00424v5",
+            "title": "Learning Speech Representation From Contrastive Token-Acoustic Pretraining",
+            "date": "2023-09-01",
+            "url": "https://arxiv.org/abs/2309.00424v5"
+        },
+        "271": {
+            "id": "2211.03025v1",
+            "title": "Bridging Speech and Textual Pre-trained Models with Unsupervised ASR",
+            "date": "2022-11-06",
+            "url": "https://arxiv.org/abs/2211.03025v1"
+        },
+        "272": {
+            "id": "2205.00693v2",
+            "title": "Contrastive Learning for Improving ASR Robustness in Spoken Language Understanding",
+            "date": "2022-05-02",
+            "url": "https://arxiv.org/abs/2205.00693v2"
+        },
+        "273": {
+            "id": "1911.04571v1",
+            "title": "Long-span language modeling for speech recognition",
+            "date": "2019-11-11",
+            "url": "https://arxiv.org/abs/1911.04571v1"
+        },
+        "274": {
+            "id": "2305.11579v2",
+            "title": "Speech-Text Dialog Pre-training for Spoken Dialog Understanding with Explicit Cross-Modal Alignment",
+            "date": "2023-05-19",
+            "url": "https://arxiv.org/abs/2305.11579v2"
+        },
+        "275": {
+            "id": "1808.09825v1",
+            "title": "Contextual Audio-Visual Switching For Speech Enhancement in Real-World Environments",
+            "date": "2018-08-28",
+            "url": "https://arxiv.org/abs/1808.09825v1"
+        },
+        "276": {
+            "id": "2110.04621v4",
+            "title": "Universal Paralinguistic Speech Representations Using Self-Supervised Conformers",
+            "date": "2021-10-09",
+            "url": "https://arxiv.org/abs/2110.04621v4"
+        },
+        "277": {
+            "id": "2106.06183v2",
+            "title": "Improving RNN-T ASR Performance with Date-Time and Location Awareness",
+            "date": "2021-06-11",
+            "url": "https://arxiv.org/abs/2106.06183v2"
+        },
+        "278": {
+            "id": "2402.00858v1",
+            "title": "Can Large Language Models Understand Context",
+            "date": "2024-02-01",
+            "url": "https://arxiv.org/abs/2402.00858v1"
+        },
+        "279": {
+            "id": "1907.08672v2",
+            "title": "A Pragmatics-Centered Evaluation Framework for Natural Language Understanding",
+            "date": "2019-07-19",
+            "url": "https://arxiv.org/abs/1907.08672v2"
+        },
+        "280": {
+            "id": "2204.04541v1",
+            "title": "KOBEST Korean Balanced Evaluation of Significant Tasks",
+            "date": "2022-04-09",
+            "url": "https://arxiv.org/abs/2204.04541v1"
+        },
+        "281": {
+            "id": "2304.01922v1",
+            "title": "Resources and Few-shot Learners for In-context Learning in Slavic Languages",
+            "date": "2023-04-04",
+            "url": "https://arxiv.org/abs/2304.01922v1"
+        },
+        "282": {
+            "id": "2204.13509v2",
+            "title": "On the Effect of Pretraining Corpora on In-context Learning by a Large-scale Language Model",
+            "date": "2022-04-28",
+            "url": "https://arxiv.org/abs/2204.13509v2"
+        },
+        "283": {
+            "id": "2312.04945v1",
+            "title": "The ICL Consistency Test",
+            "date": "2023-12-08",
+            "url": "https://arxiv.org/abs/2312.04945v1"
+        },
+        "284": {
+            "id": "2404.06349v1",
+            "title": "CausalBench A Comprehensive Benchmark for Causal Learning Capability of Large Language Models",
+            "date": "2024-04-09",
+            "url": "https://arxiv.org/abs/2404.06349v1"
+        },
+        "285": {
+            "id": "2305.16938v2",
+            "title": "Few-shot Fine-tuning vs. In-context Learning A Fair Comparison and Evaluation",
+            "date": "2023-05-26",
+            "url": "https://arxiv.org/abs/2305.16938v2"
+        },
+        "286": {
+            "id": "2307.02732v1",
+            "title": "Evaluating the Evaluators Are Current Few-Shot Learning Benchmarks Fit for Purpose",
+            "date": "2023-07-06",
+            "url": "https://arxiv.org/abs/2307.02732v1"
+        },
+        "287": {
+            "id": "2307.15053v2",
+            "title": "On (Normalised) Discounted Cumulative Gain as an Off-Policy Evaluation Metric for Top-$n$ Recommendation",
+            "date": "2023-07-27",
+            "url": "https://arxiv.org/abs/2307.15053v2"
+        },
+        "288": {
+            "id": "2306.01200v1",
+            "title": "Multi-Dimensional Evaluation of Text Summarization with In-Context Learning",
+            "date": "2023-06-01",
+            "url": "https://arxiv.org/abs/2306.01200v1"
+        },
+        "289": {
+            "id": "2110.13223v1",
+            "title": "Identifying and Benchmarking Natural Out-of-Context Prediction Problems",
+            "date": "2021-10-25",
+            "url": "https://arxiv.org/abs/2110.13223v1"
+        },
+        "290": {
+            "id": "2303.10888v1",
+            "title": "Self-Improving-Leaderboard(SIL) A Call for Real-World Centric Natural Language Processing Leaderboards",
+            "date": "2023-03-20",
+            "url": "https://arxiv.org/abs/2303.10888v1"
+        },
+        "291": {
+            "id": "2303.13217v3",
+            "title": "Fairness-guided Few-shot Prompting for Large Language Models",
+            "date": "2023-03-23",
+            "url": "https://arxiv.org/abs/2303.13217v3"
+        },
+        "292": {
+            "id": "2402.15637v1",
+            "title": "Addressing Order Sensitivity of In-Context Demonstration Examples in Causal Language Models",
+            "date": "2024-02-23",
+            "url": "https://arxiv.org/abs/2402.15637v1"
+        },
+        "293": {
+            "id": "2102.12887v1",
+            "title": "Significant Improvements over the State of the Art A Case Study of the MS MARCO Document Ranking Leaderboard",
+            "date": "2021-02-25",
+            "url": "https://arxiv.org/abs/2102.12887v1"
+        },
+        "294": {
+            "id": "2212.08167v1",
+            "title": "Evaluation of Synthetic Datasets for Conversational Recommender Systems",
+            "date": "2022-12-12",
+            "url": "https://arxiv.org/abs/2212.08167v1"
+        },
+        "295": {
+            "id": "2009.13888v4",
+            "title": "Utility is in the Eye of the User A Critique of NLP Leaderboards",
+            "date": "2020-09-29",
+            "url": "https://arxiv.org/abs/2009.13888v4"
+        },
+        "296": {
+            "id": "2404.02204v1",
+            "title": "Emergent Abilities in Reduced-Scale Generative Language Models",
+            "date": "2024-04-02",
+            "url": "https://arxiv.org/abs/2404.02204v1"
+        },
+        "297": {
+            "id": "2402.12530v1",
+            "title": "Parallel Structures in Pre-training Data Yield In-Context Learning",
+            "date": "2024-02-19",
+            "url": "https://arxiv.org/abs/2402.12530v1"
+        },
+        "298": {
+            "id": "2310.08049v3",
+            "title": "Is attention required for ICL Exploring the Relationship Between Model Architecture and In-Context Learning Ability",
+            "date": "2023-10-12",
+            "url": "https://arxiv.org/abs/2310.08049v3"
+        },
+        "299": {
+            "id": "2306.15091v1",
+            "title": "Understanding In-Context Learning via Supportive Pretraining Data",
+            "date": "2023-06-26",
+            "url": "https://arxiv.org/abs/2306.15091v1"
+        },
+        "300": {
+            "id": "2404.13855v1",
+            "title": "Understanding the role of FFNs in driving multilingual behaviour in LLMs",
+            "date": "2024-04-22",
+            "url": "https://arxiv.org/abs/2404.13855v1"
+        },
+        "301": {
+            "id": "2306.09968v1",
+            "title": "ClinicalGPT Large Language Models Finetuned with Diverse Medical Data and Comprehensive Evaluation",
+            "date": "2023-06-16",
+            "url": "https://arxiv.org/abs/2306.09968v1"
+        },
+        "302": {
+            "id": "2403.08607v1",
+            "title": "MedInsight A Multi-Source Context Augmentation Framework for Generating Patient-Centric Medical Responses using Large Language Models",
+            "date": "2024-03-13",
+            "url": "https://arxiv.org/abs/2403.08607v1"
+        },
+        "303": {
+            "id": "2310.09241v1",
+            "title": "Precedent-Enhanced Legal Judgment Prediction with LLM and Domain-Model Collaboration",
+            "date": "2023-10-13",
+            "url": "https://arxiv.org/abs/2310.09241v1"
+        },
+        "304": {
+            "id": "2403.16446v1",
+            "title": "Towards Automatic Evaluation for LLMs' Clinical Capabilities Metric, Data, and Algorithm",
+            "date": "2024-03-25",
+            "url": "https://arxiv.org/abs/2403.16446v1"
+        },
+        "305": {
+            "id": "2210.02989v2",
+            "title": "SynBench Task-Agnostic Benchmarking of Pretrained Representations using Synthetic Data",
+            "date": "2022-10-06",
+            "url": "https://arxiv.org/abs/2210.02989v2"
+        },
+        "306": {
+            "id": "2210.16405v1",
+            "title": "Evaluation of Categorical Generative Models -- Bridging the Gap Between Real and Synthetic Data",
+            "date": "2022-10-28",
+            "url": "https://arxiv.org/abs/2210.16405v1"
+        },
+        "307": {
+            "id": "2105.08204v1",
+            "title": "Synthesising Multi-Modal Minority Samples for Tabular Data",
+            "date": "2021-05-17",
+            "url": "https://arxiv.org/abs/2105.08204v1"
+        },
+        "308": {
+            "id": "2307.08924v3",
+            "title": "Towards Task Sampler Learning for Meta-Learning",
+            "date": "2023-07-18",
+            "url": "https://arxiv.org/abs/2307.08924v3"
+        },
+        "309": {
+            "id": "2012.01365v1",
+            "title": "DERAIL Diagnostic Environments for Reward And Imitation Learning",
+            "date": "2020-12-02",
+            "url": "https://arxiv.org/abs/2012.01365v1"
+        },
+        "310": {
+            "id": "2305.16704v1",
+            "title": "A Closer Look at In-Context Learning under Distribution Shifts",
+            "date": "2023-05-26",
+            "url": "https://arxiv.org/abs/2305.16704v1"
+        },
+        "311": {
+            "id": "2110.11328v2",
+            "title": "A Fine-Grained Analysis on Distribution Shift",
+            "date": "2021-10-21",
+            "url": "https://arxiv.org/abs/2110.11328v2"
+        },
+        "312": {
+            "id": "2306.04618v2",
+            "title": "Revisiting Out-of-distribution Robustness in NLP Benchmark, Analysis, and LLMs Evaluations",
+            "date": "2023-06-07",
+            "url": "https://arxiv.org/abs/2306.04618v2"
+        },
+        "313": {
+            "id": "1909.09209v1",
+            "title": "A Human-Centered Data-Driven Planner-Actor-Critic Architecture via Logic Programming",
+            "date": "2019-09-18",
+            "url": "https://arxiv.org/abs/1909.09209v1"
+        },
+        "314": {
+            "id": "1911.03020v2",
+            "title": "A Human-in-the-loop Framework to Construct Context-aware Mathematical Notions of Outcome Fairness",
+            "date": "2019-11-08",
+            "url": "https://arxiv.org/abs/1911.03020v2"
+        },
+        "315": {
+            "id": "2203.12918v1",
+            "title": "A Rationale-Centric Framework for Human-in-the-loop Machine Learning",
+            "date": "2022-03-24",
+            "url": "https://arxiv.org/abs/2203.12918v1"
+        },
+        "316": {
+            "id": "1906.09317v1",
+            "title": "Identification of Tasks, Datasets, Evaluation Metrics, and Numeric Scores for Scientific Leaderboards Construction",
+            "date": "2019-06-21",
+            "url": "https://arxiv.org/abs/1906.09317v1"
+        },
+        "317": {
+            "id": "2310.11324v1",
+            "title": "Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design or How I learned to start worrying about prompt formatting",
+            "date": "2023-10-17",
+            "url": "https://arxiv.org/abs/2310.11324v1"
+        },
+        "318": {
+            "id": "2305.14907v3",
+            "title": "Coverage-based Example Selection for In-Context Learning",
+            "date": "2023-05-24",
+            "url": "https://arxiv.org/abs/2305.14907v3"
+        },
+        "319": {
+            "id": "2401.11323v2",
+            "title": "Identifying and Analyzing Task-Encoding Tokens in Large Language Models",
+            "date": "2024-01-20",
+            "url": "https://arxiv.org/abs/2401.11323v2"
+        },
+        "320": {
+            "id": "2105.12195v3",
+            "title": "Bias in Machine Learning Software Why How What to do",
+            "date": "2021-05-25",
+            "url": "https://arxiv.org/abs/2105.12195v3"
+        },
+        "321": {
+            "id": "1805.08819v4",
+            "title": "Learning what and where to attend",
+            "date": "2018-05-22",
+            "url": "https://arxiv.org/abs/1805.08819v4"
+        },
+        "322": {
+            "id": "2303.00673v1",
+            "title": "Fairness Evaluation in Text Classification Machine Learning Practitioner Perspectives of Individual and Group Fairness",
+            "date": "2023-03-01",
+            "url": "https://arxiv.org/abs/2303.00673v1"
+        },
+        "323": {
+            "id": "2205.08383v1",
+            "title": "Bias and Fairness on Multimodal Emotion Detection Algorithms",
+            "date": "2022-05-11",
+            "url": "https://arxiv.org/abs/2205.08383v1"
+        },
+        "324": {
+            "id": "1902.00375v2",
+            "title": "Dynamic fairness - Breaking vicious cycles in automatic decision making",
+            "date": "2019-02-01",
+            "url": "https://arxiv.org/abs/1902.00375v2"
+        },
+        "325": {
+            "id": "2206.13183v1",
+            "title": "Prisoners of Their Own Devices How Models Induce Data Bias in Performative Prediction",
+            "date": "2022-06-27",
+            "url": "https://arxiv.org/abs/2206.13183v1"
+        },
+        "326": {
+            "id": "2001.09604v1",
+            "title": "Factors Influencing Perceived Fairness in Algorithmic Decision-Making Algorithm Outcomes, Development Procedures, and Individual Differences",
+            "date": "2020-01-27",
+            "url": "https://arxiv.org/abs/2001.09604v1"
+        },
+        "327": {
+            "id": "2308.11090v2",
+            "title": "Fairness Explainability using Optimal Transport with Applications in Image Classification",
+            "date": "2023-08-22",
+            "url": "https://arxiv.org/abs/2308.11090v2"
+        },
+        "328": {
+            "id": "2305.14396v1",
+            "title": "FITNESS A Causal De-correlation Approach for Mitigating Bias in Machine Learning Software",
+            "date": "2023-05-23",
+            "url": "https://arxiv.org/abs/2305.14396v1"
+        },
+        "329": {
+            "id": "1809.09245v1",
+            "title": "Evaluating Fairness Metrics in the Presence of Dataset Bias",
+            "date": "2018-09-24",
+            "url": "https://arxiv.org/abs/1809.09245v1"
+        },
+        "330": {
+            "id": "2305.15979v1",
+            "title": "Monitoring Algorithmic Fairness",
+            "date": "2023-05-25",
+            "url": "https://arxiv.org/abs/2305.15979v1"
+        },
+        "331": {
+            "id": "2212.06713v1",
+            "title": "Structured Prompting Scaling In-Context Learning to 1,000 Examples",
+            "date": "2022-12-13",
+            "url": "https://arxiv.org/abs/2212.06713v1"
+        },
+        "332": {
+            "id": "2207.07886v5",
+            "title": "An Experimental Evaluation of Machine Learning Training on a Real Processing-in-Memory System",
+            "date": "2022-07-16",
+            "url": "https://arxiv.org/abs/2207.07886v5"
+        },
+        "333": {
+            "id": "2304.11062v2",
+            "title": "Scaling Transformer to 1M tokens and beyond with RMT",
+            "date": "2023-04-19",
+            "url": "https://arxiv.org/abs/2304.11062v2"
+        },
+        "334": {
+            "id": "2212.04458v2",
+            "title": "General-Purpose In-Context Learning by Meta-Learning Transformers",
+            "date": "2022-12-08",
+            "url": "https://arxiv.org/abs/2212.04458v2"
+        },
+        "335": {
+            "id": "2404.03558v1",
+            "title": "How does Multi-Task Training Affect Transformer In-Context Capabilities Investigations with Function Classes",
+            "date": "2024-04-04",
+            "url": "https://arxiv.org/abs/2404.03558v1"
+        },
+        "336": {
+            "id": "2308.10462v2",
+            "title": "Exploring Parameter-Efficient Fine-Tuning Techniques for Code Generation with Large Language Models",
+            "date": "2023-08-21",
+            "url": "https://arxiv.org/abs/2308.10462v2"
+        },
+        "337": {
+            "id": "2312.12559v1",
+            "title": "Beyond Fairness Alternative Moral Dimensions for Assessing Algorithms and Designing Systems",
+            "date": "2023-12-19",
+            "url": "https://arxiv.org/abs/2312.12559v1"
+        },
+        "338": {
+            "id": "2302.10329v2",
+            "title": "Harms from Increasingly Agentic Algorithmic Systems",
+            "date": "2023-02-20",
+            "url": "https://arxiv.org/abs/2302.10329v2"
+        },
+        "339": {
+            "id": "1812.03220v1",
+            "title": "What Are You Hiding Algorithmic Transparency and User Perceptions",
+            "date": "2018-12-07",
+            "url": "https://arxiv.org/abs/1812.03220v1"
+        },
+        "340": {
+            "id": "1706.09249v3",
+            "title": "Logics and practices of transparency and opacity in real-world applications of public sector machine learning",
+            "date": "2017-06-19",
+            "url": "https://arxiv.org/abs/1706.09249v3"
+        },
+        "341": {
+            "id": "1811.06747v2",
+            "title": "Machine Decisions and Human Consequences",
+            "date": "2018-11-16",
+            "url": "https://arxiv.org/abs/1811.06747v2"
+        },
+        "342": {
+            "id": "2309.06161v1",
+            "title": "Towards an Understanding of Developers' Perceptions of Transparency in Software Development A Preliminary Study",
+            "date": "2023-09-12",
+            "url": "https://arxiv.org/abs/2309.06161v1"
+        },
+        "343": {
+            "id": "2210.02667v1",
+            "title": "A Human Rights-Based Approach to Responsible AI",
+            "date": "2022-10-06",
+            "url": "https://arxiv.org/abs/2210.02667v1"
+        },
+        "344": {
+            "id": "1808.05686v1",
+            "title": "Embedded EthiCS Integrating Ethics Broadly Across Computer Science Education",
+            "date": "2018-08-16",
+            "url": "https://arxiv.org/abs/1808.05686v1"
+        },
+        "345": {
+            "id": "1706.02513v1",
+            "title": "Responsible Autonomy",
+            "date": "2017-06-08",
+            "url": "https://arxiv.org/abs/1706.02513v1"
+        },
+        "346": {
+            "id": "2312.04021v4",
+            "title": "A Study on the Calibration of In-context Learning",
+            "date": "2023-12-07",
+            "url": "https://arxiv.org/abs/2312.04021v4"
+        },
+        "347": {
+            "id": "2302.12149v1",
+            "title": "Beyond Bias and Compliance Towards Individual Agency and Plurality of Ethics in AI",
+            "date": "2023-02-23",
+            "url": "https://arxiv.org/abs/2302.12149v1"
+        },
+        "348": {
+            "id": "2203.09911v1",
+            "title": "Why we need biased AI -- How including cognitive and ethical machine biases can enhance AI systems",
+            "date": "2022-03-18",
+            "url": "https://arxiv.org/abs/2203.09911v1"
+        },
+        "349": {
+            "id": "2307.05857v2",
+            "title": "FAIRO Fairness-aware Adaptation in Sequential-Decision Making for Human-in-the-Loop Systems",
+            "date": "2023-07-12",
+            "url": "https://arxiv.org/abs/2307.05857v2"
+        },
+        "350": {
+            "id": "2309.06054v2",
+            "title": "Breaking through the learning plateaus of in-context learning in Transformer",
+            "date": "2023-09-12",
+            "url": "https://arxiv.org/abs/2309.06054v2"
+        },
+        "351": {
+            "id": "2402.08242v1",
+            "title": "Towards Equitable Agile Research and Development of AI and Robotics",
+            "date": "2024-02-13",
+            "url": "https://arxiv.org/abs/2402.08242v1"
+        },
+        "352": {
+            "id": "2403.14636v1",
+            "title": "AI Fairness in Practice",
+            "date": "2024-02-19",
+            "url": "https://arxiv.org/abs/2403.14636v1"
+        },
+        "353": {
+            "id": "2002.11836v1",
+            "title": "No computation without representation Avoiding data and algorithm biases through diversity",
+            "date": "2020-02-26",
+            "url": "https://arxiv.org/abs/2002.11836v1"
+        },
+        "354": {
+            "id": "2006.09663v1",
+            "title": "Extending the Machine Learning Abstraction Boundary A Complex Systems Approach to Incorporate Societal Context",
+            "date": "2020-06-17",
+            "url": "https://arxiv.org/abs/2006.09663v1"
+        },
+        "355": {
+            "id": "2010.09291v1",
+            "title": "Meta-learning the Learning Trends Shared Across Tasks",
+            "date": "2020-10-19",
+            "url": "https://arxiv.org/abs/2010.09291v1"
+        },
+        "356": {
+            "id": "2106.02695v2",
+            "title": "Meta-Learning with Fewer Tasks through Task Interpolation",
+            "date": "2021-06-04",
+            "url": "https://arxiv.org/abs/2106.02695v2"
+        },
+        "357": {
+            "id": "2110.15943v2",
+            "title": "MetaICL Learning to Learn In Context",
+            "date": "2021-10-29",
+            "url": "https://arxiv.org/abs/2110.15943v2"
+        },
+        "358": {
+            "id": "2010.15413v3",
+            "title": "Measuring and Harnessing Transference in Multi-Task Learning",
+            "date": "2020-10-29",
+            "url": "https://arxiv.org/abs/2010.15413v3"
+        },
+        "359": {
+            "id": "1904.10162v1",
+            "title": "Multi-Task Learning for Argumentation Mining",
+            "date": "2019-04-23",
+            "url": "https://arxiv.org/abs/1904.10162v1"
+        },
+        "360": {
+            "id": "2106.09017v1",
+            "title": "Bridging Multi-Task Learning and Meta-Learning Towards Efficient Training and Effective Adaptation",
+            "date": "2021-06-16",
+            "url": "https://arxiv.org/abs/2106.09017v1"
+        },
+        "361": {
+            "id": "2111.01322v1",
+            "title": "Diverse Distributions of Self-Supervised Tasks for Meta-Learning in NLP",
+            "date": "2021-11-02",
+            "url": "https://arxiv.org/abs/2111.01322v1"
+        },
+        "362": {
+            "id": "1812.06080v3",
+            "title": "Reconciling meta-learning and continual learning with online mixtures of tasks",
+            "date": "2018-12-14",
+            "url": "https://arxiv.org/abs/1812.06080v3"
+        },
+        "363": {
+            "id": "1706.03762v7",
+            "title": "Attention Is All You Need",
+            "date": "2017-06-12",
+            "url": "https://arxiv.org/abs/1706.03762v7"
+        },
+        "364": {
+            "id": "2106.06672v1",
+            "title": "Structure-Regularized Attention for Deformable Object Representation",
+            "date": "2021-06-12",
+            "url": "https://arxiv.org/abs/2106.06672v1"
+        },
+        "365": {
+            "id": "2204.09593v2",
+            "title": "COOL, a Context Outlooker, and its Application to Question Answering and other Natural Language Processing Tasks",
+            "date": "2022-04-01",
+            "url": "https://arxiv.org/abs/2204.09593v2"
+        },
+        "366": {
+            "id": "2006.11527v2",
+            "title": "Memory Transformer",
+            "date": "2020-06-20",
+            "url": "https://arxiv.org/abs/2006.11527v2"
+        },
+        "367": {
+            "id": "1912.12394v2",
+            "title": "All-in-One Image-Grounded Conversational Agents",
+            "date": "2019-12-28",
+            "url": "https://arxiv.org/abs/1912.12394v2"
+        },
+        "368": {
+            "id": "2312.08618v1",
+            "title": "Zebra Extending Context Window with Layerwise Grouped Local-Global Attention",
+            "date": "2023-12-14",
+            "url": "https://arxiv.org/abs/2312.08618v1"
+        },
+        "369": {
+            "id": "1612.06549v2",
+            "title": "Exploring Different Dimensions of Attention for Uncertainty Detection",
+            "date": "2016-12-20",
+            "url": "https://arxiv.org/abs/1612.06549v2"
+        },
+        "370": {
+            "id": "2006.00697v3",
+            "title": "Translating Natural Language Instructions for Behavioral Robot Navigation with a Multi-Head Attention Mechanism",
+            "date": "2020-06-01",
+            "url": "https://arxiv.org/abs/2006.00697v3"
+        },
+        "371": {
+            "id": "1802.05874v1",
+            "title": "Constrained Convolutional-Recurrent Networks to Improve Speech Quality with Low Impact on Recognition Accuracy",
+            "date": "2018-02-16",
+            "url": "https://arxiv.org/abs/1802.05874v1"
+        },
+        "372": {
+            "id": "2112.04482v3",
+            "title": "FLAVA A Foundational Language And Vision Alignment Model",
+            "date": "2021-12-08",
+            "url": "https://arxiv.org/abs/2112.04482v3"
+        },
+        "373": {
+            "id": "2309.07915v3",
+            "title": "MMICL Empowering Vision-language Model with Multi-Modal In-Context Learning",
+            "date": "2023-09-14",
+            "url": "https://arxiv.org/abs/2309.07915v3"
+        },
+        "374": {
+            "id": "2010.06002v2",
+            "title": "Thinking Fast and Slow in AI",
+            "date": "2020-10-12",
+            "url": "https://arxiv.org/abs/2010.06002v2"
+        },
+        "375": {
+            "id": "1804.01396v1",
+            "title": "Artificial Intelligence and its Role in Near Future",
+            "date": "2018-04-01",
+            "url": "https://arxiv.org/abs/1804.01396v1"
+        },
+        "376": {
+            "id": "2206.04179v1",
+            "title": "Automating Ambiguity Challenges and Pitfalls of Artificial Intelligence",
+            "date": "2022-06-08",
+            "url": "https://arxiv.org/abs/2206.04179v1"
+        },
+        "377": {
+            "id": "2403.16081v2",
+            "title": "The Interplay of Learning, Analytics, and Artificial Intelligence in Education",
+            "date": "2024-03-24",
+            "url": "https://arxiv.org/abs/2403.16081v2"
+        },
+        "378": {
+            "id": "2208.07998v2",
+            "title": "What Artificial Neural Networks Can Tell Us About Human Language Acquisition",
+            "date": "2022-08-17",
+            "url": "https://arxiv.org/abs/2208.07998v2"
+        },
+        "379": {
+            "id": "1912.05877v2",
+            "title": "Extending Machine Language Models toward Human-Level Language Understanding",
+            "date": "2019-12-12",
+            "url": "https://arxiv.org/abs/1912.05877v2"
+        },
+        "380": {
+            "id": "2304.00002v2",
+            "title": "Beyond Interpretable Benchmarks Contextual Learning through Cognitive and Multimodal Perception",
+            "date": "2022-12-04",
+            "url": "https://arxiv.org/abs/2304.00002v2"
+        },
+        "381": {
+            "id": "2103.06769v1",
+            "title": "Intelligent behavior depends on the ecological niche Scaling up AI to human-like intelligence in socio-cultural environments",
+            "date": "2021-03-11",
+            "url": "https://arxiv.org/abs/2103.06769v1"
+        },
+        "382": {
+            "id": "2205.10123v1",
+            "title": "Lifelong Personal Context Recognition",
+            "date": "2022-05-10",
+            "url": "https://arxiv.org/abs/2205.10123v1"
+        },
+        "383": {
+            "id": "2005.00582v1",
+            "title": "Learning to Complement Humans",
+            "date": "2020-05-01",
+            "url": "https://arxiv.org/abs/2005.00582v1"
+        }
     }
 }

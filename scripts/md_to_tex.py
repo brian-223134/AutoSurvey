@@ -15,6 +15,7 @@ pandoc만으로는 안 되는 이유가 세 가지 있다.
 """
 
 import argparse
+import json
 import os
 import re
 import subprocess
@@ -167,17 +168,52 @@ def tex_escape(text):
     return text
 
 
-def build_bibliography(refs):
+def load_detail(md_path):
+    """옆에 있는 .json의 reference_detail을 읽는다. (없으면 빈 dict)
+
+    scripts/enrich_references.py가 DB와 조인해 넣어준 서지정보다.
+    .md에는 제목밖에 없어서 이게 없으면 arXiv ID도 링크도 못 넣는다.
+    """
+    jf = os.path.splitext(md_path)[0] + '.json'
+    if not os.path.exists(jf):
+        return {}
+    with open(jf, encoding='utf-8') as f:
+        return json.load(f).get('reference_detail') or {}
+
+
+def format_bibitem(n, title, info):
+    """제목 + arXiv ID + 연도 + 클릭 가능한 링크.
+
+    저자와 게재지는 넣을 수 없다. DB(arxiv_paper_db.json)에 id/title/url/date만
+    있고 저자 메타데이터가 없기 때문이다.
+    """
+    # 이스케이프를 먼저 하고 유니코드를 고친다. 순서를 뒤집으면 치환으로 넣은
+    # $\rightarrow$ 의 백슬래시와 $ 가 다시 이스케이프돼 글자로 찍힌다.
+    # arXiv 제목은 원본에 줄바꿈과 들여쓰기가 들어 있어 공백이 겹친다.
+    text, _ = sanitize_unicode(tex_escape(re.sub(r'\s+', ' ', title).strip()))
+    if not info:
+        return '\\bibitem{ref%d} %s' % (n, text)
+
+    parts = [text.rstrip('.') + '.']
+    arxiv_id = info.get('id', '')
+    year = (info.get('date') or '')[:4]
+    if arxiv_id:
+        parts.append('arXiv:%s%s.' % (tex_escape(arxiv_id),
+                                      (', %s' % year) if year else ''))
+    if info.get('url'):
+        # \url은 hyperref가 제공한다. 내용에 특수문자가 없는 arXiv 링크라 안전하다.
+        parts.append('\\url{%s}' % info['url'])
+    return '\\bibitem{ref%d} %s' % (n, ' '.join(parts))
+
+
+def build_bibliography(refs, detail):
     if not refs:
         return ''
     width = str(max(refs))
     out = ['\\begin{thebibliography}{' + width + '}',
            '\\addcontentsline{toc}{section}{References}']
     for n in sorted(refs):
-        # 이스케이프를 먼저 하고 유니코드를 고친다. 순서를 뒤집으면 치환으로 넣은
-        # $\rightarrow$ 의 백슬래시와 $ 가 다시 이스케이프돼 글자로 찍힌다.
-        title, _ = sanitize_unicode(tex_escape(refs[n]))
-        out.append('\\bibitem{ref%d} %s' % (n, title))
+        out.append(format_bibitem(n, refs[n], detail.get(str(n))))
     out.append('\\end{thebibliography}')
     return '\n'.join(out)
 
@@ -196,6 +232,7 @@ def main():
 
     lines = raw.split('\n')
     body_lines, refs = split_references(lines)
+    detail = load_detail(args.md_path)
 
     # 문서 제목은 첫 '# ' 헤딩에서 가져오고 본문에서는 뺀다 (\maketitle이 찍는다).
     title = os.path.splitext(os.path.basename(args.md_path))[0]
@@ -226,14 +263,18 @@ def main():
         f.write(PREAMBLE.replace('@@TITLE@@', tex_escape(title)))
         f.write(body_tex)
         f.write('\n\n')
-        f.write(build_bibliography(refs))
+        f.write(build_bibliography(refs, detail))
         f.write('\n\n\\end{document}\n')
 
     print(f'생성: {out_path}')
     print(f'  제목: {title}')
     print(f'  중복 헤딩 제거: {dropped}개')
     print(f'  pdflatex 미지원 문자 치환: {fixed_chars}곳')
-    print(f'  참고문헌: {len(refs)}개')
+    linked = sum(1 for n in refs if detail.get(str(n), {}).get('id'))
+    print(f'  참고문헌: {len(refs)}개 (arXiv ID/링크 {linked}개)')
+    if refs and not linked:
+        print('  ⚠ reference_detail이 없습니다. '
+              'scripts/enrich_references.py 를 먼저 돌리면 arXiv ID와 링크가 들어갑니다')
     print(f'  \\cite 변환: {cite_count}곳')
     leftover = len(CITE_RE.findall(body_tex))
     if leftover:
