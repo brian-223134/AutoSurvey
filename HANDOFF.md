@@ -8,19 +8,27 @@
 
 ## 현재 상태 — 목표 달성
 
-**서베이 3편 생성 완료.** 파이프라인이 end-to-end로 동작합니다.
+**서베이 4편 생성 완료** (haiku 3편 + deepseek-v4-pro 1편). 파이프라인이 end-to-end로 동작합니다.
 
-| 서베이 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
-|---|---|---|---|---|---|
-| In-context Learning | 9 / 51 | 32,176 | 383 | 465 | $0.78 |
-| Large Multi-Modal Language Models | 8 / 48 | 30,709 | 378 | 467 | $0.75 |
-| Evaluation of LLMs | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
+| 서베이 | 모델 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
+|---|---|---|---|---|---|---|
+| In-context Learning | haiku | 9 / 51 | 32,176 | 383 | 465 | $0.78 |
+| Large Multi-Modal Language Models | haiku | 8 / 48 | 30,709 | 378 | 467 | $0.75 |
+| Evaluation of LLMs | haiku | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
+| In-context Learning | deepseek-v4-pro | 14 / 117 | 92,707 | 644 | 884 | $3.39 |
 
-셋 다 `scripts/check_survey.py` 통과 (댕글링 인용 0 / json 매핑 일치 / 포맷 누출 0).
-편당 6~8분, 합계 약 $2.28. 논문의 32k 토큰 카테고리에 해당하는 분량입니다.
+전부 `scripts/check_survey.py` 통과 (댕글링 인용 0 / json 매핑 일치 / 포맷 누출 0).
+haiku는 편당 6~8분, 3편 합계 약 $2.28.
 
-산출물은 `output/{topic}.md` 와 `output/{topic}.json` (인용번호 → arXiv id 매핑).
-`output/smoke/` 는 축소 설정 스모크 결과입니다.
+> deepseek 편의 `rag_num`은 예산 제약으로 30(haiku는 60)이라 모델만 다른 통제 비교가
+> 아닙니다. 또 섹션 수 14/117은 `.md`의 헤딩을 그대로 센 값이고, 중복 제목과 헤딩
+> 레벨 오류를 바로잡은 실제 구조는 10섹션 / 72서브섹션 / 5서브서브섹션입니다.
+
+**산출물은 모델별 디렉터리로 나뉘어 있습니다** — `output/haiku/`, `output/deepseek-v4-pro/`,
+`output/haiku-smoke/`, `output/deepseek-smoke/`. 토픽당 `.md` / `.json` / `.tex` 3개.
+
+**각 출력의 정확한 실행 조건은 [`output/README.md`](output/README.md)에 있습니다.**
+새 서베이를 만들면 그 표에 한 줄 추가해 주세요.
 
 **다음 후보** (추가 생성 시): 논문 20개 토픽 중 커버리지 상위 —
 Explainability for LLMs (d@1200 0.811) / LLM-Generated Texts Detection (0.823) /
@@ -36,7 +44,7 @@ LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 origin은 SSH URL(`git@github.com:brian-223134/AutoSurvey.git`)로 전환돼 있습니다.
 (서버 SSH 키에 passphrase가 있어 TTY 없는 도구에서는 push가 불가합니다.)
 
-커밋: 인프라 2개 + 서베이 3개 (서베이 1편당 1커밋).
+커밋: 서베이 1편당 1커밋 + 인프라/변환 커밋.
 
 ---
 
@@ -49,25 +57,37 @@ conda activate autosurvey
 source .env
 python main.py \
   --topic "Explainability for LLMs" \
-  --saving_path ./output/ --db_path ./database \
+  --saving_path ./output/haiku/ --db_path ./database \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
   --model anthropic/claude-3-haiku \
   --api_url https://openrouter.ai/api/v1/chat/completions \
   --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200
 
-python scripts/check_survey.py "output/Explainability for LLMs.md"
+python scripts/check_survey.py "output/haiku/Explainability for LLMs.md"
 ```
 
+`--saving_path`는 **모델별 디렉터리**로 주세요. 다른 모델을 쓰면 새 디렉터리를 만들고,
+끝나면 `output/README.md` 표에 실행 조건을 한 줄 추가합니다.
+
 축소 스모크가 필요하면 `--section_num 4 --outline_reference_num 200 --rag_num 15`
-(약 $0.15, 2분). 결과는 `--saving_path ./output/smoke/` 로 분리하세요.
+(약 $0.15, 2분). 결과는 `--saving_path ./output/<모델>-smoke/` 로 분리하세요.
+
+생성 후에는 서지정보 채우기와 `.tex` 변환을 돌립니다:
+```bash
+python scripts/enrich_references.py                    # .json에 arXiv 제목/날짜/링크
+PATH="$HOME/miniforge3/envs/tex/bin:$PATH" \
+  python scripts/md_to_tex.py "output/haiku/Explainability for LLMs.md"
+```
 
 **크레딧 확인**:
 ```bash
 source .env && curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" \
   https://openrouter.ai/api/v1/credits
 ```
-2026-07-30 기준 잔액 $196.85 (충전 $3,021.55 / 사용 $2,824.70).
-**공용 계정으로 보이므로** 대량 생성 전에 확인이 필요합니다.
+현재 키에는 **$10 상한**이 걸려 있습니다. 2026-07-30 deepseek 본편 실행 직후
+사용 $7.625 / 잔여 $2.375 — deepseek 본편 1회가 $3.39이므로 **추가 실행은 들어가지
+않습니다.** 새로 돌리려면 크레딧 상향이 먼저입니다. 계정은 공용으로 보이므로
+대량 생성 전에 확인이 필요합니다.
 
 > **`--api_key`를 일부러 넘기지 않습니다.** 이 서버는 `/proc`에 hidepid가 없어
 > 다른 사용자가 `ps -eo args`로 명령줄을 볼 수 있습니다. `main.py`/`evaluation.py`가
@@ -159,7 +179,7 @@ arXiv id에 버전 접미사가 붙어 있고(`1811.06122v1`) 스냅샷은 **202
 
 TL;DR의 3번. 확인할 것:
 1. 시작 직후 `hello` 응답 — 실패하면 `[APIModel]` 로그와 함께 그 자리에서 죽습니다
-2. `./output/{topic}.md`에 `#` 제목 / `##` 섹션 / `###` 서브섹션 / `## References`가 다 있는지
+2. `./output/<모델>/{topic}.md`에 `#` 제목 / `##` 섹션 / `###` 서브섹션 / `## References`가 다 있는지
 3. 본문의 `[n]` 번호가 References 항목과 대응하는지
 
 ### C. 본 실행 — 확정된 3개 토픽
