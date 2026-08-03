@@ -2,7 +2,8 @@
 
 **최종 갱신**: 2026-07-30
 **목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현과 평가 파이프라인은 범위 밖.
-**상세 배경**: `SETTING.md` (환경·패치·비용 전반), 이 문서는 "지금 어디까지 됐고 다음에 뭘 하면 되는지"만 다룹니다.
+**상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
+이 문서는 "지금 어디까지 됐고 다음에 뭘 하면 되는지"만 다룹니다.
 
 ---
 
@@ -27,8 +28,9 @@ haiku는 편당 6~8분, 3편 합계 약 $2.28.
 **산출물은 모델별 디렉터리로 나뉘어 있습니다** — `output/haiku/`, `output/deepseek-v4-pro/`,
 `output/haiku-smoke/`, `output/deepseek-smoke/`. 토픽당 `.md` / `.json` / `.tex` 3개.
 
-**각 출력의 정확한 실행 조건은 [`output/README.md`](output/README.md)에 있습니다.**
-새 서베이를 만들면 그 표에 한 줄 추가해 주세요.
+**각 출력의 정확한 실행 조건 — 모델·하이퍼파라미터·환경·DB 지문·명령 — 은
+[`REPRODUCTION.md`](REPRODUCTION.md)에 있습니다.** 결과 수치와 비교 시 주의점은
+[`output/README.md`](output/README.md). 새 서베이를 만들면 두 표에 각각 한 줄 추가해 주세요.
 
 **다음 후보** (추가 생성 시): 논문 20개 토픽 중 커버리지 상위 —
 Explainability for LLMs (d@1200 0.811) / LLM-Generated Texts Detection (0.823) /
