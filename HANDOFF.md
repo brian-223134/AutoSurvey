@@ -1,6 +1,6 @@
 # HANDOFF — AutoSurvey 세팅 인수인계
 
-**최종 갱신**: 2026-07-30
+**최종 갱신**: 2026-08-04
 **목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현과 평가 파이프라인은 범위 밖.
 **상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
 이 문서는 "지금 어디까지 됐고 다음에 뭘 하면 되는지"만 다룹니다.
@@ -9,7 +9,9 @@
 
 ## 현재 상태 — 목표 달성
 
-**서베이 4편 생성 완료** (haiku 3편 + deepseek-v4-pro 1편). 파이프라인이 end-to-end로 동작합니다.
+**서베이 6편 생성 완료** — 본편 4편(haiku 3 + deepseek-v4-pro 1) + 스모크 2편.
+파이프라인이 end-to-end로 동작합니다. 아래 표는 본편 4편입니다(스모크 포함 전체 결과는
+[`output/README.md`](output/README.md)).
 
 | 서베이 | 모델 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
 |---|---|---|---|---|---|---|
@@ -36,7 +38,8 @@ haiku는 편당 6~8분, 3편 합계 약 $2.28.
 Explainability for LLMs (d@1200 0.811) / LLM-Generated Texts Detection (0.823) /
 LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 
-**남은 일**: PDF·LaTeX 변환(사용자 로컬 맥북에서 진행), 벤치마크 평가.
+**남은 일**: PDF 컴파일 확인(`.tex`까지는 나와 있음, 사용자 로컬/Overleaf), `.bib` 생성,
+벤치마크 평가. **새 생성은 크레딧 소진으로 막혀 있습니다** (아래 "크레딧" 참고).
 
 ---
 
@@ -74,22 +77,30 @@ python scripts/check_survey.py "output/haiku/Explainability for LLMs.md"
 축소 스모크가 필요하면 `--section_num 4 --outline_reference_num 200 --rag_num 15`
 (약 $0.15, 2분). 결과는 `--saving_path ./output/<모델>-smoke/` 로 분리하세요.
 
-생성 후에는 서지정보 채우기와 `.tex` 변환을 돌립니다:
+생성 후에는 `.tex` 변환을 돌립니다:
 ```bash
-python scripts/enrich_references.py                    # .json에 arXiv 제목/날짜/링크
 PATH="$HOME/miniforge3/envs/tex/bin:$PATH" \
   python scripts/md_to_tex.py "output/haiku/Explainability for LLMs.md"
 ```
+`scripts/enrich_references.py`(서지정보 채우기)는 **새 실행에는 필요 없습니다** —
+`main.py`가 저장 시점에 `reference_detail`을 만듭니다. 옛 산출물을 손볼 때만 씁니다.
 
-**크레딧 확인**:
+### 크레딧 — ⚠ 현재 키는 소진 상태
+
 ```bash
 source .env && curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" \
-  https://openrouter.ai/api/v1/credits
+  https://openrouter.ai/api/v1/key        # 이 키의 한도/사용량
 ```
-현재 키에는 **$10 상한**이 걸려 있습니다. 2026-07-30 deepseek 본편 실행 직후
-사용 $7.625 / 잔여 $2.375 — deepseek 본편 1회가 $3.39이므로 **추가 실행은 들어가지
-않습니다.** 새로 돌리려면 크레딧 상향이 먼저입니다. 계정은 공용으로 보이므로
-대량 생성 전에 확인이 필요합니다.
+
+2026-08-04 실측: **한도 $10 / 사용 $10.035 / 잔여 0**. 새 실행은 들어가지 않습니다.
+크레딧 상향이나 새 키 발급이 선행돼야 합니다.
+
+> **`/api/v1/credits`를 보지 마세요.** 그 엔드포인트는 **계정 전체** 잔액을 돌려주는데
+> (2026-08-04 기준 잔여 $149.55) 이 키에 걸린 $10 상한은 보여주지 않습니다.
+> 계정 잔액만 보고 "여유 있다"고 판단하면 실행이 402로 죽습니다. 키 한도는
+> 위의 `/api/v1/key`로 확인하세요.
+
+계정은 공용이므로 상향·발급 전에 확인이 필요합니다.
 
 > **`--api_key`를 일부러 넘기지 않습니다.** 이 서버는 `/proc`에 hidepid가 없어
 > 다른 사용자가 `ps -eo args`로 명령줄을 볼 수 있습니다. `main.py`/`evaluation.py`가
@@ -143,15 +154,21 @@ conda activate autosurvey       # ~/miniforge3/envs/autosurvey, Python 3.10
 
 **aliasing 버그 (가장 중요)** — `writer.py`의 `[[]] * n`은 빈 리스트 n개가 아니라 **같은 객체 참조 n개**입니다. 바로 아래에서 `.append()`로 쌓기 때문에 **섹션 0을 제외한 모든 섹션이 섹션 0의 참고문헌으로 본문을 씁니다.** 크래시가 없어서 조용히 품질만 망가집니다. `[[] for _ in range(n)]`로 교체했습니다.
 
-### 3. 스크립트 3종 (`scripts/`)
+### 3. 스크립트 6종 (`scripts/`)
 
-cs.CL 97편 샘플로 **수집 → 인덱스 → 검증 → 검색까지 끝까지 돌려 동작 확인 완료**.
+DB 준비용 3종 — cs.CL 97편 샘플로 **수집 → 인덱스 → 검증 → 검색까지 끝까지 돌려 동작 확인 완료**.
 
-- **`check_db.py`** — 반입할 DB 검증용. **다음 단계에서 바로 씁니다.**
-  파일 4개 존재 / TinyDB 스키마 / FAISS·매핑 크기 정합 / 실제 검색. 파일명이 다르면 실제 목록을 출력해줍니다.
+- `check_db.py` — DB 검증. 파일 4개 존재 / TinyDB 스키마 / FAISS·매핑 크기 정합 / 실제 검색.
+  파일명이 다르면 실제 목록을 출력해줍니다.
 - `harvest_arxiv.py` — arXiv OAI-PMH 수집. **OneDrive 반입이 실패할 경우의 폴백.**
   카테고리 단위 setSpec(`cs:cs:CL` 등) 지원, 페이지당 1300건, 503/Retry-After 처리, 중단 후 재개.
 - `build_index.py` — `build_database.ipynb` 대체 (노트북은 `index_gpu_to_cpu` 에러 + 출력 파일명 불일치로 그대로 안 돎).
+
+산출물 처리용 3종 — 생성 후에 씁니다.
+
+- `check_survey.py` — 생성된 `.md`/`.json` 무결성. 댕글링 인용 / json 매핑 일치 / 포맷 누출.
+- `enrich_references.py` — `.json`에 arXiv 제목·날짜·링크를 채웁니다(`reference_detail`).
+- `md_to_tex.py` — `.md` → Overleaf용 `.tex`.
 
 ### 4. 기타
 
@@ -159,11 +176,7 @@ cs.CL 97편 샘플로 **수집 → 인덱스 → 검증 → 검색까지 끝까�
 - `requirements-server.txt` 신규 (원본 `requirements.txt`는 `faiss_gpu`/`torch 2.1.0`/langchain 때문에 이 서버에서 설치 불가)
 - `SETTING.md` 갱신 — 초판의 "L40 48GB × 2"는 오기, 실측은 **L40S 46GB × 8**
 
----
-
-## 남은 작업
-
-### A. ~~DB 반입 및 검증~~ ✅ 완료
+### 5. DB 반입 및 검증
 
 OneDrive zip을 scp로 반입해 `./database/`에 풀었고 `check_db.py` **통과**:
 
@@ -177,20 +190,11 @@ OneDrive zip을 scp로 반입해 `./database/`에 풀었고 `check_db.py` **통�
 arXiv id에 버전 접미사가 붙어 있고(`1811.06122v1`) 스냅샷은 **2024-05** 기준입니다.
 `scripts/harvest_arxiv.py`는 버전 없는 id를 쓰므로 두 DB를 섞지 마세요.
 
-### B. 스모크 실행 ← **여기부터**
+### 6. 토픽 선정과 생성
 
-TL;DR의 3번. 확인할 것:
-1. 시작 직후 `hello` 응답 — 실패하면 `[APIModel]` 로그와 함께 그 자리에서 죽습니다
-2. `./output/<모델>/{topic}.md`에 `#` 제목 / `##` 섹션 / `###` 서브섹션 / `## References`가 다 있는지
-3. 본문의 `[n]` 번호가 References 항목과 대응하는지
-
-### C. 본 실행 — 확정된 3개 토픽
-
-`--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (논문 설정)
-
-토픽은 **DB에서 직접 커버리지를 측정해** 골랐다 (top-1200 검색 후 거리 분포 비교).
+토픽은 **DB에서 직접 커버리지를 측정해** 골랐습니다 (top-1200 검색 후 거리 분포 비교).
 `d@1200`이 낮을수록 1200번째까지 관련성이 유지된다는 뜻이고, 감쇠(`d@1200 − d@1`)가
-작을수록 관련 논문층이 두텁다.
+작을수록 관련 논문층이 두텁습니다.
 
 | 토픽 | d@1200 | 감쇠 | 2023+ | 선정 이유 |
 |---|---|---|---|---|
@@ -198,52 +202,78 @@ TL;DR의 3번. 확인할 것:
 | **Large Multi-Modal Language Models** | **0.744** | **0.238** | 88% | 측정한 24개 중 커버리지 1위 |
 | **Evaluation of LLMs** | 0.849 | 0.254 | 96% | 안정적 커버리지 + 최신성 최고. 인간 서베이 183 인용 |
 
-- In-context Learning은 감쇠가 커서 `--outline_reference_num`을 **800 정도로 낮추는 걸 고려**
+스모크 → 본 실행 순으로 돌렸습니다. 본편은 논문 설정
+(`--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200`)을 썼고,
+deepseek 편만 예산 때문에 `--rag_num 30`입니다.
+
+새 토픽을 고를 때 참고:
+
+- In-context Learning은 감쇠가 커서 `--outline_reference_num`을 800으로 낮추는 안을
+  검토했지만, 논문 설정과의 비교를 위해 1200으로 돌렸습니다
 - 피할 토픽: Parameter-Efficient Fine-Tuning(0.958), Chain of Thought(0.942),
   Hallucination in LLMs(0.940), LLMs for Recommendation(0.946).
-  d@1은 괜찮지만 1200편을 채우면 뒤쪽이 노이즈다
-- DB 스냅샷이 **2024-05**라 그 이후 부상한 주제는 논문이 거의 없다
+  d@1은 괜찮지만 1200편을 채우면 뒤쪽이 노이즈입니다
+- DB 스냅샷이 **2024-05**라 그 이후 부상한 주제는 논문이 거의 없습니다
 
-### D-2. 출력 형식과 PDF 변환 (출력이 나온 뒤 진행)
+### 7. 후처리 — 서지정보와 `.tex` 변환
 
-목적: **품질 체크용 PDF + 원문 둘 다** 필요.
+`main.py`가 만드는 것은 `.md` / `.json` 2개뿐이고, `.tex`는 뒤에 붙인 단계입니다.
 
-현재 출력은 **Markdown**이다. LaTeX 기능은 없다.
+- `enrich_references.py`가 `.json`에 arXiv 제목·날짜·링크를 `reference_detail`로 채웁니다.
+  기존 6편은 이 스크립트로 뒤늦게 채웠지만 **`main.py`가 이제 저장 시점에 같은 필드를
+  만듭니다**(`build_reference_detail`). 새 실행은 이 단계를 건너뛰어도 됩니다.
+- `reference` 필드는 건드리지 않습니다 — `judge.py`의 `citation_quality()`가 그 구조에
+  의존하므로 바꾸면 `evaluation.py`가 깨집니다.
+- `md_to_tex.py`는 제목 중복 제거, 헤딩 레벨 교정, `\cite` 변환, pdflatex 미지원
+  유니코드 치환을 거칩니다.
+- **서버에서 LaTeX 컴파일은 불가능합니다.** 시스템 MiKTeX는 `pdflatex.fmt` 빌드에 실패하고
+  (admin 권한 필요), conda `tex` env의 `texlive-core`도 매크로 트리(`latex.ltx`)가 없습니다.
+  같은 env의 pandoc 3.10.1은 정상이라 **변환까지만** 서버에서 합니다.
 
-| 항목 | 현재 |
-|---|---|
-| `{topic}.md` | `#`/`##`/`###` 헤딩, 인용은 본문에 `[1; 2]` **평문** |
-| `{topic}.json` | `{"survey": 본문, "reference": {번호 → arXiv id}}` |
-| 참고문헌 | `[n] 논문 제목` — **제목만**. 저자·연도·venue 없음 |
-| `.bib` | 없음 |
+---
 
-변환 시 유의:
-- DB에 **저자 필드가 없다** (`id`/`title`/`abs`/`date`뿐). 제대로 된 `.bib`을 만들려면
-  인용된 논문(서베이당 74~90편)의 저자를 arXiv **OAI-PMH `GetRecord`** 로 따로 받아야 한다
-  (이 서버에서 arXiv REST API는 타임아웃, OAI-PMH는 정상)
-- 시스템 MiKTeX는 `pdflatex.fmt` 포맷 빌드에 실패해 **쓸 수 없다** (admin 권한 필요).
-  대신 conda 환경 **`tex`** 에 pandoc + texlive-core를 설치해 뒀다 → `conda activate tex`
-- pandoc으로 바로 PDF를 뽑으면 인용이 `[1]` 평문으로 남는다. 읽기용으로는 충분하고,
-  `\cite{}` + `.bib`이 필요하면 `.json`의 reference 매핑을 쓰는 변환기를 별도로 만든다
+## 남은 작업
 
-### D. (추후) writer 모델을 open model로 교체
+### A. LaTeX·PDF 확인 — 사용자 로컬에서
 
-교수님 의견: closed model(Claude-3-Haiku)보다 **비슷한 성능의 open model API**를 쓰는 편이 좋겠다.
-후보는 **GLM-4.6** (OpenRouter 슬러그 확인 필요, `z-ai/glm-4.6` 추정).
-일단 Haiku로 파이프라인을 확인한 뒤 교체한다.
+`.tex`까지는 6편 전부 나와 있습니다. Overleaf 업로드 절차와 deepseek 편
+(92,707단어 / 참고문헌 644개)의 컴파일 타임아웃 대응은 [`output/README.md`](output/README.md).
 
-**코드 수정은 불필요** — OpenRouter가 OpenAI 호환이라 `--model` 값만 바꾸면 된다.
+남은 간극 두 가지:
+
+- **`.bib`이 없습니다.** `.tex`의 `\cite{}`가 가리키는 서지 항목은 제목 기반입니다.
+- **저자 정보가 없습니다.** DB에 저자 필드 자체가 없습니다(`id`/`title`/`abs`/`date`뿐).
+  제대로 된 `.bib`을 만들려면 인용된 논문(서베이당 74~90편)의 저자를 arXiv
+  **OAI-PMH `GetRecord`** 로 따로 받아야 합니다 — 이 서버에서 arXiv REST API는
+  타임아웃이고 OAI-PMH는 정상입니다. arXiv id·제목·날짜·링크까지는 `.json`의
+  `reference_detail`에 이미 들어 있습니다.
+
+### B. 벤치마크 평가 — 착수 전
+
+범위 밖으로 둔 항목입니다. 돌린다면 `judge.py:202,216`의 **무제한 스레드 생성부터
+제한**하세요. 인용 문장 하나당 스레드 하나를 만들어 32k 서베이면 수백 개가 동시에 나갑니다.
+
+### C. writer 모델 추가 교체 (선택)
+
+교수님 의견은 closed model(Claude-3-Haiku)보다 **비슷한 성능의 open model API**를 쓰자는
+것이었고, `deepseek/deepseek-v4-pro`로 한 편 생성해 **이미 확인했습니다**.
+남은 후보는 **GLM-4.6**(OpenRouter 슬러그 확인 필요, `z-ai/glm-4.6` 추정) — 미시도입니다.
+
+**코드 수정은 불필요합니다** — OpenRouter가 OpenAI 호환이라 `--model` 값만 바꾸면 됩니다.
 교체 시 확인할 것:
 
 1. **reasoning(thinking) 모드** — 켜져 있으면 출력 토큰이 몇 배가 되어 비용·시간이 늘고,
-   최악의 경우 thinking 내용이 본문에 섞인다. `src/model.py`는 `reasoning` 파라미터를
-   보내지 않으므로 OpenRouter 기본값을 따른다. 문제가 보이면 페이로드에
-   `"reasoning": {"enabled": false}`를 추가한다
-2. **출력 포맷 준수** — 프롬프트가 Haiku에 맞춰 튜닝돼 있고 파서가 문자열 매칭이라 취약하다.
-   `extract_title_sections_descriptions`는 `split('Title: ')[1]`이라 서두 한 줄만 붙어도
-   IndexError로 즉사한다. 아래 "함정 모음" 참고
+   최악의 경우 thinking 내용이 본문에 섞입니다. `.env`의 `AUTOSURVEY_REASONING=off`로
+   끄세요. 이 토글이 생기기 전에 켠 채로 돌린 `deepseek-smoke/`는 추론 토큰이 출력의 45%,
+   비용이 토큰 추정의 3.5배였습니다.
+2. **출력 포맷 준수** — 아웃라인 파서는 `8bfbc43`에서 정규식 기반으로 바꿔 모델
+   비의존적입니다(deepseek 첫 시도가 `IndexError`로 죽어서 고쳤습니다).
+   그래도 새 모델은 스모크부터 돌리세요.
 3. 논문 Table 4가 writer를 GPT-4 / Gemini-1.5-Pro로 바꾼 ablation을 이미 다루므로,
-   writer 교체 자체는 방법론을 벗어나지 않는다 (세 모델 모두 4.58~4.70)
+   writer 교체 자체는 방법론을 벗어나지 않습니다 (세 모델 모두 4.58~4.70).
+
+**예산이 선행 조건입니다** — 현재 키는 $10 한도를 다 썼습니다(2026-08-04 실측, 잔여 0).
+크레딧 상향이나 새 키 없이는 스모크 한 편도 돌지 않습니다.
 
 ---
 
@@ -252,8 +282,9 @@ TL;DR의 3번. 확인할 것:
 - **`--api_url`은 끝에 `/chat/completions`까지** 붙여야 합니다. `src/model.py`가 경로를 덧붙이지 않고 그대로 씁니다
 - **`--model`은 OpenRouter의 `provider/model` 형식** (`anthropic/claude-3-haiku`)
 - **컨텍스트 32k 이상 모델**을 고르세요. `main.py`가 `chunk_size=30000`으로 아웃라인 청크를 만듭니다
-- **동시 요청이 `section_num × AUTOSURVEY_MAX_THREADS`** 입니다. 기본값이면 8×15=120개가 한꺼번에 나가 429를 맞습니다. 낮게 잡고 시작하세요
+- **동시 요청이 `section_num × AUTOSURVEY_MAX_THREADS`** 입니다. 코드 기본값이면 8×15=120개가 한꺼번에 나가 429를 맞습니다. `.env`에 `AUTOSURVEY_MAX_THREADS=4`로 잡아 뒀습니다 — 올리지 마세요
 - **`main.py --gpu` 인자는 아무 데서도 안 쓰입니다** (파싱만 하고 버림). `CUDA_VISIBLE_DEVICES`를 쓰세요
+- **크레딧은 `/api/v1/key`로 확인하세요.** `/api/v1/credits`는 **계정 전체** 잔액이라 이 키에 걸린 $10 상한이 보이지 않습니다. 잔액이 있어 보여도 키가 소진됐으면 실행이 죽습니다
 - **`evaluation.py`를 돌릴 거면 `judge.py`부터 고치세요.** 인용 문장 하나당 스레드 하나를 **제한 없이** 띄웁니다 (`judge.py:198-220`). 32k 서베이면 수백 개가 동시에 나갑니다
 - `database.py`의 `get_paper_from_ids()`(전문 로딩)는 **코드 어디에서도 호출되지 않습니다.** 공개 DB는 초록만 있고, 논문은 본문 앞 1500토큰을 씁니다 — 이게 논문과의 가장 큰 갭입니다 (`SETTING.md` §8)
 
