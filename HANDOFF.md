@@ -187,8 +187,12 @@ OneDrive zip을 scp로 반입해 `./database/`에 풀었고 `check_db.py` **통�
 | id 매핑 | 537,665개, TinyDB와 **100% 일치** (유실 0건) |
 | 검색 스모크 | `"large language models"` → 관련 논문 5건 정상 |
 
-arXiv id에 버전 접미사가 붙어 있고(`1811.06122v1`) 스냅샷은 **2024-05** 기준입니다.
-`scripts/harvest_arxiv.py`는 버전 없는 id를 쓰므로 두 DB를 섞지 마세요.
+arXiv id에 버전 접미사가 붙어 있고(`1811.06122v1`) **수록 논문의 최신 날짜는
+`2024-04-26`** 입니다 (배포 파일 mtime 2024-05-27과 다릅니다 — 후자는 파일이 만들어진
+날짜입니다). `scripts/harvest_arxiv.py`는 버전 없는 id를 쓰므로 두 DB를 섞지 마세요.
+
+필드는 `id` / `title` / `abs` / `date` / `cat` / `url` / `authors` 7개이고
+`authors`는 전편에 채워져 있습니다.
 
 ### 6. 토픽 선정과 생성
 
@@ -213,7 +217,8 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 - 피할 토픽: Parameter-Efficient Fine-Tuning(0.958), Chain of Thought(0.942),
   Hallucination in LLMs(0.940), LLMs for Recommendation(0.946).
   d@1은 괜찮지만 1200편을 채우면 뒤쪽이 노이즈입니다
-- DB 스냅샷이 **2024-05**라 그 이후 부상한 주제는 논문이 거의 없습니다
+- DB에 **2024-04-26 이후 논문이 없어** 그 뒤에 부상한 주제는 검색이 되지 않습니다
+  (해소 방안은 `README.md` §3)
 
 ### 7. 후처리 — 서지정보와 `.tex` 변환
 
@@ -239,14 +244,21 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 `.tex`까지는 6편 전부 나와 있습니다. Overleaf 업로드 절차와 deepseek 편
 (92,707단어 / 참고문헌 644개)의 컴파일 타임아웃 대응은 [`output/README.md`](output/README.md).
 
-남은 간극 두 가지:
+남은 간극은 **`.bib`이 없다는 것** 하나입니다. `.tex`의 `\cite{}`가 가리키는 서지 항목이
+제목 기반입니다.
 
-- **`.bib`이 없습니다.** `.tex`의 `\cite{}`가 가리키는 서지 항목은 제목 기반입니다.
-- **저자 정보가 없습니다.** DB에 저자 필드 자체가 없습니다(`id`/`title`/`abs`/`date`뿐).
-  제대로 된 `.bib`을 만들려면 인용된 논문(서베이당 74~90편)의 저자를 arXiv
-  **OAI-PMH `GetRecord`** 로 따로 받아야 합니다 — 이 서버에서 arXiv REST API는
-  타임아웃이고 OAI-PMH는 정상입니다. arXiv id·제목·날짜·링크까지는 `.json`의
-  `reference_detail`에 이미 들어 있습니다.
+> ⚠ 예전에 이 자리에 "DB에 저자 필드가 없어 arXiv OAI-PMH `GetRecord`로 저자를 따로
+> 받아야 한다"고 적혀 있었는데 **오기였습니다.** `authors`가 537,665편 전부에 채워져
+> 있습니다(결측 0.000%). 외부 조회가 전혀 필요 없습니다.
+
+그래서 `.bib` 작업은 다음 두 단계로 줄어듭니다:
+
+1. `reference_detail`에 `authors` 추가 — 지금은 `id`/`title`/`date`/`url` 4개뿐입니다.
+   `main.py`의 `build_reference_detail()`과 `scripts/enrich_references.py` **두 곳** 모두
+   같은 필드 집합을 만들므로 양쪽을 고칩니다. `get_paper_info_from_ids()`가 레코드
+   전체를 돌려주므로 각각 한 줄입니다. 기존 6편은 enrich 스크립트로 재적용.
+2. `reference_detail`(id·제목·날짜·링크·저자)에서 `.bib`을 찍어내고 `md_to_tex.py`가
+   그 키를 쓰도록 연결.
 
 ### B. 벤치마크 평가 — 착수 전
 
