@@ -92,8 +92,11 @@ pip install -r requirements-server.txt
 | `faiss_paper_title_embeddings.bin` | 1,651,706,925 B | `96c45f10e346706f76b06ab1dd553444` | 2024-05-27 |
 | `arxivid_to_index_abs.json` | 14,906,253 B | `b45b94bb3cba573ffd75a9488ae741a2` | 2024-06-11 |
 
-- **내용**: arXiv CS **537,665편의 초록** (`id` / `title` / `abs` / `date`).
-  저자·venue 메타데이터는 없습니다.
+- **내용**: arXiv CS **537,665편의 초록**. 필드는 7개입니다 —
+  `id` / `title` / `abs` / `date` / `cat` / `url` / `authors`.
+  `authors`는 **537,665편 전부** 채워져 있습니다(결측 0.000%). venue 정보는 없습니다.
+- **수록 논문의 최신 날짜는 `2024-04-26`** 입니다. 위 표의 mtime(2024-05-27)은
+  배포 파일이 만들어진 날짜이지 논문 수록 범위가 아닙니다.
 - **출처**: 저자 배포본(원본 README의 OneDrive 링크).
   **이 서버에서 OneDrive는 차단돼 있어** 로컬 PC로 받아 `scp`로 반입했습니다.
 - **DB는 git에 없습니다** (`.gitignore`). 4GB라 저장소에 넣지 않습니다.
