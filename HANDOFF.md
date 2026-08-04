@@ -56,12 +56,16 @@ LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 둘 다 **터미널에서 분리돼 있어 SSH를 닫아도 계속됩니다**(PPID 1 / 자체 세션,
 제어 터미널 없음, `KillUserProcesses=no` 확인).
 
+**로그는 `./database_2026-08/logs/` 에 보존됩니다** (`chain.log` / `harvest.log` / `chain.sh`).
+파이프라인이 끝나면 자동으로 복사되고, 마지막 줄에 `로그 보존 완료`가 찍힙니다.
+
 ```bash
-# 진행 상황
-tail -3 /tmp/claude-1024/-data2-chanjoong-survey-agent-AutoSurvey/*/scratchpad/harvest.log
-# 후속 단계 로그 (append·검증 결과와 md5 지문이 여기 남습니다)
-cat  /tmp/claude-1024/-data2-chanjoong-survey-agent-AutoSurvey/*/scratchpad/chain.log
+cat database_2026-08/logs/chain.log        # append·검증 결과와 md5 지문
+tail -3 database_2026-08/logs/harvest.log  # 수집 진행
 ```
+
+원본은 세션 스크래치패드(`/tmp/claude-1024/.../scratchpad/`)에 있지만 `/tmp`는 부팅 시
+비워지므로, **재부팅을 겪었다면 위 `logs/` 사본을 보세요.**
 
 - 결과는 **`./database_2026-08/`** 에 만들어집니다. **기존 `./database/`는 읽기만 하고
   건드리지 않습니다** — 두 스냅샷을 모두 남겨 A/B 비교를 할 수 있게 하려는 것입니다.
@@ -71,6 +75,24 @@ cat  /tmp/claude-1024/-data2-chanjoong-survey-agent-AutoSurvey/*/scratchpad/chai
   (명령은 "남은 작업 D" 참고).
 - **`append_snapshot.py`는 정합성이 어긋나면 아무것도 쓰지 않고 중단합니다.**
   실패로 끝나 있어도 기존 DB는 안전합니다.
+
+### 다음 세션에서 할 일 (2026-08-04 퇴근 시점)
+
+파이프라인이 정상 종료했다고 가정하면 **문서에 결과를 채우는 일만 남습니다.**
+
+1. `cat database_2026-08/logs/chain.log` — 마지막 줄이 `완료.` 인지 확인.
+   `중단:` 이면 그 줄에 이유가 있고, 기존 DB는 그대로입니다.
+2. 로그의 **md5·크기 4줄을 `REPRODUCTION.md` §3 지문 표에 새 스냅샷 행으로 추가**.
+   기존 행은 지우지 마세요 — 두 스냅샷을 모두 남기는 게 목적입니다.
+3. `README.md` §3.8 작업 항목 표의 1~4를 완료로 바꾸고 실제 수집량 기록.
+4. 최신화 효과 측정 (아래 D의 4번):
+   ```bash
+   python scripts/compare_snapshots.py --old ./database --new ./database_2026-08 \
+     --topics "In-context Learning" "Evaluation of LLMs" "Large Multi-Modal Language Models"
+   ```
+   기존 스냅샷의 값은 `d@1200` 0.853 / 0.849 / 0.744 입니다. **새 스냅샷에서 이 값이
+   내려가야** 정상입니다(관련 논문이 늘어 1200번째까지의 거리가 줄어듦).
+   올라갔다면 append 를 의심하세요.
 
 ---
 
