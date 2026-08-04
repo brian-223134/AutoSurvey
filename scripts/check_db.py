@@ -24,6 +24,9 @@ def main():
     parser.add_argument('--embedding-model', default='nomic-ai/nomic-embed-text-v1')
     parser.add_argument('--query', default='large language models',
                         help='검색 스모크에 쓸 질의')
+    parser.add_argument('--verify-embeddings', type=int, default=0, metavar='N',
+                        help='저장된 벡터를 N개 위치에서 다시 임베딩해 대조한다 '
+                             '(append 로 확장한 스냅샷에서는 반드시 켤 것)')
     parser.add_argument('--skip-search', action='store_true',
                         help='임베딩 모델 로딩 없이 파일 검사만')
     args = parser.parse_args()
@@ -102,8 +105,42 @@ def main():
         print(f'    예: {list(only_map)[:3]} → 검색 결과가 TinyDB에 없어 유실됩니다')
         ok = False
 
+    if args.verify_embeddings:
+        # 크기가 맞는다고 벡터가 맞는 건 아니다. 저장된 벡터를 실제로 다시 만들어
+        # 본다. append 로 늘린 스냅샷에서는 신규 구간을 반드시 확인해야 한다 —
+        # 순서가 어긋나도 에러 없이 엉뚱한 논문이 검색되기 때문이다.
+        print('\n=== 4. 저장 벡터 재현 ===')
+        import numpy as np
+        from sentence_transformers import SentenceTransformer
+
+        n = title_index.ntotal
+        k = args.verify_embeddings
+        # 앞/중간/뒤를 고루 보되 마지막(가장 최근 append분)을 반드시 포함한다.
+        probe = sorted(set(np.linspace(0, n - 1, k).astype(int).tolist()))
+        index_to_id = {v: k2 for k2, v in id_to_index.items()}
+        by_id = {r['id']: r for r in table.values()}
+
+        model = SentenceTransformer(args.embedding_model, trust_remote_code=True)
+        worst = 1.0
+        for i in probe:
+            rec = by_id.get(index_to_id.get(i, ''))
+            if rec is None:
+                print(f'  !! 인덱스 {i} 에 대응하는 레코드가 없습니다')
+                ok = False
+                continue
+            for field, index in (('title', title_index), ('abs', abs_index)):
+                stored = index.reconstruct(i)
+                fresh = model.encode(['search_document: ' + rec[field]])[0]
+                cos = float(np.dot(stored, fresh) /
+                            (np.linalg.norm(stored) * np.linalg.norm(fresh)))
+                worst = min(worst, cos)
+        print(f'  {len(probe)}개 위치 x 2필드, 최저 cos = {worst:.6f}')
+        if worst < 0.999:
+            print('  !! 저장 벡터가 재현되지 않습니다. 순서나 임베딩 절차가 어긋났습니다')
+            ok = False
+
     if not args.skip_search:
-        print('\n=== 4. 검색 스모크 ===')
+        print('\n=== 5. 검색 스모크 ===')
         sys.path.insert(0, os.getcwd())
         from src.database import database
         d = database(db_path=args.db_path, embedding_model=args.embedding_model)
