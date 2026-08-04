@@ -13,7 +13,6 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 | [`REPRODUCTION.md`](REPRODUCTION.md) | 산출물 재현에 필요한 입력값 일체 (환경·DB 지문·커밋·하이퍼파라미터) |
 | [`SETTING.md`](SETTING.md) | 세팅 **절차**와 각 패치의 근거 |
 | [`output/README.md`](output/README.md) | 산출물의 결과 수치와 비교 시 주의점 |
-| [`SURVEY_REPORT.md`](SURVEY_REPORT.md) | AutoSci·AutoSurvey·SurveyForge 3개 시스템 비교 리포트 |
 
 ---
 
@@ -23,7 +22,7 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 
 같은 상위 디렉터리에 비교 대상 프로젝트가 함께 있습니다 —
 `SurveyForge/`, `SurveyForge_data/`, `SurGE/`.
-(AutoSci는 이 서버가 아니라 로컬 macOS에서 돌렸습니다. `SURVEY_REPORT.md` §1 참고.)
+(AutoSci는 이 서버가 아니라 로컬 macOS에서 돌렸습니다.)
 
 ```
 AutoSurvey/
@@ -141,7 +140,8 @@ arXiv CS 월 1만 편 안팎을 감안하면 공백은 **25~30만 편, 기존 53
 | **DB 내 인용** — 검색해 꺼낸 논문만 인용 | 댕글링 인용 0 보장과 무결성 검사가 무의미해짐 |
 | **파이프라인 통제** — 로컬에서 닫힌 실행 | 서브섹션 수십 개 × 라이브 호출로 rate limit·지연이 실행 시간에 직접 얹힘 |
 
-근거는 `SURVEY_REPORT.md` §6.3에 정리돼 있습니다.
+같은 이유로, 비교 실험에서 "모델·파이프라인 차이"와 "그날의 검색 결과 차이"를
+분리할 수 없게 되는 것도 실시간 검색을 배제하는 근거입니다.
 
 ### 3.3 전제 검증 — 실측 완료
 
