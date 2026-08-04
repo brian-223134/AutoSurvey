@@ -41,7 +41,7 @@
 | 항목 | 값 |
 |---|---|
 | OS | Ubuntu 22.04.5 LTS (Linux 5.15.0) |
-| GPU | NVIDIA L40S 46GB × 8 — **실제로는 1장만 사용** (`CUDA_VISIBLE_DEVICES=0`) |
+| GPU | NVIDIA L40S 46GB × 8 — **실제로는 1장만 사용**. 산출물 생성 시에는 0번을 썼으나 공용 서버라 번호는 고정이 아닙니다 (§5-1) |
 | 드라이버 / CUDA | 550.120 / 12.4 |
 | RAM | 1TB (DB 상주 약 10GB라 여유) |
 
@@ -170,7 +170,7 @@ DB를 직접 구축해야 한다면 `scripts/harvest_arxiv.py` → `scripts/buil
 | `AUTOSURVEY_REASONING` | `off` | 추론 토큰 비활성 (deepseek 계열은 기본 ON) |
 | `AUTOSURVEY_TIMEOUT` | `900` | 호출 타임아웃(초). 추론 모델은 호출당 1분을 넘김 |
 | `AUTOSURVEY_MAX_THREADS` | `4` | 동시 API 호출 수. 높이면 429 폭주 |
-| `CUDA_VISIBLE_DEVICES` | `0` | 임베딩에 쓸 GPU |
+| `CUDA_VISIBLE_DEVICES` | `0` | 임베딩에 쓸 GPU. **공용 서버라 0번이 차 있을 수 있습니다** — 실행 전 `nvidia-smi`로 빈 GPU를 골라 덮어쓰세요. 어느 GPU를 쓰든 결과는 같습니다(생성은 원격 API) |
 
 ```bash
 source .env      # export 형식으로 작성돼 있음
