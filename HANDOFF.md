@@ -43,6 +43,37 @@ LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 
 ---
 
+## ⚠ 지금 백그라운드로 돌고 있는 작업 — DB 최신화
+
+**2026-08-04 시작.** DB에 2024-04-26 이후 논문이 없어서 27개월치를 채우는 중입니다.
+설계 근거와 실측값은 [`README.md`](README.md) §3, 절차는 아래 "남은 작업 D".
+
+| 프로세스 | PID | 하는 일 |
+|---|---|---|
+| 수집 | `384550` | arXiv OAI-PMH 전체 CS, cutoff 이후 |
+| 후속 체인 | `974423` | 수집 종료를 기다렸다가 append → 검증까지 자동 실행 |
+
+둘 다 **터미널에서 분리돼 있어 SSH를 닫아도 계속됩니다**(PPID 1 / 자체 세션,
+제어 터미널 없음, `KillUserProcesses=no` 확인).
+
+```bash
+# 진행 상황
+tail -3 /tmp/claude-1024/-data2-chanjoong-survey-agent-AutoSurvey/*/scratchpad/harvest.log
+# 후속 단계 로그 (append·검증 결과와 md5 지문이 여기 남습니다)
+cat  /tmp/claude-1024/-data2-chanjoong-survey-agent-AutoSurvey/*/scratchpad/chain.log
+```
+
+- 결과는 **`./database_2026-08/`** 에 만들어집니다. **기존 `./database/`는 읽기만 하고
+  건드리지 않습니다** — 두 스냅샷을 모두 남겨 A/B 비교를 할 수 있게 하려는 것입니다.
+- `chain.log`가 `완료.`로 끝나 있으면 4파일이 완성된 것입니다. 그 위에 출력된
+  **md5 지문을 `REPRODUCTION.md` §3 표에 한 줄 추가**해 주세요.
+- 중간에 죽었다면 같은 명령을 다시 실행하면 `state.json`으로 이어받습니다
+  (명령은 "남은 작업 D" 참고).
+- **`append_snapshot.py`는 정합성이 어긋나면 아무것도 쓰지 않고 중단합니다.**
+  실패로 끝나 있어도 기존 DB는 안전합니다.
+
+---
+
 ## git 상태
 
 `reproduce` 브랜치. **push와 PR 생성은 사용자가 직접 합니다.**
@@ -118,7 +149,7 @@ source .env && curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" \
 | 로컬 vLLM | **안 씀** | GPU 8장이 놀고 있어도 제안하지 말 것 — 사용자가 명시적으로 배제 |
 | DB | **공식 배포본을 수동 scp 반입** | 서버에서 OneDrive 차단. 로컬 PC에서는 받을 수 있음 |
 | 임베딩 | `nomic-ai/nomic-embed-text-v1` (기본값 유지) | 공식 DB가 이 벡터 공간. **바꾸면 인덱스 전체가 무효** |
-| GPU 사용 | **1장만** (`CUDA_VISIBLE_DEVICES=0`) | 임베딩 외엔 GPU를 안 씀. 공용 서버라 나머지는 안 건드림 |
+| GPU 사용 | **1장만.** 번호는 고정하지 말고 `nvidia-smi`로 **빈 것을 골라** `CUDA_VISIBLE_DEVICES`에 | 임베딩 외엔 GPU를 안 씀. 공용 서버라 나머지는 안 건드림. 0번이 남의 작업으로 차 있을 때가 있다(2026-08-04 확인) |
 | 평가(`evaluation.py`) | **범위 밖** | 돌리려면 `judge.py` 스레드 제한 선행 필요 (아래 참고) |
 
 ---
@@ -154,21 +185,36 @@ conda activate autosurvey       # ~/miniforge3/envs/autosurvey, Python 3.10
 
 **aliasing 버그 (가장 중요)** — `writer.py`의 `[[]] * n`은 빈 리스트 n개가 아니라 **같은 객체 참조 n개**입니다. 바로 아래에서 `.append()`로 쌓기 때문에 **섹션 0을 제외한 모든 섹션이 섹션 0의 참고문헌으로 본문을 씁니다.** 크래시가 없어서 조용히 품질만 망가집니다. `[[] for _ in range(n)]`로 교체했습니다.
 
-### 3. 스크립트 6종 (`scripts/`)
+### 3. 스크립트 9종 (`scripts/`)
 
-DB 준비용 3종 — cs.CL 97편 샘플로 **수집 → 인덱스 → 검증 → 검색까지 끝까지 돌려 동작 확인 완료**.
+**DB 준비·갱신용 5종**
 
 - `check_db.py` — DB 검증. 파일 4개 존재 / TinyDB 스키마 / FAISS·매핑 크기 정합 / 실제 검색.
-  파일명이 다르면 실제 목록을 출력해줍니다.
-- `harvest_arxiv.py` — arXiv OAI-PMH 수집. **OneDrive 반입이 실패할 경우의 폴백.**
-  카테고리 단위 setSpec(`cs:cs:CL` 등) 지원, 페이지당 1300건, 503/Retry-After 처리, 중단 후 재개.
-- `build_index.py` — `build_database.ipynb` 대체 (노트북은 `index_gpu_to_cpu` 에러 + 출력 파일명 불일치로 그대로 안 돎).
+  `--verify-embeddings N`을 주면 **저장된 벡터를 실제로 다시 만들어 대조**합니다.
+  크기가 맞는다고 벡터가 맞는 건 아니라서, append로 늘린 스냅샷에는 반드시 켜세요.
+- `harvest_arxiv.py` — arXiv OAI-PMH 수집. **DB 최신화의 주력 도구**이자 OneDrive
+  반입 실패 시의 폴백. 배포 DB의 표기 규약을 그대로 재현합니다(아래 `check_oai_schema.py`).
+  `arXivRaw`·`arXiv` 두 형식을 훑어 조인하고, `--exclude-db`로 기존 논문을 제외합니다.
+  페이지당 1300건, 503/Retry-After 처리, `state.json`으로 중단 후 재개.
+- `check_oai_schema.py` — **수집기가 만든 레코드가 배포 DB와 같은 표기인지** 검사.
+  기존 DB에 있는 논문을 OAI로 다시 받아 7필드를 문자 단위로 대조합니다.
+  표기가 어긋나면 에러 없이 코퍼스가 두 층으로 갈라지므로 수집 전에 돌리세요.
+- `append_snapshot.py` — 기존 스냅샷을 **읽기만 하고** 신규 논문을 더한 새 스냅샷을
+  만듭니다. 레코드 순서 == FAISS 행 == id 매핑을 시작 전과 기록 직전에 두 번 확인하고,
+  어긋나면 아무것도 쓰지 않습니다.
+- `build_index.py` — 처음부터 인덱스를 만들 때. `build_database.ipynb` 대체
+  (노트북은 `index_gpu_to_cpu` 에러 + 출력 파일명 불일치로 그대로 안 돎).
 
-산출물 처리용 3종 — 생성 후에 씁니다.
+**산출물 처리용 3종** — 생성 후에 씁니다.
 
 - `check_survey.py` — 생성된 `.md`/`.json` 무결성. 댕글링 인용 / json 매핑 일치 / 포맷 누출.
 - `enrich_references.py` — `.json`에 arXiv 제목·날짜·링크를 채웁니다(`reference_detail`).
 - `md_to_tex.py` — `.md` → Overleaf용 `.tex`.
+
+**분석용 1종**
+
+- `compare_snapshots.py` — 두 스냅샷에서 같은 토픽을 검색해 `d@1` / `d@K` / 감쇠 /
+  최신 논문 비율 / top-K 교집합을 비교합니다. 스냅샷을 둘로 유지하는 이유가 이 측정입니다.
 
 ### 4. 기타
 
@@ -189,10 +235,15 @@ OneDrive zip을 scp로 반입해 `./database/`에 풀었고 `check_db.py` **통�
 
 arXiv id에 버전 접미사가 붙어 있고(`1811.06122v1`) **수록 논문의 최신 날짜는
 `2024-04-26`** 입니다 (배포 파일 mtime 2024-05-27과 다릅니다 — 후자는 파일이 만들어진
-날짜입니다). `scripts/harvest_arxiv.py`는 버전 없는 id를 쓰므로 두 DB를 섞지 마세요.
+날짜입니다).
 
 필드는 `id` / `title` / `abs` / `date` / `cat` / `url` / `authors` 7개이고
 `authors`는 전편에 채워져 있습니다.
+
+> 예전에 여기 "`harvest_arxiv.py`는 버전 없는 id를 쓰므로 두 DB를 섞지 마세요"라고
+> 적혀 있었는데 **더 이상 맞지 않습니다.** 2026-08-04에 수집기를 배포 DB의 표기 규약에
+> 맞춰 다시 썼습니다(버전 접미사 포함). 규약 전체와 역산 근거는 `README.md` §3.4와
+> `scripts/check_oai_schema.py` 상단에 있습니다.
 
 ### 6. 토픽 선정과 생성
 
@@ -287,6 +338,41 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 **예산이 선행 조건입니다** — 현재 키는 $10 한도를 다 썼습니다(2026-08-04 실측, 잔여 0).
 크레딧 상향이나 새 키 없이는 스모크 한 편도 돌지 않습니다.
 
+### D. DB 최신화 — **진행 중** (위 "지금 백그라운드로 돌고 있는 작업" 참고)
+
+DB에 2024-04-26 이후 논문이 없습니다. 실측으로 **신규 350,805편**(기존 53.7만의 +65%)이
+비어 있습니다. **LLM API를 쓰지 않으므로 크레딧 소진과 무관하게 진행됩니다.**
+
+설계 근거·실측값·표기 규약은 [`README.md`](README.md) §3에 있습니다. 요지만 적으면:
+online search를 생성 루프가 아니라 **수집 단계**에 넣어, 생성 파이프라인은 그대로 둔 채
+DB만 갱신합니다. 결정적 검색 / DB 내 인용 / 파이프라인 통제가 보존됩니다.
+
+```bash
+# 1) 수집 — arXiv OAI-PMH 는 API 키가 필요 없습니다 (약 646요청, 2시간)
+python scripts/harvest_arxiv.py --sets cs --oai-from 2024-04-27 \
+  --exclude-db ./database/arxiv_paper_db.json --out-dir ./database_2026-08 --delay 3
+
+# 2) append — 기존 스냅샷은 읽기만 합니다 (임베딩 약 30분)
+python scripts/append_snapshot.py --base ./database \
+  --new ./database_2026-08/arxiv_paper_db.json --out ./database_2026-08
+
+# 3) 검증
+python scripts/check_db.py --db-path ./database_2026-08 --verify-embeddings 20
+
+# 4) 두 스냅샷 비교 — 최신화의 효과 측정
+python scripts/compare_snapshots.py --old ./database --new ./database_2026-08 \
+  --topics "In-context Learning" "Evaluation of LLMs"
+```
+
+끝나면 새 스냅샷의 md5 지문을 `REPRODUCTION.md` §3 표에 한 줄 추가하세요.
+
+**하지 않기로 한 것** — 기존 논문의 개정본 68,441건은 반영하지 않습니다. 옛 스냅샷의
+벡터를 그대로 둬야 두 스냅샷 비교가 성립합니다(`IndexFlatL2` append가 기존 행 번호를
+보존하므로 **옛 스냅샷이 새 스냅샷의 prefix**가 됩니다).
+
+새 스냅샷으로 서베이를 생성할 때는 `--db_path ./database_2026-08` 만 바꾸면 됩니다.
+같은 토픽을 두 스냅샷에서 각각 돌리면 "DB 최신화의 효과"가 독립 변수 하나가 됩니다.
+
 ---
 
 ## 함정 모음
@@ -296,6 +382,7 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 - **컨텍스트 32k 이상 모델**을 고르세요. `main.py`가 `chunk_size=30000`으로 아웃라인 청크를 만듭니다
 - **동시 요청이 `section_num × AUTOSURVEY_MAX_THREADS`** 입니다. 코드 기본값이면 8×15=120개가 한꺼번에 나가 429를 맞습니다. `.env`에 `AUTOSURVEY_MAX_THREADS=4`로 잡아 뒀습니다 — 올리지 마세요
 - **`main.py --gpu` 인자는 아무 데서도 안 쓰입니다** (파싱만 하고 버림). `CUDA_VISIBLE_DEVICES`를 쓰세요
+- **GPU 번호를 고정하지 마세요.** `.env`에 `CUDA_VISIBLE_DEVICES=0`이 들어 있지만 공용 서버라 0번이 차 있을 수 있습니다. 실행 전 `nvidia-smi`로 빈 것을 고르세요 (`nvidia-smi --query-gpu=index,memory.used --format=csv,noheader,nounits | sort -t, -k2 -n | head -1`)
 - **크레딧은 `/api/v1/key`로 확인하세요.** `/api/v1/credits`는 **계정 전체** 잔액이라 이 키에 걸린 $10 상한이 보이지 않습니다. 잔액이 있어 보여도 키가 소진됐으면 실행이 죽습니다
 - **`evaluation.py`를 돌릴 거면 `judge.py`부터 고치세요.** 인용 문장 하나당 스레드 하나를 **제한 없이** 띄웁니다 (`judge.py:198-220`). 32k 서베이면 수백 개가 동시에 나갑니다
 - `database.py`의 `get_paper_from_ids()`(전문 로딩)는 **코드 어디에서도 호출되지 않습니다.** 공개 DB는 초록만 있고, 논문은 본문 앞 1500토큰을 씁니다 — 이게 논문과의 가장 큰 갭입니다 (`SETTING.md` §8)
