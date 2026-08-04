@@ -1,20 +1,48 @@
-"""arXiv OAI-PMH로 논문 메타데이터를 수집해 TinyDB 형식 DB를 만든다.
+"""arXiv OAI-PMH로 논문 메타데이터를 수집해 기존 DB와 같은 형식으로 만든다.
 
-공식 배포 DB(OneDrive)가 막힌 환경을 위한 대체 경로다. build_database.ipynb는
-arxiv_paper_db.json이 이미 있다고 가정하므로 그 앞단이 비어 있었다.
+용도는 둘이다.
 
-출력: <out_dir>/arxiv_paper_db.json
-    {"cs_paper_info": {"0": {"id":..., "title":..., "abs":..., "date":...}, ...}}
-    키는 0부터의 연속 정수 문자열이며 scripts/build_index.py가 만드는
-    FAISS 인덱스 순서와 1:1로 대응한다.
+  1. 증분 갱신 — 배포 DB는 수록 논문 최신일이 2024-04-26이라 그 이후가 비어 있다.
+     `--exclude-db` 로 기존 DB에 없는 논문만 골라 받아 append 재료를 만든다.
+  2. 처음부터 구축 — 공식 배포본(OneDrive)이 막힌 환경의 대체 경로.
 
-중간 결과는 <out_dir>/_harvest/records.jsonl 에 append되고 resumptionToken이
-<out_dir>/_harvest/state.json 에 저장되므로, 중단 후 같은 명령을 다시 실행하면
+## 기존 DB의 표기 규약 (2026-08-04 실측으로 역산)
+
+배포 DB는 arXiv REST API 계열 소스로 만들어졌고 OAI-PMH 응답과 표기가 다르다.
+`scripts/check_oai_schema.py` 로 30편을 문자 단위 대조해 아래를 확정했다.
+
+  id      base + '최신' 버전 접미사      2008.06570v2
+  date    v1 제출일                      arXiv 형식의 <created> 는 '최신 버전' 날짜라
+                                         개정본은 몇 년씩 어긋난다. arXivRaw v1 을 쓴다
+  url     http://arxiv.org/pdf/{id}      https 아님, /pdf/, 버전 포함
+  abs     TeX escape 보존                arXivRaw <abstract>. arXiv 형식은 유니코드로
+                                         변환돼 있어 기존 코퍼스와 다르다
+  title   유니코드 + 금지문자 제거       arXiv <title> 에서 '<>:"/|?*#' 를 공백 치환.
+                                         기존 DB 537,665편의 제목에 이 문자가 단 하나도
+                                         없다 (초록에는 ':' 가 22% 존재)
+  cat     <categories> 첫 번째           primary category
+  authors 유니코드 'forenames keyname'   arXiv 형식의 구조화 저자
+
+**abs 와 title/authors 의 출처가 서로 달라 두 형식을 모두 받는다.** 페이지 수가
+두 배가 되지만(전체 CS 기준 약 646요청) 임베딩 대상 필드를 정확히 맞추는 값이 크다.
+
+## 출력
+
+  <out-dir>/_harvest/records_arXivRaw.jsonl   중간 산출물 (재개용)
+  <out-dir>/_harvest/records_arXiv.jsonl
+  <out-dir>/arxiv_paper_db.json               {"cs_paper_info": {"0": {...7필드}, ...}}
+
+resumptionToken 이 state.json 에 저장되므로 중단 후 같은 명령을 다시 실행하면
 이어서 받는다.
 
 예)
-    python scripts/harvest_arxiv.py --sets cs:cs:CL cs:cs:LG --out-dir ./database
-    python scripts/harvest_arxiv.py --sets cs:cs:CL --created-from 2018-01-01 --max-records 30000
+    # 증분 — cutoff 이후 전체 CS 중 기존 DB에 없는 것만
+    python scripts/harvest_arxiv.py --sets cs --oai-from 2024-04-27 \
+        --exclude-db ./database/arxiv_paper_db.json --out-dir ./database_new
+
+    # 스모크 — 한 페이지만
+    python scripts/harvest_arxiv.py --sets cs:cs:CL --oai-from 2026-07-01 \
+        --max-pages 1 --out-dir /tmp/harvest-smoke
 """
 
 import argparse
@@ -27,17 +55,39 @@ import xml.etree.ElementTree as ET
 
 import requests
 
-OAI_URL = 'http://export.arxiv.org/oai2'
+# 2026-08 기준 export.arxiv.org/oai2 는 이곳으로 301 리다이렉트된다.
+OAI_URL = 'https://oaipmh.arxiv.org/oai'
+
 NS = {
     'oai': 'http://www.openarchives.org/OAI/2.0/',
     'arxiv': 'http://arxiv.org/OAI/arXiv/',
+    'raw': 'http://arxiv.org/OAI/arXivRaw/',
 }
 WS = re.compile(r'\s+')
+MONTHS = {m: i for i, m in enumerate(
+    ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 1)}
+
+# 기존 DB의 제목에서 제거돼 있는 문자들(파일명 금지 문자). 제목도 임베딩 대상이라
+# 신규 논문에도 같은 치환을 걸어야 텍스트 분포가 갈라지지 않는다.
+TITLE_TRANS = str.maketrans({c: ' ' for c in '<>:"/|?*#'})
 
 
 def norm(text):
-    """OAI 응답의 title/abstract에는 줄바꿈과 들여쓰기가 섞여 있다."""
+    """OAI 응답의 title/abstract에는 줄바꿈과 들여쓰기가 섞여 있다.
+
+    기존 DB는 원문의 하드 줄바꿈을 보존하고 있지만, 임베딩이 공백 차이에
+    불변임을 실측했으므로(300편에서 cos 1.000000) 공백으로 정규화한다.
+    """
     return WS.sub(' ', (text or '')).strip()
+
+
+def parse_version_date(text):
+    """'Fri, 14 Aug 2020 20:46:38 GMT' -> '2020-08-14'"""
+    m = re.search(r'(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})', text or '')
+    if not m:
+        return ''
+    return f'{m.group(3)}-{MONTHS.get(m.group(2), 0):02d}-{int(m.group(1)):02d}'
 
 
 def oai_request(params, session, max_try=8):
@@ -45,7 +95,7 @@ def oai_request(params, session, max_try=8):
     last_err = None
     for attempt in range(max_try):
         try:
-            r = session.get(OAI_URL, params=params, timeout=120)
+            r = session.get(OAI_URL, params=params, timeout=180)
             if r.status_code == 503:
                 wait = int(r.headers.get('Retry-After', 20))
                 print(f'  503 rate limited, {wait}s 대기', flush=True)
@@ -54,6 +104,10 @@ def oai_request(params, session, max_try=8):
             if r.status_code != 200:
                 last_err = f'HTTP {r.status_code}: {r.text[:200]}'
             else:
+                # arXiv 는 Content-Type 에 charset 을 안 붙인다. 그러면 requests 가
+                # text/* 를 ISO-8859-1 로 디코드해 'Schölkopf' 가 'SchÃ¶lkopf' 가 된다.
+                # XML 선언이 UTF-8 이므로 명시한다.
+                r.encoding = 'utf-8'
                 return r.text
         except Exception as e:  # 네트워크 순단
             last_err = repr(e)
@@ -63,8 +117,8 @@ def oai_request(params, session, max_try=8):
     raise RuntimeError(f'OAI 요청 {max_try}회 실패: {last_err}')
 
 
-def parse_records(xml_text):
-    """(records, resumption_token)을 돌려준다."""
+def parse_page(xml_text, prefix):
+    """(records, resumption_token). prefix 에 따라 뽑는 필드가 다르다."""
     root = ET.fromstring(xml_text)
 
     error = root.find('oai:error', NS)
@@ -85,80 +139,109 @@ def parse_records(xml_text):
         # 철회/삭제된 논문은 metadata가 없다.
         if header is not None and header.get('status') == 'deleted':
             continue
-        meta = rec.find('oai:metadata/arxiv:arXiv', NS)
-        if meta is None:
-            continue
-
-        def text(tag):
-            node = meta.find(f'arxiv:{tag}', NS)
-            return norm(node.text) if node is not None else ''
-
-        paper_id = text('id')
-        title = text('title')
-        abstract = text('abstract')
-        if not paper_id or not title or not abstract:
-            continue
-
-        records.append({
-            'id': paper_id,
-            'title': title,
-            'abs': abstract,
-            'date': text('created'),
-            'categories': text('categories'),
-        })
+        parsed = (_parse_raw(rec) if prefix == 'arXivRaw' else _parse_arxiv(rec))
+        if parsed:
+            records.append(parsed)
 
     token_node = list_records.find('oai:resumptionToken', NS)
     token = token_node.text.strip() if token_node is not None and token_node.text else None
     return records, token
 
 
-def harvest_set(set_spec, state, out_f, session, args, seen):
-    """한 세트를 끝까지(또는 max-records까지) 수집한다. 수집한 신규 건수를 반환."""
-    token = state.get(set_spec, {}).get('token')
-    done = state.get(set_spec, {}).get('done', False)
-    if done:
-        print(f'[{set_spec}] 이미 완료됨, 건너뜀')
+def _parse_raw(rec):
+    """arXivRaw: 버전 목록 / v1 날짜 / TeX 보존 초록 / 카테고리"""
+    meta = rec.find('oai:metadata/raw:arXivRaw', NS)
+    if meta is None:
+        return None
+
+    def text(tag):
+        node = meta.find(f'raw:{tag}', NS)
+        return norm(node.text) if node is not None else ''
+
+    paper_id = text('id')
+    abstract = text('abstract')
+    if not paper_id or not abstract:
+        return None
+
+    versions = meta.findall('raw:version', NS)
+    vnums = [int(v.get('version', 'v1').lstrip('v')) for v in versions] or [1]
+    v1 = next((v for v in versions if v.get('version') == 'v1'), None)
+    v1_date = v1.find('raw:date', NS) if v1 is not None else None
+
+    return {
+        'id': paper_id,
+        'v': max(vnums),
+        'abs': abstract,
+        'date': parse_version_date(v1_date.text if v1_date is not None else ''),
+        'cat': (text('categories').split() or [''])[0],
+    }
+
+
+def _parse_arxiv(rec):
+    """arXiv: 유니코드 제목 / 구조화 저자"""
+    meta = rec.find('oai:metadata/arxiv:arXiv', NS)
+    if meta is None:
+        return None
+
+    node = meta.find('arxiv:id', NS)
+    paper_id = norm(node.text) if node is not None else ''
+    node = meta.find('arxiv:title', NS)
+    title = norm(node.text) if node is not None else ''
+    if not paper_id or not title:
+        return None
+
+    authors = []
+    for a in meta.findall('arxiv:authors/arxiv:author', NS):
+        key = a.find('arxiv:keyname', NS)
+        fore = a.find('arxiv:forenames', NS)
+        name = ' '.join(x.text.strip() for x in (fore, key)
+                        if x is not None and x.text)
+        if name:
+            authors.append(name)
+
+    return {'id': paper_id, 'title': title.translate(TITLE_TRANS), 'authors': authors}
+
+
+def sweep(prefix, set_spec, state, out_f, session, args, seen):
+    """한 세트를 한 형식으로 끝까지 수집한다."""
+    key = f'{prefix}/{set_spec}'
+    st = state.get(key, {})
+    if st.get('done'):
+        print(f'[{key}] 이미 완료됨, 건너뜀')
         return 0
 
-    added = 0
-    page = state.get(set_spec, {}).get('page', 0)
+    token, page, added = st.get('token'), st.get('page', 0), 0
     while True:
         if token:
             # resumptionToken을 쓸 때는 다른 인자를 함께 보내면 badArgument가 된다.
             params = {'verb': 'ListRecords', 'resumptionToken': token}
         else:
-            params = {'verb': 'ListRecords', 'set': set_spec, 'metadataPrefix': 'arXiv'}
+            params = {'verb': 'ListRecords', 'set': set_spec, 'metadataPrefix': prefix}
             if args.oai_from:
                 params['from'] = args.oai_from
             if args.oai_until:
                 params['until'] = args.oai_until
 
-        xml_text = oai_request(params, session)
-        records, token = parse_records(xml_text)
+        records, token = parse_page(oai_request(params, session), prefix)
         page += 1
 
         for rec in records:
             if rec['id'] in seen:
-                continue
-            # OAI의 from/until은 '최종 수정일' 기준이라 오래된 논문도 딸려 온다.
-            # 실제 투고일 기준으로 거르고 싶으면 --created-from 을 쓴다.
-            if args.created_from and rec['date'] < args.created_from:
                 continue
             seen.add(rec['id'])
             out_f.write(json.dumps(rec, ensure_ascii=False) + '\n')
             added += 1
 
         out_f.flush()
-        state[set_spec] = {'token': token, 'page': page, 'done': token is None}
+        state[key] = {'token': token, 'page': page, 'done': token is None}
         save_state(args.out_dir, state)
-
-        print(f'[{set_spec}] page {page}: +{len(records)}건 (누적 신규 {len(seen)}) '
+        print(f'[{key}] page {page}: +{len(records)}건 (누적 {len(seen):,}) '
               f'{"완료" if token is None else ""}', flush=True)
 
         if token is None:
             return added
-        if args.max_records and len(seen) >= args.max_records:
-            print(f'[{set_spec}] --max-records {args.max_records} 도달, 중단')
+        if args.max_pages and page >= args.max_pages:
+            print(f'[{key}] --max-pages {args.max_pages} 도달, 중단')
             return added
         time.sleep(args.delay)
 
@@ -179,99 +262,122 @@ def load_state(out_dir):
     return {}
 
 
-def load_seen(records_path):
-    """중단 후 재개 시 이미 받은 id를 복원한다."""
-    seen = set()
-    if not os.path.exists(records_path):
-        return seen
-    with open(records_path) as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                seen.add(json.loads(line)['id'])
-            except (json.JSONDecodeError, KeyError):
-                continue
-    return seen
-
-
-def finalize(records_path, out_dir, max_records):
-    """jsonl → TinyDB 형식 arxiv_paper_db.json"""
-    papers = {}
-    idx = 0
-    seen = set()
-    with open(records_path) as f:
+def load_jsonl(path):
+    """중단 후 재개 시 이미 받은 레코드를 복원한다. {id: rec}"""
+    out = {}
+    if not os.path.exists(path):
+        return out
+    with open(path) as f:
         for line in f:
             line = line.strip()
             if not line:
                 continue
             try:
                 rec = json.loads(line)
-            except json.JSONDecodeError:
+                out[rec['id']] = rec
+            except (json.JSONDecodeError, KeyError):
                 continue
-            if rec['id'] in seen:
-                continue
-            seen.add(rec['id'])
-            papers[str(idx)] = {
-                'id': rec['id'],
-                'title': rec['title'],
-                'abs': rec['abs'],
-                'date': rec['date'],
-            }
-            idx += 1
-            if max_records and idx >= max_records:
-                break
+    return out
 
-    db_path = os.path.join(out_dir, 'arxiv_paper_db.json')
+
+def load_existing_ids(db_json):
+    """기존 DB의 id 를 버전 접미사를 뗀 형태로 모은다."""
+    with open(db_json) as f:
+        table = json.load(f)['cs_paper_info']
+    return {v['id'].split('v')[0] for v in table.values()}
+
+
+def finalize(work_dir, args):
+    """두 형식을 id 로 조인해 기존 DB와 같은 7필드 레코드를 만든다."""
+    raw = load_jsonl(os.path.join(work_dir, 'records_arXivRaw.jsonl'))
+    arx = load_jsonl(os.path.join(work_dir, 'records_arXiv.jsonl'))
+    print(f'\narXivRaw {len(raw):,}건 / arXiv {len(arx):,}건')
+
+    exclude = set()
+    if args.exclude_db:
+        exclude = load_existing_ids(args.exclude_db)
+        print(f'기존 DB {len(exclude):,}편 — 여기 있는 논문은 건너뛴다')
+
+    papers, idx = {}, 0
+    missing, skipped = 0, 0
+    for pid, r in raw.items():
+        a = arx.get(pid)
+        if a is None:          # 한쪽 형식에만 있는 레코드는 버린다
+            missing += 1
+            continue
+        if pid in exclude:     # 기존 논문의 v2/v3 갱신 — 이번 대상이 아니다
+            skipped += 1
+            continue
+        vid = f'{pid}v{r["v"]}'
+        papers[str(idx)] = {
+            'id': vid,
+            'title': a['title'],
+            'url': f'http://arxiv.org/pdf/{vid}',
+            'date': r['date'],
+            'abs': r['abs'],
+            'cat': r['cat'],
+            'authors': a['authors'],
+        }
+        idx += 1
+        if args.max_records and idx >= args.max_records:
+            break
+
+    if missing:
+        print(f'  한쪽 형식에만 있어 제외: {missing:,}건')
+    if skipped:
+        print(f'  기존 DB에 이미 있어 제외: {skipped:,}건')
+
+    db_path = os.path.join(args.out_dir, 'arxiv_paper_db.json')
     with open(db_path, 'w') as f:
         json.dump({'cs_paper_info': papers}, f, ensure_ascii=False)
-    print(f'\n{db_path} 작성 완료: {idx}편')
+    print(f'\n{db_path} 작성 완료: {idx:,}편')
     return idx
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--sets', nargs='+', default=['cs:cs:CL'],
-                        help='OAI setSpec 목록 (예: cs:cs:CL cs:cs:LG cs:cs:AI). '
-                             'verb=ListSets로 전체 목록 확인 가능')
+    parser.add_argument('--sets', nargs='+', default=['cs'],
+                        help="OAI setSpec 목록. 전체 CS는 'cs' 하나면 된다. "
+                             "하위 분류는 'cs:cs:CL' 형식")
     parser.add_argument('--out-dir', default='./database', help='출력 디렉터리')
     parser.add_argument('--oai-from', default=None,
                         help='OAI from (최종 수정일 기준, YYYY-MM-DD)')
     parser.add_argument('--oai-until', default=None, help='OAI until (YYYY-MM-DD)')
-    parser.add_argument('--created-from', default=None,
-                        help='투고일(created) 기준 클라이언트 측 필터 (YYYY-MM-DD)')
+    parser.add_argument('--exclude-db', default=None,
+                        help='기존 arxiv_paper_db.json 경로. 여기 있는 논문은 제외한다 '
+                             '(OAI from 은 수정일 기준이라 옛 논문의 개정본이 딸려온다)')
     parser.add_argument('--max-records', type=int, default=0,
-                        help='수집 상한 (0이면 무제한)')
+                        help='최종 DB 상한 (0이면 무제한)')
+    parser.add_argument('--max-pages', type=int, default=0,
+                        help='형식·세트당 페이지 상한 (스모크용, 0이면 무제한)')
     parser.add_argument('--delay', type=float, default=3.0,
                         help='페이지 사이 대기 초 (arXiv 권장 간격)')
     parser.add_argument('--finalize-only', action='store_true',
-                        help='수집은 건너뛰고 기존 records.jsonl만 DB로 변환')
+                        help='수집은 건너뛰고 기존 jsonl 만 DB로 변환')
     args = parser.parse_args()
 
     work_dir = os.path.join(args.out_dir, '_harvest')
     os.makedirs(work_dir, exist_ok=True)
-    records_path = os.path.join(work_dir, 'records.jsonl')
 
     if not args.finalize_only:
         state = load_state(args.out_dir)
-        seen = load_seen(records_path)
-        if seen:
-            print(f'기존 {len(seen)}건 발견, 이어서 수집합니다')
-
         session = requests.Session()
-        session.headers['User-Agent'] = 'autosurvey-harvester/0.1'
+        session.headers['User-Agent'] = (
+            'autosurvey-harvester/0.2 (+https://github.com/brian-223134/AutoSurvey)')
 
-        with open(records_path, 'a') as out_f:
-            for set_spec in args.sets:
-                if args.max_records and len(seen) >= args.max_records:
-                    print(f'--max-records 도달, 남은 세트 건너뜀')
-                    break
-                print(f'\n=== {set_spec} 수집 시작 ===')
-                harvest_set(set_spec, state, out_f, session, args, seen)
+        # 초록은 arXivRaw, 제목·저자는 arXiv 에서 온다. 두 번 훑는다.
+        for prefix in ('arXivRaw', 'arXiv'):
+            path = os.path.join(work_dir, f'records_{prefix}.jsonl')
+            seen = set(load_jsonl(path))
+            if seen:
+                print(f'[{prefix}] 기존 {len(seen):,}건 발견, 이어서 수집')
+            with open(path, 'a') as out_f:
+                for set_spec in args.sets:
+                    print(f'\n=== {prefix} / {set_spec} ===')
+                    sweep(prefix, set_spec, state, out_f, session, args, seen)
 
-    total = finalize(records_path, args.out_dir, args.max_records)
+    total = finalize(work_dir, args)
     if total == 0:
         print('경고: 수집된 논문이 0편입니다. --sets / 날짜 필터를 확인하세요', file=sys.stderr)
         return 1
