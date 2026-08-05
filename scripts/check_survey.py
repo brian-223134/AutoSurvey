@@ -68,6 +68,40 @@ def check(md_path):
     return ok
 
 
+# 실측으로 잡은 분량 구간 (2026-08-05).
+#
+#   AutoSurvey 원저자 예시 3편   8,558~13,894단어 / 19~29서브섹션 / refs 74~88
+#   SurveyForge 저자 산출물 29편 13,242~32,938단어 / 20~39페이지(중앙값 31)
+#   인간 서베이 10편(SurveyBench) refs 173~345 (중앙값 214)
+#
+# 저자 산출물 기준 약 800단어/페이지다. 광범위한 서베이는 45~70페이지까지 가므로
+# 25k~50k 단어는 정당하다. 반면 100페이지(약 88k단어)를 넘긴 사례는 서베이라기보다
+# 문서를 이어 붙인 것에 가까웠다. 그래서 상한은 '실패'가 아니라 '경고'로 둔다 —
+# 주제에 따라 길어질 수 있고 판단은 사람이 한다.
+WORDS_PER_PAGE = 800
+BAND_STD = (12_000, 25_000)      # 표준적인 서베이
+BAND_BROAD = 50_000              # 여기까지는 '광범위한 서베이'로 정당화 가능
+BAND_BLOAT = 80_000              # 그 위는 비대
+REFS_HUMAN = (150, 350)          # 인간 서베이 실측 범위
+REFS_GUARD = 400
+
+
+def length_band(words, refs=0):
+    """구간 판정. (라벨, 경고문) 을 돌려준다. 경고문이 비어 있으면 정상."""
+    pages = words / WORDS_PER_PAGE
+    if words > BAND_BLOAT:
+        return '비대', (f'{words:,}단어(약 {pages:.0f}p) — 100페이지를 넘는 규모다. '
+                        f'서베이가 아니라 문서를 이어 붙인 것에 가깝다')
+    if words > BAND_BROAD:
+        return '초과', (f'{words:,}단어(약 {pages:.0f}p) — 광범위한 서베이의 상단'
+                        f'({BAND_BROAD:,})도 넘었다. 주제가 그만큼 넓은지 확인할 것')
+    if words > BAND_STD[1]:
+        return '광범위', ''      # 25k~50k 는 정당한 구간이라 경고하지 않는다
+    if words < BAND_STD[0]:
+        return '짧음', f'{words:,}단어 — 표준 구간({BAND_STD[0]:,}) 미만이다'
+    return '표준', ''
+
+
 def length_report(md_paths, asked_len=0, target_words=0):
     """분량이 무엇 때문에 그렇게 나왔는지 분해해서 보여준다.
 
@@ -79,6 +113,7 @@ def length_report(md_paths, asked_len=0, target_words=0):
     구조는 `.tex` 가 있으면 그쪽을 센다. `.md` 헤딩 카운트는 중복 제목과 레벨 오류로
     부풀려진 전례가 있다 (deepseek 편 117 vs 72).
     """
+    bands = []
     print(f'\n{"산출물":<44} {"섹션":>4} {"서브":>4} {"단어":>8} {"서브당":>7}', end='')
     print(f' {"계수":>7}' if asked_len else '')
     print('-' * (77 if asked_len else 69))
@@ -100,7 +135,9 @@ def length_report(md_paths, asked_len=0, target_words=0):
             src = ' (.md 기준 — .tex 가 없어 부풀려졌을 수 있음)'
         per = words / subs if subs else 0
         name = os.path.splitext(p)[0].replace('output/', '')
+        band, warn = length_band(words)
         line = f'{name[:44]:<44} {secs:>4} {subs:>4} {words:>8,} {per:>7.0f}'
+        bands.append((name, band, warn, words))
         if asked_len:
             # 계수 = 실제 서브섹션 길이 / 지시한 subsection_len.
             # 1.0 을 넘으면 하한을 초과해 쓴 것이고, 밑돌면 지시를 못 지킨 것이다.
@@ -113,6 +150,13 @@ def length_report(md_paths, asked_len=0, target_words=0):
                       f'--subsection_len {need:.0f}')
         else:
             print(f'{line}{src}')
+    print(f'\n분량 구간  표준 {BAND_STD[0]:,}~{BAND_STD[1]:,} / '
+          f'광범위 ~{BAND_BROAD:,} / 비대 {BAND_BLOAT:,}~  (약 {WORDS_PER_PAGE}단어/페이지)')
+    for name, band, warn, words in bands:
+        mark = '경고' if warn else 'ok  '
+        print(f'  {mark} {band:<5} {name[:52]}')
+        if warn:
+            print(f'         {warn}')
     if not asked_len:
         print('\n계수를 보려면 그 실행에서 쓴 값을 알려주세요: --subsection-len=700')
         print('총 분량 = section_num x subsection_num x (subsection_len x 계수) 입니다.')

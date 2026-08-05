@@ -10,6 +10,14 @@
 > - 실행 환경은 venv가 아니라 **conda `autosurvey`** (§2)
 > - 검증/구축 스크립트 3종 추가 (`scripts/`)
 
+> **2026-08-05 갱신.** 세팅이 끝난 뒤 두 가지 작업이 더 붙었습니다.
+> - **DB 최신화** — 배포본이 2024-04-26에 멈춰 있어 arXiv에서 신규 논문을 받아
+>   두 번째 스냅샷을 만들었습니다 (537,665 → 909,293편). §5 경로 D
+> - **분량 통제** — 같은 설정에서 모델에 따라 출력이 3배까지 벌어지는 문제.
+>   프롬프트 내용은 그대로 두고 파라미터만 추가했습니다. §3-7
+> - 스크립트가 3종 → **9종**이 됐습니다 (§5, `README.md` §5)
+> - **GPU 번호를 고정하지 마세요.** 공용 서버라 0번이 차 있을 수 있습니다 (§0)
+
 이 문서는 [AutoSurvey (NeurIPS 2024)](https://arxiv.org/abs/2406.10252) 원본 저장소를 실제로 돌아가게 만드는 데 필요한 모든 단계를 담고 있습니다. 원본 코드는 그대로는 실행되지 않습니다 (§3).
 
 > **이미 생성된 산출물을 재현하려는 것이라면 [`REPRODUCTION.md`](REPRODUCTION.md)를 보세요.**
@@ -28,7 +36,16 @@
 | FAISS 검색 | **CPU** | X — 아래 설명 참고 |
 | TinyDB 메타데이터 조회 | CPU (단일 스레드) | X |
 
-→ **결론: 이 프로젝트에서 GPU는 임베딩 1장(`CUDA_VISIBLE_DEVICES=0`)이면 충분합니다.** 공용 서버이므로 나머지 7장은 건드리지 않습니다.
+→ **결론: 이 프로젝트에서 GPU는 임베딩 1장이면 충분합니다.** 공용 서버이므로 나머지는 건드리지 않습니다.
+
+> ⚠️ **번호를 고정하지 마세요.** 문서와 `.env`가 `CUDA_VISIBLE_DEVICES=0`으로 적고 있지만
+> 0번이 다른 사용자 작업으로 차 있을 때가 있습니다(2026-08-04 실측: 6.4GB / 24% 사용 중).
+> 실행 직전에 빈 것을 고르세요. 어느 GPU를 쓰든 결과는 같습니다(생성은 전부 원격 API).
+>
+> ```bash
+> export CUDA_VISIBLE_DEVICES=$(nvidia-smi --query-gpu=index,memory.used \
+>   --format=csv,noheader,nounits | sort -t, -k2 -n | head -1 | cut -d, -f1 | tr -d ' ')
+> ```
 
 **FAISS는 GPU를 쓰지 않습니다.** `requirements.txt`에 `faiss_gpu`가 박혀 있어 오해하기 쉬운데, `src/database.py:26-28`은 `faiss.read_index()`로 인덱스를 읽은 뒤 그대로 `.search()`를 호출할 뿐, `index_cpu_to_gpu()`를 **어디서도 호출하지 않습니다**. 즉 원본 코드도 인덱스는 CPU에서 돌립니다. 게다가 인덱스가 `IndexFlatL2`(완전탐색)이고 전체 실행에서 발생하는 쿼리가 수백 건 수준이라, GPU로 올려도 체감 이득이 없습니다.
 
@@ -243,7 +260,7 @@ section_references_ids = [[]] * len(sections)
 
 ---
 
-## 4. 성능 패치 ✅ 적용 완료
+## 4. 성능 패치 · 기능 추가 ✅ 적용 완료
 
 ### 4-1. TinyDB 선형 스캔 제거
 
@@ -285,6 +302,61 @@ section_references_ids = [[]] * len(sections)
 
 실제 요금은 OpenRouter 대시보드에서 확인하는 편이 정확합니다.
 
+### 4-4. 분량 통제 — 기능 추가 ✅ (기본값은 원본과 동일)
+
+§3의 패치들과 성격이 다릅니다. **버그 수정이 아니라 추가 기능이고, 켜지 않으면
+원본 AutoSurvey가 그대로 돕니다.**
+
+**문제.** 같은 `--subsection_len 700`인데 모델에 따라 분량이 3배 벌어집니다.
+`.tex` 기준 실측:
+
+| 산출물 | 서브섹션 | 서브당 단어 | 지시값 대비 |
+|---|---|---|---|
+| haiku × 3편 | 48~51 | 531~537 | **0.76~0.77×** |
+| deepseek-v4-pro | 72 | 1,167 | **1.67×** |
+
+같은 토픽에서 개수 1.41× / **길이 2.17×** / 총 3.07×. deepseek 편은 84,012단어,
+약 105페이지로 서베이라기보다 문서 더미에 가깝습니다.
+
+**원인.** 통제되지 않는 자유도가 셋입니다.
+
+- `src/prompt.py` — `"containing several subsections … Subsection K"`. **K가 모델 재량**
+- `src/prompt.py` — `"content more than [WORD NUM] words"`. **하한이지 상한이 아님**
+- `max_tokens` 상한이 **코드 어디에도 없음**
+
+**대응.** 프롬프트 *내용*은 바꾸지 않았습니다. 문구를 다시 쓰면 원본과 다른 시스템이
+되어 baseline 의미가 흐려지기 때문입니다. placeholder만 넣었습니다.
+
+```diff
+- You need to generate the framwork containing several subsections based on the overall outlines.
++ You need to generate the framwork containing [SUBSECTION NUM] subsections based on the overall outlines.
+```
+
+`outlineWriter(subsection_num=0)`이면 `several`이 치환돼 **원본과 글자 단위로 같습니다.**
+값을 주면 `exactly N`이 들어가고, `process_outlines`가 초과 서브섹션을 잘라 상한을
+보장합니다(프롬프트 지시만으로는 모델이 넘길 수 있음).
+
+```bash
+python main.py ... --section_num 8 --subsection_num 4 --subsection_len 390
+```
+
+**길이는 프롬프트가 아니라 캘리브레이션으로 맞춥니다.** `subsection_len`이 하한인 것을
+그대로 두고, 모델 계수를 실측해 목표를 그 계수로 나눈 값을 넣습니다.
+
+```bash
+python scripts/check_survey.py "output/<모델>-smoke/<토픽>.md" \
+  --subsection-len=700 --target-words=20000
+```
+
+> **`max_tokens` 하드 컷은 쓰지 마세요.** 생성 도중 잘려 인용이 깨지고 무결성 검사가
+> 무너집니다.
+
+계수는 **(모델 × 시스템) 쌍의 성질**입니다. SurveyForge는 같은 자리를
+`"approximately [WORD NUM] words"`로 쓰는데 거기서는 같은 `deepseek-v4-pro`가 1.25×였습니다.
+한쪽에서 잰 값을 다른 쪽에 쓰면 안 됩니다.
+
+배경과 분량 구간(짧음/표준/광범위/초과/비대)은 `README.md` §4.
+
 ---
 
 ## 5. 데이터베이스 준비
@@ -295,7 +367,7 @@ section_references_ids = [[]] * len(sections)
 
 | 파일 | 용도 | 참조 위치 |
 |---|---|---|
-| `arxiv_paper_db.json` | TinyDB 본체 (id/title/abs/date) | `database.py:21` |
+| `arxiv_paper_db.json` | TinyDB 본체. 필드 7개 — `id`/`title`/`abs`/`date`/`cat`/`url`/`authors` | `database.py:21` |
 | `faiss_paper_title_embeddings.bin` | 제목 인덱스 (인용 매핑용) | `database.py:26` |
 | `faiss_paper_abs_embeddings.bin` | 초록 인덱스 (검색용) | `database.py:28` |
 | `arxivid_to_index_abs.json` | arXiv id ↔ FAISS 인덱스 매핑 | `database.py:32` |
@@ -346,12 +418,42 @@ CUDA_VISIBLE_DEVICES=0 python scripts/build_index.py --db-path ./database
 python scripts/check_db.py --db-path ./database
 ```
 
-`harvest_arxiv.py` 참고 사항:
-- arXiv OAI-PMH는 **카테고리 단위 setSpec을 지원**합니다 (`cs:cs:CL`, `cs:cs:LG`, `cs:cs:AI` …). `verb=ListSets`로 전체 목록 확인 가능. 아카이브 전체(`cs`)를 받아 클라이언트에서 거를 필요가 없습니다
-- 페이지당 1300건, resumptionToken 페이징. 503 + `Retry-After`(arXiv 레이트리밋 신호)를 존중합니다
-- `_harvest/records.jsonl` + `state.json`에 체크포인트를 남겨 **중단 후 같은 명령으로 재개**됩니다
-- OAI의 `from`/`until`은 **최종 수정일** 기준입니다. 투고일로 거르려면 `--created-from`을 쓰세요
+`harvest_arxiv.py` 참고 사항 (**2026-08-05 재작성됨**):
+
+- **API 키가 필요 없습니다.** `User-Agent`만 붙이면 됩니다
+- **엔드포인트가 이전됐습니다** — `export.arxiv.org/oai2`는 `https://oaipmh.arxiv.org/oai`로
+  **301**입니다. 스크립트는 새 URL을 씁니다 (`curl`로 직접 칠 때는 `-L` 필요)
+- 전체 CS는 `--sets cs` 하나면 됩니다. 하위 분류는 `cs:cs:CL` 형식.
+  **교차 게재 때문에 하위 분류를 여러 개 받으면 같은 논문을 중복으로 받습니다** —
+  실측상 요청 수는 거의 같은데 수록량만 30% 적었습니다
+- `ListRecords` 페이지당 1300건, resumptionToken 페이징.
+  503 + `Retry-After`(arXiv 레이트리밋 신호)를 존중합니다
+- **두 메타데이터 형식을 모두 훑습니다.** 초록은 `arXivRaw`(TeX escape 보존),
+  제목·저자는 `arXiv`(유니코드). 배포 DB가 그 조합이라 맞춘 것입니다.
+  중간 산출물은 `_harvest/records_arXivRaw.jsonl` / `records_arXiv.jsonl`이고
+  `state.json`에 체크포인트가 남아 **중단 후 같은 명령으로 재개**됩니다
+- OAI의 `from`/`until`은 **최종 수정일** 기준이라 옛 논문의 개정본이 딸려옵니다.
+  기존 DB에 있는 논문을 빼려면 **`--exclude-db <기존 arxiv_paper_db.json>`**을 쓰세요
+  (예전의 `--created-from`은 없어졌습니다)
 - `export.arxiv.org/api/query`(REST API)는 이 서버에서 타임아웃납니다. OAI-PMH만 씁니다
+
+**표기 규약을 반드시 맞춰야 합니다.** 배포 DB는 OAI 응답과 표기가 달라서, 그냥 받아
+붙이면 에러 없이 코퍼스가 두 층으로 갈라집니다. `scripts/check_oai_schema.py`가
+기존 DB의 논문을 OAI로 다시 받아 7필드를 문자 단위로 대조합니다.
+
+```bash
+python scripts/check_oai_schema.py --db-path ./database --n 30
+```
+
+역산해 둔 규약 (실측, 30/30 통과):
+
+| 필드 | 규약 | 함정 |
+|---|---|---|
+| `id` | base + **최신** 버전 접미사 | — |
+| `date` | **v1 제출일** | arXiv 형식의 `<created>`는 '최신 버전' 날짜다. 그대로 쓰면 개정본이 몇 년씩 어긋난다 |
+| `abs` | arXivRaw — TeX escape 보존 | arXiv 형식은 유니코드로 변환돼 있어 기존 코퍼스와 다르다 |
+| `title` | arXiv 형식(유니코드)에서 `<>:"/\|?*#` 제거 | 배포 DB 537,665편 제목에 이 문자가 **하나도 없다**(초록엔 `:`가 22%) |
+| `cat` / `authors` / `url` | primary category / 유니코드 `forenames keyname` / pdf 링크 | — |
 
 `build_index.py`는 `build_database.ipynb`를 대체합니다. 노트북은 그대로 돌지 않습니다:
 - 셀 14: `faiss.index_gpu_to_cpu(title_index)` — `title_index`는 CPU `IndexFlatL2`라 이 호출은 **에러**
@@ -366,6 +468,56 @@ python scripts/check_db.py --db-path ./database
 - 도메인 한정이라 검색 품질도 더 나을 수 있습니다
 
 > ⚠️ **임베딩 모델 버전 불일치 주의**: 논문 Appendix B는 `nomic-embed-text-v1.5`를 썼다고 적고 있지만, 저장소 기본값은 `nomic-ai/nomic-embed-text-v1`입니다 (`main.py:59`). **인덱스를 만든 모델과 검색에 쓰는 모델이 반드시 같아야 합니다.** 배포 인덱스를 쓸 거면 코드 기본값(v1)을 그대로 두세요. 직접 만들면 아무거나 골라도 되지만 빌드/검색에서 동일하게 유지해야 합니다.
+
+---
+
+### 경로 D: 배포본 최신화 — **실행 완료 (2026-08-04)**
+
+배포본은 수록 논문 최신일이 **2024-04-26**입니다. 그대로 두면 최근 2년치가 통째로
+빠지므로, arXiv에서 신규 논문을 받아 **두 번째 스냅샷**을 만들었습니다.
+경로 C가 "처음부터 만들기"라면 이쪽은 "있는 것에 덧붙이기"입니다.
+
+**배포본은 읽기만 하고 건드리지 않습니다.** `IndexFlatL2` append가 기존 행 번호를
+보존하므로 **배포본은 최신화본의 prefix**가 되고, 두 스냅샷으로 A/B 비교가 가능합니다.
+
+```bash
+# 1) 수집 — API 키 불필요, 약 646요청 / 2시간
+python scripts/harvest_arxiv.py --sets cs --oai-from 2024-04-27 \
+  --exclude-db ./database/arxiv_paper_db.json --out-dir ./database_2026-08 --delay 3
+
+# 2) 임베딩 + append — 배포본을 읽기만 하고 새 디렉터리에 4파일 생성 (약 30분)
+python scripts/append_snapshot.py --base ./database \
+  --new ./database_2026-08/arxiv_paper_db.json --out ./database_2026-08
+
+# 3) 검증 — 크기만 맞는지가 아니라 저장 벡터를 다시 만들어 대조까지
+python scripts/check_db.py --db-path ./database_2026-08 --verify-embeddings 20
+
+# 4) 효과 측정
+python scripts/compare_snapshots.py --old ./database --new ./database_2026-08 \
+  --topics "In-context Learning" "Evaluation of LLMs"
+```
+
+**실측 결과**:
+
+| 항목 | 값 |
+|---|---|
+| 수집 | 419,246건 / 646요청 / 2시간 (재시도·503 **0건**) |
+| 추가 | **371,628편** = cutoff 이후 350,805 + 배포본 결손분 20,823 |
+| 제외 | 47,618건 (기존 논문의 v2/v3 개정본 — 의도적 미반영) |
+| 결과 | 537,665 → **909,293편**, 수록 최신일 2026-08-03 |
+| 검증 | 4파일 모두 909,293 일치 / 저장 벡터 재현 **최저 cos 1.000000** |
+
+- **개정본을 반영하지 않은 것은 의도적입니다.** 배포본의 벡터를 그대로 둬야
+  두 스냅샷 비교가 성립합니다.
+- 결손분 20,823편은 **배포 DB가 arXiv CS 전체를 담고 있지 않아** 생긴 것입니다.
+  수정일 기준으로 딸려온 옛 논문 중 배포본에 없던 것들이며 1991~2024에 걸쳐 있습니다.
+- 커버리지가 세 토픽 모두 개선됐습니다 (`d@1200` 0.853→0.796 / 0.849→0.764 /
+  0.744→0.691). 다만 top-1200 교집합이 16~35%뿐이라 **기존 산출물과 통제 비교는
+  성립하지 않습니다.**
+- 지문(md5)과 상세는 `REPRODUCTION.md` §3-B, 설계 근거는 `README.md` §3.
+
+> **LLM API를 쓰지 않습니다.** 수집은 arXiv OAI-PMH(무인증), 임베딩은 로컬 GPU라
+> 크레딧이 소진된 상태에서도 전 과정을 돌릴 수 있습니다.
 
 ---
 
@@ -483,6 +635,24 @@ python evaluation.py \
 → 줄이려면 `--outline_reference_num`, `--rag_num`, `--section_num` 이 세 개만 건드리면 됩니다. 첫 스모크(`4 / 200 / 15`)는 이보다 한참 싸게 끝납니다.
 
 실제 요금은 OpenRouter 대시보드에서 확인하세요. 모델별 단가 차이가 위 표처럼 30배 넘게 벌어지므로, **모델 선택이 곧 비용**입니다.
+
+### 실측 단가 (2026-08-05, OpenRouter)
+
+| 모델 | 입력 $/M | 출력 $/M | 컨텍스트 | 비고 |
+|---|---|---|---|---|
+| `anthropic/claude-3-haiku` | — | — | — | 본편 3편 각 $0.75~0.78 |
+| `deepseek/deepseek-v4-pro` | 0.435 | 0.870 | 1M | 본편 1편 $3.39 (84k단어) |
+| **`deepseek/deepseek-v4-flash-0731`** | **0.090** | **0.180** | 1M | **다음 백본.** v4-pro의 **1/4.8** |
+
+`-0731`은 **날짜 고정 태그**라 제공자가 갱신해도 스냅샷이 바뀌지 않습니다.
+`deepseek-v4-flash`나 `-latest`는 갱신되므로 통제 실험에는 쓰지 마세요.
+
+> **deepseek 계열은 reasoning이 기본 ON입니다.** `.env`의 `AUTOSURVEY_REASONING=off`를
+> 유지하세요. 켜진 채 돌린 `deepseek-smoke/`는 추론 토큰이 출력의 45%,
+> 비용이 토큰 추정의 3.5배였습니다. 이 토큰은 카운터에 안 잡히고 출력 단가로 과금됩니다.
+
+**크레딧 확인은 `/api/v1/key`로 하세요.** `/api/v1/credits`는 계정 전체 잔액이라
+키에 걸린 한도가 보이지 않습니다. 2026-08-04 기준 현재 키는 한도 $10을 전액 소진했습니다.
 
 ---
 
