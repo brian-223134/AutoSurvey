@@ -1,6 +1,6 @@
 # HANDOFF — AutoSurvey 세팅 인수인계
 
-**최종 갱신**: 2026-08-04
+**최종 갱신**: 2026-08-05
 **목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현과 평가 파이프라인은 범위 밖.
 **상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
 이 문서는 "지금 어디까지 됐고 다음에 뭘 하면 되는지"만 다룹니다.
@@ -38,8 +38,16 @@ haiku는 편당 6~8분, 3편 합계 약 $2.28.
 Explainability for LLMs (d@1200 0.811) / LLM-Generated Texts Detection (0.823) /
 LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 
-**남은 일**: PDF 컴파일 확인(`.tex`까지는 나와 있음, 사용자 로컬/Overleaf), `.bib` 생성,
-벤치마크 평가. **새 생성은 크레딧 소진으로 막혀 있습니다** (아래 "크레딧" 참고).
+**남은 일** (자세히는 아래 "남은 작업"):
+
+| # | 항목 | 막는 것 |
+|---|---|---|
+| **C** | **새 백본(`deepseek-v4-flash-0731`)으로 첫 실행** — 스모크로 분량 계수부터 측정 | **크레딧** |
+| A | PDF 컴파일 확인(`.tex`까지는 나와 있음) + `.bib` 생성 | 없음 — 로컬/Overleaf에서 가능 |
+| B | 벤치마크 평가 | `judge.py`·`utils.py` 선행 수정 |
+
+**새 생성은 크레딧 소진으로 막혀 있습니다**(아래 "크레딧"). 크레딧이 들어오면 **C부터**
+하세요 — DB 최신화와 분량 통제가 준비돼 있어 바로 돌릴 수 있습니다.
 
 ---
 
@@ -82,48 +90,30 @@ DB에 2024-04-26 이후 논문이 없어 27개월치를 채웠습니다. **스�
 
 ## 분량 통제 — `--subsection_num` (2026-08-05 추가)
 
-deepseek-v4-pro 본편이 84,012단어까지 부푼 원인을 `.tex` 기준으로 분해했습니다.
-**서브섹션 "개수"보다 "길이"가 더 크게 기여했습니다.**
-
-| 산출물 (`--subsection_len 700` 동일) | 서브섹션 | 서브당 단어 | 지시값 대비 |
-|---|---|---|---|
-| haiku × 3편 | 48~51 | 531~537 | **0.76~0.77×** |
-| deepseek-v4-pro | 72 | 1,167 | **1.67×** |
-
-같은 토픽에서 haiku → v4-pro: 개수 1.41× / **서브섹션당 길이 2.17×** / 총 3.07×.
-
-원인은 프롬프트에 있습니다 — `subsection_len`이 상한이 아니라 **하한**입니다
-(`"content more than [WORD NUM] words"`). `max_tokens` 상한은 코드 어디에도 없습니다.
-지시를 잘 따르는 모델일수록 하한을 넘겨 쓰고 약한 모델은 미달합니다.
-
-### 통제 방법
+같은 `--subsection_len 700`인데 모델에 따라 분량이 **3배** 벌어졌습니다
+(haiku 서브섹션당 531~537단어 = 지시값의 0.77×, deepseek-v4-pro 1,167단어 = 1.67×).
+`subsection_len`이 상한이 아니라 **하한**이기 때문입니다
+(`"content more than [WORD NUM] words"`). 진단과 근거는 [`README.md`](README.md) §4.
 
 ```
 총 분량 = section_num × subsection_num × (subsection_len × 모델 계수)
 ```
 
-- **`--subsection_num N`** (신규) — 섹션당 서브섹션 상한. 아웃라인 프롬프트에 개수를
-  명시하고 초과분을 잘라냅니다. **기본값 0이면 원본 AutoSurvey 그대로**입니다
-  (프롬프트에 `several`이 들어가 원본과 글자 단위로 같습니다).
-- **`--subsection_len`** — 프롬프트는 손대지 않고 **모델 계수로 역산**해 넣습니다.
+- **`--subsection_num N`** (신규) — 섹션당 서브섹션 상한.
+  **기본값 0이면 원본 AutoSurvey 그대로**입니다(프롬프트 문구가 원본과 글자 단위로 동일).
+- **`--subsection_len`** — **모델 계수로 역산**해 넣습니다.
   `max_tokens` 하드 컷은 쓰지 마세요. 생성 도중 잘려 인용이 깨집니다.
 
-> ⚠ **프롬프트 내용은 일부러 바꾸지 않았습니다.** 문구를 다시 쓰면 원본 AutoSurvey와
-> 다른 시스템이 되어 baseline으로서의 의미가 흐려집니다. `several` 자리에 placeholder만
-> 넣었고, 값을 주지 않으면 원본 문자열이 그대로 나갑니다.
-
-### 새 백본을 쓸 때 — 계수부터 재세요
-
-계수는 모델마다 다릅니다(haiku 0.77× vs v4-pro 1.67×, **2.2배 차이**).
-스모크 1편을 돌린 뒤:
+**새 백본은 계수부터 재세요.** 모델마다 2.2배까지 차이 납니다. 스모크 1편 뒤:
 
 ```bash
 python scripts/check_survey.py "output/<모델>-smoke/<토픽>.md" \
   --subsection-len=700 --target-words=20000
 ```
 
-계수와 **다음 실행에 넣을 `--subsection_len` 값**을 계산해 줍니다.
-구조는 `.tex`가 있으면 그쪽을 셉니다(`.md` 헤딩은 부풀려진 전례가 있습니다).
+계수와 다음 실행에 넣을 `--subsection_len` 값을 계산해 줍니다.
+`deepseek-v4-flash-0731`은 **미측정** — 1.6을 가정하면 `--subsection_len 390`이
+출발점이지만 스모크로 확정하세요.
 
 ### 분량 구간 — 하드 컷을 걸지 않습니다
 
@@ -156,10 +146,6 @@ python scripts/check_survey.py "output/<모델>-smoke/<토픽>.md" \
 (비대, 경고)**. 출발점으로는 8섹션 × 4서브섹션 = 32서브섹션, 서브섹션당 약 600단어
 (≈19,000단어)를 권합니다. 그 안에서 주제에 따라 흔들리는 건 정상입니다.
 
-`deepseek-v4-flash-0731`의 계수는 **아직 미측정**입니다. deepseek 계열이 1.25~1.67×
-범위였으므로 1.6 근처를 가정하면 `--subsection_len 390` 정도가 출발점이지만,
-스모크로 확인한 뒤 확정하세요.
-
 ---
 
 ## git 상태
@@ -177,6 +163,10 @@ origin은 SSH URL(`git@github.com:brian-223134/AutoSurvey.git`)로 전환돼 있
 DB와 `.env`는 준비돼 있습니다. 새 토픽 생성은 이 한 줄입니다.
 `--db_path`로 **어느 스냅샷을 쓸지 고르세요** — 아래는 기존 6편과 조건을 맞추는
 배포본(`./database`) 기준입니다. 최신 논문이 필요하면 `./database_2026-08`.
+
+> `.env`가 없다면(git에 없으므로 새 클론에는 없습니다):
+> `cp .env.example .env && chmod 600 .env` 후 `OPENROUTER_API_KEY`만 채우세요.
+> 나머지 값은 실제로 쓰고 있는 설정 그대로입니다.
 
 ```bash
 conda activate autosurvey
@@ -205,6 +195,67 @@ PATH="$HOME/miniforge3/envs/tex/bin:$PATH" \
 ```
 `scripts/enrich_references.py`(서지정보 채우기)는 **새 실행에는 필요 없습니다** —
 `main.py`가 저장 시점에 `reference_detail`을 만듭니다. 옛 산출물을 손볼 때만 씁니다.
+
+### 실행 설정 — provider 고정과 잘림 검사
+
+OpenRouter는 같은 모델을 여러 provider로 라우팅하는데 **quantization이 제각각입니다.**
+`deepseek-v4-flash-0731`은 엔드포인트 19개에 fp4 / fp8 / unknown이 섞여 있습니다.
+고정하지 않으면 **한 서베이 안에서 서브섹션마다 다른 정밀도의 모델이 씁니다.**
+
+```bash
+# .env 에 추가
+export AUTOSURVEY_PROVIDER=parasail/fp8
+```
+
+값은 OpenRouter의 **endpoint tag**입니다(provider와 quantization을 한 번에 고정).
+`allow_fallbacks=false`가 함께 나가므로 그 provider가 붐벼도 다른 곳으로 넘어가지 않습니다.
+확인:
+
+```bash
+curl -s "https://openrouter.ai/api/v1/models/deepseek/deepseek-v4-flash-0731/endpoints" \
+  | python -c "import json,sys; [print(e['tag'], e['quantization'], e['max_completion_tokens']) for e in json.load(sys.stdin)['data']['endpoints']]"
+```
+
+`parasail/fp8`을 고른 이유 — fp8(deepseek 계열의 네이티브 정밀도에 가까움),
+uptime 100%, `max_completion_tokens` 1,048,576으로 최대, 단가는 fp8 주류와 동일.
+
+> **모델 단위로 표시되는 $0.09/$0.18은 fp4 엔드포인트(DeepInfra) 가격입니다.**
+> fp8로 고정하면 실제 단가는 $0.14/$0.28입니다.
+
+### 출력 잘림 검사
+
+`max_tokens` 한도 자체는 문제가 아닙니다 — 호출당 서브섹션 하나(약 1,600토큰)이고
+최소 provider 한도가 32,768이라 20배 여유입니다. 다만 **잘려도 조용히 넘어가던 것**을
+막았습니다. `finish_reason='length'`면 경고를 찍고 실행 끝에 건수를 집계합니다.
+
+```
+[usage]  writer  ⚠ 출력 잘림 3건 — 해당 서브섹션은 문장 중간에서 끊겼습니다
+```
+
+이 경고가 뜨면 그 서베이는 문장이 끊긴 채 저장된 것입니다. `check_survey.py`는
+인용만 보지 완결성은 보지 않으므로 여기서만 잡힙니다.
+
+시스템 간 비교를 위한 **통제 요인 전체**(백본·reasoning·provider 핀·목표 구조·분량·
+검색 폭·DB 스냅샷)는 상위 디렉터리의 `SURVEY_REPORT.md` §7에 정리돼 있습니다.
+GLM-4.6은 후보에서 내렸습니다.
+
+**코드 수정은 불필요합니다** — OpenRouter가 OpenAI 호환이라 `--model` 값만 바꾸면 됩니다.
+교체 시 확인할 것:
+
+1. **reasoning(thinking) 모드** — 켜져 있으면 출력 토큰이 몇 배가 되어 비용·시간이 늘고,
+   최악의 경우 thinking 내용이 본문에 섞입니다. `.env`의 `AUTOSURVEY_REASONING=off`로
+   끄세요. 이 토글이 생기기 전에 켠 채로 돌린 `deepseek-smoke/`는 추론 토큰이 출력의 45%,
+   비용이 토큰 추정의 3.5배였습니다.
+2. **출력 포맷 준수** — 아웃라인 파서는 `8bfbc43`에서 정규식 기반으로 바꿔 모델
+   비의존적입니다(deepseek 첫 시도가 `IndexError`로 죽어서 고쳤습니다).
+   그래도 새 모델은 스모크부터 돌리세요.
+3. 논문 Table 4가 writer를 GPT-4 / Gemini-1.5-Pro로 바꾼 ablation을 이미 다루므로,
+   writer 교체 자체는 방법론을 벗어나지 않습니다 (세 모델 모두 4.58~4.70).
+
+**예산이 선행 조건입니다** — 현재 키는 $10 한도를 다 썼습니다(2026-08-04 실측, 잔여 0).
+크레딧 상향이나 새 키 없이는 스모크 한 편도 돌지 않습니다.
+
+---
 
 ### 크레딧 — ⚠ 현재 키는 소진 상태
 
@@ -403,52 +454,43 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 
 ### B. 벤치마크 평가 — 착수 전
 
-범위 밖으로 둔 항목입니다. 돌린다면 `judge.py:202,216`의 **무제한 스레드 생성부터
-제한**하세요. 인용 문장 하나당 스레드 하나를 만들어 32k 서베이면 수백 개가 동시에 나갑니다.
+범위 밖으로 둔 항목입니다. 돌리기 전에 **두 가지를 먼저 고쳐야 합니다.**
 
-### C. writer 모델 추가 교체 (선택)
+1. **`judge.py:202,216`의 무제한 스레드 생성.** 인용 문장 하나당 스레드 하나를 만들어
+   32k 서베이면 수백 개가 동시에 나갑니다.
+2. **`src/utils.py`의 `compute_price()`가 즉시 `KeyError`로 죽습니다.**
+   `self.model_price = {}` 빈 딕셔너리인데 `self.model_price[model][0]`을 조회합니다.
+   `judge.py:46`이 이걸 호출하므로 어떤 모델을 쓰든 터집니다. 원본 그대로의 버그이고,
+   `main.py`는 이 경로를 타지 않아(실제 청구액을 씀) 지금까지 드러나지 않았습니다.
+   단가표를 채우거나 그 함수를 쓰지 않도록 바꿔야 합니다.
+
+### C. 새 백본으로 첫 실행 — **크레딧 확보 후 바로 이것부터**
 
 교수님 의견은 closed model(Claude-3-Haiku)보다 **비슷한 성능의 open model API**를 쓰자는
-것이었고, `deepseek/deepseek-v4-pro`로 한 편 생성해 **이미 확인했습니다**.
+것이었고, `deepseek/deepseek-v4-pro`로 한 편 생성해 확인했습니다.
+**다음 백본은 `deepseek/deepseek-v4-flash-0731`로 확정**했습니다 (2026-08-05).
 
-**다음 백본은 `deepseek/deepseek-v4-flash-0731`로 정했습니다** (2026-08-05).
+순서는 이렇습니다:
+
+1. **스모크 1편** — 축소 설정(`--section_num 4 --outline_reference_num 200 --rag_num 15`).
+   확인할 것: 응답의 provider가 실제로 Parasail인지, 잘림 경고가 뜨지 않는지.
+2. **계수 측정** — `check_survey.py <md> --subsection-len=700 --target-words=20000`.
+   `v4-flash-0731`의 계수는 **아직 미측정**입니다.
+3. **본 실행** — 2에서 얻은 `--subsection_len`과 `--subsection_num 4`로.
 
 | 항목 | 값 |
 |---|---|
-| 단가 | 입력 **$0.09/M** · 출력 **$0.18/M** — `v4-pro`($0.435/$0.870)의 **1/4.8** |
+| 단가 | 입력 **$0.14/M** · 출력 **$0.28/M** — `v4-pro`($0.435/$0.870)의 **1/3.1** (핀한 fp8 기준) |
 | 컨텍스트 | 1,048,576 |
 | 태그 | **날짜 고정**이라 제공자 갱신에 흔들리지 않음 (`v4-flash`·`-latest`는 갱신됨) |
+| 엔드포인트 | **`parasail/fp8` 고정** — `.env`에 `AUTOSURVEY_PROVIDER=parasail/fp8` |
 
-시스템 간 비교를 위한 **통제 요인 전체**(백본·reasoning·provider 핀·목표 구조·분량·
-검색 폭·DB 스냅샷)는 상위 디렉터리의 `SURVEY_REPORT.md` §7에 정리돼 있습니다.
-GLM-4.6은 후보에서 내렸습니다.
+### D. DB 재갱신 (필요해지면)
 
-**코드 수정은 불필요합니다** — OpenRouter가 OpenAI 호환이라 `--model` 값만 바꾸면 됩니다.
-교체 시 확인할 것:
-
-1. **reasoning(thinking) 모드** — 켜져 있으면 출력 토큰이 몇 배가 되어 비용·시간이 늘고,
-   최악의 경우 thinking 내용이 본문에 섞입니다. `.env`의 `AUTOSURVEY_REASONING=off`로
-   끄세요. 이 토글이 생기기 전에 켠 채로 돌린 `deepseek-smoke/`는 추론 토큰이 출력의 45%,
-   비용이 토큰 추정의 3.5배였습니다.
-2. **출력 포맷 준수** — 아웃라인 파서는 `8bfbc43`에서 정규식 기반으로 바꿔 모델
-   비의존적입니다(deepseek 첫 시도가 `IndexError`로 죽어서 고쳤습니다).
-   그래도 새 모델은 스모크부터 돌리세요.
-3. 논문 Table 4가 writer를 GPT-4 / Gemini-1.5-Pro로 바꾼 ablation을 이미 다루므로,
-   writer 교체 자체는 방법론을 벗어나지 않습니다 (세 모델 모두 4.58~4.70).
-
-**예산이 선행 조건입니다** — 현재 키는 $10 한도를 다 썼습니다(2026-08-04 실측, 잔여 0).
-크레딧 상향이나 새 키 없이는 스모크 한 편도 돌지 않습니다.
-
-### D. DB 최신화 — ✅ 완료 (2026-08-04, 위 "DB 최신화" 절 참고)
-
-아래는 **다음번에 다시 갱신할 때**를 위한 절차입니다. 스냅샷이 또 낡으면 같은 순서로
-돌리면 됩니다 — `--oai-from`을 직전 스냅샷의 수록 최신일 다음날로, `--exclude-db`를
+DB 최신화 자체는 **완료됐습니다**(위 "DB 최신화" 절). 아래는 스냅샷이 또 낡았을 때
+쓰는 절차입니다. `--oai-from`을 직전 스냅샷의 수록 최신일 다음날로, `--exclude-db`를
 직전 스냅샷으로, `--out-dir`을 새 날짜 디렉터리로 바꾸면 됩니다.
-**LLM API를 쓰지 않으므로 크레딧과 무관합니다.**
-
-설계 근거·실측값·표기 규약은 [`README.md`](README.md) §3에 있습니다. 요지만 적으면:
-online search를 생성 루프가 아니라 **수집 단계**에 넣어, 생성 파이프라인은 그대로 둔 채
-DB만 갱신합니다. 결정적 검색 / DB 내 인용 / 파이프라인 통제가 보존됩니다.
+**LLM API를 쓰지 않아 크레딧과 무관합니다.**
 
 ```bash
 # 1) 수집 — arXiv OAI-PMH 는 API 키가 필요 없습니다 (약 646요청, 2시간)
@@ -467,14 +509,7 @@ python scripts/compare_snapshots.py --old ./database --new ./database_2026-08 \
   --topics "In-context Learning" "Evaluation of LLMs"
 ```
 
-끝나면 새 스냅샷의 md5 지문을 `REPRODUCTION.md` §3 표에 한 줄 추가하세요.
-
-**하지 않기로 한 것** — 기존 논문의 개정본 68,441건은 반영하지 않습니다. 옛 스냅샷의
-벡터를 그대로 둬야 두 스냅샷 비교가 성립합니다(`IndexFlatL2` append가 기존 행 번호를
-보존하므로 **옛 스냅샷이 새 스냅샷의 prefix**가 됩니다).
-
-새 스냅샷으로 서베이를 생성할 때는 `--db_path ./database_2026-08` 만 바꾸면 됩니다.
-같은 토픽을 두 스냅샷에서 각각 돌리면 "DB 최신화의 효과"가 독립 변수 하나가 됩니다.
+끝나면 새 스냅샷의 md5 지문을 `REPRODUCTION.md` §3에 행으로 추가하세요.
 
 ---
 

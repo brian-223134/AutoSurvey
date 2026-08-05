@@ -14,6 +14,10 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 | [`REPRODUCTION.md`](REPRODUCTION.md) | 산출물 재현에 필요한 입력값 일체 (환경·DB 지문·커밋·하이퍼파라미터) |
 | [`SETTING.md`](SETTING.md) | 세팅 **절차**와 각 패치의 근거 |
 | [`output/README.md`](output/README.md) | 산출물의 결과 수치와 비교 시 주의점 |
+| [`.env.example`](.env.example) | 환경변수 템플릿 — `cp .env.example .env` 후 키만 채우면 됩니다 |
+
+> 세 프로젝트(AutoSci·AutoSurvey·SurveyForge) 비교와 **시스템 간 통제 프로토콜**은
+> 이 저장소 밖 `../SURVEY_REPORT.md`에 있습니다(§7). git 추적 대상이 아닙니다.
 
 ---
 
@@ -419,9 +423,19 @@ DB 갱신은 GPU와 네트워크만 쓰고 **LLM API를 전혀 쓰지 않아** �
 
 ### 4.5 다음 백본
 
-`deepseek/deepseek-v4-flash-0731` — 입력 $0.09/M · 출력 $0.18/M로 `v4-pro`의 **1/4.8**,
+`deepseek/deepseek-v4-flash-0731`, 엔드포인트 **`parasail/fp8` 고정** — 입력 $0.14/M ·
+출력 $0.28/M로 `v4-pro`의 **1/3.1**,
 컨텍스트 1M, 날짜 고정 태그라 제공자 갱신에 흔들리지 않습니다.
 **계수는 미측정**이므로 스모크 1편으로 재고 역산해야 합니다.
+
+**엔드포인트를 고정합니다** — `.env`에 `AUTOSURVEY_PROVIDER=parasail/fp8`.
+OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization이 fp4/fp8/unknown으로
+제각각입니다. 고정하지 않으면 **한 서베이 안에서 서브섹션마다 다른 정밀도가 씁니다.**
+`allow_fallbacks=false`가 함께 나가 그 provider가 붐벼도 넘어가지 않습니다.
+
+출력 한도 자체는 병목이 아닙니다 — 호출당 서브섹션 하나(약 1,600토큰)이고 최소 provider
+한도가 32,768이라 20배 여유입니다. 다만 `finish_reason='length'`를 검사해 **잘림이
+조용히 넘어가지 않도록** 했습니다(`src/model.py`).
 
 시스템 간 비교를 위한 통제 요인 전체는 상위 디렉터리 `SURVEY_REPORT.md` §7에 있습니다.
 

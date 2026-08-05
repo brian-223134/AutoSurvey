@@ -1,6 +1,7 @@
 import os
 import json
 import argparse
+import requests
 from src.agents.outline_writer import outlineWriter
 from src.agents.writer import subsectionWriter
 from src.agents.judge import Judge
@@ -50,6 +51,11 @@ def report_usage(stage, agent):
     print(f'[usage]  {stage:7s} 청구 in={u["prompt"]:,} out={u["completion"]:,} '
           f'(추론 {u["reasoning"]:,}) 비용 ${u["cost"]:.4f} 재시도 {agent.api_model.retry_count}회',
           flush=True)
+    # 잘림은 조용히 넘어가면 안 된다. 문장이 끊긴 서브섹션이 그대로 서베이에 들어간다.
+    if getattr(agent.api_model, 'truncated', 0):
+        print(f'[usage]  {stage:7s} ⚠ 출력 잘림 {agent.api_model.truncated}건 — '
+              f'해당 서브섹션은 문장 중간에서 끊겼습니다. provider 출력 한도나 '
+              f'reasoning 설정을 확인하세요', flush=True)
 
 def write_subsection(topic, model, outline, subsection_len, rag_num, db, api_key, api_url, refinement = True):
 
@@ -109,6 +115,38 @@ def build_reference_detail(references, db):
     return detail
 
 
+def check_provider_pin(model):
+    """AUTOSURVEY_PROVIDER 의 tag 가 이 모델에 실제로 존재하는지 확인한다.
+
+    provider tag 는 **모델마다 다릅니다.** `.env` 에 deepseek 용 `parasail/fp8` 을
+    박아 둔 채 `--model anthropic/claude-3-haiku` 로 돌리면(haiku 는 amazon-bedrock
+    하나뿐) allow_fallbacks=false 라 요청이 통째로 실패합니다. 모델은 CLI 인자이고
+    provider 는 환경변수라 둘이 조용히 어긋날 수 있어, DB 로딩 전에 잡는다.
+
+    조회 실패(네트워크 등)는 막지 않는다 — 검증 때문에 실행을 못 하면 곤란하다.
+    """
+    pin = os.environ.get('AUTOSURVEY_PROVIDER', '').strip()
+    if not pin:
+        return
+    tags = [t.strip() for t in pin.split(',') if t.strip()]
+    try:
+        r = requests.get(
+            f'https://openrouter.ai/api/v1/models/{model}/endpoints', timeout=30)
+        available = [e.get('tag') for e in r.json()['data']['endpoints']]
+    except Exception as e:
+        print(f'[provider] 확인 생략 (조회 실패: {e}). 핀={pin}', flush=True)
+        return
+
+    missing = [t for t in tags if t not in available]
+    if missing:
+        raise RuntimeError(
+            f'AUTOSURVEY_PROVIDER={pin} 인데 모델 "{model}" 에는 {missing} 엔드포인트가 '
+            f'없습니다. allow_fallbacks=false 이므로 요청이 전부 실패합니다.\n'
+            f'  이 모델의 tag: {available}\n'
+            f'  모델을 바꿨다면 .env 의 AUTOSURVEY_PROVIDER 도 함께 바꾸거나 비우세요.')
+    print(f'[provider] {model} → {pin} 고정 (fallback 없음)', flush=True)
+
+
 def resolve_api_key(args):
     """--api_key 또는 환경변수에서 키를 얻는다.
 
@@ -129,6 +167,8 @@ def main(args):
     if not api_key:
         raise RuntimeError(
             'API 키가 없습니다. `source .env` 후 실행하거나 --api_key로 넘기세요.')
+
+    check_provider_pin(args.model)
 
     db = database(db_path = args.db_path, embedding_model = args.embedding_model)
 

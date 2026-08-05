@@ -262,6 +262,7 @@ Evaluation of LLMs는 `d@1`도 0.595 → 0.521로 내려가, 토픽에 더 가�
 | `AUTOSURVEY_REASONING` | `off` | 추론 토큰 비활성 (deepseek 계열은 기본 ON) |
 | `AUTOSURVEY_TIMEOUT` | `900` | 호출 타임아웃(초). 추론 모델은 호출당 1분을 넘김 |
 | `AUTOSURVEY_MAX_THREADS` | `4` | 동시 API 호출 수. 높이면 429 폭주 |
+| `AUTOSURVEY_PROVIDER` | *(6편 생성 시 미설정)* | OpenRouter 엔드포인트 고정. 값은 endpoint tag(`parasail/fp8`). **미설정이면 provider가 매 호출 달라져 같은 서베이 안에서 quantization이 섞입니다** |
 | `CUDA_VISIBLE_DEVICES` | `0` | 임베딩에 쓸 GPU. **공용 서버라 0번이 차 있을 수 있습니다** — 실행 전 `nvidia-smi`로 빈 GPU를 골라 덮어쓰세요. 어느 GPU를 쓰든 결과는 같습니다(생성은 원격 API) |
 
 ```bash
