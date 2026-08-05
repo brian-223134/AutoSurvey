@@ -513,6 +513,35 @@ python scripts/compare_snapshots.py --old ./database --new ./database_2026-08 \
 
 ---
 
+## 테스트
+
+```bash
+conda activate autosurvey
+python -m unittest discover -s tests -t .
+```
+
+**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 55개가 **0.2초**에 끝납니다.
+네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock).
+
+무엇을 지키는지:
+
+| 파일 | 지키는 것 |
+|---|---|
+| `test_model_payload.py` (11) | **환경변수 없으면 페이로드가 `{}`** — 원본과 같은 요청이 나간다는 보장 / provider 핀의 `allow_fallbacks=False` |
+| `test_outline_parser.py` (15) | **`--subsection_num` 기본값이 원본 프롬프트를 글자 단위로 복원** / 서브섹션 절단 / 파서가 마크다운 장식·누락 설명·순서 뒤섞임을 견딤 |
+| `test_harvest_schema.py` (16) | 배포 DB 표기 규약 — **`date`가 `<created>`가 아니라 v1 제출일** / 초록의 TeX escape 보존 / 제목 금지문자 제거 / 저자 유니코드 |
+| `test_length_band.py` (7) | 분량 구간 경계와 실측값 판정 |
+| `test_provider_pin.py` (6) | 모델·provider 어긋나면 중단, 네트워크 장애는 막지 않음 |
+
+**변이 테스트로 실제로 잡는지 확인했습니다** — 프롬프트 기본값 변경, 절단 로직 제거,
+구간 경계 변경, `allow_fallbacks` 반전, `date`를 `<created>`로 바꾸기 5가지를 넣어
+전부 FAILED가 났습니다.
+
+특히 앞의 둘은 **baseline 신뢰성의 근거**입니다. 누가 프롬프트나 기본값을 건드리면
+"원본과 동일"이라는 주장이 조용히 깨지는데, 이제 테스트가 먼저 알려줍니다.
+
+---
+
 ## 함정 모음
 
 - **`--api_url`은 끝에 `/chat/completions`까지** 붙여야 합니다. `src/model.py`가 경로를 덧붙이지 않고 그대로 씁니다

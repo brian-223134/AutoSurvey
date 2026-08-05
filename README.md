@@ -15,6 +15,7 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 | [`SETTING.md`](SETTING.md) | 세팅 **절차**와 각 패치의 근거 |
 | [`output/README.md`](output/README.md) | 산출물의 결과 수치와 비교 시 주의점 |
 | [`.env.example`](.env.example) | 환경변수 템플릿 — `cp .env.example .env` 후 키만 채우면 됩니다 |
+| [`tests/`](tests/) | `python -m unittest discover -s tests -t .` — 55개, 0.2초. 네트워크·GPU 불필요 |
 
 > 세 프로젝트(AutoSci·AutoSurvey·SurveyForge) 비교와 **시스템 간 통제 프로토콜**은
 > 이 저장소 밖 `../SURVEY_REPORT.md`에 있습니다(§7). git 추적 대상이 아닙니다.
