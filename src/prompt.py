@@ -101,7 +101,7 @@ Each section follows with a brief sentence to describe what to write in this sec
 <instruction>
 You need to enrich the section [SECTION NAME].
 The description of [SECTION NAME]: [SECTION DESCRIPTION]
-You need to generate the framwork containing several subsections based on the overall outlines.\n\
+You need to generate the framwork containing [SUBSECTION NUM] subsections based on the overall outlines.\n\
 Each subsection follows with a brief sentence to describe what to write in this subsection.
 These papers provided for references:
 ---

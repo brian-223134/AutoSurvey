@@ -47,14 +47,17 @@ def _numbered_pairs(outline, name_re):
 
 class outlineWriter():
 
-    def __init__(self, model:str, api_key:str, api_url:str, database) -> None:
-        
-        self.model, self.api_key, self.api_url = model, api_key, api_url 
+    def __init__(self, model:str, api_key:str, api_url:str, database, subsection_num:int = 0) -> None:
+
+        self.model, self.api_key, self.api_url = model, api_key, api_url
         self.api_model = APIModel(self.model, self.api_key, self.api_url)
 
         self.db = database
         self.token_counter = tokenCounter()
         self.input_token_usage, self.output_token_usage = 0, 0
+        # 서브섹션 개수 상한. 0이면 원본 그대로 — 프롬프트에 'several'이 들어가고
+        # 개수는 모델 재량이 된다. 원본 AutoSurvey의 동작을 기본값으로 유지한다.
+        self.subsection_num = subsection_num
 
     def draft_outline(self, topic, reference_num = 600, chunk_size = 30000, section_num = 6):
         # Get database
@@ -197,7 +200,7 @@ class outlineWriter():
         <instruction>
         You need to enrich the section [SECTION NAME].
         The description of [SECTION NAME]: [SECTION DESCRIPTION]
-        You need to generate the framwork containing several subsections based on the overall outlines.\n\
+        You need to generate the framwork containing [SUBSECTION NUM] subsections based on the overall outlines.\n\
         Each subsection follows with a brief sentence to describe what to write in this subsection.
         These papers provided for references:
         ---
@@ -236,7 +239,8 @@ class outlineWriter():
                 paper_texts += f'---\npaper_title: {t}\n\npaper_content:\n\n{p}\n'
             paper_texts+='---\n'
             prompt = self.__generate_prompt(SUBSECTION_OUTLINE_PROMPT, paras={'OVERALL OUTLINE': section_outline,'SECTION NAME': section_name,\
-                                                                          'SECTION DESCRIPTION':section_description,'TOPIC':topic,'PAPER LIST':paper_texts})
+                                                                          'SECTION DESCRIPTION':section_description,'TOPIC':topic,'PAPER LIST':paper_texts,\
+                                                                          'SUBSECTION NUM': self._subsection_num_phrase()})
             prompts.append(prompt)
         self.input_token_usage += self.token_counter.num_tokens_from_list_string(prompts)
 
@@ -336,6 +340,14 @@ class outlineWriter():
         title_chunks.append(titles[start:])
         return paper_chunks, title_chunks
        
+    def _subsection_num_phrase(self):
+        """프롬프트에 들어갈 개수 표현.
+
+        기본값(0)이면 원본과 **글자 단위로 같은** 'several'이 들어간다.
+        분량 통제가 필요할 때만 숫자를 박는다.
+        """
+        return 'several' if not self.subsection_num else f'exactly {self.subsection_num}'
+
     def process_outlines(self, section_outline, sub_outlines):
         res = ''
         survey_title, survey_sections, survey_section_descriptions = self.extract_title_sections_descriptions(outline=section_outline)
@@ -344,6 +356,11 @@ class outlineWriter():
             section = survey_sections[i]
             res += f'## {i+1} {section}\nDescription: {survey_section_descriptions[i]}\n\n'
             subsections, subsection_descriptions = self.extract_subsections_subdescriptions(sub_outlines[i])
+            # 프롬프트로 개수를 지시해도 모델이 넘길 수 있다. 여기서 잘라 상한을 보장한다.
+            # 앞에서부터 남기는 이유: 아웃라인은 논리 순서로 생성되므로 뒤쪽이 부수적이다.
+            if self.subsection_num and len(subsections) > self.subsection_num:
+                subsections = subsections[:self.subsection_num]
+                subsection_descriptions = subsection_descriptions[:self.subsection_num]
             for j in range(len(subsections)):
                 subsection = subsections[j]
                 res += f'### {i+1}.{j+1} {subsection}\nDescription: {subsection_descriptions[j]}\n\n'

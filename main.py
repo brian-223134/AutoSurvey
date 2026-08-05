@@ -27,8 +27,9 @@ def write(topic, model, section_num, subsection_len, rag_num, refinement):
         raw_survey, raw_survey_with_references, raw_references = write_subsection(topic, model, outline, subsection_len = subsection_len, rag_num = rag_num, refinement = False)
         return raw_survey_with_references
 
-def write_outline(topic, model, section_num, outline_reference_num, db, api_key, api_url):
-    outline_writer = outlineWriter(model=model, api_key=api_key, api_url = api_url, database=db)
+def write_outline(topic, model, section_num, outline_reference_num, db, api_key, api_url, subsection_num=0):
+    outline_writer = outlineWriter(model=model, api_key=api_key, api_url = api_url, database=db,
+                                   subsection_num=subsection_num)
     hello = outline_writer.api_model.chat('hello')
     if hello is None:
         raise RuntimeError('API 연결 실패: 위의 [APIModel] 로그를 확인하세요 (--api_url / --api_key / 서버 상태)')
@@ -67,7 +68,14 @@ def paras_args():
     parser.add_argument('--model',default='gpt-4o-2024-05-13', type=str, help='Model to use')
     parser.add_argument('--topic',default='', type=str, help='Topic to generate survey for')
     parser.add_argument('--section_num',default=7, type=int, help='Number of sections in the outline')
-    parser.add_argument('--subsection_len',default=700, type=int, help='Length of each subsection')
+    parser.add_argument('--subsection_len',default=700, type=int,
+                        help='Length of each subsection. 프롬프트에서 이 값은 상한이 아니라 '
+                             '**하한**("more than N words")이라 모델마다 실제 분량이 크게 다르다. '
+                             '실측 계수: haiku 0.77x / deepseek-v4-pro 1.67x. 목표 분량을 계수로 나눠 넣을 것')
+    parser.add_argument('--subsection_num',default=0, type=int,
+                        help='섹션당 서브섹션 개수 상한. 0이면 원본 AutoSurvey 그대로(모델 재량). '
+                             '값을 주면 아웃라인 프롬프트에 개수를 명시하고 초과분은 잘라낸다. '
+                             '총 분량 = section_num x subsection_num x (subsection_len x 모델 계수)')
     parser.add_argument('--outline_reference_num',default=1500, type=int, help='Number of references for outline generation')
     parser.add_argument('--rag_num',default=60, type=int, help='Number of references to use for RAG')
     parser.add_argument('--api_url',default='https://api.openai.com/v1/chat/completions', type=str, help='url for API request')
@@ -127,7 +135,7 @@ def main(args):
     if not os.path.exists(args.saving_path):
         os.mkdir(args.saving_path)
 
-    outline_with_description, outline_wo_description = write_outline(args.topic, args.model, args.section_num, args.outline_reference_num, db, api_key, args.api_url)
+    outline_with_description, outline_wo_description = write_outline(args.topic, args.model, args.section_num, args.outline_reference_num, db, api_key, args.api_url, args.subsection_num)
 
     raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references = write_subsection(args.topic, args.model, outline_with_description, args.subsection_len, args.rag_num, db, api_key, args.api_url)
 

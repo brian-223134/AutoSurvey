@@ -83,6 +83,16 @@ pip install -r requirements-server.txt
 
 ## 3. 데이터베이스 — 지문
 
+**스냅샷이 둘 있습니다.** `output/`의 서베이 6편은 전부 A로 만들어졌습니다.
+새로 생성할 때 어느 쪽을 쓸지는 `--db_path`로 고릅니다.
+
+| 스냅샷 | 경로 | 논문 수 | 수록 최신일 |
+|---|---|---|---|
+| **A. 배포본** | `./database` | 537,665 | 2024-04-26 |
+| **B. 최신화본** | `./database_2026-08` | **909,293** | **2026-08-03** |
+
+### A. 배포본 — 기존 산출물의 재현에는 이쪽이 필요합니다
+
 `--db_path ./database` 에 아래 4개 파일. **md5까지 같아야 같은 데이터입니다.**
 
 | 파일 | 크기 | md5 | 원본 mtime |
@@ -116,6 +126,69 @@ pip install -r requirements-server.txt
 
 DB를 직접 구축해야 한다면 `scripts/harvest_arxiv.py` → `scripts/build_index.py`
 (폴백 경로, `SETTING.md` §5 경로 C). **단, 그렇게 만든 DB로는 위 산출물이 재현되지 않습니다.**
+
+### B. 최신화본 — 2026-08-04 생성
+
+배포본에 arXiv OAI-PMH로 받은 신규 논문을 append한 것입니다. **배포본은 수정하지 않았고**,
+`IndexFlatL2` append가 기존 행 번호를 보존하므로 **A는 B의 prefix**입니다
+(인덱스 0~537,664가 A와 동일).
+
+| 파일 | 크기 | md5 |
+|---|---|---|
+| `arxiv_paper_db.json` | 1,381,527,476 B | `e2e905ecdd1b0dd172ea799c7c7a2320` |
+| `faiss_paper_abs_embeddings.bin` | 2,793,348,141 B | `2b0530d9e66cadf657662dc5567799b0` |
+| `faiss_paper_title_embeddings.bin` | 2,793,348,141 B | `a464902ea15bd9953f9c1c646bdadb17` |
+| `arxivid_to_index_abs.json` | 21,669,808 B | `1f856e4e5168b13dca6ede7c3373a3a0` |
+
+**구성** — 537,665 + **371,628** = 909,293편. 추가분의 내역은 둘로 나뉩니다.
+
+| 추가분 | 편수 | 설명 |
+|---|---|---|
+| cutoff 이후 최초 제출 | **350,805** | 2024-04-27 이후 신규 논문 |
+| cutoff 이전인데 배포본에 없던 것 | **20,823** | 배포본이 arXiv CS 전체를 담고 있지 않아 생긴 결손분. 1991~2024에 걸쳐 있다 |
+
+> OAI-PMH `from=`은 수정일 기준이라 총 419,246건이 반환됐고, 그중 배포본에 이미 있는
+> **47,618건은 제외**했습니다(기존 논문의 v2/v3 개정본). 개정본을 반영하지 않은 것은
+> 의도적입니다 — A의 벡터를 그대로 둬야 A/B 비교가 성립합니다.
+
+**생성 명령** (전체 절차와 실측 소요는 `README.md` §3):
+
+```bash
+python scripts/harvest_arxiv.py --sets cs --oai-from 2024-04-27 \
+  --exclude-db ./database/arxiv_paper_db.json --out-dir ./database_2026-08 --delay 3
+python scripts/append_snapshot.py --base ./database \
+  --new ./database_2026-08/arxiv_paper_db.json --out ./database_2026-08
+```
+
+수집 로그와 지문 원본은 `database_2026-08/logs/` 에 있습니다.
+추가분만 담긴 중간 산출물은 `arxiv_paper_db.json.new-only` 로 남아 있습니다.
+
+**검증 결과** (`check_db.py --db-path ./database_2026-08 --verify-embeddings 20`):
+
+| 항목 | 결과 |
+|---|---|
+| 정합성 | 레코드 / title FAISS / abs FAISS / id매핑 **모두 909,293** |
+| 저장 벡터 재현 | 20개 위치 × 2필드, **최저 cos 1.000000** |
+| 검색 스모크 | 통과. cutoff 이후 논문이 실제로 검색됨 |
+
+> ⚠ **B로 만든 서베이는 A로 만든 기존 6편과 통제 비교가 되지 않습니다.** 같은 토픽의
+> top-1200 자체가 달라집니다 — 실측으로 기존 결과와의 교집합이 16~35%에 불과합니다
+> (§3-1). 비교하려면 같은 스냅샷끼리 하세요.
+
+### 3-1. 두 스냅샷의 커버리지 차이 (실측)
+
+`scripts/compare_snapshots.py`로 잰 값입니다. `d@1200`이 **낮을수록** 1200편을 채워도
+관련성이 유지된다는 뜻입니다.
+
+| 토픽 | d@1200 (A → B) | 감쇠 (A → B) | B의 2024-04 이후 비율 | top-1200 교집합 |
+|---|---|---|---|---|
+| In-context Learning | 0.853 → **0.796** | 0.383 → 0.326 | 64.4% | 34.9% |
+| Evaluation of LLMs | 0.849 → **0.764** | 0.254 → 0.243 | 82.8% | 16.2% |
+| Large Multi-Modal Language Models | 0.744 → **0.691** | 0.238 → 0.186 | 74.2% | 25.5% |
+
+세 토픽 모두 `d@1200`과 감쇠가 내려갔습니다 — 관련 논문층이 두꺼워졌다는 뜻입니다.
+Evaluation of LLMs는 `d@1`도 0.595 → 0.521로 내려가, 토픽에 더 가까운 논문이
+새로 들어왔음을 보여줍니다.
 
 ---
 
