@@ -164,6 +164,10 @@ DB와 `.env`는 준비돼 있습니다. 새 토픽 생성은 이 한 줄입니�
 `--db_path`로 **어느 스냅샷을 쓸지 고르세요** — 아래는 기존 6편과 조건을 맞추는
 배포본(`./database`) 기준입니다. 최신 논문이 필요하면 `./database_2026-08`.
 
+> `.env`가 없다면(git에 없으므로 새 클론에는 없습니다):
+> `cp .env.example .env && chmod 600 .env` 후 `OPENROUTER_API_KEY`만 채우세요.
+> 나머지 값은 실제로 쓰고 있는 설정 그대로입니다.
+
 ```bash
 conda activate autosurvey
 source .env
