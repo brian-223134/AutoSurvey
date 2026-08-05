@@ -226,6 +226,25 @@ Evaluation of LLMs는 `d@1`도 0.595 → 0.521로 내려가, 토픽에 더 가�
 | API 키 환경변수화 | `main.py`, `evaluation.py` | 키가 `ps`에 노출 |
 | `reference_detail` 저장 | `main.py` | json에 arXiv 서지정보 없음 |
 
+### 기능 추가 — 켜지 않으면 원본과 동일합니다
+
+위 표와 성격이 다릅니다. **기본값에서 원본 동작이 그대로 재현**되므로, 아래를 쓰지 않은
+산출물은 이 변경 이전과 조건이 같습니다.
+
+| 추가 | 위치 | 기본값 |
+|---|---|---|
+| `--subsection_num` — 섹션당 서브섹션 상한 | `main.py`, `src/agents/outline_writer.py`, `src/prompt.py` | **0 = 원본 동작** |
+
+- `src/prompt.py`의 `several subsections`를 `[SUBSECTION NUM] subsections`로 바꿨고,
+  값을 주지 않으면 `several`이 치환돼 **원본 프롬프트와 글자 단위로 같아집니다.**
+  프롬프트 문구를 다시 쓰지 않은 것은 의도적입니다 — 바꾸면 원본 AutoSurvey와 다른
+  시스템이 되어 baseline으로서의 의미가 흐려집니다.
+- `outline_writer.process_outlines`가 초과 서브섹션을 잘라 상한을 보장합니다
+  (프롬프트 지시만으로는 모델이 넘길 수 있음).
+- **`output/`의 서베이 6편은 전부 이 기능 이전에 생성됐습니다** (`--subsection_num` 미사용).
+
+배경과 실측 계수는 `README.md` §4.
+
 각 패치의 상세 근거는 `SETTING.md` §3·§4. 미적용 항목 하나가 남아 있습니다 —
 `judge.py`의 무제한 스레드 생성(§4-2). **`evaluation.py`를 돌리기 전에 반드시 제한**하세요.
 
