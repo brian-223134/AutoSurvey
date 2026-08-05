@@ -51,6 +51,8 @@ AutoSurvey/
 │   ├── haiku-smoke/            파이프라인 점검용
 │   └── deepseek-smoke/         파이프라인 점검용
 ├── examples/                원저자들이 생성한 서베이 3편 (대조용)
+├── tests/                   unittest 55개, 0.2초. 네트워크·GPU 불필요
+├── .env.example             환경변수 템플릿 (커밋됨)
 └── .env                     API 키 등 — git에 없음, 권한 600
 ```
 
@@ -113,13 +115,18 @@ haiku는 편당 6~8분. 결과 해석 시 주의점은 [`output/README.md`](outp
 | `[[]] * n` aliasing 버그 (`src/agents/writer.py`) | **크래시 없이** 섹션 0을 뺀 전 섹션이 섹션 0의 참고문헌으로 본문을 씀 |
 | TinyDB 선형 스캔 → dict 인덱스 (`src/database.py`) | 호출당 수 분 정지 |
 
-**기능 추가 — 분량 통제** (§4):
+**기능 추가** — 전부 **기본값이 원본 동작**입니다(환경변수·인자를 주지 않으면 무효):
 
-| 변경 | 내용 |
-|---|---|
-| `src/prompt.py` | `several subsections` → `[SUBSECTION NUM] subsections`. **값을 안 주면 `several`이 들어가 원본과 글자 단위로 동일** |
-| `src/agents/outline_writer.py` | `subsection_num` 인자, `process_outlines`에서 초과 서브섹션 절단 |
-| `main.py` | `--subsection_num`, 기본값 0 = 원본 동작 |
+| 변경 | 내용 | 켜는 법 |
+|---|---|---|
+| `src/prompt.py` | `several subsections` → `[SUBSECTION NUM] subsections`. 값을 안 주면 `several`이 들어가 **원본과 글자 단위로 동일** | `--subsection_num` |
+| `src/agents/outline_writer.py` | `subsection_num` 인자, `process_outlines`에서 초과 서브섹션 절단 | 〃 |
+| `src/model.py` | **provider 고정** — `{"provider": {"order": [...], "allow_fallbacks": false}}`. 안 하면 서브섹션마다 다른 quantization이 씀 | `AUTOSURVEY_PROVIDER` |
+| `src/model.py` | **출력 잘림 검사** — `finish_reason='length'`를 집계·경고. 원본은 잘린 응답을 그대로 반환했음 | 항상 |
+| `main.py` | `--subsection_num` / 모델·provider 정합 검사(DB 로딩 전 중단) / 잘림 건수 리포트 | — |
+
+이 다섯 가지는 `tests/`가 지킵니다 — 특히 **"환경변수 없으면 원본과 동일"**을 회귀
+테스트로 고정했습니다(변이 테스트로 실효성 확인).
 
 > **프롬프트 "내용"은 바꾸지 않았습니다.** 문구를 다시 쓰면 원본 AutoSurvey와 다른
 > 시스템이 되어 baseline으로서의 의미가 흐려집니다. placeholder만 넣었습니다.
@@ -453,6 +460,8 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 | `scripts/check_db.py` | DB 검증 — 파일 존재 / TinyDB 스키마 / FAISS·매핑 크기 정합 / 실검색 |
 | `scripts/harvest_arxiv.py` | arXiv OAI-PMH 수집. **§3의 최신화 작업에서 주력으로 쓰게 됩니다** |
 | `scripts/build_index.py` | `build_database.ipynb` 대체 (노트북은 `index_gpu_to_cpu` 에러로 실행 불가) |
+| `scripts/check_oai_schema.py` | 수집 결과가 배포 DB와 **같은 표기인지** 문자 단위 대조. 수집 전에 돌릴 것 |
+| `scripts/append_snapshot.py` | 기존 스냅샷을 **읽기만 하고** 신규 논문을 더한 새 스냅샷 생성 |
 
 **산출물 처리용**
 
@@ -461,6 +470,12 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 | `scripts/check_survey.py` | 생성 결과 무결성 — 댕글링 인용 / json 매핑 / 포맷 누출. `--subsection-len=N --target-words=W`로 **분량 계수 캘리브레이션** |
 | `scripts/enrich_references.py` | `.json`에 arXiv 서지정보 채우기 (새 실행은 `main.py`가 자동 처리) |
 | `scripts/md_to_tex.py` | `.md` → Overleaf용 `.tex` |
+
+**분석용**
+
+| 스크립트 | 용도 |
+|---|---|
+| `scripts/compare_snapshots.py` | 두 스냅샷의 토픽 커버리지 비교 (`d@1` / `d@K` / 감쇠 / 교집합) |
 
 ---
 
