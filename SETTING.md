@@ -535,16 +535,32 @@ source .env                          # OPENROUTER_API_KEY / MAX_THREADS / CUDA_V
 
 python main.py \
   --topic "LLMs for education" \
-  --saving_path ./output/ \
-  --db_path ./database \
+  --saving_path ./output/deepseek-v4-flash/ \
+  --db_path ./database_2026-08 \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
-  --model anthropic/claude-3-haiku \
+  --model deepseek/deepseek-v4-flash-0731 \
   --api_url https://openrouter.ai/api/v1/chat/completions \
   --section_num 8 \
   --subsection_len 700 \
   --rag_num 60 \
   --outline_reference_num 1200
 ```
+
+> **`--db_path`와 `--model`은 기본값에 맡기면 안 되는 두 인자입니다.**
+>
+> `--db_path`를 빼면 배포본 `./database`(537,665편, ~2024-04-26)로 조용히 떨어집니다.
+> 새 실험은 최신화본 `./database_2026-08`(909,293편, ~2026-08-03)을 명시하세요.
+> 기존 `output/` 6편과 검색 조건을 맞춰 비교할 때만 배포본을 씁니다 (§5 경로 D).
+>
+> **최신화본은 "2026-08의 논문"이 아니라 "2026-08 시점의 스냅샷"입니다.** 배포본
+> 537,665편을 전부 담고 그 위에 신규 371,628편을 얹은 **상위 집합**이라, 두 경로는
+> 대체 관계지 분할이 아닙니다. 둘을 합쳐 쓰는 경우는 없고 하나만 고릅니다.
+>
+> `--model`은 `.env`의 `AUTOSURVEY_PROVIDER`와 짝입니다. 현재 `.env`에는
+> `parasail/fp8`이 박혀 있는데 이 tag는 `deepseek-v4-flash-0731`에만 존재합니다.
+> `--model anthropic/claude-3-haiku`로 되돌리려면(haiku는 `amazon-bedrock` 하나뿐)
+> `AUTOSURVEY_PROVIDER`를 비우세요. 안 비우면 `allow_fallbacks=false` 때문에
+> 요청이 전부 실패하는데, `main.py`가 DB 로딩 전에 이 조합을 검사해 중단시킵니다.
 
 > ⚠️ **`--api_key`로 키를 넘기지 마세요.** 이 서버는 `/proc`에 `hidepid`가 걸려 있지 않아, 다른 사용자가 `ps -eo args`로 남의 명령줄을 그대로 볼 수 있습니다. 본 실행은 수십 분~수 시간 걸리므로 그동안 내내 노출됩니다. `/proc/<pid>/environ`은 소유자만 읽을 수 있어 환경변수는 안전합니다.
 >
@@ -578,14 +594,19 @@ python main.py \
 ## 7. 평가 실행
 
 ```bash
+source .env                          # 키는 환경변수로. --api_key 인자 금지 (위 경고 참조)
 python evaluation.py \
   --topic "LLMs for education" \
-  --saving_path ./output/ \
-  --db_path ./database \
+  --saving_path ./output/deepseek-v4-flash/ \
+  --db_path ./database_2026-08 \
   --model <JUDGE_MODEL_ID> \
-  --api_url <ENDPOINT> \
-  --api_key "$MY_API_KEY"
+  --api_url <ENDPOINT>
 ```
+
+> ⚠️ **`--db_path`는 그 서베이를 생성할 때 쓴 스냅샷과 같아야 합니다.**
+> `judge.py`가 `reference`의 arXiv id로 DB에서 초록을 꺼내 NLI를 돌리는데,
+> 최신화본으로 생성한 서베이를 배포본으로 평가하면 신규 논문 id를 찾지 못해 죽습니다.
+> 반대 방향은 조용히 돌지만 그때도 조건이 어긋난 비교입니다.
 
 `./output/{topic}.json`이 있어야 합니다 (`main.py`가 생성).
 

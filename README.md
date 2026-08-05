@@ -62,10 +62,14 @@ AutoSurvey/
 (이 서버에서 OneDrive는 차단), 최신화본은 거기에 arXiv에서 받은 신규 논문을 더한 것입니다.
 md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 
-| 스냅샷 | 경로 | 논문 수 | 수록 최신일 | 크기 |
+| 스냅샷 | 경로 | 논문 수 | 수록 범위 | 크기 |
 |---|---|---|---|---|
-| 배포본 | `database/` | 537,665 | 2024-04-26 | 3.9GB |
-| **최신화본** | `database_2026-08/` | **909,293** | **2026-08-03** | 6.9GB |
+| 배포본 | `database/` | 537,665 | ~2024-04-26 | 3.9GB |
+| **최신화본** | `database_2026-08/` | **909,293** | **~2026-08-03** (배포본 537,665편 **전부 포함**) | 6.9GB |
+
+> **`database_2026-08`은 "2026-08의 논문"이 아니라 "2026-08 시점의 스냅샷"입니다.**
+> 배포본을 통째로 담고 그 위에 2024-04-27 이후 논문 371,628편을 얹은 **상위 집합**입니다.
+> 두 스냅샷은 대체 관계지 분할이 아닙니다 — 둘을 합쳐 쓰는 일은 없습니다.
 
 각 디렉터리에 같은 이름의 4파일이 들어 있습니다.
 
@@ -481,7 +485,7 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 
 ## 6. 빠른 시작
 
-전제: conda 환경 `autosurvey`, `database/` 반입 완료, `.env` 작성 완료.
+전제: conda 환경 `autosurvey`, DB 반입 완료, `.env` 작성 완료.
 **환경 구축부터 필요하면 `REPRODUCTION.md` §2, §8을 따르세요.**
 
 ```bash
@@ -490,20 +494,45 @@ source .env
 
 python main.py \
   --topic "Explainability for LLMs" \
-  --saving_path ./output/haiku/ --db_path ./database \
+  --saving_path ./output/deepseek-v4-flash/ --db_path ./database_2026-08 \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
-  --model anthropic/claude-3-haiku \
+  --model deepseek/deepseek-v4-flash-0731 \
   --api_url https://openrouter.ai/api/v1/chat/completions \
   --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200
 
-python scripts/check_survey.py "output/haiku/Explainability for LLMs.md"
+python scripts/check_survey.py "output/v4-flash/Explainability for LLMs.md" --length
 ```
 
 > `--api_key`는 일부러 넘기지 않습니다. 이 서버는 `/proc`에 hidepid가 없어 다른 사용자가
 > `ps`로 명령줄을 읽을 수 있습니다. 키는 `.env`의 환경변수로 전달됩니다.
 
+### 두 인자는 반드시 의식하고 고르세요
+
+**`--model`은 `.env`의 `AUTOSURVEY_PROVIDER`와 짝입니다.** `.env`에는
+`parasail/fp8`이 박혀 있는데 이 tag는 `deepseek-v4-flash-0731`에만 있습니다.
+`--model anthropic/claude-3-haiku`로 바꾸면(haiku는 `amazon-bedrock` 하나뿐)
+`allow_fallbacks=false`라 요청이 전부 실패합니다. `main.py`가 DB 로딩 전에
+이 조합을 검사해 중단시키니, 모델을 바꿀 때는 provider도 같이 바꾸거나 비우세요.
+
+**`--db_path`는 스냅샷 선택입니다.** 기본값 `./database`가 아니라 **명시적으로** 주세요.
+
+| 목적 | 경로 |
+|---|---|
+| 새 실험 — 2026-08까지의 논문이 필요 | `./database_2026-08` — 909,293편 (배포본 + 신규) |
+| 기존 6편(`output/`)과 비교 — 검색 결과를 맞춰야 함 | `./database` — 537,665편 (~2024-04-26) |
+
+최신화본이 배포본을 **포함**하므로 둘을 함께 주는 일은 없습니다. 하나만 고르세요.
+
+같은 토픽이라도 스냅샷이 다르면 검색되는 논문이 달라집니다. **DB 최신화의 효과를
+재려면 두 경로로 각각 돌려** `scripts/compare_snapshots.py`와 함께 보세요.
+
 **시작 전에 `HANDOFF.md`의 "함정 모음"을 먼저 읽으세요.** `--api_url`에 경로를 빠뜨리거나
 동시 요청 수를 올리면 바로 막힙니다.
+
+> `deepseek-v4-flash-0731`의 **분량 계수는 아직 측정 전입니다.** 위 `--subsection_len 700`은
+> 논문 설정 그대로일 뿐 이 모델에 맞춘 값이 아닙니다. 첫 실행은 스모크
+> (`--section_num 4 --outline_reference_num 200 --rag_num 15`, 약 $0.06)로 계수부터 재고,
+> 목표 분량을 그 계수로 나눠 `--subsection_len`에 넣으세요 (§4.3).
 
 ---
 

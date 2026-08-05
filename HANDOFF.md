@@ -55,13 +55,16 @@ LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 
 DB에 2024-04-26 이후 논문이 없어 27개월치를 채웠습니다. **스냅샷이 이제 둘입니다.**
 
-| 스냅샷 | 경로 | 논문 수 | 수록 최신일 |
+| 스냅샷 | 경로 | 논문 수 | 수록 범위 |
 |---|---|---|---|
-| 배포본 | `./database` | 537,665 | 2024-04-26 |
-| **최신화본** | `./database_2026-08` | **909,293** | **2026-08-03** |
+| 배포본 | `./database` | 537,665 | ~2024-04-26 |
+| **최신화본** | `./database_2026-08` | **909,293** | **~2026-08-03** (배포본 **전부 포함**) |
 
-배포본은 **읽기만 했고 그대로입니다.** `IndexFlatL2` append가 기존 행 번호를 보존하므로
-**배포본은 최신화본의 prefix**입니다(인덱스 0~537,664 동일).
+**`database_2026-08`은 "2026-08의 논문"이 아니라 "2026-08 시점의 스냅샷"입니다.**
+배포본 537,665편을 그대로 담고 그 위에 2024-04-27 이후 371,628편을 얹은 **상위 집합**이라,
+둘은 대체 관계지 분할이 아닙니다. 배포본은 **읽기만 했고 그대로**이고,
+`IndexFlatL2` append가 기존 행 번호를 보존하므로 **배포본은 최신화본의 prefix**입니다
+(인덱스 0~537,664 동일).
 
 **어느 쪽을 쓸지는 `--db_path`로 고릅니다.**
 
@@ -161,8 +164,7 @@ origin은 SSH URL(`git@github.com:brian-223134/AutoSurvey.git`)로 전환돼 있
 ## 재실행 방법
 
 DB와 `.env`는 준비돼 있습니다. 새 토픽 생성은 이 한 줄입니다.
-`--db_path`로 **어느 스냅샷을 쓸지 고르세요** — 아래는 기존 6편과 조건을 맞추는
-배포본(`./database`) 기준입니다. 최신 논문이 필요하면 `./database_2026-08`.
+아래는 **확정된 다음 백본**(`deepseek-v4-flash-0731`)과 **최신화본 DB** 기준입니다.
 
 > `.env`가 없다면(git에 없으므로 새 클론에는 없습니다):
 > `cp .env.example .env && chmod 600 .env` 후 `OPENROUTER_API_KEY`만 채우세요.
@@ -173,20 +175,37 @@ conda activate autosurvey
 source .env
 python main.py \
   --topic "Explainability for LLMs" \
-  --saving_path ./output/haiku/ --db_path ./database \
+  --saving_path ./output/deepseek-v4-flash/ --db_path ./database_2026-08 \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
-  --model anthropic/claude-3-haiku \
+  --model deepseek/deepseek-v4-flash-0731 \
   --api_url https://openrouter.ai/api/v1/chat/completions \
   --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200
 
-python scripts/check_survey.py "output/haiku/Explainability for LLMs.md"
+python scripts/check_survey.py "output/v4-flash/Explainability for LLMs.md" --length
 ```
+
+**`--db_path`는 스냅샷 선택입니다 — 기본값에 맡기지 마세요.** 인자를 빼면
+`./database`(배포본)로 조용히 떨어집니다.
+
+| 목적 | 경로 |
+|---|---|
+| 새 실험 | `./database_2026-08` — 909,293편 = **배포본 전부 + 신규 371,628편** |
+| 기존 6편(`output/`)과 검색 조건을 맞춘 비교 | `./database` — 537,665편, ~2024-04-26 |
+
+최신화본이 배포본의 **상위 집합**이라 둘을 함께 주는 경우는 없습니다. 하나만 고르세요.
+
+**`--model`을 바꾸면 `.env`의 `AUTOSURVEY_PROVIDER`도 같이 바꾸거나 비우세요.**
+`parasail/fp8`은 flash 전용 tag라, 그대로 둔 채 `--model anthropic/claude-3-haiku`로
+돌리면(haiku는 `amazon-bedrock` 하나뿐) 전 요청이 실패합니다. `main.py`가 DB 로딩 전에
+잡아 중단시킵니다.
 
 `--saving_path`는 **모델별 디렉터리**로 주세요. 다른 모델을 쓰면 새 디렉터리를 만들고,
 끝나면 `output/README.md` 표에 실행 조건을 한 줄 추가합니다.
 
 축소 스모크가 필요하면 `--section_num 4 --outline_reference_num 200 --rag_num 15`
-(약 $0.15, 2분). 결과는 `--saving_path ./output/<모델>-smoke/` 로 분리하세요.
+(flash 기준 약 **$0.06**, haiku는 $0.15). 결과는 `--saving_path ./output/<모델>-smoke/` 로
+분리하세요. **새 백본의 첫 실행은 반드시 스모크입니다** — 분량 계수가 아직 미측정이라
+`--subsection_len`을 얼마로 둘지 이 실행으로 정합니다.
 
 생성 후에는 `.tex` 변환을 돌립니다:
 ```bash
