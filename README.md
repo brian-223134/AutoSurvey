@@ -15,7 +15,7 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 | [`SETTING.md`](SETTING.md) | 세팅 **절차**와 각 패치의 근거 |
 | [`output/README.md`](output/README.md) | 산출물의 결과 수치와 비교 시 주의점 |
 | [`.env.example`](.env.example) | 환경변수 템플릿 — `cp .env.example .env` 후 키만 채우면 됩니다 |
-| [`tests/`](tests/) | `python -m unittest discover -s tests -t .` — 55개, 0.2초. 네트워크·GPU 불필요 |
+| [`tests/`](tests/) | `python -m unittest discover -s tests -t .` — 66개, 0.2초. 네트워크·GPU 불필요 |
 
 > 세 프로젝트(AutoSci·AutoSurvey·SurveyForge) 비교와 **시스템 간 통제 프로토콜**은
 > 이 저장소 밖 `../SURVEY_REPORT.md`에 있습니다(§7). git 추적 대상이 아닙니다.
@@ -33,7 +33,7 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 ```
 AutoSurvey/
 ├── main.py                  생성 진입점 — 검색 → 아웃라인 → 본문 → LCE
-├── evaluation.py            평가 진입점 (미실행. judge.py 스레드 제한 선행 필요)
+├── evaluation.py            LLM judge 평가 진입점 — **쓰지 않기로 확정**
 ├── src/
 │   ├── database.py          TinyDB + FAISS 검색, nomic 임베딩
 │   ├── model.py             OpenRouter API 호출, 재시도·토큰 계측
@@ -51,7 +51,7 @@ AutoSurvey/
 │   ├── haiku-smoke/            파이프라인 점검용
 │   └── deepseek-smoke/         파이프라인 점검용
 ├── examples/                원저자들이 생성한 서베이 3편 (대조용)
-├── tests/                   unittest 55개, 0.2초. 네트워크·GPU 불필요
+├── tests/                   unittest 66개, 0.2초. 네트워크·GPU 불필요
 ├── .env.example             환경변수 템플릿 (커밋됨)
 └── .env                     API 키 등 — git에 없음, 권한 600
 ```
@@ -141,8 +141,10 @@ haiku는 편당 6~8분. 결과 해석 시 주의점은 [`output/README.md`](outp
 
 - **논문의 정량 수치 재현** — 논문은 각 논문 **본문 앞 1,500토큰**을 쓰는데 공개 DB에는
   초록만 있습니다. 입력이 근본적으로 다릅니다.
-- **`evaluation.py` 기반 평가** — 돌리려면 `judge.py:202,216`의 무제한 스레드 생성을
-  먼저 제한해야 합니다.
+- **LLM-as-Judge 평가** — `evaluation.py` / `judge.py` 경로는 **쓰지 않기로 확정**했습니다
+  (2026-08-05). 평가는 `../SurveyForge/SurveyBench/`의 **인용 커버리지**로 합니다 —
+  arXiv id 집합 교집합이라 LLM 호출이 0회이고 크레딧이 필요 없습니다. 상세와 기준값은
+  [`HANDOFF.md`](HANDOFF.md) 남은작업 B.
 - **현재 크레딧 소진** — OpenRouter 키가 한도 $10을 다 썼습니다(2026-08-04 실측, 잔여 0).
   새 생성은 크레딧 확보가 선행돼야 합니다. 상세는 `HANDOFF.md`.
 
@@ -480,6 +482,7 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 | 스크립트 | 용도 |
 |---|---|
 | `scripts/compare_snapshots.py` | 두 스냅샷의 토픽 커버리지 비교 (`d@1` / `d@K` / 감쇠 / 교집합) |
+| `scripts/to_surveybench_ref.py` | SurveyBench 인용 커버리지 채점 — **LLM 호출 0회**. `ref.json` 변환 + 채점 + 분모에서 빠진 인용 보고 |
 
 ---
 

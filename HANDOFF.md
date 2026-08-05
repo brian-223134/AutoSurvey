@@ -1,7 +1,8 @@
 # HANDOFF — AutoSurvey 세팅 인수인계
 
 **최종 갱신**: 2026-08-05
-**목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현과 평가 파이프라인은 범위 밖.
+**목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현은 범위 밖.
+평가는 **SurveyBench 인용 커버리지만** 씁니다 — LLM-as-Judge 는 하지 않기로 확정(2026-08-05).
 **상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
 이 문서는 "지금 어디까지 됐고 다음에 뭘 하면 되는지"만 다룹니다.
 
@@ -34,9 +35,26 @@ haiku는 편당 6~8분, 3편 합계 약 $2.28.
 [`REPRODUCTION.md`](REPRODUCTION.md)에 있습니다.** 결과 수치와 비교 시 주의점은
 [`output/README.md`](output/README.md). 새 서베이를 만들면 두 표에 각각 한 줄 추가해 주세요.
 
-**다음 후보** (추가 생성 시): 논문 20개 토픽 중 커버리지 상위 —
-Explainability for LLMs (d@1200 0.811) / LLM-Generated Texts Detection (0.823) /
-LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
+**다음 토픽 — `Retrieval-Augmented Generation for Large Language Models` 권장**
+(2026-08-05, 26개 후보를 `compare_snapshots.py` 로 재고 정했습니다).
+
+LLM judge 를 안 쓰기로 한 이상 정량 수치가 나오는 길은 SurveyBench `ref_bench` 뿐이고,
+그건 **10개 토픽에만** 있습니다. 그 밖의 토픽을 고르면 나오는 건 무결성 검사뿐입니다.
+`ref_bench` 가 있는 토픽 중 미생성분을 커버리지 순으로 두면:
+
+| 토픽 | d@1200 (배포본 → 최신화본) | 최신 비율 | 비고 |
+|---|---|---|---|
+| **RAG for Large Language Models** | 0.724 → **0.621** | 86.8% | SurveyForge 0.435 / 인간 0.542 와 직접 비교 |
+| Hallucination in LLMs | 0.747 → **0.637** | 83.6% | 벤치 최신이 2024-01 로 이른 편 |
+| Generative Diffusion Models | 0.737 → 0.678 | 61.1% | 비LLM |
+| 3D Gaussian Splatting | **0.995 → 0.689** | 91.0% | 최신화 효과 최대. 비LLM |
+
+**토픽 문자열은 `topics.txt` 와 글자 단위로 같아야 합니다.** `"Retrieval-Augmented
+Generation"` 만 쓰면 d@1200 이 0.692 로 나빠지고(IR 쪽과 섞임), 무엇보다 채점기가
+그 토픽을 못 찾습니다.
+
+`ref_bench` 없이 커버리지만 보면 `Reasoning in Large Language Models`(0.643 → **0.574**,
+감쇠 0.132)가 26개 중 최고입니다. 정량 평가를 포기할 때만 고려하세요.
 
 **남은 일** (자세히는 아래 "남은 작업"):
 
@@ -44,7 +62,7 @@ LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 |---|---|---|
 | **C** | **새 백본(`deepseek-v4-flash-0731`)으로 첫 실행** — 스모크로 분량 계수부터 측정 | **크레딧** |
 | A | PDF 컴파일 확인(`.tex`까지는 나와 있음) + `.bib` 생성 | 없음 — 로컬/Overleaf에서 가능 |
-| B | 벤치마크 평가 | `judge.py`·`utils.py` 선행 수정 |
+| B | 평가 — SurveyBench 인용 커버리지 (**LLM judge는 안 함**) | 없음 — `scripts/to_surveybench_ref.py` 로 지금 가능 (크레딧 불필요) |
 
 **새 생성은 크레딧 소진으로 막혀 있습니다**(아래 "크레딧"). 크레딧이 들어오면 **C부터**
 하세요 — DB 최신화와 분량 통제가 준비돼 있어 바로 돌릴 수 있습니다.
@@ -181,7 +199,7 @@ python main.py \
   --api_url https://openrouter.ai/api/v1/chat/completions \
   --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200
 
-python scripts/check_survey.py "output/v4-flash/Explainability for LLMs.md" --length
+python scripts/check_survey.py "output/deepseek-v4-flash/Explainability for LLMs.md" --length
 ```
 
 **`--db_path`는 스냅샷 선택입니다 — 기본값에 맡기지 마세요.** 인자를 빼면
@@ -310,7 +328,8 @@ source .env && curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" \
 | DB | **공식 배포본을 수동 scp 반입** | 서버에서 OneDrive 차단. 로컬 PC에서는 받을 수 있음 |
 | 임베딩 | `nomic-ai/nomic-embed-text-v1` (기본값 유지) | 공식 DB가 이 벡터 공간. **바꾸면 인덱스 전체가 무효** |
 | GPU 사용 | **1장만.** 번호는 고정하지 말고 `nvidia-smi`로 **빈 것을 골라** `CUDA_VISIBLE_DEVICES`에 | 임베딩 외엔 GPU를 안 씀. 공용 서버라 나머지는 안 건드림. 0번이 남의 작업으로 차 있을 때가 있다(2026-08-04 확인) |
-| 평가(`evaluation.py`) | **범위 밖** | 돌리려면 `judge.py` 스레드 제한 + `utils.compute_price` 수정 선행 필요 |
+| 평가 — LLM judge | **하지 않는다** (2026-08-05) | `evaluation.py`/`judge.py` 경로를 쓰지 않음. 그 안의 버그 2건도 고칠 필요 없음 |
+| 평가 — 대체 경로 | **SurveyBench 인용 커버리지** | arXiv id 집합 교집합이라 **LLM 호출 0회 = 크레딧 불필요**. 단 `ref_bench`가 있는 10개 토픽에서만 가능 |
 | 다음 백본 | **`deepseek/deepseek-v4-flash-0731`** | v4-pro의 1/3.1 단가, 1M 컨텍스트, 날짜 고정 태그 |
 | provider | **`parasail/fp8` 고정** (`.env`) | 고정 안 하면 서브섹션마다 다른 quantization. fp8 / uptime 100% / max_out 최대 |
 | 프롬프트 | **문구를 바꾸지 않는다.** 파라미터만 추가 | 다시 쓰면 원본 AutoSurvey와 다른 시스템이 되어 baseline 의미가 흐려짐 |
@@ -475,17 +494,66 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 2. `reference_detail`(id·제목·날짜·링크·저자)에서 `.bib`을 찍어내고 `md_to_tex.py`가
    그 키를 쓰도록 연결.
 
-### B. 벤치마크 평가 — 착수 전
+### B. 평가 — LLM judge 는 하지 않습니다 (2026-08-05 확정)
 
-범위 밖으로 둔 항목입니다. 돌리기 전에 **두 가지를 먼저 고쳐야 합니다.**
+**`evaluation.py` / `judge.py` 경로는 쓰지 않기로 했습니다.** 아래 두 버그는 그래서
+고칠 필요가 없어졌습니다. 마음이 바뀌면 이것부터 보라는 뜻으로만 남깁니다.
 
-1. **`judge.py:202,216`의 무제한 스레드 생성.** 인용 문장 하나당 스레드 하나를 만들어
-   32k 서베이면 수백 개가 동시에 나갑니다.
-2. **`src/utils.py`의 `compute_price()`가 즉시 `KeyError`로 죽습니다.**
-   `self.model_price = {}` 빈 딕셔너리인데 `self.model_price[model][0]`을 조회합니다.
-   `judge.py:46`이 이걸 호출하므로 어떤 모델을 쓰든 터집니다. 원본 그대로의 버그이고,
-   `main.py`는 이 경로를 타지 않아(실제 청구액을 씀) 지금까지 드러나지 않았습니다.
-   단가표를 채우거나 그 함수를 쓰지 않도록 바꿔야 합니다.
+1. `judge.py:202,216`의 무제한 스레드 생성 — 인용 문장 하나당 스레드 하나.
+2. `src/utils.py::compute_price()`가 `KeyError`로 즉사 — `self.model_price = {}`가
+   비어 있는데 `self.model_price[model][0]`을 조회합니다. `judge.py:46`이 호출하므로
+   어떤 모델을 쓰든 터집니다. `main.py`는 이 경로를 타지 않아 드러나지 않았습니다.
+
+**대신 SurveyBench 인용 커버리지를 씁니다. LLM 호출이 0회라 크레딧이 필요 없습니다.**
+
+`../SurveyForge/SurveyBench/`에 10개 토픽의 정답 참고문헌(`ref_bench/`), 인간 작성
+서베이(`human_written_ref/`), SurveyForge 산출물(`generated_surveys_ref/`)이 있습니다.
+채점은 arXiv id 집합의 교집합입니다:
+
+```
+coverage = |생성 참고문헌 ∩ ref_bench| / |날짜 필터를 통과한 생성 참고문헌|
+```
+
+```bash
+python scripts/to_surveybench_ref.py "output/<모델>/<토픽>.json" \
+  --topic "Retrieval-Augmented Generation for Large Language Models"
+```
+
+변환·채점·진단을 한 번에 합니다. 채점은 SurveyBench의 `test.py::compute_citation_coverage`를
+**그대로 import 해서** 씁니다 — 같은 식을 다시 구현하면 그쪽이 바뀔 때 조용히 어긋나고
+SurveyForge와의 비교가 무의미해집니다. 공식 러너로 직접 돌려도 같은 값이 나옵니다:
+
+```bash
+cd ../SurveyForge/SurveyBench && python test.py \
+  --generated_surveys_ref_dir ../../AutoSurvey/output/surveybench_ref \
+  --topic_list_path <우리 토픽만 적은 파일>
+```
+
+> **`--topic`은 벤치마크 문자열과 글자 단위로 같아야 합니다.** 다르면 스크립트가 10개
+> 목록을 보여주며 중단합니다. 검색 쿼리부터 달라져 비교가 성립하지 않기 때문입니다 —
+> 아래 0.054가 정확히 그 경우입니다.
+
+기준값 (2026-08-05 실측):
+
+| 산출물 | 토픽 | 인용 | coverage |
+|---|---|---|---|
+| 인간 작성 | RAG | 191 | **0.542** |
+| SurveyForge (저자) | RAG | 85 | 0.435 |
+| SurveyForge (저자) | Evaluation of LLMs | 116 | 0.336 |
+| 우리 haiku 산출물 | Evaluation of LLMs | 368 | **0.054** |
+
+> 우리 0.054는 **공정한 비교가 아닙니다.** 토픽 문자열이 `"Evaluation of LLMs"`라
+> 벤치마크의 `"Evaluation of Large Language Models"`와 달라 검색 쿼리부터 다릅니다.
+> 다만 368편을 인용해 20편만 맞은 건 문자열만으로 설명되지 않습니다. 정확한 문자열로
+> 다시 돌려 확인할 값입니다.
+
+**두 가지 제약이 토픽 선택을 좌우합니다.**
+
+1. `ref_bench`는 **10개 토픽에만** 있습니다. LLM judge를 안 쓰기로 한 이상,
+   그 밖의 토픽으로는 정량 수치가 하나도 나오지 않습니다.
+2. 채점기가 **`ref_bench`의 최신 논문보다 새 인용을 분모에서 뺍니다**(RAG는 2024-07).
+   최신화본으로 돌리면 인용 대부분이 걸러져 표본이 작아집니다. **벤치마크 비교는
+   배포본으로, 최신화 효과 시연은 최신화본으로** 나눠 돌리세요.
 
 ### C. 새 백본으로 첫 실행 — **크레딧 확보 후 바로 이것부터**
 
@@ -543,7 +611,7 @@ conda activate autosurvey
 python -m unittest discover -s tests -t .
 ```
 
-**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 55개가 **0.2초**에 끝납니다.
+**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 66개가 **0.2초**에 끝납니다.
 네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock).
 
 무엇을 지키는지:
