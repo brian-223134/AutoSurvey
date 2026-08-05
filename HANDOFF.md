@@ -10,12 +10,13 @@
 
 ## 현재 상태 — 목표 달성
 
-**서베이 7편 생성 완료** — 본편 4편(haiku 3 + deepseek-v4-pro 1) + 스모크 3편.
+**서베이 8편 생성 완료** — 본편 5편(haiku 3 + v4-pro 1 + v4-flash 1) + 스모크 3편.
 파이프라인이 end-to-end로 동작합니다. 아래 표는 본편 4편입니다(스모크 포함 전체 결과는
 [`output/README.md`](output/README.md)).
 
-> **진행 중 (2026-08-05)**: 새 백본 `deepseek-v4-flash-0731` 로 RAG 본편 생성 중.
-> 스모크는 완료됐고 **분량 계수 1.56× 측정 완료**입니다(아래 "분량 통제").
+> **2026-08-05**: 새 백본 `deepseek-v4-flash-0731` 로 RAG 스모크 + 본편 A 완료.
+> 분량 계수 **1.76×** 측정, `--subsection_num` 은 작동하나 `--section_num` 은
+> 1.25배 초과하는 것을 확인했습니다(아래 "분량 통제").
 
 | 서베이 | 모델 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
 |---|---|---|---|---|---|---|
@@ -23,6 +24,7 @@
 | Large Multi-Modal Language Models | haiku | 8 / 48 | 30,709 | 378 | 467 | $0.75 |
 | Evaluation of LLMs | haiku | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
 | In-context Learning | deepseek-v4-pro | 14 / 117 | 92,707 | 644 | 884 | $3.39 |
+| **RAG for LLMs** | **v4-flash-0731** | **10 / 39** | **49,002** | **476** | **674** | **$0.38** |
 
 전부 `scripts/check_survey.py` 통과 (댕글링 인용 0 / json 매핑 일치 / 포맷 누출 0).
 haiku는 편당 6~8분, 3편 합계 약 $2.28.
@@ -136,13 +138,22 @@ python scripts/check_survey.py "output/<모델>-smoke/<토픽>.md" \
 ```
 
 계수와 다음 실행에 넣을 `--subsection_len` 값을 계산해 줍니다.
-`deepseek-v4-flash-0731` **실측 = 1.56×** (2026-08-05 스모크, 지시 700 → 1,093단어).
+`deepseek-v4-flash-0731` **실측 = 1.76×** (2026-08-05, 두 실행에서 1.73 / 1.79).
 
-이 모델은 길이가 아니라 **개수**가 문제입니다 — `"several subsections"`를 섹션당 **8.2개**로
-읽습니다(haiku 6.0 / v4-pro 7.2). 길이 계수 1.56은 오히려 v4-pro(1.67)보다 낮습니다.
-그래서 `--subsection_num 4`만 걸고 `--subsection_len`은 700 그대로 두는 것이 첫 처방입니다
-(예상 ~35,000단어). 통제 없이 `--section_num 8`로 돌리면 8 × 8.2 × 1,093 ≈ **71,700단어
-≈ 90페이지**로 SurveyForge의 100페이지 문제가 재현됩니다.
+**통제되지 않는 자유도가 둘인데 패치가 잡은 건 하나입니다.**
+
+- `--subsection_num` ✅ 지켜집니다 (10개 섹션 전부 4개 이하)
+- `--section_num` ❌ **두 실행 모두 정확히 1.25배 초과** (4→5, 8→10)
+
+그래서 `--subsection_num 4`를 걸었는데도 총 서브섹션이 37→39로 늘었습니다. 예측식에
+섹션 초과를 넣어야 맞습니다:
+
+```
+총 분량 = (section_num × 1.25) × subsection_num × (subsection_len × 1.76)
+```
+
+검산: `8 × 1.25 × 3.9 × (700 × 1.76)` = 48,000 ≈ 실측 **49,002**.
+25,000단어대를 노린다면 `--section_num 6 --subsection_num 3` (≈27,700) 입니다.
 
 ### 분량 구간 — 하드 컷을 걸지 않습니다
 
@@ -584,7 +595,7 @@ cd ../SurveyForge/SurveyBench && python test.py \
 1. **스모크 1편** — 축소 설정(`--section_num 4 --outline_reference_num 200 --rag_num 15`).
    확인할 것: 응답의 provider가 실제로 Parasail인지, 잘림 경고가 뜨지 않는지.
 2. **계수 측정** — `check_survey.py <md> --subsection-len=700 --target-words=20000`.
-   `v4-flash-0731`의 계수는 **1.56× 로 측정 완료**입니다(2026-08-05).
+   `v4-flash-0731`의 계수는 **1.76× 로 측정 완료**입니다(2026-08-05, 두 실행).
 3. **본 실행** — 2에서 얻은 `--subsection_len`과 `--subsection_num 4`로.
 
 | 항목 | 값 |
