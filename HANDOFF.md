@@ -415,9 +415,49 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 
 | 항목 | 값 |
 |---|---|
-| 단가 | 입력 **$0.09/M** · 출력 **$0.18/M** — `v4-pro`($0.435/$0.870)의 **1/4.8** |
+| 단가 | 입력 **$0.14/M** · 출력 **$0.28/M** — `v4-pro`($0.435/$0.870)의 **1/3.1** (핀한 fp8 기준) |
 | 컨텍스트 | 1,048,576 |
 | 태그 | **날짜 고정**이라 제공자 갱신에 흔들리지 않음 (`v4-flash`·`-latest`는 갱신됨) |
+| 엔드포인트 | **`parasail/fp8` 고정** — `.env`에 `AUTOSURVEY_PROVIDER=parasail/fp8` |
+
+### ⚠ provider를 고정하지 않으면 통제가 깨집니다
+
+OpenRouter는 같은 모델을 여러 provider로 라우팅하는데 **quantization이 제각각입니다.**
+`deepseek-v4-flash-0731`은 엔드포인트 19개에 fp4 / fp8 / unknown이 섞여 있습니다.
+고정하지 않으면 **한 서베이 안에서 서브섹션마다 다른 정밀도의 모델이 씁니다.**
+
+```bash
+# .env 에 추가
+export AUTOSURVEY_PROVIDER=parasail/fp8
+```
+
+값은 OpenRouter의 **endpoint tag**입니다(provider와 quantization을 한 번에 고정).
+`allow_fallbacks=false`가 함께 나가므로 그 provider가 붐벼도 다른 곳으로 넘어가지 않습니다.
+확인:
+
+```bash
+curl -s "https://openrouter.ai/api/v1/models/deepseek/deepseek-v4-flash-0731/endpoints" \
+  | python -c "import json,sys; [print(e['tag'], e['quantization'], e['max_completion_tokens']) for e in json.load(sys.stdin)['data']['endpoints']]"
+```
+
+`parasail/fp8`을 고른 이유 — fp8(deepseek 계열의 네이티브 정밀도에 가까움),
+uptime 100%, `max_completion_tokens` 1,048,576으로 최대, 단가는 fp8 주류와 동일.
+
+> **모델 단위로 표시되는 $0.09/$0.18은 fp4 엔드포인트(DeepInfra) 가격입니다.**
+> fp8로 고정하면 실제 단가는 $0.14/$0.28입니다.
+
+### 출력 잘림 검사
+
+`max_tokens` 한도 자체는 문제가 아닙니다 — 호출당 서브섹션 하나(약 1,600토큰)이고
+최소 provider 한도가 32,768이라 20배 여유입니다. 다만 **잘려도 조용히 넘어가던 것**을
+막았습니다. `finish_reason='length'`면 경고를 찍고 실행 끝에 건수를 집계합니다.
+
+```
+[usage]  writer  ⚠ 출력 잘림 3건 — 해당 서브섹션은 문장 중간에서 끊겼습니다
+```
+
+이 경고가 뜨면 그 서베이는 문장이 끊긴 채 저장된 것입니다. `check_survey.py`는
+인용만 보지 완결성은 보지 않으므로 여기서만 잡힙니다.
 
 시스템 간 비교를 위한 **통제 요인 전체**(백본·reasoning·provider 핀·목표 구조·분량·
 검색 폭·DB 스냅샷)는 상위 디렉터리의 `SURVEY_REPORT.md` §7에 정리돼 있습니다.

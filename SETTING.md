@@ -642,7 +642,8 @@ python evaluation.py \
 |---|---|---|---|---|
 | `anthropic/claude-3-haiku` | — | — | — | 본편 3편 각 $0.75~0.78 |
 | `deepseek/deepseek-v4-pro` | 0.435 | 0.870 | 1M | 본편 1편 $3.39 (84k단어) |
-| **`deepseek/deepseek-v4-flash-0731`** | **0.090** | **0.180** | 1M | **다음 백본.** v4-pro의 **1/4.8** |
+| **`deepseek/deepseek-v4-flash-0731`** (fp4 최저가) | 0.090 | 0.180 | 1M | OpenRouter 모델 단가 표시값. **fp4 엔드포인트다** |
+| **↳ `parasail/fp8` — 채택** | **0.140** | **0.280** | 1M | **다음 백본.** v4-pro의 **1/3.1** |
 
 `-0731`은 **날짜 고정 태그**라 제공자가 갱신해도 스냅샷이 바뀌지 않습니다.
 `deepseek-v4-flash`나 `-latest`는 갱신되므로 통제 실험에는 쓰지 마세요.

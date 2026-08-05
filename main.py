@@ -50,6 +50,11 @@ def report_usage(stage, agent):
     print(f'[usage]  {stage:7s} 청구 in={u["prompt"]:,} out={u["completion"]:,} '
           f'(추론 {u["reasoning"]:,}) 비용 ${u["cost"]:.4f} 재시도 {agent.api_model.retry_count}회',
           flush=True)
+    # 잘림은 조용히 넘어가면 안 된다. 문장이 끊긴 서브섹션이 그대로 서베이에 들어간다.
+    if getattr(agent.api_model, 'truncated', 0):
+        print(f'[usage]  {stage:7s} ⚠ 출력 잘림 {agent.api_model.truncated}건 — '
+              f'해당 서브섹션은 문장 중간에서 끊겼습니다. provider 출력 한도나 '
+              f'reasoning 설정을 확인하세요', flush=True)
 
 def write_subsection(topic, model, outline, subsection_len, rag_num, db, api_key, api_url, refinement = True):
 
