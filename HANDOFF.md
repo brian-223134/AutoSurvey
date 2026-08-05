@@ -1,7 +1,8 @@
 # HANDOFF — AutoSurvey 세팅 인수인계
 
 **최종 갱신**: 2026-08-05
-**목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현과 평가 파이프라인은 범위 밖.
+**목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현은 범위 밖.
+평가는 **SurveyBench 인용 커버리지만** 씁니다 — LLM-as-Judge 는 하지 않기로 확정(2026-08-05).
 **상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
 이 문서는 "지금 어디까지 됐고 다음에 뭘 하면 되는지"만 다룹니다.
 
@@ -34,9 +35,26 @@ haiku는 편당 6~8분, 3편 합계 약 $2.28.
 [`REPRODUCTION.md`](REPRODUCTION.md)에 있습니다.** 결과 수치와 비교 시 주의점은
 [`output/README.md`](output/README.md). 새 서베이를 만들면 두 표에 각각 한 줄 추가해 주세요.
 
-**다음 후보** (추가 생성 시): 논문 20개 토픽 중 커버리지 상위 —
-Explainability for LLMs (d@1200 0.811) / LLM-Generated Texts Detection (0.823) /
-LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
+**다음 토픽 — `Retrieval-Augmented Generation for Large Language Models` 권장**
+(2026-08-05, 26개 후보를 `compare_snapshots.py` 로 재고 정했습니다).
+
+LLM judge 를 안 쓰기로 한 이상 정량 수치가 나오는 길은 SurveyBench `ref_bench` 뿐이고,
+그건 **10개 토픽에만** 있습니다. 그 밖의 토픽을 고르면 나오는 건 무결성 검사뿐입니다.
+`ref_bench` 가 있는 토픽 중 미생성분을 커버리지 순으로 두면:
+
+| 토픽 | d@1200 (배포본 → 최신화본) | 최신 비율 | 비고 |
+|---|---|---|---|
+| **RAG for Large Language Models** | 0.724 → **0.621** | 86.8% | SurveyForge 0.435 / 인간 0.542 와 직접 비교 |
+| Hallucination in LLMs | 0.747 → **0.637** | 83.6% | 벤치 최신이 2024-01 로 이른 편 |
+| Generative Diffusion Models | 0.737 → 0.678 | 61.1% | 비LLM |
+| 3D Gaussian Splatting | **0.995 → 0.689** | 91.0% | 최신화 효과 최대. 비LLM |
+
+**토픽 문자열은 `topics.txt` 와 글자 단위로 같아야 합니다.** `"Retrieval-Augmented
+Generation"` 만 쓰면 d@1200 이 0.692 로 나빠지고(IR 쪽과 섞임), 무엇보다 채점기가
+그 토픽을 못 찾습니다.
+
+`ref_bench` 없이 커버리지만 보면 `Reasoning in Large Language Models`(0.643 → **0.574**,
+감쇠 0.132)가 26개 중 최고입니다. 정량 평가를 포기할 때만 고려하세요.
 
 **남은 일** (자세히는 아래 "남은 작업"):
 
@@ -44,7 +62,7 @@ LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 |---|---|---|
 | **C** | **새 백본(`deepseek-v4-flash-0731`)으로 첫 실행** — 스모크로 분량 계수부터 측정 | **크레딧** |
 | A | PDF 컴파일 확인(`.tex`까지는 나와 있음) + `.bib` 생성 | 없음 — 로컬/Overleaf에서 가능 |
-| B | 평가 — SurveyBench 인용 커버리지 (**LLM judge는 안 함**) | `ref.json` 변환 스크립트 (LLM·크레딧 불필요) |
+| B | 평가 — SurveyBench 인용 커버리지 (**LLM judge는 안 함**) | 없음 — `scripts/to_surveybench_ref.py` 로 지금 가능 (크레딧 불필요) |
 
 **새 생성은 크레딧 소진으로 막혀 있습니다**(아래 "크레딧"). 크레딧이 들어오면 **C부터**
 하세요 — DB 최신화와 분량 통제가 준비돼 있어 바로 돌릴 수 있습니다.
@@ -181,7 +199,7 @@ python main.py \
   --api_url https://openrouter.ai/api/v1/chat/completions \
   --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200
 
-python scripts/check_survey.py "output/v4-flash/Explainability for LLMs.md" --length
+python scripts/check_survey.py "output/deepseek-v4-flash/Explainability for LLMs.md" --length
 ```
 
 **`--db_path`는 스냅샷 선택입니다 — 기본값에 맡기지 마세요.** 인자를 빼면
@@ -497,12 +515,23 @@ coverage = |생성 참고문헌 ∩ ref_bench| / |날짜 필터를 통과한 생
 ```
 
 ```bash
-cd ../SurveyForge/SurveyBench && python test.py --generated_surveys_ref_dir <경로>
+python scripts/to_surveybench_ref.py "output/<모델>/<토픽>.json" \
+  --topic "Retrieval-Augmented Generation for Large Language Models"
 ```
 
-`test.py`는 `<dir>/<토픽>/exp_1/ref.json`(arXiv id를 키로 하는 dict)을 읽습니다.
-AutoSurvey의 `{topic}.json`은 `reference`가 **번호 → arXiv id**라 뒤집어 주면 됩니다.
-**변환 스크립트는 아직 없습니다.**
+변환·채점·진단을 한 번에 합니다. 채점은 SurveyBench의 `test.py::compute_citation_coverage`를
+**그대로 import 해서** 씁니다 — 같은 식을 다시 구현하면 그쪽이 바뀔 때 조용히 어긋나고
+SurveyForge와의 비교가 무의미해집니다. 공식 러너로 직접 돌려도 같은 값이 나옵니다:
+
+```bash
+cd ../SurveyForge/SurveyBench && python test.py \
+  --generated_surveys_ref_dir ../../AutoSurvey/output/surveybench_ref \
+  --topic_list_path <우리 토픽만 적은 파일>
+```
+
+> **`--topic`은 벤치마크 문자열과 글자 단위로 같아야 합니다.** 다르면 스크립트가 10개
+> 목록을 보여주며 중단합니다. 검색 쿼리부터 달라져 비교가 성립하지 않기 때문입니다 —
+> 아래 0.054가 정확히 그 경우입니다.
 
 기준값 (2026-08-05 실측):
 
@@ -582,7 +611,7 @@ conda activate autosurvey
 python -m unittest discover -s tests -t .
 ```
 
-**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 55개가 **0.2초**에 끝납니다.
+**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 66개가 **0.2초**에 끝납니다.
 네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock).
 
 무엇을 지키는지:
