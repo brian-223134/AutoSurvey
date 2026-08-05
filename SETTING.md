@@ -337,7 +337,8 @@ section_references_ids = [[]] * len(sections)
 보장합니다(프롬프트 지시만으로는 모델이 넘길 수 있음).
 
 ```bash
-python main.py ... --section_num 8 --subsection_num 4 --subsection_len 390
+# deepseek-v4-flash-0731 (계수 1.56x 실측) — 개수만 묶고 길이는 그대로
+python main.py ... --section_num 8 --subsection_num 4 --subsection_len 700
 ```
 
 **길이는 프롬프트가 아니라 캘리브레이션으로 맞춥니다.** `subsection_len`이 하한인 것을
@@ -674,7 +675,12 @@ python evaluation.py \
 > 비용이 토큰 추정의 3.5배였습니다. 이 토큰은 카운터에 안 잡히고 출력 단가로 과금됩니다.
 
 **크레딧 확인은 `/api/v1/key`로 하세요.** `/api/v1/credits`는 계정 전체 잔액이라
-키에 걸린 한도가 보이지 않습니다. 2026-08-04 기준 현재 키는 한도 $10을 전액 소진했습니다.
+키에 걸린 한도가 보이지 않습니다. 2026-08-05 기준 **한도 $30 / 잔여 $19.96**
+($10을 전액 소진한 뒤 상향받았습니다).
+
+**실측 편당 비용** (`deepseek-v4-flash-0731` @ `parasail/fp8`): 스모크 $0.166 /
+본편 약 $0.3. 청구액이 위 단가표와 소수점까지 맞는 것을 확인했습니다 —
+provider 핀이 걸려 있으면 단가가 예측 가능합니다.
 
 ---
 
