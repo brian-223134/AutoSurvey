@@ -334,7 +334,7 @@ DB 갱신은 GPU와 네트워크만 쓰고 **LLM API를 전혀 쓰지 않아** �
 
 | 스크립트 | 용도 |
 |---|---|
-| `scripts/check_survey.py` | 생성 결과 무결성 — 댕글링 인용 / json 매핑 / 포맷 누출 |
+| `scripts/check_survey.py` | 생성 결과 무결성 — 댕글링 인용 / json 매핑 / 포맷 누출. `--subsection-len=N --target-words=W`로 **분량 계수 캘리브레이션** |
 | `scripts/enrich_references.py` | `.json`에 arXiv 서지정보 채우기 (새 실행은 `main.py`가 자동 처리) |
 | `scripts/md_to_tex.py` | `.md` → Overleaf용 `.tex` |
 
