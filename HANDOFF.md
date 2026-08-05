@@ -291,7 +291,11 @@ source .env && curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" \
 | DB | **공식 배포본을 수동 scp 반입** | 서버에서 OneDrive 차단. 로컬 PC에서는 받을 수 있음 |
 | 임베딩 | `nomic-ai/nomic-embed-text-v1` (기본값 유지) | 공식 DB가 이 벡터 공간. **바꾸면 인덱스 전체가 무효** |
 | GPU 사용 | **1장만.** 번호는 고정하지 말고 `nvidia-smi`로 **빈 것을 골라** `CUDA_VISIBLE_DEVICES`에 | 임베딩 외엔 GPU를 안 씀. 공용 서버라 나머지는 안 건드림. 0번이 남의 작업으로 차 있을 때가 있다(2026-08-04 확인) |
-| 평가(`evaluation.py`) | **범위 밖** | 돌리려면 `judge.py` 스레드 제한 선행 필요 (아래 참고) |
+| 평가(`evaluation.py`) | **범위 밖** | 돌리려면 `judge.py` 스레드 제한 + `utils.compute_price` 수정 선행 필요 |
+| 다음 백본 | **`deepseek/deepseek-v4-flash-0731`** | v4-pro의 1/3.1 단가, 1M 컨텍스트, 날짜 고정 태그 |
+| provider | **`parasail/fp8` 고정** (`.env`) | 고정 안 하면 서브섹션마다 다른 quantization. fp8 / uptime 100% / max_out 최대 |
+| 프롬프트 | **문구를 바꾸지 않는다.** 파라미터만 추가 | 다시 쓰면 원본 AutoSurvey와 다른 시스템이 되어 baseline 의미가 흐려짐 |
+| 분량 | **하드 컷 없음.** 구간을 벗어나면 경고만 | 주제가 넓으면 정당하게 길어진다. 판단은 사람이 |
 
 ---
 
@@ -510,6 +514,35 @@ python scripts/compare_snapshots.py --old ./database --new ./database_2026-08 \
 ```
 
 끝나면 새 스냅샷의 md5 지문을 `REPRODUCTION.md` §3에 행으로 추가하세요.
+
+---
+
+## 테스트
+
+```bash
+conda activate autosurvey
+python -m unittest discover -s tests -t .
+```
+
+**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 55개가 **0.2초**에 끝납니다.
+네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock).
+
+무엇을 지키는지:
+
+| 파일 | 지키는 것 |
+|---|---|
+| `test_model_payload.py` (11) | **환경변수 없으면 페이로드가 `{}`** — 원본과 같은 요청이 나간다는 보장 / provider 핀의 `allow_fallbacks=False` |
+| `test_outline_parser.py` (15) | **`--subsection_num` 기본값이 원본 프롬프트를 글자 단위로 복원** / 서브섹션 절단 / 파서가 마크다운 장식·누락 설명·순서 뒤섞임을 견딤 |
+| `test_harvest_schema.py` (16) | 배포 DB 표기 규약 — **`date`가 `<created>`가 아니라 v1 제출일** / 초록의 TeX escape 보존 / 제목 금지문자 제거 / 저자 유니코드 |
+| `test_length_band.py` (7) | 분량 구간 경계와 실측값 판정 |
+| `test_provider_pin.py` (6) | 모델·provider 어긋나면 중단, 네트워크 장애는 막지 않음 |
+
+**변이 테스트로 실제로 잡는지 확인했습니다** — 프롬프트 기본값 변경, 절단 로직 제거,
+구간 경계 변경, `allow_fallbacks` 반전, `date`를 `<created>`로 바꾸기 5가지를 넣어
+전부 FAILED가 났습니다.
+
+특히 앞의 둘은 **baseline 신뢰성의 근거**입니다. 누가 프롬프트나 기본값을 건드리면
+"원본과 동일"이라는 주장이 조용히 깨지는데, 이제 테스트가 먼저 알려줍니다.
 
 ---
 
