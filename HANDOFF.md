@@ -44,7 +44,7 @@ LLMs for Information Retrieval (0.833) / Bias and Fairness in LLMs (0.839).
 |---|---|---|
 | **C** | **새 백본(`deepseek-v4-flash-0731`)으로 첫 실행** — 스모크로 분량 계수부터 측정 | **크레딧** |
 | A | PDF 컴파일 확인(`.tex`까지는 나와 있음) + `.bib` 생성 | 없음 — 로컬/Overleaf에서 가능 |
-| B | 벤치마크 평가 | `judge.py`·`utils.py` 선행 수정 |
+| B | 평가 — SurveyBench 인용 커버리지 (**LLM judge는 안 함**) | `ref.json` 변환 스크립트 (LLM·크레딧 불필요) |
 
 **새 생성은 크레딧 소진으로 막혀 있습니다**(아래 "크레딧"). 크레딧이 들어오면 **C부터**
 하세요 — DB 최신화와 분량 통제가 준비돼 있어 바로 돌릴 수 있습니다.
@@ -310,7 +310,8 @@ source .env && curl -s -H "Authorization: Bearer $OPENROUTER_API_KEY" \
 | DB | **공식 배포본을 수동 scp 반입** | 서버에서 OneDrive 차단. 로컬 PC에서는 받을 수 있음 |
 | 임베딩 | `nomic-ai/nomic-embed-text-v1` (기본값 유지) | 공식 DB가 이 벡터 공간. **바꾸면 인덱스 전체가 무효** |
 | GPU 사용 | **1장만.** 번호는 고정하지 말고 `nvidia-smi`로 **빈 것을 골라** `CUDA_VISIBLE_DEVICES`에 | 임베딩 외엔 GPU를 안 씀. 공용 서버라 나머지는 안 건드림. 0번이 남의 작업으로 차 있을 때가 있다(2026-08-04 확인) |
-| 평가(`evaluation.py`) | **범위 밖** | 돌리려면 `judge.py` 스레드 제한 + `utils.compute_price` 수정 선행 필요 |
+| 평가 — LLM judge | **하지 않는다** (2026-08-05) | `evaluation.py`/`judge.py` 경로를 쓰지 않음. 그 안의 버그 2건도 고칠 필요 없음 |
+| 평가 — 대체 경로 | **SurveyBench 인용 커버리지** | arXiv id 집합 교집합이라 **LLM 호출 0회 = 크레딧 불필요**. 단 `ref_bench`가 있는 10개 토픽에서만 가능 |
 | 다음 백본 | **`deepseek/deepseek-v4-flash-0731`** | v4-pro의 1/3.1 단가, 1M 컨텍스트, 날짜 고정 태그 |
 | provider | **`parasail/fp8` 고정** (`.env`) | 고정 안 하면 서브섹션마다 다른 quantization. fp8 / uptime 100% / max_out 최대 |
 | 프롬프트 | **문구를 바꾸지 않는다.** 파라미터만 추가 | 다시 쓰면 원본 AutoSurvey와 다른 시스템이 되어 baseline 의미가 흐려짐 |
@@ -475,17 +476,55 @@ deepseek 편만 예산 때문에 `--rag_num 30`입니다.
 2. `reference_detail`(id·제목·날짜·링크·저자)에서 `.bib`을 찍어내고 `md_to_tex.py`가
    그 키를 쓰도록 연결.
 
-### B. 벤치마크 평가 — 착수 전
+### B. 평가 — LLM judge 는 하지 않습니다 (2026-08-05 확정)
 
-범위 밖으로 둔 항목입니다. 돌리기 전에 **두 가지를 먼저 고쳐야 합니다.**
+**`evaluation.py` / `judge.py` 경로는 쓰지 않기로 했습니다.** 아래 두 버그는 그래서
+고칠 필요가 없어졌습니다. 마음이 바뀌면 이것부터 보라는 뜻으로만 남깁니다.
 
-1. **`judge.py:202,216`의 무제한 스레드 생성.** 인용 문장 하나당 스레드 하나를 만들어
-   32k 서베이면 수백 개가 동시에 나갑니다.
-2. **`src/utils.py`의 `compute_price()`가 즉시 `KeyError`로 죽습니다.**
-   `self.model_price = {}` 빈 딕셔너리인데 `self.model_price[model][0]`을 조회합니다.
-   `judge.py:46`이 이걸 호출하므로 어떤 모델을 쓰든 터집니다. 원본 그대로의 버그이고,
-   `main.py`는 이 경로를 타지 않아(실제 청구액을 씀) 지금까지 드러나지 않았습니다.
-   단가표를 채우거나 그 함수를 쓰지 않도록 바꿔야 합니다.
+1. `judge.py:202,216`의 무제한 스레드 생성 — 인용 문장 하나당 스레드 하나.
+2. `src/utils.py::compute_price()`가 `KeyError`로 즉사 — `self.model_price = {}`가
+   비어 있는데 `self.model_price[model][0]`을 조회합니다. `judge.py:46`이 호출하므로
+   어떤 모델을 쓰든 터집니다. `main.py`는 이 경로를 타지 않아 드러나지 않았습니다.
+
+**대신 SurveyBench 인용 커버리지를 씁니다. LLM 호출이 0회라 크레딧이 필요 없습니다.**
+
+`../SurveyForge/SurveyBench/`에 10개 토픽의 정답 참고문헌(`ref_bench/`), 인간 작성
+서베이(`human_written_ref/`), SurveyForge 산출물(`generated_surveys_ref/`)이 있습니다.
+채점은 arXiv id 집합의 교집합입니다:
+
+```
+coverage = |생성 참고문헌 ∩ ref_bench| / |날짜 필터를 통과한 생성 참고문헌|
+```
+
+```bash
+cd ../SurveyForge/SurveyBench && python test.py --generated_surveys_ref_dir <경로>
+```
+
+`test.py`는 `<dir>/<토픽>/exp_1/ref.json`(arXiv id를 키로 하는 dict)을 읽습니다.
+AutoSurvey의 `{topic}.json`은 `reference`가 **번호 → arXiv id**라 뒤집어 주면 됩니다.
+**변환 스크립트는 아직 없습니다.**
+
+기준값 (2026-08-05 실측):
+
+| 산출물 | 토픽 | 인용 | coverage |
+|---|---|---|---|
+| 인간 작성 | RAG | 191 | **0.542** |
+| SurveyForge (저자) | RAG | 85 | 0.435 |
+| SurveyForge (저자) | Evaluation of LLMs | 116 | 0.336 |
+| 우리 haiku 산출물 | Evaluation of LLMs | 368 | **0.054** |
+
+> 우리 0.054는 **공정한 비교가 아닙니다.** 토픽 문자열이 `"Evaluation of LLMs"`라
+> 벤치마크의 `"Evaluation of Large Language Models"`와 달라 검색 쿼리부터 다릅니다.
+> 다만 368편을 인용해 20편만 맞은 건 문자열만으로 설명되지 않습니다. 정확한 문자열로
+> 다시 돌려 확인할 값입니다.
+
+**두 가지 제약이 토픽 선택을 좌우합니다.**
+
+1. `ref_bench`는 **10개 토픽에만** 있습니다. LLM judge를 안 쓰기로 한 이상,
+   그 밖의 토픽으로는 정량 수치가 하나도 나오지 않습니다.
+2. 채점기가 **`ref_bench`의 최신 논문보다 새 인용을 분모에서 뺍니다**(RAG는 2024-07).
+   최신화본으로 돌리면 인용 대부분이 걸러져 표본이 작아집니다. **벤치마크 비교는
+   배포본으로, 최신화 효과 시연은 최신화본으로** 나눠 돌리세요.
 
 ### C. 새 백본으로 첫 실행 — **크레딧 확보 후 바로 이것부터**
 

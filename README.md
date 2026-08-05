@@ -33,7 +33,7 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 ```
 AutoSurvey/
 ├── main.py                  생성 진입점 — 검색 → 아웃라인 → 본문 → LCE
-├── evaluation.py            평가 진입점 (미실행. judge.py 스레드 제한 선행 필요)
+├── evaluation.py            LLM judge 평가 진입점 — **쓰지 않기로 확정**
 ├── src/
 │   ├── database.py          TinyDB + FAISS 검색, nomic 임베딩
 │   ├── model.py             OpenRouter API 호출, 재시도·토큰 계측
@@ -141,8 +141,10 @@ haiku는 편당 6~8분. 결과 해석 시 주의점은 [`output/README.md`](outp
 
 - **논문의 정량 수치 재현** — 논문은 각 논문 **본문 앞 1,500토큰**을 쓰는데 공개 DB에는
   초록만 있습니다. 입력이 근본적으로 다릅니다.
-- **`evaluation.py` 기반 평가** — 돌리려면 `judge.py:202,216`의 무제한 스레드 생성을
-  먼저 제한해야 합니다.
+- **LLM-as-Judge 평가** — `evaluation.py` / `judge.py` 경로는 **쓰지 않기로 확정**했습니다
+  (2026-08-05). 평가는 `../SurveyForge/SurveyBench/`의 **인용 커버리지**로 합니다 —
+  arXiv id 집합 교집합이라 LLM 호출이 0회이고 크레딧이 필요 없습니다. 상세와 기준값은
+  [`HANDOFF.md`](HANDOFF.md) 남은작업 B.
 - **현재 크레딧 소진** — OpenRouter 키가 한도 $10을 다 썼습니다(2026-08-04 실측, 잔여 0).
   새 생성은 크레딧 확보가 선행돼야 합니다. 상세는 `HANDOFF.md`.
 
