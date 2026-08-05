@@ -535,7 +535,7 @@ source .env                          # OPENROUTER_API_KEY / MAX_THREADS / CUDA_V
 
 python main.py \
   --topic "LLMs for education" \
-  --saving_path ./output/v4-flash/ \
+  --saving_path ./output/deepseek-v4-flash/ \
   --db_path ./database_2026-08 \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
   --model deepseek/deepseek-v4-flash-0731 \
@@ -597,7 +597,7 @@ python main.py \
 source .env                          # 키는 환경변수로. --api_key 인자 금지 (위 경고 참조)
 python evaluation.py \
   --topic "LLMs for education" \
-  --saving_path ./output/v4-flash/ \
+  --saving_path ./output/deepseek-v4-flash/ \
   --db_path ./database_2026-08 \
   --model <JUDGE_MODEL_ID> \
   --api_url <ENDPOINT>

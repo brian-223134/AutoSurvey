@@ -175,7 +175,7 @@ conda activate autosurvey
 source .env
 python main.py \
   --topic "Explainability for LLMs" \
-  --saving_path ./output/v4-flash/ --db_path ./database_2026-08 \
+  --saving_path ./output/deepseek-v4-flash/ --db_path ./database_2026-08 \
   --embedding_model nomic-ai/nomic-embed-text-v1 \
   --model deepseek/deepseek-v4-flash-0731 \
   --api_url https://openrouter.ai/api/v1/chat/completions \
