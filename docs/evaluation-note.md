@@ -28,15 +28,35 @@
 3. 고친다 해도 **LLM이 LLM의 산출물을 채점**하는 구조라 점수의 신뢰도가 낮고,
    토픽당 수천 회 호출이라 비용이 큽니다.
 
-### 1.2 공개 SurveyBench도 인용만 채점합니다
+### 1.2 SurveyBench는 세 축을 정의하지만 **한 축만 구현돼 있습니다**
 
-비교 기준으로 쓰는 `../SurveyForge/SurveyBench/test.py`를 직접 확인했습니다.
-**`compute_citation_coverage` 하나뿐입니다.** 내용 품질을 채점하는 코드는
-공개본에 없습니다.
+비교 기준으로 쓰는 것은 SurveyForge 논문([arXiv:2503.04629](https://arxiv.org/abs/2503.04629))이
+함께 낸 **SurveyBench**입니다. 논문은 이렇게 씁니다:
 
-> **그래서 "벤치마크 구현이 완벽하지 않다"는 것은 우리 구현이 부실하다는 뜻이 아니라,
-> 공개된 정량 평가 자체가 인용 축 하나뿐이라는 뜻입니다.**
-> 내용 품질은 현재 **누구도 재현 가능한 방식으로 재고 있지 않습니다.**
+> *"assesses AI-generated survey papers across three dimensions:
+> **reference, outline, and content quality**"*
+
+**그런데 공개 코드에는 reference 축만 있습니다.** 직접 확인했습니다:
+
+| 축 | 논문 | 공개 코드 |
+|---|---|---|
+| **reference** (인용 커버리지) | ✅ | ✅ `SurveyBench/test.py::compute_citation_coverage` |
+| outline 품질 (SAM-O) | ✅ | ❌ **구현 없음** |
+| content 품질 (SAM-C) | ✅ | ❌ **구현 없음** |
+
+```bash
+# SurveyForge 저장소 전체에서 SAM-O/SAM-C 구현을 찾으면 아무것도 안 나옵니다
+grep -rl "SAM_O\|SAM-O\|SAM_C\|SAM-C\|outline_quality\|content_quality" --include=*.py .
+```
+
+outline·content 축은 LLM judge 방식이라 별도 비용이 들고, 채점 프롬프트·모델이
+공개되지 않았습니다. 논문의 100편 win-rate 비교분도 우리가 받은 자산에는 없습니다
+(`human_written_ref/`에 **10편**).
+
+> **그래서 "벤치마크 구현이 완벽하지 않다"는 것은 우리 구현이 부실하다는 뜻이 아닙니다.
+> 벤치마크가 정의한 세 축 중 재현 가능하게 공개된 것이 하나뿐이라는 뜻입니다.**
+> 내용 품질은 우리도, SurveyForge를 그대로 돌리는 사람도 **재현 가능한 방식으로는
+> 재지 못합니다.**
 
 ---
 

@@ -1,4 +1,5 @@
 import os
+import random
 import time
 import requests
 import json
@@ -6,6 +7,9 @@ from tqdm import tqdm
 import threading
 
 TIMEOUT = int(os.environ.get('AUTOSURVEY_TIMEOUT', 900))
+# 레이트리밋(429)은 초 단위로 풀리지 않는다. 기본 5회 / 최대 16초 백오프로는
+# 동시 16요청이 몰릴 때 소진되고, 소진되면 서브섹션이 통째로 사라진다.
+MAX_RETRY = int(os.environ.get('AUTOSURVEY_MAX_RETRY', 8))
 
 
 class APIModel:
@@ -19,6 +23,9 @@ class APIModel:
         self.retry_count = 0
         # 출력이 잘린 호출 수. 0이 아니면 그 서베이는 문장이 끊긴 채로 들어간 것이다.
         self.truncated = 0
+        # 최종 실패한 요청 수. 0이 아니면 산출물에 빈 서브섹션이 있다는 뜻이라
+        # main.py가 저장을 거부한다.
+        self.failed = 0
         self.usage = {'prompt': 0, 'completion': 0, 'reasoning': 0, 'cost': 0.0}
         self._lock = threading.Lock()
 
@@ -69,7 +76,8 @@ class APIModel:
             self.usage['reasoning'] += det.get('reasoning_tokens', 0)
             self.usage['cost'] += float(usage.get('cost', 0) or 0)
 
-    def __req(self, text, temperature, max_try = 5):
+    def __req(self, text, temperature, max_try=None):
+        max_try = max_try or MAX_RETRY
         url = f"{self.__api_url}"
         # temperature는 messages 배열이 아니라 최상위에 와야 실제로 적용된다.
         # (원본은 message 안에 넣어서 서버 기본값으로 돌고 있었고, vLLM 등은 400을 낼 수 있다)
@@ -115,11 +123,23 @@ class APIModel:
             # 재시도는 프롬프트를 다시 청구시킨다. 반드시 보이게 남긴다.
             with self._lock:
                 self.retry_count += 1
+            # 429는 다른 에러와 백오프가 달라야 한다. 초 단위로 풀리지 않는다.
+            rate_limited = str(last_err).startswith('HTTP 429')
+            delay = min((15 if rate_limited else 2) * (2 ** attempt), 120)
+            # ⚠ 지터가 핵심이다. 동시 16요청이 같은 백오프를 쓰면 매번 같은 순간에
+            # 함께 깨어나 레이트리밋을 다시 정면으로 맞는다. 재시도가 소진된 실제
+            # 원인이 이것이었다.
+            delay *= 0.75 + random.random() * 0.5
             print(f"[APIModel] 재시도 {attempt + 1}/{max_try} "
-                  f"(누적 {self.retry_count}회, 프롬프트 {len(text)}자): {last_err}", flush=True)
-            time.sleep(min(2 ** attempt, 30))
-        # 조용히 None을 반환하면 호출부에서 엉뚱한 AttributeError로 죽으므로 원인을 남긴다.
-        print(f"[APIModel] 최종 실패 ({max_try}회): {last_err}", flush=True)
+                  f"(누적 {self.retry_count}회, 프롬프트 {len(text)}자, "
+                  f"{delay:.0f}초 대기): {last_err}", flush=True)
+            time.sleep(delay)
+        # None을 파이프라인에 흘려보내면 토큰 카운터가 죽고 그 스레드가 통째로
+        # 사라진다. 밖에서는 조용하고, 산출물에는 섹션 하나가 없다.
+        with self._lock:
+            self.failed += 1
+        print(f"[APIModel] 최종 실패 ({max_try}회, 누적 {self.failed}건): {last_err}",
+              flush=True)
         return None
     
     def chat(self, text, temperature=1):
@@ -151,4 +171,13 @@ class APIModel:
 
         for thread in tqdm(thread_l):
             thread.join()
+        # 실패를 여기서 잡지 않으면 None이 그대로 흘러가 토큰 카운터에서
+        # TypeError로 죽고, 죽는 곳이 워커 스레드라 본 실행은 태연히 계속된다.
+        # 결과는 섹션 하나가 빈 서베이다. 조용한 손상보다 시끄러운 중단이 낫다.
+        bad = [i for i, r in enumerate(res_l) if not isinstance(r, str)]
+        if bad:
+            raise RuntimeError(
+                f'{len(bad)}/{len(res_l)}개 요청이 최종 실패했습니다(인덱스 {bad[:5]}). '
+                f'부분 결과로 서베이를 쓰면 섹션이 조용히 빕니다. '
+                f'AUTOSURVEY_MAX_THREADS를 낮추거나 AUTOSURVEY_MAX_RETRY를 올리세요.')
         return res_l
