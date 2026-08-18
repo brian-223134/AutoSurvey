@@ -56,6 +56,18 @@ def report_usage(stage, agent):
         print(f'[usage]  {stage:7s} ⚠ 출력 잘림 {agent.api_model.truncated}건 — '
               f'해당 서브섹션은 문장 중간에서 끊겼습니다. provider 출력 한도나 '
               f'reasoning 설정을 확인하세요', flush=True)
+    # 재시도를 다 쓴 요청이 하나라도 있으면 그 서브섹션은 비어 있다. 저장하면
+    # 섹션이 빠진 서베이가 조용히 남고, check_survey.py 도 인용만 보므로 잡지 못한다.
+    # 부분 산출물을 남기느니 여기서 멈춘다.
+    failed = getattr(agent.api_model, 'failed', 0)
+    if failed:
+        raise RuntimeError(
+            f'{stage} 단계에서 {failed}개 요청이 재시도를 다 쓰고 실패했습니다. '
+            f'해당 서브섹션이 비어 있으므로 저장하지 않고 중단합니다.\n'
+            f'  · 429였다면 AUTOSURVEY_MAX_THREADS를 낮추세요(현재 '
+            f'{os.environ.get("AUTOSURVEY_MAX_THREADS", "15")}).\n'
+            f'  · 재시도 한도는 AUTOSURVEY_MAX_RETRY로 올릴 수 있습니다(현재 '
+            f'{os.environ.get("AUTOSURVEY_MAX_RETRY", "8")}).')
 
 def write_subsection(topic, model, outline, subsection_len, rag_num, db, api_key, api_url, refinement = True):
 

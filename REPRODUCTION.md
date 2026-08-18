@@ -282,12 +282,21 @@ source .env      # export 형식으로 작성돼 있음
 
 ### 5-2. 하이퍼파라미터 — 산출물별
 
-| 산출물 | `--model` | `section_num` | `subsection_len` | `rag_num` | `outline_reference_num` | 추론 |
-|---|---|---|---|---|---|---|
-| `haiku-smoke/` | `anthropic/claude-3-haiku` | 4 | 700 *(기본값)* | 15 | 200 | 해당없음 |
-| `haiku/` (3편) | `anthropic/claude-3-haiku` | 8 | 700 | 60 | 1200 | 해당없음 |
-| `deepseek-smoke/` | `deepseek/deepseek-v4-pro` | 4 | 700 *(기본값)* | 15 | 200 | **ON** |
-| `deepseek-v4-pro/` | `deepseek/deepseek-v4-pro` | 8 | 700 | **30** | 1200 | **OFF** |
+| 산출물 | `--model` | **DB** | `section_num` | `subsection_num` | `subsection_len` | `rag_num` | `outline_reference_num` | 추론 |
+|---|---|---|---|---|---|---|---|---|
+| `haiku-smoke/` | `anthropic/claude-3-haiku` | 배포본 | 4 | — | 700 *(기본값)* | 15 | 200 | 해당없음 |
+| `haiku/` (3편) | `anthropic/claude-3-haiku` | 배포본 | 8 | — | 700 | 60 | 1200 | 해당없음 |
+| `deepseek-smoke/` | `deepseek/deepseek-v4-pro` | 배포본 | 4 | — | 700 *(기본값)* | 15 | 200 | **ON** |
+| `deepseek-v4-pro/` | `deepseek/deepseek-v4-pro` | 배포본 | 8 | — | 700 | **30** | 1200 | **OFF** |
+| `deepseek-v4-flash-smoke/` | `deepseek/deepseek-v4-flash-0731` | 배포본 | 4 | — | 700 *(기본값)* | 15 | 200 | **OFF** |
+| `deepseek-v4-flash/` (본편 A) | `deepseek/deepseek-v4-flash-0731` | 배포본 | 8 | **4** | 700 | 60 | 1200 | **OFF** |
+| **`deepseek-v4-flash-newdb/`** (본편 B) | `deepseek/deepseek-v4-flash-0731` | **최신화본** | 8 | **4** | 700 | 60 | 1200 | **OFF** |
+
+> **본편 A 와 B 는 `--db_path` 하나만 다릅니다.** DB 최신화의 효과를 보려고
+> 나머지 인자·모델·provider·스레드 수를 전부 맞췄습니다. 토픽도 같습니다
+> (`Retrieval-Augmented Generation for Large Language Models`, SurveyBench 문자열).
+> `--subsection_num` 은 v4-flash 본편 두 편에만 걸려 있습니다 — 나머지는 원본 동작
+> (`several`)입니다.
 
 - `haiku/` 3편은 `--topic`만 다릅니다: `In-context Learning`,
   `Large Multi-Modal Language Models`, `Evaluation of LLMs`.
@@ -295,6 +304,10 @@ source .env      # export 형식으로 작성돼 있음
 - `deepseek-v4-pro/`의 `rag_num` 30은 **예산 제약**입니다. 커버리지를 결정하는
   `outline_reference_num`은 논문 설정 1200을 유지했습니다.
 - haiku는 추론 모델이 아니라 추론 설정이 결과에 영향을 주지 않습니다.
+- `deepseek-v4-flash-0731` 실행 3편은 **엔드포인트를 `parasail/fp8` 로 고정**했습니다
+  (`AUTOSURVEY_PROVIDER`). 고정하지 않으면 서브섹션마다 다른 quantization 이 씁니다.
+- v4-flash 본편 두 편은 `AUTOSURVEY_MAX_THREADS=2` 입니다 (8섹션 × 2 = 동시 16).
+  스모크는 4 입니다 (4섹션 × 4 = 동시 16). **동시 요청 수를 16으로 맞춘 것**입니다.
 
 **모든 실행 공통:**
 
@@ -302,7 +315,7 @@ source .env      # export 형식으로 작성돼 있음
 |---|---|
 | `--api_url` | `https://openrouter.ai/api/v1/chat/completions` |
 | `--embedding_model` | `nomic-ai/nomic-embed-text-v1` |
-| `--db_path` | `./database` |
+| `--db_path` | `./database` (배포본) — **단 `deepseek-v4-flash-newdb/` 는 `./database_2026-08`** |
 
 **코드에 고정돼 CLI로 못 바꾸는 값** (재현 시 함께 맞춰야 함):
 
