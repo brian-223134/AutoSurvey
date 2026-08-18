@@ -21,6 +21,19 @@ import re
 import subprocess
 import sys
 
+# pandoc 리더 확장. 켜고 끄는 이유가 각각 있다.
+#   +tex_math_dollars   $...$ 를 수식으로 읽는다 (normalize_math 가 \( 를 $ 로 바꾼다)
+#   -auto_identifiers   헤딩마다 \hypertarget 을 붙이는 걸 막는다
+#   -raw_tex            모델이 쓴 '\l' 같은 부스러기를 LaTeX 명령으로 통과시키지
+#                       않는다. 통과하면 "Undefined control sequence" 로 죽는다.
+#   -simple_tables      본문에 '---' 가 두 개 이상이면 그 사이를 통째로 표로
+#   -multiline_tables   먹어버린다. 헤딩이 평문이 되고 \\ 가 섞여 나온다.
+#   -yaml_metadata_block  위를 막으면 같은 '---' 가 이번엔 YAML 메타데이터로
+#                       잡혀 파싱 에러로 죽는다. 셋을 같이 꺼야 한다.
+#                       모델이 쓴 '---' 는 가로줄이지 구조가 아니다.
+PANDOC_FORMAT = ('markdown+tex_math_dollars-auto_identifiers'
+                 '-raw_tex-simple_tables-multiline_tables-yaml_metadata_block')
+
 HEADING_RE = re.compile(r'^(#{1,6})\s+(.*?)\s*$')
 # '1.2.3 제목' 형태에서 번호를 떼어낸다.
 NUMBER_RE = re.compile(r'^(\d+(?:\.\d+)*)\.?\s+(.*)$')
@@ -34,12 +47,19 @@ CITE_RE = re.compile(r'(?:\{\[\}|\[)(\d+(?:\s*;\s*\d+)*)(?:\{\]\}|\])')
 PREAMBLE = r"""\documentclass[11pt]{article}
 
 \usepackage[utf8]{inputenc}
+% microtype 의 폰트 확장은 scalable 폰트를 요구한다. 기본 CM 이 비트맵(Type3)으로
+% 잡히는 배포판에서는 lmodern 없이는 "auto expansion is only possible with
+% scalable fonts" 로 컴파일이 죽는다.
+\usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{longtable,booktabs}
 \usepackage{microtype}
+% svgnames 를 줘야 teal 이 정의된다. 없으면 \cite 하나마다
+% "Undefined color `teal'" 이 뜬다 (본편 산출물에서 732회).
+\usepackage[svgnames]{xcolor}
 % hyperref goes last; it makes \cite clickable through to the bibliography.
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=teal,urlcolor=magenta]{hyperref}
 
@@ -66,10 +86,59 @@ PREAMBLE = r"""\documentclass[11pt]{article}
 UNICODE_FIXES = {
     '‑': '-',              # NON-BREAKING HYPHEN (출력물 전체에 844곳)
     '→': r'$\rightarrow$',
-    'π': r'$\pi$',
-    '₂': r'$_2$',
+    '←': r'$\leftarrow$',
+    '⇒': r'$\Rightarrow$',
+    '≈': r'$\approx$',
+    '≤': r'$\leq$',
+    '≥': r'$\geq$',
+    '≠': r'$\neq$',
+    '∼': r'$\sim$',
+    '∞': r'$\infty$',
+    '∈': r'$\in$',
+    '∀': r'$\forall$',
+    '∃': r'$\exists$',
+    '∑': r'$\sum$',
+    '∏': r'$\prod$',
+    '√': r'$\sqrt{}$',
+    '⋅': r'$\cdot$',
+    '₀': r'$_0$', '₁': r'$_1$', '₂': r'$_2$', '₃': r'$_3$', '₄': r'$_4$',
+    '⁰': r'$^0$', '¹': r'$^1$', '²': r'$^2$', '³': r'$^3$', '⁴': r'$^4$',
     '\U0001d458': '$k$',        # MATHEMATICAL ITALIC SMALL K
 }
+
+# 그리스 문자는 하나씩 겪을 때마다 추가하는 대신 통째로 넣는다. 본편 산출물이
+# α 두 개 때문에 컴파일이 죽었는데, 다음엔 β 나 λ 로 같은 일이 반복된다.
+# 코드포인트 산술로 만들지 않는다 — 그리스 블록에는 ς(final sigma)와 예약된
+# 빈 자리가 끼어 있어서 오프셋이 σ 부터 어긋난다.
+for _ch, _name in zip('αβγδεζηθικλμνξοπρστυφχψω',
+                      ('alpha beta gamma delta epsilon zeta eta theta iota '
+                       'kappa lambda mu nu xi omicron pi rho sigma tau '
+                       'upsilon phi chi psi omega').split()):
+    UNICODE_FIXES.setdefault(_ch, '$\\%s$' % _name)
+# 대문자는 라틴과 모양이 같은 것(Α, Β, Ε…)에 LaTeX 명령이 없다. 있는 것만 넣는다.
+for _ch, _name in zip('ΓΔΘΛΞΠΣΥΦΨΩ',
+                      ('Gamma Delta Theta Lambda Xi Pi Sigma Upsilon '
+                       'Phi Psi Omega').split()):
+    UNICODE_FIXES.setdefault(_ch, '$\\%s$' % _name)
+UNICODE_FIXES.setdefault('ς', r'$\varsigma$')
+
+# pandoc 이 알아서 LaTeX 로 옮기는 문자들. 남은 비ASCII 경고에서 제외한다.
+PANDOC_HANDLES = set('—–―‘’“”„…×÷°±·§¶†‡•‰′″€£¥¢©®™'
+                     'àáâãäåæçèéêëìíîïñòóôõöøùúûüýÿšžœ'
+                     'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÑÒÓÔÕÖØÙÚÛÜÝŠŽŒß')
+
+
+def unhandled_unicode(text):
+    """치환도 안 되고 pandoc 도 못 옮기는 문자를 센다. {문자: 횟수}
+
+    이게 비면 pdflatex 이 "Unicode character not set up" 으로 죽을 일이 없다.
+    비어 있지 않으면 UNICODE_FIXES 에 추가해야 한다는 신호다.
+    """
+    left = {}
+    for ch in text:
+        if ord(ch) > 127 and ch not in UNICODE_FIXES and ch not in PANDOC_HANDLES:
+            left[ch] = left.get(ch, 0) + 1
+    return left
 
 
 def sanitize_unicode(text):
@@ -247,7 +316,7 @@ def main():
     body_md, fixed_chars = sanitize_unicode(normalize_math('\n'.join(body_lines)))
 
     proc = subprocess.run(
-        ['pandoc', '-f', 'markdown+tex_math_dollars-auto_identifiers',
+        ['pandoc', '-f', PANDOC_FORMAT,
          '-t', 'latex', '--wrap=preserve'],
         input=body_md, capture_output=True, text=True)
     if proc.returncode != 0:
@@ -270,6 +339,12 @@ def main():
     print(f'  제목: {title}')
     print(f'  중복 헤딩 제거: {dropped}개')
     print(f'  pdflatex 미지원 문자 치환: {fixed_chars}곳')
+    left = unhandled_unicode(body_md)
+    if left:
+        detail = ', '.join('%s(U+%04X)×%d' % (c, ord(c), n)
+                           for c, n in sorted(left.items(), key=lambda x: -x[1])[:8])
+        print(f'  ⚠ 치환표에 없는 비ASCII {sum(left.values())}곳: {detail}')
+        print(f'    pdflatex 에서 죽을 수 있습니다. UNICODE_FIXES 에 추가하세요.')
     linked = sum(1 for n in refs if detail.get(str(n), {}).get('id'))
     print(f'  참고문헌: {len(refs)}개 (arXiv ID/링크 {linked}개)')
     if refs and not linked:

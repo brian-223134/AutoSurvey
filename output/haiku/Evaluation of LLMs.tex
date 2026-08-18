@@ -1,12 +1,19 @@
 \documentclass[11pt]{article}
 
 \usepackage[utf8]{inputenc}
+% microtype 의 폰트 확장은 scalable 폰트를 요구한다. 기본 CM 이 비트맵(Type3)으로
+% 잡히는 배포판에서는 lmodern 없이는 "auto expansion is only possible with
+% scalable fonts" 로 컴파일이 죽는다.
+\usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{longtable,booktabs}
 \usepackage{microtype}
+% svgnames 를 줘야 teal 이 정의된다. 없으면 \cite 하나마다
+% "Undefined color `teal'" 이 뜬다 (본편 산출물에서 732회).
+\usepackage[svgnames]{xcolor}
 % hyperref goes last; it makes \cite clickable through to the bibliography.
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=teal,urlcolor=magenta]{hyperref}
 
