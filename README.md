@@ -95,16 +95,25 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 **서베이 8편 생성 완료** — 본편 5편 + 파이프라인 점검용 스모크 3편.
 토픽당 `.md` / `.json` / `.tex` 3개가 나옵니다.
 
-| 디렉터리 / 토픽 | 모델 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
-|---|---|---|---|---|---|---|
-| `haiku-smoke/` In-context Learning | claude-3-haiku | 5 / 18 | 11,546 | 107 | 151 | $0.15 |
-| `haiku/` In-context Learning | claude-3-haiku | 9 / 51 | 32,176 | 383 | 465 | $0.78 |
-| `haiku/` Large Multi-Modal Language Models | claude-3-haiku | 8 / 48 | 30,709 | 378 | 467 | $0.75 |
-| `haiku/` Evaluation of LLMs | claude-3-haiku | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
-| `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 5 / 32 | 33,234 | 190 | 281 | $1.35 |
-| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 14 / 117 | 92,707 | 644 | 884 | $3.39 |
-| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 5 / 37 | 44,803 | 268 | 486 | $0.17 |
-| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | **10 / 39** | **49,002** | **476** | **674** | **$0.38** |
+| 디렉터리 / 토픽 | 모델 | **DB** | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | **쪽** | 비용 |
+|---|---|---|---|---|---|---|---|---|
+| `haiku-smoke/` In-context Learning | claude-3-haiku | 배포본 | 5 / 18 | 11,546 | 107 | 151 | 26 | $0.15 |
+| `haiku/` In-context Learning | claude-3-haiku | 배포본 | 9 / 51 | 32,176 | 383 | 465 | 74 | $0.78 |
+| `haiku/` Large Multi-Modal Language Models | claude-3-haiku | 배포본 | 8 / 48 | 30,709 | 378 | 467 | 72 | $0.75 |
+| `haiku/` Evaluation of LLMs | claude-3-haiku | 배포본 | 8 / 48 | 30,439 | 368 | 425 | 71 | $0.75 |
+| `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 배포본 | 5 / 32 | 33,234 | 190 | 281 | 67 | $1.35 |
+| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 배포본 | 14 / 117 | 92,707 | 644 | 884 | **184** | $3.39 |
+| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 배포본 | 5 / 37 | 44,803 | 268 | 486 | 93 | $0.17 |
+| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | 배포본 | **10 / 39** | **49,002** | **476** | **674** | **111** | **$0.38** |
+
+> **⚠ 8편 전부 배포본(~2024-04-26)으로 만들어졌습니다. 최신화본으로 만든 서베이는
+> 아직 0편입니다.** 문서를 믿지 않고 산출물에서 직접 확인한 결과입니다 — 8편의 참고문헌
+> **2,814편 중 2024-04-26 이후 논문이 하나도 없습니다.** 네 편은 정확히 배포본의
+> 마지막 날짜(2024-04-26) 논문을 인용합니다. DB 최신화(§3)는 끝났지만
+> **아직 생성에 쓰이지 않았습니다.**
+
+**쪽수는 실측입니다** — `.tex` 를 pdflatex 으로 컴파일해 `pdfinfo` 로 셌습니다
+(2026-08-18, 8편 전부 에러 0 / 미해결 인용 0). 컴파일 절차는 §6.
 
 8편 전부 `scripts/check_survey.py` 통과(댕글링 인용 0, json 매핑 일치).
 결과 해석 시 주의점은 [`output/README.md`](output/README.md)에 있습니다 —
