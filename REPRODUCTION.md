@@ -290,7 +290,7 @@ source .env      # export 형식으로 작성돼 있음
 | `deepseek-v4-pro/` | `deepseek/deepseek-v4-pro` | 배포본 | 8 | — | 700 | **30** | 1200 | **OFF** |
 | `deepseek-v4-flash-smoke/` | `deepseek/deepseek-v4-flash-0731` | 배포본 | 4 | — | 700 *(기본값)* | 15 | 200 | **OFF** |
 | `deepseek-v4-flash/` (본편 A) | `deepseek/deepseek-v4-flash-0731` | 배포본 | 8 | **4** | 700 | 60 | 1200 | **OFF** |
-| **`deepseek-v4-flash-newdb/`** (본편 B) | `deepseek/deepseek-v4-flash-0731` | **최신화본** | 8 | **4** | 700 | 60 | 1200 | **OFF** |
+| **`deepseek-v4-flash-newdb/`** (본편 B, **3편**) | `deepseek/deepseek-v4-flash-0731` | **최신화본** | 8 | **4** | 700 | 60 | 1200 | **OFF** |
 
 > **본편 A 와 B 는 생성 파라미터가 같고 `--db_path` 만 다릅니다.** 토픽도 같습니다
 > (`Retrieval-Augmented Generation for Large Language Models`, SurveyBench 문자열).
@@ -301,6 +301,9 @@ source .env      # export 형식으로 작성돼 있음
 > 다시 돌렸습니다. **산출물 내용에는 영향이 없고 소요 시간만 달라집니다** — 동시성은
 > 어떤 프롬프트가 나가는지를 바꾸지 않습니다. 이 크래시를 계기로 고친 것은 §4 참조.
 
+- `deepseek-v4-flash-newdb/` 3편도 `--topic` 만 다릅니다: `Retrieval-Augmented Generation
+  for Large Language Models`, `3D Gaussian Splatting`, `LLM-based Multi-Agent`
+  (전부 SurveyBench 토픽 문자열 그대로).
 - `haiku/` 3편은 `--topic`만 다릅니다: `In-context Learning`,
   `Large Multi-Modal Language Models`, `Evaluation of LLMs`.
 - 스모크 2편은 `--subsection_len`을 주지 않아 파서 기본값 700이 쓰였습니다.
@@ -445,7 +448,9 @@ python main.py \
 | `deepseek-v4-pro/` | — | — | $3.39 | *(미기록)* |
 | `deepseek-v4-flash-smoke/` | 837K | 194K | $0.166 | **8분 21초** |
 | `deepseek-v4-flash/` (A) | 2.30M | 228K | $0.376 | **9분 32초** |
-| **`deepseek-v4-flash-newdb/`** (B) | **2.54M** | **272K** | **$0.420** | **약 20분** |
+| **`deepseek-v4-flash-newdb/`** RAG | **2.54M** | **272K** | **$0.420** | **약 20분** |
+| **`deepseek-v4-flash-newdb/`** 3D Gaussian Splatting | 2.77M | 291K | **$0.456** | **17분 24초** |
+| **`deepseek-v4-flash-newdb/`** LLM-based Multi-Agent | 1.73M | 190K | **$0.286** | **20분 19초** |
 
 **v4-flash 단계별 청구** (provider 핀이 걸려 있어 단가표와 소수점까지 맞습니다):
 
@@ -453,7 +458,9 @@ python main.py \
 |---|---|---|---|---|
 | 스모크 | $0.0221 | $0.1443 | $0.166 | 5회 |
 | 본편 A | $0.0759 | $0.3003 | $0.376 | 4회 |
-| **본편 B** | $0.0762 | $0.3433 | **$0.420** | 3회 |
+| **본편 B** RAG | $0.0762 | $0.3433 | **$0.420** | 3회 |
+| **본편 B** 3DGS | $0.0795 | $0.3760 | **$0.456** | 2회 |
+| **본편 B** Multi-Agent | $0.0685 | $0.2173 | **$0.286** | 5회 |
 
 - **비용은 분량이 아니라 입력이 정합니다.** 스모크와 본편 A 는 단어 수가 9% 차이인데
   비용은 2.3배입니다 — 입력이 2.7배(`rag_num` 15→60, `outline_reference_num` 200→1200)

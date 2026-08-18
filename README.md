@@ -15,7 +15,7 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 | [`SETTING.md`](SETTING.md) | 세팅 **절차**와 각 패치의 근거 |
 | [`output/README.md`](output/README.md) | 산출물의 결과 수치와 비교 시 주의점 |
 | [`.env.example`](.env.example) | 환경변수 템플릿 — `cp .env.example .env` 후 키만 채우면 됩니다 |
-| [`tests/`](tests/) | `python -m unittest discover -s tests -t .` — 66개, 0.2초. 네트워크·GPU 불필요 |
+| [`tests/`](tests/) | `python -m unittest discover -s tests -t .` — 78개, 0.3초. 네트워크·GPU 불필요 |
 
 > 세 프로젝트(AutoSci·AutoSurvey·SurveyForge) 비교와 **시스템 간 통제 프로토콜**은
 > 이 저장소 밖 `../SURVEY_REPORT.md`에 있습니다(§7). git 추적 대상이 아닙니다.
@@ -49,12 +49,12 @@ AutoSurvey/
 │   ├── haiku/                  본편 3편
 │   ├── deepseek-v4-pro/        본편 1편
 │   ├── deepseek-v4-flash/      본편 — 새 백본
-│   ├── deepseek-v4-flash-newdb/  본편 — 새 백본 × 최신화 DB
+│   ├── deepseek-v4-flash-newdb/  본편 3편 — 새 백본 × 최신화 DB
 │   ├── haiku-smoke/            파이프라인 점검용
 │   ├── deepseek-smoke/         파이프라인 점검용
 │   └── deepseek-v4-flash-smoke/  파이프라인 점검용 + 분량 계수 측정
 ├── examples/                원저자들이 생성한 서베이 3편 (대조용)
-├── tests/                   unittest 66개, 0.2초. 네트워크·GPU 불필요
+├── tests/                   unittest 78개, 0.3초. 네트워크·GPU 불필요
 ├── .env.example             환경변수 템플릿 (커밋됨)
 └── .env                     API 키 등 — git에 없음, 권한 600
 ```
@@ -85,7 +85,8 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 
 - 임베딩은 `nomic-ai/nomic-embed-text-v1`. **바꾸면 인덱스 전체가 무효**가 되고
   에러 없이 엉뚱한 논문이 검색됩니다.
-- **`output/`의 서베이 8편은 전부 배포본으로 만들어졌습니다.** 재현하려면 배포본을 쓰세요.
+- **`output/` 의 11편 중 8편은 배포본, 3편(`deepseek-v4-flash-newdb/`)은 최신화본입니다.**
+  기존 8편을 재현하려면 배포본을 쓰세요.
 - 최신화본은 배포본을 **읽기만 하고** 만들었고, `IndexFlatL2` append가 기존 행 번호를
   보존하므로 **배포본은 최신화본의 prefix**입니다. 만든 과정은 §3.
 
@@ -93,37 +94,45 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 
 ## 2. 결과 요약
 
-**서베이 9편 생성 완료** — 본편 6편 + 파이프라인 점검용 스모크 3편.
-토픽당 `.md` / `.json` / `.tex` 3개가 나옵니다.
+**서베이 11편 생성 완료** — 본편 8편 + 파이프라인 점검용 스모크 3편.
+토픽당 `.md` / `.json` / `.tex` / `.pdf` 가 나옵니다.
 
-| 디렉터리 / 토픽 | 모델 | **DB** | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | **쪽** | 비용 |
-|---|---|---|---|---|---|---|---|---|
-| `haiku-smoke/` In-context Learning | claude-3-haiku | 배포본 | 5 / 18 | 11,546 | 107 | 151 | 26 | $0.15 |
-| `haiku/` In-context Learning | claude-3-haiku | 배포본 | 9 / 51 | 32,176 | 383 | 465 | 74 | $0.78 |
-| `haiku/` Large Multi-Modal Language Models | claude-3-haiku | 배포본 | 8 / 48 | 30,709 | 378 | 467 | 72 | $0.75 |
-| `haiku/` Evaluation of LLMs | claude-3-haiku | 배포본 | 8 / 48 | 30,439 | 368 | 425 | 71 | $0.75 |
-| `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 배포본 | 5 / 32 | 33,234 | 190 | 281 | 67 | $1.35 |
-| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 배포본 | 14 / 117 | 92,707 | 644 | 884 | **184** | $3.39 |
-| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 배포본 | 5 / 37 | 44,803 | 268 | 486 | 93 | $0.17 |
-| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | 배포본 | **10 / 39** | **49,002** | **476** | **674** | **111** | **$0.38** |
-| **`deepseek-v4-flash-newdb/` RAG for LLMs** | **v4-flash-0731** | **최신화본** | **11 / 44** | **56,273** | **632** | **894** | **137** | **$0.42** |
-| **`deepseek-v4-flash-newdb/` 3D Gaussian Splatting** | **v4-flash-0731** | **최신화본** | **12 / 48** | **59,980** | **804** | **985** | **153** | **$0.46** |
+### 본편 8편
 
-> **`deepseek-v4-flash-newdb/` 가 최신화본으로 만든 첫 산출물입니다 (2026-08-18).**
-> 인용의 **89.1%가 2024-07 이후** — 배포본에는 존재조차 하지 않던 논문입니다.
-> 나머지 8편은 전부 배포본이고, 참고문헌 2,814편 중 2024-04-26 이후가 하나도 없습니다.
-> 같은 토픽 A/B 통제 비교는 [`output/README.md`](output/README.md).
+| 디렉터리 / 토픽 | 모델 | DB | 섹션/서브 | 단어 | 참고문헌 | 쪽 | 비용 |
+|---|---|---|---|---|---|---|---|
+| `haiku/` In-context Learning | claude-3-haiku | 배포본 | 9 / 51 | 28,161 | 383 | 74 | $0.78 |
+| `haiku/` Large Multi-Modal LM | claude-3-haiku | 배포본 | 8 / 48 | 26,410 | 378 | 72 | $0.75 |
+| `haiku/` Evaluation of LLMs | claude-3-haiku | 배포본 | 8 / 48 | 26,294 | 368 | 71 | $0.75 |
+| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 배포본 | 10 / 72 | 86,121 | 644 | **184** | $3.39 |
+| `deepseek-v4-flash/` RAG for LLMs | v4-flash-0731 | 배포본 | 10 / 39 | 49,002 | 476 | 111 | $0.376 |
+| **`deepseek-v4-flash-newdb/` RAG for LLMs** | v4-flash-0731 | **최신화본** | 11 / 44 | 56,273 | 632 | 137 | $0.420 |
+| **`deepseek-v4-flash-newdb/` 3D Gaussian Splatting** | v4-flash-0731 | **최신화본** | 12 / 48 | 59,980 | 804 | 153 | $0.456 |
+| **`deepseek-v4-flash-newdb/` LLM-based Multi-Agent** | v4-flash-0731 | **최신화본** | 7 / 28 | 40,599 | 486 | 103 | $0.286 |
 
-**쪽수는 실측입니다** — `.tex` 를 pdflatex 으로 컴파일해 `pdfinfo` 로 셌습니다
-(2026-08-18, 8편 전부 에러 0 / 미해결 인용 0). 컴파일 절차는 §6.
+<sub>**기준 (2026-08-18 통일)**: 섹션·서브섹션은 번호 중복 헤딩 제거 후, 단어는 인용
+표기 `[1; 2]` 제외, 쪽수는 pdflatex 컴파일 후 `pdfinfo` 실측(목차·참고문헌 포함).
+스모크 3편과 각 편의 해석 주의점은 [`output/README.md`](output/README.md).</sub>
 
-9편 전부 `scripts/check_survey.py` 통과(댕글링 인용 0, json 매핑 일치).
-결과 해석 시 주의점은 [`output/README.md`](output/README.md)에 있습니다 —
-특히 **haiku 3편끼리만 통제된 비교**입니다.
+**11편 전부 `scripts/check_survey.py` 통과**(댕글링 인용 0, json 매핑 일치)이고
+**전부 PDF 로 컴파일됩니다**(에러 0, 미해결 인용 0). 컴파일 절차는 §6.
 
-> **섹션·서브섹션 수는 `.tex` 기준이 정본입니다.** `.md`의 `##`/`###`를 그대로 세면
-> 모델이 본문 안에 다시 쓴 제목(중복)과 스스로 추가한 하위 헤딩이 함께 잡혀 부풀려집니다.
-> v4-flash 본편은 `.md` 51개 → **중복 6개 제거 후 39개**, 스모크는 42개 → **37개**입니다.
+> **최신화본으로 만든 산출물 3편이 생겼습니다 (2026-08-18).**
+> 세 토픽 모두 인용의 **82~92% 가 2024-07 이후** — 배포본에는 존재조차 하지 않던
+> 논문입니다. 나머지 8편은 배포본이고 그 비율이 전부 0.0% 입니다.
+> 같은 토픽 A/B 통제 비교와 토픽별 상세는 [`output/README.md`](output/README.md).
+
+**통제 실험에서 확인된 것** (v4-flash 본편 4편, 파라미터 동일 · 토픽과 DB 만 다름):
+
+| 인자 | 결과 |
+|---|---|
+| `--subsection_num 4` | ✅ **정확히 지켜짐** — 네 편 모두 섹션당 3.9~4.0 |
+| `--section_num 8` | ❌ **7~12 로 흔들림.** 초과도 미달도 하며 방향이 예측되지 않음 |
+| 분량 계수 | ✅ **1.79 / 1.83 / 1.79 / 2.07 로 안정적** — 토픽·DB 가 바뀌어도 거의 같음 |
+| 참고문헌 수 | ⚠ **486~804편.** 인간 서베이(173~271)의 **2.8~3.3배**, 가드 400 초과 |
+
+**분량이 40,599~59,980단어(103~153쪽)로 벌어지는 주된 원인은 `--section_num` 입니다.**
+서브섹션 개수와 길이는 통제되는데 섹션 수가 안 잡힙니다.
 
 ### 새 백본 실행 기록 — `deepseek-v4-flash-0731` (2026-08-05)
 
@@ -173,14 +182,15 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 | 참고문헌 | ⚠ **476편** — 가드(400)를 넘었습니다 (인간 RAG 서베이는 191편) |
 
 **`--subsection_num`은 작동하지만 `--section_num`은 아닙니다.** 자유도가 둘인데 우리 패치가
-잡은 건 하나입니다. **네 실행 모두 초과했고 배율은 1.25~1.5배로 일정하지 않습니다.**
+잡은 건 하나입니다. **초과만 하는 게 아니라 미달도 합니다 — 방향조차 예측되지 않습니다.**
 
 | 실행 | 지시 | 실제 | 배율 |
 |---|---|---|---|
 | v4-flash 스모크 | 4 | 5 | 1.25× |
 | 본편 A (RAG, 배포본) | 8 | 10 | 1.25× |
 | 본편 B (RAG, 최신화본) | 8 | 11 | 1.38× |
-| 본편 B (3DGS, 최신화본) | 8 | **12** | **1.50×** |
+| 본편 B (3DGS, 최신화본) | 8 | 12 | **1.50×** |
+| 본편 B (Multi-Agent) | 8 | **7** | **0.88× (미달)** |
 
 그래서 **개수를 묶었는데 총 서브섹션은 거의 그대로였습니다**: 스모크 5×7.4=37 →
 본편 10×3.9=39. 섹션이 두 배로 늘어 서브섹션 상한을 상쇄했습니다. 분량 예측을
@@ -554,7 +564,7 @@ deepseek-v4-pro **92,707단어 = 실측 184p (비대, 경고)**.
 **계수 실측 완료 (2026-08-05): 1.76×** — 두 실행에서 1.73 / 1.79. 실행 기록은 §2.
 
 **예측식에 섹션 초과를 넣어야 맞습니다.** `--section_num`이 지켜지지 않고 두 실행 모두
-**1.25~1.5배** 초과했습니다:
+**0.88~1.5배**로 흔들립니다 — 초과도 하고 미달도 합니다:
 
 | 실행 | 지시 | 실제 | 배율 |
 |---|---|---|---|
@@ -564,7 +574,7 @@ deepseek-v4-pro **92,707단어 = 실측 184p (비대, 경고)**.
 | 본편 B (3DGS, 최신화본) | 8 | **12** | **1.50×** |
 
 ```
-총 분량 = (section_num × 1.25~1.5) × subsection_num × (subsection_len × 1.8)
+총 분량 = section_num × (0.9~1.5) × subsection_num × (subsection_len × 1.8)
 ```
 
 검산: 실제 섹션 수를 알면 잘 맞습니다 —
