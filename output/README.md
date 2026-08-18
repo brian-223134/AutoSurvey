@@ -17,8 +17,25 @@
 | `haiku/` Evaluation of LLMs | haiku | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
 | `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 5 / 32 | 33,234 | 190 | 281 | $1.35 |
 | `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 14 / 117 | 92,707 | 644 | 884 | $3.39 |
+| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 5 / 37 | 44,803 | 268 | 486 | $0.17 |
+| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | **10 / 39** | **49,002** | **476** | **674** | **$0.38** |
 
-`scripts/check_survey.py` 기준입니다(6편 전부 통과 — 댕글링 인용 0, json 매핑 일치).
+`scripts/check_survey.py` 기준입니다(8편 전부 통과 — 댕글링 인용 0, json 매핑 일치).
+v4-flash 두 편의 섹션/서브섹션은 **중복 헤딩 제거 후** 기준이고, 단어 수는 인용 표기를
+뺀 값입니다(`check_survey.py` 원 출력은 각각 42/51 서브섹션, 47,666/54,004 단어).
+
+**인용 커버리지 채점 결과 (2026-08-18)** — RAG 토픽만. 상세는 `../docs/evaluation-note.md`.
+
+| 산출물 | 인용 | 적중 | coverage(정밀도) | 재현율 |
+|---|---|---|---|---|
+| 인간 작성 | 191 | 103 | **0.539** | **0.169** |
+| SurveyForge (저자) | 85 | 37 | 0.435 | 0.061 |
+| `deepseek-v4-flash/` | 476 | 48 | **0.101** | 0.079 |
+| `deepseek-v4-flash-smoke/` | 268 | 22 | 0.082 | 0.036 |
+
+> **coverage 는 정밀도라 많이 인용할수록 내려갑니다.** 재현율로는 SurveyForge 보다
+> 높습니다. 참고문헌 476편 중 제목에 검색/RAG 관련어가 있는 건 28% 뿐이고, 벗어난
+> 것들이 hallucination 에 몰려 있습니다 — 검색이 인접 주제로 샜습니다.
 
 > ⚠ **deepseek 편의 섹션 수는 이 표 기준으로는 부풀려져 있습니다.**
 > `check_survey.py`는 `.md`의 `##` / `###` 를 그대로 세는데, deepseek는
