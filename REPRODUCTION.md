@@ -290,14 +290,20 @@ source .env      # export 형식으로 작성돼 있음
 | `deepseek-v4-pro/` | `deepseek/deepseek-v4-pro` | 배포본 | 8 | — | 700 | **30** | 1200 | **OFF** |
 | `deepseek-v4-flash-smoke/` | `deepseek/deepseek-v4-flash-0731` | 배포본 | 4 | — | 700 *(기본값)* | 15 | 200 | **OFF** |
 | `deepseek-v4-flash/` (본편 A) | `deepseek/deepseek-v4-flash-0731` | 배포본 | 8 | **4** | 700 | 60 | 1200 | **OFF** |
-| **`deepseek-v4-flash-newdb/`** (본편 B) | `deepseek/deepseek-v4-flash-0731` | **최신화본** | 8 | **4** | 700 | 60 | 1200 | **OFF** |
+| **`deepseek-v4-flash-newdb/`** (본편 B, **3편**) | `deepseek/deepseek-v4-flash-0731` | **최신화본** | 8 | **4** | 700 | 60 | 1200 | **OFF** |
 
-> **본편 A 와 B 는 `--db_path` 하나만 다릅니다.** DB 최신화의 효과를 보려고
-> 나머지 인자·모델·provider·스레드 수를 전부 맞췄습니다. 토픽도 같습니다
+> **본편 A 와 B 는 생성 파라미터가 같고 `--db_path` 만 다릅니다.** 토픽도 같습니다
 > (`Retrieval-Augmented Generation for Large Language Models`, SurveyBench 문자열).
-> `--subsection_num` 은 v4-flash 본편 두 편에만 걸려 있습니다 — 나머지는 원본 동작
-> (`several`)입니다.
+> `--subsection_num` 은 v4-flash 본편에만 걸려 있습니다 — 나머지는 원본 동작(`several`)입니다.
+>
+> **다만 동시 요청 수는 다릅니다** — A 는 16, B 는 8 입니다(아래 환경변수 표).
+> B 의 첫 시도가 429 로 재시도를 소진해 서브섹션이 사라지는 크래시를 냈고, 낮춰서
+> 다시 돌렸습니다. **산출물 내용에는 영향이 없고 소요 시간만 달라집니다** — 동시성은
+> 어떤 프롬프트가 나가는지를 바꾸지 않습니다. 이 크래시를 계기로 고친 것은 §4 참조.
 
+- `deepseek-v4-flash-newdb/` 3편도 `--topic` 만 다릅니다: `Retrieval-Augmented Generation
+  for Large Language Models`, `3D Gaussian Splatting`, `LLM-based Multi-Agent`
+  (전부 SurveyBench 토픽 문자열 그대로).
 - `haiku/` 3편은 `--topic`만 다릅니다: `In-context Learning`,
   `Large Multi-Modal Language Models`, `Evaluation of LLMs`.
 - 스모크 2편은 `--subsection_len`을 주지 않아 파서 기본값 700이 쓰였습니다.
@@ -306,8 +312,26 @@ source .env      # export 형식으로 작성돼 있음
 - haiku는 추론 모델이 아니라 추론 설정이 결과에 영향을 주지 않습니다.
 - `deepseek-v4-flash-0731` 실행 3편은 **엔드포인트를 `parasail/fp8` 로 고정**했습니다
   (`AUTOSURVEY_PROVIDER`). 고정하지 않으면 서브섹션마다 다른 quantization 이 씁니다.
-- v4-flash 본편 두 편은 `AUTOSURVEY_MAX_THREADS=2` 입니다 (8섹션 × 2 = 동시 16).
-  스모크는 4 입니다 (4섹션 × 4 = 동시 16). **동시 요청 수를 16으로 맞춘 것**입니다.
+
+**환경변수 — 산출물별** (`.env` 기본값을 실행 시 덮어쓴 것)
+
+| 산출물 | `AUTOSURVEY_PROVIDER` | `REASONING` | `MAX_THREADS` | 동시 요청 | `MAX_RETRY` |
+|---|---|---|---|---|---|
+| `haiku*` | 없음 | 해당없음 | 15 *(기본)* | — | 5 *(당시 고정)* |
+| `deepseek-smoke/` | 없음 | **ON** | 15 *(기본)* | — | 5 *(당시 고정)* |
+| `deepseek-v4-pro/` | 없음 | OFF | 15 *(기본)* | — | 5 *(당시 고정)* |
+| `deepseek-v4-flash-smoke/` | `parasail/fp8` | OFF | **4** | 4섹션×4 = **16** | 5 *(당시 고정)* |
+| `deepseek-v4-flash/` (A) | `parasail/fp8` | OFF | **2** | 8섹션×2 = **16** | 5 *(당시 고정)* |
+| **`deepseek-v4-flash-newdb/`** (B) | `parasail/fp8` | OFF | **1** | 8섹션×1 = **8** | **10** |
+
+> **`AUTOSURVEY_MAX_THREADS` 는 batch_chat 내부의 스레드 수입니다.** writer 가 섹션당
+> 스레드를 하나씩 띄우므로 **실제 동시 요청은 `section_num × MAX_THREADS`** 입니다.
+> 이 곱이 provider 레이트리밋을 정하므로, 섹션 수를 바꾸면 스레드도 같이 조정해야 합니다.
+
+> **`AUTOSURVEY_MAX_RETRY` 는 2026-08-18 에 생긴 값입니다**(그 전 실행은 코드 고정 5회).
+> 같은 날 백오프에 지터를 넣었습니다 — 없을 때는 동시 요청이 같은 순간에 함께 재시도해
+> 레이트리밋을 계속 다시 맞았습니다. **그 전 산출물을 재현할 때는 이 차이를 감안하세요**
+> (프롬프트는 같으므로 내용에는 영향이 없고, 실패율과 소요 시간이 달라집니다).
 
 **모든 실행 공통:**
 
@@ -321,10 +345,11 @@ source .env      # export 형식으로 작성돼 있음
 
 | 값 | 위치 |
 |---|---|
-| `temperature=1` (아웃라인·본문) | `outline_writer.py:147,184,243` / `writer.py:133,141,201` |
-| 러프 아웃라인 청크 30,000 토큰 | `main.py:36` |
-| 재시도 최대 5회 | `model.py:44` |
-| `refinement=True` | `main.py:132` — `write_subsection` 기본값 |
+| `temperature=1` (아웃라인·본문) | `outline_writer.py:150,187,247,292` / `writer.py:133,141` |
+| 러프 아웃라인 청크 30,000 토큰 | `main.py:38` |
+| 재시도 한도 (기본 8) | `model.py:12` — **`AUTOSURVEY_MAX_RETRY` 로 조정 가능** |
+| 429 백오프 15초 기준 · 최대 120초 · 지터 0.75~1.25배 | `model.py:127-133` |
+| `refinement=True` | `main.py:21,24` — `write()` 기본값 |
 
 ### 5-3. 실행 명령 — 실제로 돌린 것
 
@@ -366,6 +391,49 @@ python main.py \
 > `deepseek-smoke/`는 **두 번째 시도 결과**입니다. 첫 시도는 아웃라인 파서가
 > `IndexError`로 죽었고(`8bfbc43`), 파서를 고친 뒤 다시 돌렸습니다.
 
+**v4-flash 본편 A** (배포본, 2026-08-05):
+
+```bash
+source .env
+export AUTOSURVEY_MAX_THREADS=2          # 8섹션 × 2 = 동시 16
+python main.py \
+  --topic "Retrieval-Augmented Generation for Large Language Models" \
+  --saving_path ./output/deepseek-v4-flash/ \
+  --db_path ./database \
+  --embedding_model nomic-ai/nomic-embed-text-v1 \
+  --model deepseek/deepseek-v4-flash-0731 \
+  --api_url https://openrouter.ai/api/v1/chat/completions \
+  --section_num 8 --subsection_len 700 --rag_num 60 \
+  --outline_reference_num 1200 --subsection_num 4
+```
+
+**v4-flash 본편 B** (최신화본, 2026-08-18) — 위에서 **`--db_path` 와 `--saving_path`
+두 줄만** 바뀝니다. 동시 요청은 16 → 8 로 낮췄습니다:
+
+```bash
+source .env
+export AUTOSURVEY_MAX_THREADS=1          # 8섹션 × 1 = 동시 8
+export AUTOSURVEY_MAX_RETRY=10
+python main.py \
+  --topic "Retrieval-Augmented Generation for Large Language Models" \
+  --saving_path ./output/deepseek-v4-flash-newdb/ \
+  --db_path ./database_2026-08 \
+  --embedding_model nomic-ai/nomic-embed-text-v1 \
+  --model deepseek/deepseek-v4-flash-0731 \
+  --api_url https://openrouter.ai/api/v1/chat/completions \
+  --section_num 8 --subsection_len 700 --rag_num 60 \
+  --outline_reference_num 1200 --subsection_num 4
+```
+
+> **B 는 두 번째 시도 결과입니다.** 첫 시도(동시 16)는 429 가 재시도 5회를 소진해
+> `__req` 가 `None` 을 돌려줬고, 그 `None` 이 토큰 카운터에서 `TypeError` 를 냈습니다.
+> 죽은 곳이 워커 스레드라 본 실행은 계속됐고 **결과는 서브섹션이 통째로 빈 서베이**가
+> 될 상황이었습니다. 중단하고 백오프에 지터를 넣은 뒤(`47ac210`) 동시성을 낮춰
+> 다시 돌렸습니다. 재실행은 재시도 3회, 최종 실패 0 건입니다.
+
+> **`.env` 의 `AUTOSURVEY_MAX_THREADS` 는 4 입니다.** 위 `export` 는 그것을 덮어씁니다.
+> 빼먹으면 8섹션 × 4 = 동시 32 가 되어 레이트리밋에 바로 걸립니다.
+
 ---
 
 ## 6. 비용 · 토큰 실측
@@ -378,6 +446,30 @@ python main.py \
 | `haiku/` Evaluation of LLMs | 2.29M | 138K | $0.75 | 6~8분 |
 | `deepseek-smoke/` | — | — | $1.35 | *(미기록)* |
 | `deepseek-v4-pro/` | — | — | $3.39 | *(미기록)* |
+| `deepseek-v4-flash-smoke/` | 837K | 194K | $0.166 | **8분 21초** |
+| `deepseek-v4-flash/` (A) | 2.30M | 228K | $0.376 | **9분 32초** |
+| **`deepseek-v4-flash-newdb/`** RAG | **2.54M** | **272K** | **$0.420** | **약 20분** |
+| **`deepseek-v4-flash-newdb/`** 3D Gaussian Splatting | 2.77M | 291K | **$0.456** | **17분 24초** |
+| **`deepseek-v4-flash-newdb/`** LLM-based Multi-Agent | 1.73M | 190K | **$0.286** | **20분 19초** |
+
+**v4-flash 단계별 청구** (provider 핀이 걸려 있어 단가표와 소수점까지 맞습니다):
+
+| | outline | writer | 합계 | 재시도 |
+|---|---|---|---|---|
+| 스모크 | $0.0221 | $0.1443 | $0.166 | 5회 |
+| 본편 A | $0.0759 | $0.3003 | $0.376 | 4회 |
+| **본편 B** RAG | $0.0762 | $0.3433 | **$0.420** | 3회 |
+| **본편 B** 3DGS | $0.0795 | $0.3760 | **$0.456** | 2회 |
+| **본편 B** Multi-Agent | $0.0685 | $0.2173 | **$0.286** | 5회 |
+
+- **비용은 분량이 아니라 입력이 정합니다.** 스모크와 본편 A 는 단어 수가 9% 차이인데
+  비용은 2.3배입니다 — 입력이 2.7배(`rag_num` 15→60, `outline_reference_num` 200→1200)
+  이기 때문이고 **비용의 85%가 입력**입니다.
+- **소요는 동시성이 정합니다.** A(동시 16) 9분 32초 → B(동시 8) 약 20분. 비용은 12%만
+  늘었는데 시간이 2배입니다. 토큰량이 아니라 동시 요청 수가 실행 시간을 지배합니다.
+- **B 가 A 보다 비싼 것은 DB 때문이 아닙니다.** 검색 대상이 늘어도 LLM 에 넣는 양
+  (`rag_num 60`, `outline_reference_num 1200`)은 같습니다. 아웃라인이 더 많은 섹션을
+  뽑아(8→11) 본문 호출이 늘어난 것이 차이입니다.
 
 - deepseek 편의 토큰 총계는 실행 로그에 남지 않았습니다. 비용 내역만 확인됩니다
   (본편: 아웃라인 $0.55 + 본문 $2.84).

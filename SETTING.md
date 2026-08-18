@@ -339,7 +339,8 @@ section_references_ids = [[]] * len(sections)
 ```bash
 # deepseek-v4-flash-0731 (계수 1.76x 실측)
 # --section_num 은 지켜지지 않는다. 두 실행 모두 1.25배 초과(4->5, 8->10).
-# 총 분량 = (section_num x 1.25) x subsection_num x (subsection_len x 1.76)
+# 총 분량 = section_num x (0.9~1.5) x subsection_num x (subsection_len x 1.8)
+# section_num 은 초과도 미달도 한다(8 -> 7~12). 상한은 1.5 로 보수적으로.
 python main.py ... --section_num 6 --subsection_num 3 --subsection_len 700   # ~27,700단어
 python main.py ... --section_num 8 --subsection_num 4 --subsection_len 700   # 49,002단어 (실측)
 ```
