@@ -23,3 +23,12 @@ output/surveybench_ref/
 # 로컬 설정 — API 키가 들어가므로 절대 커밋 금지
 .env
 *.local.sh
+
+# LaTeX 빌드 산출물
+*.aux
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.toc
+*.synctex.gz
