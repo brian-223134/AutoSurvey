@@ -9,16 +9,31 @@
 
 ## 결과
 
-| 디렉터리 / 토픽 | 모델 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
-|---|---|---|---|---|---|---|
-| `haiku-smoke/` In-context Learning | haiku | 5 / 18 | 11,546 | 107 | 151 | $0.15 |
-| `haiku/` In-context Learning | haiku | 9 / 51 | 32,176 | 383 | 465 | $0.78 |
-| `haiku/` Large Multi-Modal Language Models | haiku | 8 / 48 | 30,709 | 378 | 467 | $0.75 |
-| `haiku/` Evaluation of LLMs | haiku | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
-| `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 5 / 32 | 33,234 | 190 | 281 | $1.35 |
-| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 14 / 117 | 92,707 | 644 | 884 | $3.39 |
-| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 5 / 37 | 44,803 | 268 | 486 | $0.17 |
-| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | **10 / 39** | **49,002** | **476** | **674** | **$0.38** |
+| 디렉터리 / 토픽 | 모델 | **DB** | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | **쪽** | 비용 |
+|---|---|---|---|---|---|---|---|---|
+| `haiku-smoke/` In-context Learning | haiku | 배포본 | 5 / 18 | 11,546 | 107 | 151 | 26 | $0.15 |
+| `haiku/` In-context Learning | haiku | 배포본 | 9 / 51 | 32,176 | 383 | 465 | 74 | $0.78 |
+| `haiku/` Large Multi-Modal Language Models | haiku | 배포본 | 8 / 48 | 30,709 | 378 | 467 | 72 | $0.75 |
+| `haiku/` Evaluation of LLMs | haiku | 배포본 | 8 / 48 | 30,439 | 368 | 425 | 71 | $0.75 |
+| `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 배포본 | 5 / 32 | 33,234 | 190 | 281 | 67 | $1.35 |
+| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 배포본 | 14 / 117 | 92,707 | 644 | 884 | **184** | $3.39 |
+| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 배포본 | 5 / 37 | 44,803 | 268 | 486 | 93 | $0.17 |
+| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | 배포본 | **10 / 39** | **49,002** | **476** | **674** | **111** | **$0.38** |
+
+> **⚠ 8편 전부 배포본(~2024-04-26)으로 만들어졌습니다. 최신화본으로 만든 서베이는
+> 아직 0편입니다.** 문서를 믿지 않고 산출물에서 직접 확인했습니다 — 8편의 참고문헌
+> 2,814편 중 **2024-04-26 이후 논문이 하나도 없습니다.** 네 편은 정확히 배포본의
+> 마지막 날짜(2024-04-26) 논문을 인용하고 있습니다.
+> DB 최신화(`../README.md` §3)는 끝났지만 **아직 생성에 쓰이지 않았습니다.**
+>
+> ```bash
+> # 확인 방법 — reference_detail 의 date 를 본다
+> python -c "import json,glob;[print(f, max(v['date'][:10] for v in json.load(open(f))['reference_detail'].values())) for f in glob.glob('output/*/*.json')]"
+> ```
+
+**쪽수는 실측입니다** — `.tex` 를 pdflatex 으로 컴파일해 `pdfinfo` 로 셌습니다
+(2026-08-18, 8편 전부 에러 0 / 미해결 인용 0). 우리 템플릿은 **약 457단어/쪽**이고
+목차·참고문헌이 포함됩니다. 컴파일 절차는 `../README.md` §6.
 
 `scripts/check_survey.py` 기준입니다(8편 전부 통과 — 댕글링 인용 0, json 매핑 일치).
 v4-flash 두 편의 섹션/서브섹션은 **중복 헤딩 제거 후** 기준이고, 단어 수는 인용 표기를

@@ -32,3 +32,6 @@ output/surveybench_ref/
 *.out
 *.toc
 *.synctex.gz
+
+# 컴파일 산출물 PDF — .tex 에서 결정적으로 재생성된다 (README §6)
+output/**/*.pdf

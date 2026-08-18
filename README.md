@@ -95,16 +95,25 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 **서베이 8편 생성 완료** — 본편 5편 + 파이프라인 점검용 스모크 3편.
 토픽당 `.md` / `.json` / `.tex` 3개가 나옵니다.
 
-| 디렉터리 / 토픽 | 모델 | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | 비용 |
-|---|---|---|---|---|---|---|
-| `haiku-smoke/` In-context Learning | claude-3-haiku | 5 / 18 | 11,546 | 107 | 151 | $0.15 |
-| `haiku/` In-context Learning | claude-3-haiku | 9 / 51 | 32,176 | 383 | 465 | $0.78 |
-| `haiku/` Large Multi-Modal Language Models | claude-3-haiku | 8 / 48 | 30,709 | 378 | 467 | $0.75 |
-| `haiku/` Evaluation of LLMs | claude-3-haiku | 8 / 48 | 30,439 | 368 | 425 | $0.75 |
-| `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 5 / 32 | 33,234 | 190 | 281 | $1.35 |
-| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 14 / 117 | 92,707 | 644 | 884 | $3.39 |
-| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 5 / 37 | 44,803 | 268 | 486 | $0.17 |
-| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | **10 / 39** | **49,002** | **476** | **674** | **$0.38** |
+| 디렉터리 / 토픽 | 모델 | **DB** | 섹션/서브섹션 | 단어 | 참고문헌 | 인용 | **쪽** | 비용 |
+|---|---|---|---|---|---|---|---|---|
+| `haiku-smoke/` In-context Learning | claude-3-haiku | 배포본 | 5 / 18 | 11,546 | 107 | 151 | 26 | $0.15 |
+| `haiku/` In-context Learning | claude-3-haiku | 배포본 | 9 / 51 | 32,176 | 383 | 465 | 74 | $0.78 |
+| `haiku/` Large Multi-Modal Language Models | claude-3-haiku | 배포본 | 8 / 48 | 30,709 | 378 | 467 | 72 | $0.75 |
+| `haiku/` Evaluation of LLMs | claude-3-haiku | 배포본 | 8 / 48 | 30,439 | 368 | 425 | 71 | $0.75 |
+| `deepseek-smoke/` In-context Learning | deepseek-v4-pro | 배포본 | 5 / 32 | 33,234 | 190 | 281 | 67 | $1.35 |
+| `deepseek-v4-pro/` In-context Learning | deepseek-v4-pro | 배포본 | 14 / 117 | 92,707 | 644 | 884 | **184** | $3.39 |
+| `deepseek-v4-flash-smoke/` RAG for LLMs | v4-flash-0731 | 배포본 | 5 / 37 | 44,803 | 268 | 486 | 93 | $0.17 |
+| **`deepseek-v4-flash/` RAG for LLMs** | **v4-flash-0731** | 배포본 | **10 / 39** | **49,002** | **476** | **674** | **111** | **$0.38** |
+
+> **⚠ 8편 전부 배포본(~2024-04-26)으로 만들어졌습니다. 최신화본으로 만든 서베이는
+> 아직 0편입니다.** 문서를 믿지 않고 산출물에서 직접 확인한 결과입니다 — 8편의 참고문헌
+> **2,814편 중 2024-04-26 이후 논문이 하나도 없습니다.** 네 편은 정확히 배포본의
+> 마지막 날짜(2024-04-26) 논문을 인용합니다. DB 최신화(§3)는 끝났지만
+> **아직 생성에 쓰이지 않았습니다.**
+
+**쪽수는 실측입니다** — `.tex` 를 pdflatex 으로 컴파일해 `pdfinfo` 로 셌습니다
+(2026-08-18, 8편 전부 에러 0 / 미해결 인용 0). 컴파일 절차는 §6.
 
 8편 전부 `scripts/check_survey.py` 통과(댕글링 인용 0, json 매핑 일치).
 결과 해석 시 주의점은 [`output/README.md`](output/README.md)에 있습니다 —
@@ -429,7 +438,7 @@ DB 갱신은 GPU와 네트워크만 쓰고 **LLM API를 전혀 쓰지 않아** �
 ### 4.1 문제
 
 같은 `--subsection_len 700`인데 모델에 따라 분량이 **3배** 벌어집니다.
-`deepseek-v4-pro` 편은 84,012단어 — **약 105페이지**로, 서베이라기보다 문서를 이어
+`deepseek-v4-pro` 편은 92,707단어 — **실측 184페이지**로, 서베이라기보다 문서를 이어
 붙인 것에 가깝습니다.
 
 전부 **중복 헤딩을 제거한** 기준입니다(`.tex` 변환이 하는 것과 같은 처리).
@@ -503,22 +512,29 @@ DB 갱신은 GPU와 네트워크만 쓰고 **LLM API를 전혀 쓰지 않아** �
 | SurveyForge 저자 산출물 29편 | 13,242~32,938 (20~39페이지) | — |
 | 인간 작성 서베이 10편 (SurveyBench) | — | **173~345** |
 
-저자 산출물 기준 **약 800단어/페이지**입니다.
+**페이지 환산은 우리 템플릿 실측 457단어/쪽을 씁니다** (2026-08-18, 8편 전부 pdflatex
+컴파일해 `pdfinfo` 로 셈. 427~504 범위). 예전에 적어 둔 800단어/쪽은 SurveyForge 저자
+PDF 기준이라 우리 `md_to_tex.py` 산출물(11pt, 1in 여백, 단일 단, 목차·참고문헌 포함)에는
+**1.75배 어긋납니다.**
 
 | 구간 | 단어 | 페이지 | 판정 |
 |---|---|---|---|
-| 짧음 | < 12,000 | < 15p | 경고 |
-| **표준** | 12,000~25,000 | 15~31p | ok |
-| **광범위** | 25,000~50,000 | 31~62p | ok — 주제가 넓으면 정당 |
-| 초과 | 50,000~80,000 | 62~100p | 경고 |
-| **비대** | > 80,000 | > 100p | **경고 — 서베이가 아니다** |
+| 짧음 | < 12,000 | < 26p | 경고 |
+| **표준** | 12,000~25,000 | 26~55p | ok |
+| **광범위** | 25,000~50,000 | 55~109p | ok — 주제가 넓으면 정당 |
+| 초과 | 50,000~80,000 | 109~175p | 경고 |
+| **비대** | > 80,000 | > 175p | **경고 — 서베이가 아니다** |
+
+<sub>페이지에는 목차와 참고문헌이 포함됩니다. 참고문헌이 476편이면 그것만으로 10쪽이
+넘으므로, 페이지 수는 본문 분량보다 항상 큽니다. 판정 기준은 **단어 수**입니다.</sub>
 
 **참고문헌 수는 분량과 독립된 신호입니다.** 인간 서베이가 173~345편인데 우리 haiku는
 368~383편으로 이미 상한을 넘었고 deepseek-v4-pro는 644편입니다. 644편을 인용한 문서는
 읽은 게 아니라 나열한 것입니다. **refs 400 초과면 경고.**
 
-현 산출물 판정: haiku 3편 25.5k~27.4k(광범위, ok) / deepseek-v4-pro **84,012단어 ≈ 105p
-(비대, 경고)**.
+현 산출물 판정: haiku 3편 30.4k~32.2k(광범위, ok, 실측 71~74p) /
+v4-flash 본편 49,002(광범위 상단, 실측 **111p**) /
+deepseek-v4-pro **92,707단어 = 실측 184p (비대, 경고)**.
 
 ### 4.5 다음 백본
 
@@ -539,11 +555,11 @@ DB 갱신은 GPU와 네트워크만 쓰고 **LLM API를 전혀 쓰지 않아** �
 
 | 설정 | 예상 분량 | 판정 |
 |---|---|---|
-| 통제 없음 | ~91,000 (114p) | **비대** |
-| `--subsection_num 4` — 길이 700 | **49,002 (61p, 실측)** | 광범위 |
-| `--subsection_num 3` | ~37,000 (46p) | 광범위 |
-| **`--section_num 6 --subsection_num 3`** | **~27,700 (35p)** | 표준 |
-| `--subsection_num 4 --subsection_len 350` | ~24,000 (30p) | 표준 |
+| 통제 없음 | ~91,000 (~199p) | **비대** |
+| `--subsection_num 4` — 길이 700 | **49,002 (실측 111p)** | 광범위 |
+| `--subsection_num 3` | ~37,000 (~81p) | 광범위 |
+| **`--section_num 6 --subsection_num 3`** | **~27,700 (~61p)** | 표준 |
+| `--subsection_num 4 --subsection_len 350` | ~24,000 (~53p) | 표준 |
 
 **개수를 먼저 줄이세요.** `--subsection_num`은 아웃라인 단계에서 주제를 병합·탈락시키므로
 남은 서브섹션의 밀도는 그대로입니다. `--subsection_len`을 내리면 **모든** 서브섹션이
@@ -586,7 +602,7 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 |---|---|
 | `scripts/check_survey.py` | 생성 결과 무결성 — 댕글링 인용 / json 매핑 / 포맷 누출. `--subsection-len=N --target-words=W`로 **분량 계수 캘리브레이션** |
 | `scripts/enrich_references.py` | `.json`에 arXiv 서지정보 채우기 (새 실행은 `main.py`가 자동 처리) |
-| `scripts/md_to_tex.py` | `.md` → Overleaf용 `.tex` |
+| `scripts/md_to_tex.py` | `.md` → `.tex` (Overleaf 업로드 / 서버 로컬 컴파일 둘 다 가능 — 아래) |
 
 **분석용**
 
@@ -619,6 +635,27 @@ python scripts/check_survey.py "output/v4-flash/Explainability for LLMs.md" --le
 
 > `--api_key`는 일부러 넘기지 않습니다. 이 서버는 `/proc`에 hidepid가 없어 다른 사용자가
 > `ps`로 명령줄을 읽을 수 있습니다. 키는 `.env`의 환경변수로 전달됩니다.
+
+### PDF로 뽑기 — 이 서버에서 됩니다
+
+Overleaf에 올리지 않아도 됩니다. **시스템에 MiKTeX 25.4가 깔려 있습니다**
+(`/usr/local/bin/pdflatex`).
+
+```bash
+python scripts/md_to_tex.py "output/deepseek-v4-flash/<토픽>.md"
+
+# 목차와 인용을 해결하려면 3회 돌려야 합니다 (aux 파일이 두 번 갱신됨)
+cd /tmp/build && cp "output/deepseek-v4-flash/<토픽>.tex" survey.tex
+for i in 1 2 3; do /usr/local/bin/pdflatex -interaction=nonstopmode survey.tex; done
+```
+
+> ⚠ **conda 의 `tex` 환경(`~/miniforge3/envs/tex/bin/pdflatex`)은 쓰지 마세요.**
+> 포맷 파일(`pdflatex.fmt`)이 없고 `mktexfmt` 가 깨져 있어 즉시 실패합니다.
+> `pandoc` 은 그 환경 것을 써도 됩니다 — `md_to_tex.py` 가 필요로 하는 건 pandoc 뿐입니다.
+
+**8편 전부 에러 0 / 미해결 인용 0 으로 컴파일됩니다** (2026-08-18 실측).
+빌드 산출물(`.aux` / `.log` / `.out` / `.toc`)은 `.gitignore` 에 있으니
+저장소 안에서 돌려도 되지만, 임시 디렉터리에서 돌리는 쪽이 깔끔합니다.
 
 ### 두 인자는 반드시 의식하고 고르세요
 

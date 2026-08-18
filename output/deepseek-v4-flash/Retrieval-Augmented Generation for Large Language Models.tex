@@ -1,12 +1,19 @@
 \documentclass[11pt]{article}
 
 \usepackage[utf8]{inputenc}
+% microtype 의 폰트 확장은 scalable 폰트를 요구한다. 기본 CM 이 비트맵(Type3)으로
+% 잡히는 배포판에서는 lmodern 없이는 "auto expansion is only possible with
+% scalable fonts" 로 컴파일이 죽는다.
+\usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{longtable,booktabs}
 \usepackage{microtype}
+% svgnames 를 줘야 teal 이 정의된다. 없으면 \cite 하나마다
+% "Undefined color `teal'" 이 뜬다 (본편 산출물에서 732회).
+\usepackage[svgnames]{xcolor}
 % hyperref goes last; it makes \cite clickable through to the bibliography.
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=teal,urlcolor=magenta]{hyperref}
 
@@ -166,7 +173,7 @@ In summary, the choice between black-box and fine-tuned systems is not a ``one-s
 
 The retrieval component constitutes the foundational pillar of Retrieval-Augmented Generation (RAG) systems, determining the quality and relevance of the external knowledge that conditions the generative model. However, as highlighted in the preceding discussion, the effectiveness of this component is intrinsically dependent on the quality of the query formulation. Even the most sophisticated retrieval architecture cannot compensate for a poorly articulated or ambiguous query, underscoring the symbiotic relationship between query understanding and the retrieval mechanisms explored herein. A comprehensive taxonomy of retrieval models is essential for understanding the landscape of possible approaches. This subsection systematically categorizes these models, contrasting sparse and dense families, and exploring hybrid and multi-vector strategies, while analyzing the inherent trade-offs that dictate their suitability for diverse contexts.
 
-The most traditional approach to retrieval involves sparse, lexical methods, with BM25 serving as the archetypal representative. These models operate on exact term matching between the query and the document, creating sparse vector representations where the dimensionality is defined by the vocabulary's size. The primary advantage of these methods lies in their efficiency and interpretability. They can be efficiently indexed and searched using inverted indexes with off-the-shelf systems, and their logic---based purely on term ``overlap'' and frequency---is straightforward to understand \cite{ref74}. However, their reliance on exact ``matching makes them particularly susceptible to the vocabulary mismatch problem'', where surfaces are semantically related but do not share lexical tokens. This \lserious limitation reinforces the importance of the query expansion and rewriting techniques discussed in the preceding subsection, which attempt to bridge this lexical gap. To counter this inherent weakness, methods like \cite{ref75} investigate learning augmentations and re-weightings to improve BM25's performance while retaining its speed advantage, effectively incorporating a learned querying component directly into the classical retrieval pipeline.
+The most traditional approach to retrieval involves sparse, lexical methods, with BM25 serving as the archetypal representative. These models operate on exact term matching between the query and the document, creating sparse vector representations where the dimensionality is defined by the vocabulary's size. The primary advantage of these methods lies in their efficiency and interpretability. They can be efficiently indexed and searched using inverted indexes with off-the-shelf systems, and their logic---based purely on term ``overlap'' and frequency---is straightforward to understand \cite{ref74}. However, their reliance on exact ``matching makes them particularly susceptible to the vocabulary mismatch problem'', where surfaces are semantically related but do not share lexical tokens. This \textbackslash lserious limitation reinforces the importance of the query expansion and rewriting techniques discussed in the preceding subsection, which attempt to bridge this lexical gap. To counter this inherent weakness, methods like \cite{ref75} investigate learning augmentations and re-weightings to improve BM25's performance while retaining its speed advantage, effectively incorporating a learned querying component directly into the classical retrieval pipeline.
 
 Given the limitations of exact lexical matching, the advent of pre-trained language models (PLMs) introduced dense retrieval (DR) methods that capture the deeper semantic intent of both queries and documents. Dense techniques, such as the Dense Passage Retriever (DPR) \cite{ref76}, create low-dimensional, continuous vector representations for queries and documents, computed the semantic similarities even in the absence of lexical overlap. This directly addresses the vocabulary mismatch problem, a key motivation for LLM-based query enhancement. However, \cite{ref77} highlights the challenges of training such models, proposing a technique that performs full retrieval without sampling, mitigating imbalanced negative sampling that can degrade performance. ``This risk is particularly acute in RAG pipelines where the generator depends the retriever's recall, making robust mini-batch training critical.'' While potentially more effective at capturing intent, dense retrievers face significant efficiency challenges, as they require the construction of approximate nearest neighbor (ANN) indexes, which trade retrieval performance for speed \cite{ref78}. Their limited ability to generalize to unseen domains, often resulting in significant performance degradation, further underscores the need for robust query understanding and contextualization as described in the prior part of this framework \cite{ref79}.
 
