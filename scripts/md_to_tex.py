@@ -101,6 +101,21 @@ UNICODE_FIXES = {
     '∏': r'$\prod$',
     '√': r'$\sqrt{}$',
     '⋅': r'$\cdot$',
+    'ℓ': r'$\ell$',          # SCRIPT SMALL L — 3DGS 편의 L1/L2 표기에서 나왔다
+    'ℝ': r'$\mathbb{R}$',
+    'ℕ': r'$\mathbb{N}$',
+    '∇': r'$\nabla$',
+    '∂': r'$\partial$',
+    '∫': r'$\int$',
+    '≡': r'$\equiv$',
+    '⊕': r'$\oplus$',
+    '⊗': r'$\otimes$',
+    '∪': r'$\cup$',
+    '∩': r'$\cap$',
+    '⊆': r'$\subseteq$',
+    '∅': r'$\emptyset$',
+    '∠': r'$\angle$',
+    '∥': r'$\parallel$',
     '₀': r'$_0$', '₁': r'$_1$', '₂': r'$_2$', '₃': r'$_3$', '₄': r'$_4$',
     '⁰': r'$^0$', '¹': r'$^1$', '²': r'$^2$', '³': r'$^3$', '⁴': r'$^4$',
     '\U0001d458': '$k$',        # MATHEMATICAL ITALIC SMALL K
@@ -341,9 +356,10 @@ def main():
     print(f'  pdflatex 미지원 문자 치환: {fixed_chars}곳')
     left = unhandled_unicode(body_md)
     if left:
-        detail = ', '.join('%s(U+%04X)×%d' % (c, ord(c), n)
-                           for c, n in sorted(left.items(), key=lambda x: -x[1])[:8])
-        print(f'  ⚠ 치환표에 없는 비ASCII {sum(left.values())}곳: {detail}')
+        # ⚠ 이름을 detail 로 쓰면 아래 참고문헌 집계의 detail(dict)을 덮어쓴다.
+        left_desc = ', '.join('%s(U+%04X)×%d' % (c, ord(c), n)
+                              for c, n in sorted(left.items(), key=lambda x: -x[1])[:8])
+        print(f'  ⚠ 치환표에 없는 비ASCII {sum(left.values())}곳: {left_desc}')
         print(f'    pdflatex 에서 죽을 수 있습니다. UNICODE_FIXES 에 추가하세요.')
     linked = sum(1 for n in refs if detail.get(str(n), {}).get('id'))
     print(f'  참고문헌: {len(refs)}개 (arXiv ID/링크 {linked}개)')

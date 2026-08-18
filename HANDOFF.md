@@ -143,13 +143,13 @@ python scripts/check_survey.py "output/<모델>-smoke/<토픽>.md" \
 **통제되지 않는 자유도가 둘인데 패치가 잡은 건 하나입니다.**
 
 - `--subsection_num` ✅ 지켜집니다 (10개 섹션 전부 4개 이하)
-- `--section_num` ❌ **두 실행 모두 정확히 1.25배 초과** (4→5, 8→10)
+- `--section_num` ❌ **네 실행 모두 초과, 배율 1.25~1.5배로 불규칙** (4→5, 8→10, 8→11, 8→12)
 
 그래서 `--subsection_num 4`를 걸었는데도 총 서브섹션이 37→39로 늘었습니다. 예측식에
 섹션 초과를 넣어야 맞습니다:
 
 ```
-총 분량 = (section_num × 1.25) × subsection_num × (subsection_len × 1.76)
+총 분량 = (section_num × 1.25~1.5) × subsection_num × (subsection_len × 1.8)
 ```
 
 검산: `8 × 1.25 × 3.9 × (700 × 1.76)` = 48,000 ≈ 실측 **49,002**.
