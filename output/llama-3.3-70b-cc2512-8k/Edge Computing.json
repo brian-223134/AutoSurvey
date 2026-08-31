@@ -1,0 +1,1134 @@
+{
+    "survey": "# Comprehensive Survey of Edge Computing: Architecture, Applications, and Challenges\n\n## 1 Introduction to Edge Computing\n\n### 1.1 Definition and Importance of Edge Computing\n\nEdge computing is a novel computing paradigm that extends cloud resources at the edge of the network to tackle the problem of communication latency in latency-sensitive applications [1]. It is defined as a distributed computing paradigm that brings computation and data storage closer to the location where it is needed, reducing the latency and bandwidth required to access and process data [2]. By doing so, edge computing provides real-time processing capabilities, which is critical for applications that require immediate feedback, such as virtual reality, autonomous vehicles, and smart cities [3]. The importance of edge computing lies in its ability to address the growing demand for low-latency and high-bandwidth applications, which cannot be met by traditional cloud computing architectures [4].\n\nThe concept of edge computing is built around the idea of processing data at the edge of the network, closer to the source of the data, thereby reducing the latency and improving the real-time processing capabilities [5]. This is achieved by deploying edge devices, such as edge servers, gateways, and routers, which are equipped with computing and storage resources [6]. As a result, edge computing has a wide range of applications across various industries, including industrial automation, healthcare, transportation, and gaming. For instance, in industrial automation, edge computing can be used to monitor and control equipment in real-time, reducing the latency and improving the overall efficiency of the process. In healthcare, edge computing can be used to analyze medical images and provide real-time feedback to doctors and patients. In transportation, edge computing can be used to improve the safety and efficiency of autonomous vehicles [7].\n\nThe potential of edge computing to enable new use cases and applications is vast, and it is expected to play a key role in shaping the future of computing [8]. For example, edge computing can be used to enable smart cities, where data from various sensors and devices is processed in real-time to improve the overall quality of life for citizens. Edge computing can also be used to enable immersive technologies, such as augmented and virtual reality, which require low-latency and high-bandwidth processing [9]. As the field of edge computing continues to evolve, it is likely to have a significant impact on various industries and applications, and its importance will only continue to grow. In the next section, we will delve into the history and evolution of edge computing, exploring its key milestones, challenges, and breakthroughs [2].\n\n### 1.2 History and Evolution of Edge Computing\n\nThe history and evolution of edge computing have been marked by significant milestones, challenges, and breakthroughs that have shaped the field into its current state. As edge computing has emerged as a key enabler for low-latency and high-bandwidth applications, it is essential to understand its development and growth over time [2]. The concept of edge computing emerged as a response to the limitations of traditional cloud computing, which was struggling to meet the growing demands of real-time data processing and analysis. In the early 2000s, researchers began exploring the idea of pushing computing resources to the edge of the network, closer to the devices and data sources, to reduce latency and improve performance [10].\n\nOne of the key milestones in the evolution of edge computing was the introduction of fog computing, which aimed to extend cloud computing to the edge of the network by leveraging intermediate nodes, such as routers and switches, to perform computation and storage tasks [11]. Fog computing provided a foundation for edge computing, enabling the processing of data closer to the source and reducing the amount of data that needed to be transmitted to the cloud. This development paved the way for the creation of new edge computing architectures and technologies, such as mobile edge computing and cloudlet, which further accelerated the growth of the field [12].\n\nThe development of edge computing was further driven by the proliferation of Internet of Things (IoT) devices, which generated vast amounts of data that needed to be processed in real-time [13]. The need for low-latency and high-performance computing at the edge of the network became increasingly important, driving the development of new technologies and architectures. In recent years, edge computing has undergone significant advancements, driven by the emergence of new technologies, such as 5G networks, artificial intelligence (AI), and machine learning (ML) [8]. The integration of edge computing with AI and ML has enabled the development of intelligent edge devices that can perform complex tasks, such as data analysis and decision-making, in real-time [14].\n\nDespite the significant progress made in edge computing, the field still faces several challenges, including security, privacy, and scalability concerns [5]. The decentralized nature of edge computing, which involves the distribution of computing resources across a network of devices, makes it vulnerable to security threats and data breaches [15]. Furthermore, the management of edge computing resources and the allocation of tasks to edge devices remain significant challenges. However, the development of new computing paradigms, such as serverless computing and function-as-a-service (FaaS), has enabled the deployment of edge computing applications without the need for provisioning and managing infrastructure, making it easier to develop and deploy edge computing applications [16].\n\nIn conclusion, the history and evolution of edge computing have been marked by significant milestones, challenges, and breakthroughs. From the early days of fog computing to the current developments in AI and ML, edge computing has come a long way, driven by the need for low-latency and high-performance computing at the edge of the network. As the field continues to evolve, it is likely to play an increasingly important role in shaping the future of computing and enabling new applications and services, which will be explored in the subsequent sections, including its relationship with other technologies like IoT, 5G, and AI [17].\n\n### 1.3 Relationship between Edge Computing and Other Technologies\n\nThe relationship between edge computing and other technologies like IoT, 5G, and AI is complex and multifaceted, building upon the foundations established by the history and evolution of edge computing. As discussed earlier, edge computing has emerged as a key enabler for IoT applications, allowing for real-time processing and analysis of data generated by IoT devices [13]. The integration of edge computing and IoT enables the creation of smart cities, industrial automation, and other applications that require low-latency and high-bandwidth processing [18]. This synergy is a natural progression of the edge computing concept, which has been driven by the need for low-latency and high-performance computing at the edge of the network.\n\nThe convergence of edge computing and 5G networks has also gained significant attention in recent years [19]. The low-latency and high-bandwidth capabilities of 5G networks make them an ideal complement to edge computing, enabling the creation of ultra-low latency and high-reliability applications [20]. The combination of edge computing and 5G has the potential to revolutionize various industries, including healthcare, transportation, and manufacturing [21]. Furthermore, the integration of edge computing with AI and ML has enabled the development of intelligent edge devices that can perform complex tasks, such as data analysis and decision-making, in real-time [14].\n\nHowever, the relationship between edge computing and other technologies is not without its challenges. One of the major challenges is the need for standardized architectures and frameworks that can support the integration of edge computing with other technologies [22]. The lack of standardization can lead to interoperability issues and make it difficult to deploy edge computing applications across different platforms and devices [23]. Another challenge is the need for security and privacy mechanisms that can protect edge computing applications from cyber threats and data breaches [24]. The decentralized nature of edge computing makes it vulnerable to security threats, and the use of AI and ML models at the edge can exacerbate these risks [25].\n\nIn conclusion, the relationship between edge computing and other technologies like IoT, 5G, and AI is complex and multifaceted, with both benefits and challenges. The development of standardized architectures and frameworks, security and privacy mechanisms, and the use of AI and ML models at the edge are essential for realizing the full potential of edge computing [26]. As edge computing continues to evolve and mature, it is likely to play an increasingly important role in enabling the creation of intelligent and connected applications that can transform various industries and aspects of our lives [27]. This will be further explored in the subsequent sections, which will delve into the applications, challenges, and future directions of edge computing.\n\n## 2 Edge Computing Architecture and Technologies\n\n### 2.1 Edge Computing Architecture\n\nEdge computing architecture is a distributed computing paradigm that brings computation and data storage closer to the source of the data, reducing latency and improving real-time processing capabilities. This architecture is built upon the various edge computing paradigms and technologies discussed earlier, including fog computing, cloudlet, mobile edge computing, containerization, virtualization, and serverless computing [2]. The basic concepts and components of edge computing architecture include edge devices, edge servers, and communication protocols. Edge devices are the sources of data and can be anything from smartphones and laptops to sensors and actuators in industrial settings [2]. These devices generate vast amounts of data that need to be processed in real-time, making edge computing an essential component of many applications, including IoT, smart cities, and industrial automation [11].\n\nEdge servers, on the other hand, are the computational resources that process the data generated by edge devices. They can be deployed at various locations, including cell towers, base stations, and even on-premises in industrial settings [3]. Edge servers can be thought of as mini data centers that provide low-latency access to computational resources, making them ideal for applications that require real-time processing. The communication protocols used in edge computing architecture are critical in ensuring that data is transmitted efficiently and reliably between edge devices and edge servers. Various protocols, such as 5G, Wi-Fi, and Ethernet, can be used, depending on the specific requirements of the application [1]. The design of edge computing architecture should take into account the characteristics and applications of different edge computing technologies and paradigms, such as fog computing, cloudlet, and mobile edge computing, to ensure seamless integration and optimal performance.\n\nIn addition to edge devices and edge servers, edge computing architecture also includes various other components, such as edge gateways, edge routers, and edge switches. These components play a crucial role in managing data flow, ensuring security, and providing connectivity between edge devices and edge servers [12]. The architecture of edge computing can be categorized into three layers: the device layer, the edge layer, and the cloud layer. The device layer consists of edge devices that generate data, while the edge layer consists of edge servers that process the data. The cloud layer provides additional computational resources and storage for data that needs to be processed or stored for longer periods. This layered architecture enables edge computing to support a wide range of applications, from smart cities and industrial automation to healthcare and transportation [2].\n\nThe design of edge computing architecture is critical in ensuring that applications can take advantage of the benefits of edge computing, including low latency, high bandwidth, and real-time processing. Various design considerations, such as scalability, security, and manageability, need to be taken into account when designing edge computing architecture [28]. Furthermore, edge computing architecture needs to be able to support various applications and use cases, including IoT, smart cities, industrial automation, and healthcare. This requires a flexible and adaptable architecture that can be customized to meet the specific requirements of each application [29]. By understanding the architecture of edge computing, developers and organizations can design and deploy edge computing applications that meet the specific requirements of their use cases, and ultimately, unlock the full potential of edge computing in various industries and domains.\n\n### 2.2 Edge Computing Technologies and Paradigms\n\nEdge computing encompasses a variety of technologies and paradigms that enable the processing and analysis of data closer to where it is generated, reducing latency and improving real-time processing capabilities. As discussed earlier, edge computing architecture is a distributed computing paradigm that brings computation and data storage closer to the source of the data, and it is built upon various edge computing paradigms and technologies. One such paradigm is fog computing [30], which extends cloud computing to the edge of the network, providing virtualized resources and engaged location-based services to support latency-sensitive applications. Fog computing is particularly useful in scenarios where data needs to be processed in real-time, such as in industrial automation, smart cities, and healthcare [13].\n\nIn addition to fog computing, other edge computing paradigms include cloudlet, which involves deploying small-scale cloud computing infrastructure at the edge of the network, typically within a few kilometers of the users. Cloudlets are designed to provide low-latency and high-bandwidth access to computing resources, making them suitable for applications such as augmented reality, gaming, and video processing [3]. Mobile edge computing is another paradigm that involves processing data at the edge of the network, typically on cellular base stations or other edge devices. This approach is particularly useful for applications that require ultra-low latency, such as autonomous vehicles and smart homes [1]. These paradigms are critical components of edge computing architecture, and they play a crucial role in enabling the benefits of edge computing, including low latency, high bandwidth, and real-time processing.\n\nContainerization [31] and virtualization [32] are also key technologies in edge computing, enabling the deployment of applications and services on edge devices in a flexible and scalable manner. Serverless computing [33] is another emerging paradigm that allows developers to build and deploy applications without worrying about the underlying infrastructure, making it particularly suitable for edge computing environments where resources may be limited. The integration of these technologies is critical to realizing the full potential of edge computing and supporting a wide range of applications, from smart cities and industrial automation to healthcare and transportation [2].\n\nThe characteristics and applications of edge computing technologies and paradigms are diverse and continue to evolve. For example, fog computing is particularly suited to applications that require low-latency and location-aware processing, such as smart grids and intelligent transportation systems [30]. Cloudlets, on the other hand, are more suitable for applications that require high-bandwidth and low-latency access to computing resources, such as video processing and online gaming. Mobile edge computing is particularly useful for applications that require ultra-low latency, such as autonomous vehicles and smart homes [1]. Understanding the characteristics and applications of these technologies and paradigms is essential for designing and deploying effective edge computing systems that can meet the specific requirements of various use cases.\n\nIn summary, edge computing encompasses a range of technologies and paradigms that enable the processing and analysis of data closer to where it is generated. These technologies and paradigms, including fog computing, cloudlet, mobile edge computing, containerization, virtualization, and serverless computing, have diverse characteristics and applications, and are critical to realizing the full potential of edge computing in supporting a wide range of applications, from smart cities and industrial automation to healthcare and transportation [2]. The design and implementation of edge computing systems, which will be discussed in the following section, require careful consideration of these technologies and paradigms, as well as their characteristics and applications, to ensure that the benefits of edge computing can be fully realized.\n\n### 2.3 Design and Implementation of Edge Computing Systems\n\nThe design and implementation of edge computing systems is a complex task that requires careful consideration of various factors, including system architecture, resource management, and performance optimization. As discussed in the previous section, edge computing encompasses a range of technologies and paradigms, including fog computing, cloudlet, mobile edge computing, containerization, virtualization, and serverless computing, which have diverse characteristics and applications. A well-designed edge computing system should be able to provide low-latency, high-bandwidth, and secure computing services to end-users, while also ensuring efficient use of resources and minimizing costs [2].\n\nOne of the key challenges in designing edge computing systems is the need to balance the trade-off between latency and resource utilization. Edge computing systems need to be able to process data in real-time, while also ensuring that resources such as computing power, memory, and storage are utilized efficiently [34]. To address this challenge, researchers have proposed various resource management techniques, including dynamic resource allocation, load balancing, and caching [35]. These techniques are crucial in ensuring that edge computing systems can provide low-latency and high-bandwidth computing services to end-users.\n\nAnother important aspect of edge computing system design is performance optimization. Edge computing systems need to be able to provide high-performance computing services to end-users, while also ensuring low latency and high throughput [36]. To achieve this, researchers have proposed various performance optimization techniques, including model pruning, knowledge distillation, and parallel processing [37]. These techniques can help improve the performance of edge computing systems and enable them to support a wide range of applications.\n\nIn addition to system architecture and performance optimization, security is also a critical aspect of edge computing system design. Edge computing systems need to be able to provide secure computing services to end-users, while also protecting against cyber threats and data breaches [15]. To address this challenge, researchers have proposed various security techniques, including encryption, access control, and intrusion detection [38]. These techniques are essential in ensuring that edge computing systems can provide secure and reliable computing services to end-users.\n\nThe implementation of edge computing systems also poses several challenges, including the need for scalable and flexible infrastructure, as well as the need for efficient resource management and allocation [39]. To address these challenges, researchers have proposed various implementation techniques, including containerization, virtualization, and serverless computing [40]. These techniques can help improve the scalability and flexibility of edge computing systems and enable them to support a wide range of applications.\n\nIn conclusion, the design and implementation of edge computing systems is a complex task that requires careful consideration of various factors, including system architecture, resource management, performance optimization, and security. By leveraging various techniques such as dynamic resource allocation, load balancing, caching, model pruning, knowledge distillation, parallel processing, encryption, access control, and intrusion detection, edge computing systems can provide low-latency, high-bandwidth, and secure computing services to end-users, while also ensuring efficient use of resources and minimizing costs [41]. As edge computing continues to evolve, it is likely that new technologies and techniques will emerge to address the challenges and opportunities in this field, and the following section will discuss the applications and future directions of edge computing. \n\nFurthermore, the use of emerging technologies such as artificial intelligence, machine learning, and the Internet of Things (IoT) is expected to play a key role in the design and implementation of edge computing systems [11]. For example, AI and ML can be used to optimize resource allocation and performance in edge computing systems, while IoT devices can be used to collect and process data in real-time [42]. Overall, the design and implementation of edge computing systems is an active area of research, with many challenges and opportunities remaining to be explored [43]. By leveraging various techniques and emerging technologies, edge computing systems can provide low-latency, high-bandwidth, and secure computing services to end-users, while also ensuring efficient use of resources and minimizing costs [44].\n\n## 3 Applications and Use Cases of Edge Computing\n\n### 3.1 Industrial and Commercial Applications\n\nEdge computing has numerous applications in industrial and commercial settings, where it can significantly enhance efficiency, productivity, and decision-making. One of the primary use cases of edge computing in these settings is predictive maintenance [45]. By analyzing data from sensors and machines in real-time, edge computing can predict when maintenance is required, reducing downtime and increasing overall equipment effectiveness. This is particularly important in industries such as manufacturing, where unplanned downtime can result in significant losses. The ability to predict and prevent equipment failures enables organizations to optimize their maintenance schedules, reduce costs, and improve overall productivity.\n\nIn addition to predictive maintenance, edge computing also has a significant impact on quality control [46]. Edge computing can analyze data from sensors and cameras in real-time, detecting defects or anomalies in products on the production line. This enables manufacturers to take corrective action immediately, reducing waste and improving product quality. Furthermore, edge computing can be used to optimize production processes, such as monitoring temperature and pressure levels in chemical plants [47]. By leveraging edge computing, organizations can improve product quality, reduce waste, and increase customer satisfaction.\n\nEdge computing also has applications in supply chain management [48]. By analyzing data from sensors and RFID tags in real-time, edge computing can track the location and condition of goods in transit, enabling more efficient logistics and inventory management. This can help reduce costs, improve delivery times, and enhance customer satisfaction. Moreover, edge computing can be used to optimize supply chain operations, such as predicting demand and managing inventory levels [49]. The use of edge computing in supply chain management enables organizations to respond quickly to changes in demand, reduce inventory costs, and improve overall supply chain efficiency.\n\nIn commercial settings, edge computing can be used to enhance customer experience and improve operational efficiency. For example, in retail, edge computing can be used to analyze data from sensors and cameras in real-time, enabling personalized marketing and improving customer engagement [50]. Edge computing can also be used to optimize commercial operations, such as managing energy consumption and predicting equipment failures [51]. By leveraging edge computing, organizations can improve customer satisfaction, reduce energy costs, and increase operational efficiency.\n\nHowever, the use of edge computing in industrial and commercial settings also raises important considerations around security and privacy [15]. As edge computing involves processing sensitive data in real-time, it is essential to ensure that this data is protected from unauthorized access and cyber threats. Additionally, edge computing must comply with relevant regulations, such as GDPR and HIPAA, which govern the use of personal data [52]. Therefore, organizations must prioritize security and privacy when implementing edge computing solutions to ensure the safe and responsible use of this technology [53].\n\nIn conclusion, edge computing has numerous applications in industrial and commercial settings, where it can enhance efficiency, productivity, and decision-making. From predictive maintenance and quality control to supply chain management and customer experience, edge computing can help organizations optimize their operations and improve their bottom line. As the use of edge computing continues to grow and evolve, it is essential to address the security and privacy considerations associated with this technology to ensure its safe and responsible use, ultimately paving the way for the emerging trends and future directions in edge computing applications.\n\n### 3.2 Emerging Trends and Future Directions in Edge Computing Applications\n\nThe emergence of edge computing has paved the way for a plethora of innovative applications, transforming the way we live, work, and interact with technology. As we continue to push the boundaries of what is possible with edge computing, several emerging trends and future directions are coming to the forefront, building upon the foundations established by its applications in industrial and commercial settings. One of the most significant trends is the integration of edge computing with emerging technologies like 5G, blockchain, and artificial intelligence (AI) [54]. The convergence of these technologies is expected to unlock new use cases and applications, such as immersive video conferencing, augmented and virtual reality, and autonomous vehicles, which will further enhance efficiency, productivity, and decision-making in various sectors.\n\nThe integration of edge computing with 5G networks is expected to play a crucial role in enabling ultra-low latency and high-bandwidth applications [19]. The use of edge computing in 5G networks will allow for the processing of data closer to the source, reducing latency and improving real-time processing capabilities. Furthermore, the use of blockchain technology in edge computing is expected to provide a secure and decentralized framework for data management and processing [55], addressing some of the security and privacy concerns associated with edge computing.\n\nAnother emerging trend in edge computing is the use of AI and machine learning (ML) to optimize edge computing applications [14]. The use of AI and ML in edge computing will enable real-time processing and analysis of data, allowing for more efficient and effective decision-making. Additionally, the use of edge computing in IoT applications is expected to play a crucial role in enabling the efficient processing and analysis of data from IoT devices [13], which will have a significant impact on various industries, including manufacturing, logistics, and healthcare.\n\nThe future of edge computing is also expected to be shaped by the emergence of new technologies like 6G networks [56]. The integration of edge computing with 6G networks is expected to enable even faster data processing and lower latency, paving the way for new applications and use cases. Furthermore, the use of edge computing in metaverse applications is expected to play a crucial role in enabling immersive and interactive experiences [57], which will revolutionize the way we interact with technology and each other.\n\nIn terms of future research directions, there are several areas that require further exploration, including the development of more efficient and effective algorithms for edge computing applications [58]. Additionally, the use of edge computing in emerging applications like autonomous vehicles and smart cities requires further research and development [59]. As edge computing continues to evolve, it is essential to address the challenges and opportunities associated with its integration with emerging technologies, ensuring that its potential is fully realized.\n\nIn conclusion, the emerging trends and future directions in edge computing applications are expected to be shaped by the integration of edge computing with emerging technologies like 5G, blockchain, and AI. The use of edge computing in IoT, metaverse, and autonomous vehicle applications is expected to play a crucial role in enabling efficient and effective data processing and analysis. Furthermore, the development of more efficient and effective algorithms and the exploration of new research directions will be essential in unlocking the full potential of edge computing, ultimately leading to the creation of new and innovative applications that will transform the way we live, work, and interact with technology [60].\n\n## 4 Challenges and Open Research Issues in Edge Computing\n\n### 4.1 Security and Privacy Challenges\n\nSecurity and privacy challenges are significant concerns in edge computing, as the distributed nature of edge devices and the proximity of these devices to sensitive data sources increase the risk of data breaches and unauthorized access [53]. The importance of addressing these challenges is further emphasized by the potential consequences of data breaches, including the compromise of sensitive information, financial loss, and reputational damage. Furthermore, the lack of standardization in edge computing security protocols and the diversity of edge devices make it challenging to implement effective security measures [61].\n\nEnsuring the security and privacy of edge computing systems is crucial, and access control, authentication, and authorization are critical security challenges that need to be addressed [62]. Only authorized devices and users should be able to access edge resources and data, and developing effective access control mechanisms that can handle the complexity and scalability of edge computing environments is essential to prevent unauthorized access and data breaches [63]. However, current research efforts in this area are limited, and more work is needed to develop innovative solutions.\n\nIn addition to access control, the lack of visibility and control over edge devices is another significant security challenge in edge computing, which can lead to security vulnerabilities and threats [64]. The use of edge devices in various applications, such as IoT, industrial automation, and smart cities, increases the attack surface and the potential for security breaches [65]. Moreover, the reliance on wireless communication protocols in edge computing introduces additional security risks, such as eavesdropping, jamming, and man-in-the-middle attacks [66].\n\nTo address these security and privacy challenges, researchers and practitioners are exploring various solutions, including the use of blockchain technology [67], artificial intelligence and machine learning [68], and edge-based intrusion detection systems [69]. The development of secure edge computing architectures and protocols, such as secure multi-party computation and homomorphic encryption, can also help protect data privacy and security in edge computing environments [70]. By leveraging these solutions, edge computing systems can be designed to be more secure and resilient, which is essential for their widespread adoption.\n\nIn conclusion, security and privacy challenges are significant concerns in edge computing, and addressing these challenges requires a comprehensive approach that involves the development of effective security protocols, architectures, and mechanisms [14]. As edge computing continues to evolve, it is crucial to prioritize security and privacy to ensure the trustworthiness and reliability of these systems, which will be essential for their successful integration with resource management and optimization techniques, as discussed in the following section.\n\n### 4.2 Resource Management and Optimization\n\nResource management and optimization are crucial in edge computing due to the limited resources available at the edge, which is closely related to the security and privacy challenges discussed earlier. Edge devices are often resource-constrained, making it challenging to allocate resources efficiently, and this constraint can exacerbate the security risks if not properly addressed. Researchers have proposed various techniques to address this challenge, including resource allocation, provisioning, and scheduling. For instance, [71] provides a comprehensive overview of resource scheduling in edge computing, highlighting the importance of efficient resource allocation in edge computing systems.\n\nOne of the key challenges in resource management is allocating resources to multiple users or applications while ensuring fairness and meeting performance requirements. [72] proposes a joint task offloading and resource allocation framework to optimize resource allocation in multi-server mobile edge computing networks. The framework aims to minimize the energy consumption of mobile devices while meeting task deadlines and ensuring fair resource allocation. This is particularly important in edge computing environments where security and privacy are critical, as inefficient resource allocation can lead to increased vulnerability to security threats.\n\nAnother challenge is provisioning resources in edge computing systems. [40] proposes a resource allocation strategy that allows service providers to express their capabilities to adapt to different resource constraints. The strategy enables the network operator to choose the most convenient option for each service provider, maximizing the total utility. Furthermore, provisioning resources in a secure and private manner is essential to prevent unauthorized access and data breaches, which can be achieved through the use of secure protocols and architectures.\n\nScheduling is also a critical aspect of resource management in edge computing. [73] proposes a priority-based fair scheduling technique to guarantee fairness among clients while accounting for job priorities. The technique ensures low overheads and efficient scheduling, making it suitable for edge computing environments. Additionally, scheduling can be used to allocate resources in a way that minimizes the risk of security threats, such as by prioritizing tasks that require sensitive data.\n\nIn addition to these techniques, researchers have also explored the use of machine learning and artificial intelligence to optimize resource management in edge computing. [74] proposes a research roadmap focused on profiling AI models to capture data about model types, hyperparameters, and underlying hardware. The goal is to predict resource utilization and task completion time, enabling efficient computation offloading in heterogeneous edge AI systems. This can help to improve the overall performance and security of edge computing systems, which is essential for their widespread adoption.\n\nFurthermore, [75] proposes a self-adaptive approach to optimize CPU utilization and resource management on edge devices. The approach uses a epsilon-greedy strategy to promote fairness and prevent resource starvation, ensuring efficient resource utilization. This approach can be used in conjunction with security and privacy mechanisms to ensure that edge computing systems are both efficient and secure.\n\nOverall, resource management and optimization are essential in edge computing to ensure efficient resource allocation, provisioning, and scheduling, which is critical for addressing the security and privacy challenges discussed earlier. Researchers have proposed various techniques to address the challenges of resource-constrained edge devices, including joint task offloading and resource allocation, priority-based fair scheduling, and machine learning-based approaches. These techniques aim to optimize resource utilization, ensure fairness, and meet performance requirements in edge computing systems, which will be essential for their successful integration with dependability, scalability, and energy efficiency techniques, as discussed in the following section. [76] provides a comprehensive utility function for resource allocation in mobile edge computing, considering the heterogeneous nature of applications and the importance of CPU, RAM, hard disk space, required time, and distance in calculating a realistic utility value for mobile edge servers.\n\n### 4.3 Open Research Issues and Future Directions\n\nDespite the significant advancements in edge computing, several open research issues and future directions remain to be addressed, building upon the resource management and optimization techniques discussed earlier. One of the key challenges is dependability, which refers to the ability of edge computing systems to operate reliably and maintain their functionality even in the presence of failures or errors [5]. To achieve dependability, edge computing systems need to be designed with fault-tolerance and self-healing capabilities, which can be achieved through the use of redundant components, error-correcting codes, and adaptive algorithms [77]. Additionally, edge computing systems need to be able to detect and respond to security threats in real-time, which requires the development of advanced security protocols and intrusion detection systems [78].\n\nAs edge computing systems continue to evolve, another important research issue is scalability, which refers to the ability of edge computing systems to handle increasing amounts of data and traffic [12]. To achieve scalability, edge computing systems need to be designed with modular architectures that can be easily extended or modified as needed [79]. Furthermore, edge computing systems need to be able to dynamically allocate resources and adjust their configurations in response to changing workload conditions [49], which is closely related to the resource management and optimization techniques discussed earlier.\n\nEnergy efficiency is also a critical research issue in edge computing, as edge devices are often powered by batteries or other limited energy sources [80]. To achieve energy efficiency, edge computing systems need to be designed with power-aware algorithms and protocols that can minimize energy consumption while maintaining performance [81]. Additionally, edge computing systems need to be able to harvest energy from their environment and use renewable energy sources to reduce their carbon footprint [51], which is essential for the long-term sustainability of edge computing systems.\n\nEffective management is another important research issue in edge computing, as edge computing systems need to be able to manage their resources, configure their networks, and monitor their performance in real-time [82]. To achieve effective management, edge computing systems need to be designed with autonomous management capabilities that can adapt to changing conditions and optimize system performance [77]. Furthermore, edge computing systems need to be able to integrate with other management systems and protocols to provide a unified management framework [39], which will be crucial for the widespread adoption of edge computing.\n\nIn terms of future directions, edge computing is expected to play a critical role in the development of emerging technologies such as 6G networks, blockchain, and the Internet of Things (IoT) [41]. Edge computing is also expected to enable new applications and services such as smart cities, industrial automation, and autonomous vehicles [83]. To achieve these goals, edge computing systems need to be designed with advanced technologies such as artificial intelligence, machine learning, and data analytics [58], and integrate with other technologies such as cloud computing, fog computing, and IoT to provide a seamless and unified computing framework [84], ultimately leading to a more comprehensive and cohesive edge computing ecosystem.\n\n## 5 Edge Computing for Artificial Intelligence and Machine Learning\n\n### 5.1 Introduction to Edge AI\n\nEdge AI refers to the integration of artificial intelligence (AI) and edge computing, which involves processing data closer to where it is generated, rather than relying on cloud computing or centralized data centers. The concept of edge AI has gained significant attention in recent years due to its potential to reduce latency, improve real-time processing capabilities, and enhance the overall performance of AI applications [85]. \n\nThe evolution of edge AI can be traced back to the early 2000s, when researchers began exploring the idea of processing data at the edge of the network, rather than relying on cloud computing [12]. The emergence of IoT devices, 5G networks, and AI technologies has further accelerated the development of edge AI, enabling its application in various domains, including industrial automation, healthcare, transportation, and smart cities [86]. \n\nOne of the primary benefits of edge AI is its ability to reduce latency, which is critical for real-time applications such as autonomous vehicles, smart homes, and industrial control systems [87]. By processing data closer to the source, edge AI can significantly reduce the latency associated with data transmission and processing, enabling faster decision-making and response times. Additionally, edge AI can improve the security and privacy of data by reducing the amount of data that needs to be transmitted to the cloud or centralized data centers [88]. \n\nThe potential of edge AI to improve the efficiency and effectiveness of AI applications is vast, particularly in applications that require real-time processing and analysis of data, such as image recognition, natural language processing, and predictive maintenance [58]. Furthermore, edge AI can enable the development of more sophisticated AI applications, such as those that require the integration of multiple data sources, sensors, and actuators [89]. \n\nThe development of edge AI has also been influenced by the emergence of large language models (LLMs), which have enabled the development of more sophisticated AI applications, such as natural language processing, sentiment analysis, and text generation [90]. However, the deployment of LLMs in edge devices poses significant challenges, including the need for specialized hardware, software, and algorithms [91]. \n\nAs edge AI continues to evolve, it is likely to play a critical role in the development of future AI applications, particularly those that require real-time processing, low latency, and improved security and privacy [85]. The next section will delve into the architectures and technologies that are being developed to support the deployment of edge AI models, including model compression techniques, distributed inference, and edge computing platforms [92].\n\n### 5.2 Edge AI Architectures and Technologies\n\nEdge AI architectures and technologies have been rapidly evolving to support the deployment of artificial intelligence and machine learning models at the edge, building on the concepts and benefits of edge AI discussed earlier. One of the key challenges in edge AI is the limited computational resources and memory available on edge devices, which necessitates the use of model compression techniques [93]. Model compression techniques, such as pruning, quantization, and knowledge distillation, can reduce the size and computational requirements of deep learning models, making them more suitable for deployment on edge devices [94]. This is particularly important for applications that require real-time processing and low latency, such as those discussed in the following section.\n\nDistributed inference is another technique used in edge AI to reduce the computational requirements of deep learning models [95]. In distributed inference, the model is split into multiple parts, and each part is executed on a different device or server. This can help to reduce the latency and improve the throughput of the model, enabling more efficient processing and analysis of data. The use of distributed inference can also facilitate the integration of multiple data sources and sensors, which is critical for many edge AI applications.\n\nEdge AI architectures can be categorized into different types, including centralized, decentralized, and distributed architectures [96]. Centralized architectures involve the deployment of models on a single server or device, while decentralized architectures involve the deployment of models on multiple devices or servers. Distributed architectures involve the deployment of models on multiple devices or servers, with each device or server executing a different part of the model. Understanding these different architectures is essential for designing and deploying effective edge AI systems.\n\nVarious technologies are being used to support the deployment of edge AI models, including edge computing platforms, and machine learning frameworks [84]. These technologies provide tools and APIs for deploying and managing edge AI models, making it easier to integrate them into existing systems and applications. The development of these technologies is critical for enabling the widespread adoption of edge AI.\n\nIn addition to model compression and distributed inference, other techniques are being explored to improve the efficiency and effectiveness of edge AI models, including transfer learning and few-shot learning. These techniques can help to reduce the amount of training data required and improve the accuracy of edge AI models, making them more suitable for deployment in a wide range of applications. As edge AI continues to evolve, it is likely that new techniques and technologies will emerge, enabling even more efficient and effective processing of data at the edge.\n\nOverall, edge AI architectures and technologies are rapidly evolving to support the deployment of artificial intelligence and machine learning models at the edge. The use of model compression techniques, distributed inference, and other technologies can help to reduce the computational requirements and latency of edge AI models, while enabling more efficient processing and analysis of data. As discussed in the following section, these advancements have significant implications for a wide range of applications, including IoT, smart cities, industrial automation, healthcare, and autonomous vehicles.\n\n### 5.3 Applications and Challenges of Edge AI\n\nEdge AI has numerous applications across various domains, including IoT, smart cities, industrial automation, healthcare, and autonomous vehicles. Building on the edge AI architectures and technologies discussed earlier, these applications leverage the capabilities of edge AI to enable real-time processing, reduce latency, and improve decision-making. In the context of IoT, edge AI enables real-time processing and analysis of data generated by IoT devices, reducing latency and improving decision-making [13]. For instance, in smart homes, edge AI can be used to control and automate various devices, such as thermostats, lights, and security systems, enhancing convenience and energy efficiency [97]. \n\nIn smart cities, edge AI can be applied to various applications, including intelligent transportation systems, smart energy management, and public safety [98]. For example, edge AI can be used to optimize traffic flow, reducing congestion and decreasing travel times [99]. Additionally, edge AI can be used in industrial automation to improve predictive maintenance, quality control, and supply chain management [13]. The use of edge AI in these applications can be further enhanced by the distributed inference and model compression techniques discussed earlier, which can help reduce the computational requirements and latency of edge AI models.\n\nIn the healthcare sector, edge AI can be used to analyze medical images, such as X-rays and MRIs, enabling faster and more accurate diagnoses [100]. Furthermore, edge AI can be applied to autonomous vehicles, enabling real-time processing of sensor data and improving safety and navigation [101]. \n\nDespite the numerous applications of edge AI, there are several challenges that need to be addressed. One of the primary challenges is the limited computational resources and energy constraints of edge devices [102]. To overcome this challenge, researchers have proposed various techniques, such as model compression, knowledge distillation, and federated learning [103]. \n\nAnother challenge is the need for real-time processing and low latency, which is critical in applications such as autonomous vehicles and industrial automation [104]. To address this challenge, researchers have proposed various architectures and frameworks, such as edge-cloud collaboration and fog computing [105]. \n\nSecurity and privacy are also significant concerns in edge AI, as edge devices are often vulnerable to cyber-attacks and data breaches [106]. To mitigate these risks, researchers have proposed various techniques, such as encryption, access control, and blockchain-based security protocols [107]. \n\nIn conclusion, edge AI has numerous applications across various domains, including IoT, smart cities, industrial automation, healthcare, and autonomous vehicles. However, there are several challenges that need to be addressed, including limited computational resources, real-time processing, security, and privacy. To overcome these challenges, researchers have proposed various techniques, such as model compression, knowledge distillation, federated learning, edge-cloud collaboration, and blockchain-based security protocols. As edge AI continues to evolve, it is expected to play a critical role in enabling various applications and services in the future [108].\n\n## 6 Security, Privacy, and Energy Efficiency in Edge Computing\n\n### 6.1 Security Concerns and Solutions\n\nSecurity concerns are a major issue in edge computing, as the decentralized nature of the technology makes it vulnerable to various threats. One of the primary security concerns is data breaches, which can occur when unauthorized parties gain access to sensitive information [53]. Data breaches can have severe consequences, including financial loss, reputational damage, and legal liabilities. Another significant security concern is unauthorized access, which can be achieved through various means, such as phishing attacks, malware, or exploitation of vulnerabilities [15]. To address these concerns, it is essential to implement robust security measures that protect sensitive data and prevent unauthorized access.\n\nVarious solutions can be employed to mitigate these security concerns. Encryption is a widely used technique to protect data in transit and at rest [88]. Access control mechanisms, such as authentication and authorization, can also be implemented to ensure that only authorized parties have access to sensitive information [109]. Additionally, blockchain technology can be utilized to provide a secure and decentralized platform for data storage and processing [110]. By leveraging these solutions, edge computing systems can reduce the risk of data breaches and unauthorized access, thereby protecting sensitive information and maintaining the trust of users.\n\nThe use of blockchain technology is particularly significant in edge computing, as it provides a secure and transparent platform for data storage and processing [111]. In the context of edge computing, blockchain can be used to create a secure and decentralized network for data storage and processing [112]. This can help to mitigate security concerns, such as data breaches and unauthorized access, by providing a secure and transparent platform for data storage and processing. Furthermore, the integration of blockchain technology with other security solutions, such as encryption and access control mechanisms, can provide a robust security framework for edge computing systems.\n\nMoreover, edge computing can also benefit from the use of artificial intelligence (AI) and machine learning (ML) techniques to enhance security [113]. AI and ML can be used to detect and prevent security threats, such as intrusion detection and malware analysis. Additionally, these techniques can be used to optimize security protocols and improve the overall security posture of edge computing systems. By leveraging AI and ML, edge computing systems can become more resilient to security threats and better equipped to handle the evolving landscape of security risks.\n\nIn conclusion, security concerns are a significant issue in edge computing, and various solutions can be employed to mitigate these concerns. Encryption, access control mechanisms, blockchain technology, and AI and ML techniques can be used to provide a secure and decentralized platform for data storage and processing. By implementing these solutions, edge computing systems can be made more secure and resilient to various security threats [68]. Furthermore, the use of blockchain technology and AI and ML techniques can provide a secure and transparent platform for various applications, including edge computing [114], which is essential for protecting sensitive data and ensuring the confidentiality, integrity, and availability of information, as discussed in the context of privacy-preserving techniques in edge computing.\n\n### 6.2 Privacy-Preserving Techniques\n\nPrivacy-preserving techniques are essential in edge computing to protect sensitive data and ensure the confidentiality, integrity, and availability of information, which is closely related to the security concerns discussed earlier. Several techniques have been proposed to achieve privacy preservation in edge computing, including secure multi-party computation, homomorphic encryption, and differential privacy. Secure multi-party computation [115] enables multiple parties to jointly perform computations on private data without revealing their individual inputs. This technique is particularly useful in edge computing scenarios where multiple devices or nodes need to collaborate on computations while maintaining data privacy.\n\nHomomorphic encryption [116] is another powerful technique that allows computations to be performed directly on encrypted data without the need for decryption. This approach ensures that data remains confidential throughout the computation process, making it an attractive solution for privacy-preserving edge computing. Homomorphic encryption can be used for various applications, including privacy-preserving machine learning [117] and secure data aggregation [118]. Furthermore, the integration of homomorphic encryption with other security solutions, such as blockchain technology and access control mechanisms, can provide a robust security framework for edge computing systems.\n\nDifferential privacy [119] is a technique that provides a rigorous and quantitative notion of privacy by adding noise to the computation results to prevent individual data points from being identified. Differential privacy has been widely adopted in various applications, including data analysis and machine learning. In edge computing, differential privacy can be used to protect sensitive data while still allowing for useful insights to be gained from the data [120]. Additionally, differential privacy can be used in conjunction with other privacy-preserving techniques, such as secure multi-party computation and homomorphic encryption, to provide a comprehensive privacy preservation framework for edge computing.\n\nIn addition to these techniques, other approaches have been proposed to achieve privacy preservation in edge computing, including secure outsourcing of computations [121] and privacy-preserving data mining [122]. These techniques can be used individually or in combination to provide robust privacy preservation in edge computing scenarios. The use of these techniques is crucial in ensuring the confidentiality, integrity, and availability of information in edge computing, which is essential for maintaining user trust and complying with regulations [123].\n\nHowever, the implementation of these techniques also introduces additional computational overhead and communication costs, which can impact the performance and efficiency of edge computing systems [124]. To address these challenges, researchers have proposed various optimizations and improvements to privacy-preserving techniques, including the use of approximation algorithms [125] and the development of more efficient encryption schemes [126]. Additionally, the use of edge computing architectures that incorporate privacy-preserving techniques, such as secure multi-party computation and homomorphic encryption, can help to reduce the computational overhead and improve the efficiency of these techniques [127].\n\nAs edge computing continues to evolve, the importance of privacy-preserving techniques will only continue to grow, particularly in the context of emerging applications and use cases that require the processing of sensitive data. Therefore, it is essential to prioritize the development of efficient and effective privacy-preserving techniques that can balance the need for data privacy with the need for computational efficiency and performance. The integration of these techniques with energy-efficient algorithms and sustainable edge computing architectures, as discussed in the following section, will be crucial in enabling the widespread adoption of edge computing in various industries and applications. In conclusion, privacy-preserving techniques are essential in edge computing to protect sensitive data and ensure the confidentiality, integrity, and availability of information. Secure multi-party computation, homomorphic encryption, and differential privacy are some of the techniques that have been proposed to achieve privacy preservation in edge computing. While these techniques introduce additional computational overhead and communication costs, various optimizations and improvements have been proposed to address these challenges and improve the efficiency of privacy-preserving edge computing systems [128].\n\n### 6.3 Energy Efficiency and Sustainability\n\nEnergy efficiency and sustainability are crucial aspects of edge computing, as the increasing demand for edge services and applications leads to a significant rise in energy consumption. This is particularly important when considering the privacy-preserving techniques discussed earlier, as the additional computational overhead and communication costs associated with these techniques can further exacerbate energy consumption. To mitigate this issue, researchers and developers have been exploring various techniques to improve energy efficiency and sustainability in edge computing. One approach is to utilize renewable energy sources, such as solar or wind power, to reduce dependence on non-renewable energy sources [51]. Energy-harvesting techniques, which enable edge devices to harness energy from their environment, have also been proposed [129].\n\nAnother key aspect of energy efficiency in edge computing is the development of energy-efficient algorithms. These algorithms aim to minimize energy consumption while maintaining optimal performance [130]. For instance, researchers have proposed energy-aware job scheduling algorithms for edge computing, which can significantly reduce energy consumption while meeting performance requirements [131]. Additionally, techniques such as dynamic voltage and frequency scaling (DVFS) have been employed to reduce energy consumption in edge devices [132]. By integrating these energy-efficient algorithms with privacy-preserving techniques, edge computing systems can achieve a balance between security, performance, and energy efficiency.\n\nThe use of edge computing can also lead to energy efficiency improvements in various applications, such as IoT and mobile edge computing. For example, edge computing can enable real-time processing and analysis of IoT data, reducing the need for data transmission to the cloud and resulting in significant energy savings [80]. Moreover, mobile edge computing can offload computationally intensive tasks from mobile devices to edge servers, reducing energy consumption and improving performance [81]. As edge computing continues to evolve, it is essential to prioritize energy efficiency and sustainability to ensure a sustainable and environmentally friendly future for edge computing, which will be critical in supporting the growing demand for edge services and applications.\n\nFurthermore, researchers have been exploring the potential of edge computing in enabling sustainable IoT systems. By leveraging edge computing, IoT devices can process data locally, reducing the need for data transmission to the cloud and resulting in significant energy savings [133]. Additionally, edge computing can enable the use of renewable energy sources and energy-harvesting techniques in IoT systems, further improving sustainability [134]. As the field of edge computing continues to advance, it is likely that we will see increased focus on energy efficiency and sustainability, particularly in the context of emerging applications and use cases.\n\nIn conclusion, energy efficiency and sustainability are critical aspects of edge computing, and researchers have been actively exploring various techniques to improve energy efficiency and sustainability in edge computing. The use of renewable energy sources, energy-harvesting techniques, and energy-efficient algorithms can significantly reduce energy consumption while maintaining optimal performance. Moreover, edge computing can enable energy efficiency improvements in various applications, such as IoT and mobile edge computing, and can play a crucial role in enabling sustainable IoT systems. As edge computing continues to evolve, it is essential to prioritize energy efficiency and sustainability to ensure a sustainable and environmentally friendly future for edge computing.\n\n## 7 Future Directions and Open Challenges in Edge Computing\n\n### 7.1 Introduction to Future Directions\n\nThe future of edge computing is poised to be shaped by its integration with emerging technologies like 6G, blockchain, and the Internet of Things (IoT), which will have a profound impact on the way data is processed and analyzed. As we look ahead, it is essential to consider how these technologies will converge to create new opportunities and challenges for edge computing [135]. The emergence of 6G networks, for instance, is expected to bring about significant improvements in latency, reliability, and connectivity, which will be crucial for supporting the growing number of IoT devices and applications [17]. \n\nEdge computing will play a vital role in enabling the efficient processing and analysis of the vast amounts of data generated by these devices, and its integration with 6G networks will be essential for realizing the full potential of IoT applications [136]. Furthermore, the use of blockchain technology in edge computing will provide a secure and decentralized framework for data management and processing, which will be critical for ensuring the integrity and privacy of IoT data [137]. \n\nThe convergence of edge computing, 6G, and blockchain will also enable the creation of new business models and revenue streams, such as edge-based services and applications [138]. Additionally, the integration of edge computing with other emerging technologies like artificial intelligence (AI) and machine learning (ML) will enable the development of more sophisticated and autonomous IoT applications [58]. This will ultimately lead to improved latency, increased bandwidth, and enhanced security, which are critical for supporting the growing number of IoT devices and applications.\n\nHowever, the integration of these technologies will also pose significant challenges, such as ensuring the security and privacy of IoT data, managing the complexity of edge computing systems, and addressing the potential for bias and errors in AI and ML algorithms [55]. Moreover, the development of standards and regulations for edge computing and IoT will be critical for ensuring interoperability and facilitating the widespread adoption of these technologies [139]. \n\nIn terms of future research directions, there are several areas that warrant further investigation, such as the development of more efficient and scalable edge computing architectures, the creation of new edge-based services and applications, and the exploration of the potential for edge computing in emerging areas like augmented and virtual reality [26]. Additionally, the investigation of the social and economic implications of edge computing and IoT will be essential for ensuring that these technologies are developed and deployed in a responsible and sustainable manner [27]. \n\nOverall, the future of edge computing is poised to be shaped by its integration with emerging technologies like 6G, blockchain, and IoT, and it is essential to consider the opportunities and challenges that this convergence will bring. By exploring these areas and addressing the challenges and limitations of edge computing, we can unlock its full potential and create a more efficient, secure, and sustainable computing paradigm for the future, which will be critical for supporting the growing number of IoT devices and applications, and will ultimately lead to the development of more sophisticated and autonomous IoT applications [2].\n\n### 7.2 Edge Computing and 6G Networks\n\nThe integration of edge computing and 6G networks is a promising area of research, with potential benefits including improved latency, increased bandwidth, and enhanced security. As discussed in the previous section, the future of edge computing is poised to be shaped by its integration with emerging technologies like 6G, blockchain, and the Internet of Things (IoT), which will have a profound impact on the way data is processed and analyzed [135]. Edge computing, which involves processing data at the edge of the network, can help reduce the latency and bandwidth requirements of 6G networks [136]. By processing data closer to the source, edge computing can help reduce the amount of data that needs to be transmitted over the network, resulting in faster and more reliable communication.\n\nOne of the key benefits of integrating edge computing with 6G networks is the potential for improved latency. 6G networks are expected to have latency as low as 1 ms, which is much faster than current 5G networks [135]. However, achieving such low latency will require significant advances in network architecture and technology. Edge computing can help achieve this goal by processing data closer to the source, reducing the need for data to be transmitted over the network [140]. This is particularly important for applications that require real-time processing and analysis, such as smart cities and industrial automation.\n\nAnother benefit of integrating edge computing with 6G networks is the potential for increased bandwidth. Edge computing can help reduce the amount of data that needs to be transmitted over the network, resulting in increased bandwidth and faster data transfer rates [141]. This can be particularly important for applications such as virtual and augmented reality, which require high-bandwidth and low-latency communication. Furthermore, the integration of edge computing with 6G networks can also enhance security, as it can help reduce the risk of data breaches and cyber attacks by processing data closer to the source, reducing the amount of data that needs to be transmitted over the network [142].\n\nDespite the potential benefits of integrating edge computing and 6G networks, there are also several challenges that need to be addressed. One of the key challenges is the need for standardized protocols and architectures for edge computing and 6G networks [143]. Currently, there is a lack of standardization in this area, which can make it difficult to develop and deploy edge computing applications on 6G networks. Another challenge is the need for advanced technologies such as artificial intelligence and machine learning to support edge computing on 6G networks [144]. These technologies can help optimize edge computing applications and improve their performance, but they also require significant advances in areas such as data analytics and network management.\n\nThe integration of edge computing and 6G networks will also have significant implications for various IoT applications, including smart cities, industrial automation, and healthcare. As discussed in the following section, the use of blockchain technology in edge computing can provide a secure and decentralized framework for data management and processing, which will be critical for ensuring the integrity and privacy of IoT data [137]. By addressing the challenges associated with integrating edge computing and 6G networks, we can help realize the potential benefits of this technology and create a faster, more reliable, and more secure communication system for the future [145]. Ultimately, the integration of edge computing and 6G networks will play a vital role in enabling the efficient processing and analysis of the vast amounts of data generated by IoT devices, and will be essential for realizing the full potential of IoT applications [2].\n\n### 7.3 Blockchain-Enabled Edge Computing\n\nThe integration of blockchain technology with edge computing has the potential to revolutionize various Internet of Things (IoT) applications, including smart cities, industrial automation, and healthcare, by providing a secure, decentralized, and transparent framework for data management and processing. This is particularly important in the context of 6G networks, which are expected to have low latency and high bandwidth requirements, as discussed in the previous section. By leveraging blockchain-enabled edge computing, IoT applications can enable real-time decision-making and improve overall efficiency. \n\nIn smart cities, for instance, blockchain-enabled edge computing can be used to manage and analyze data from various sensors and devices, such as traffic management systems, energy grids, and waste management systems [146]. This can help optimize resource allocation, reduce costs, and improve the quality of life for citizens. Similarly, in industrial automation, blockchain-enabled edge computing can be used to improve the security and efficiency of manufacturing processes [147]. For example, blockchain can be used to track the origin and movement of goods, enabling real-time inventory management and reducing the risk of counterfeiting [114].\n\nThe use of blockchain-enabled edge computing in healthcare is also promising, as it can improve the security and privacy of patient data [148]. For example, blockchain can be used to create a secure and decentralized electronic health record (EHR) system, enabling patients to control their own data and ensuring that only authorized healthcare providers have access to sensitive information [149]. Edge computing can also be used to analyze medical images and other data, enabling real-time diagnosis and treatment [62].\n\nWhile the integration of blockchain with edge computing offers numerous benefits, it also raises several challenges and opportunities, such as scalability, security, and interoperability [150]. Additionally, the use of blockchain-enabled edge computing in IoT applications requires a thorough understanding of the underlying technologies and their potential applications [22]. Despite these challenges, the potential benefits of blockchain-enabled edge computing in IoT applications are significant, including providing a secure and decentralized framework for data management and processing, enabling real-time decision-making, and improving overall efficiency [137].\n\nAs the use of blockchain-enabled edge computing continues to evolve, it is likely that we will see significant improvements in the efficiency, security, and overall performance of IoT systems [23]. Furthermore, the integration of blockchain technology with edge computing will likely play a crucial role in the development of future IoT applications, particularly in the context of 6G networks, which will be discussed in the following section. In conclusion, the integration of blockchain technology with edge computing has the potential to revolutionize various IoT applications, and its continued development and adoption will be critical to realizing the full potential of IoT systems.\n\n## 8 Conclusion and Future Perspectives\n\n### 8.1 Summary of Key Findings\n\nThis survey provides a comprehensive overview of the current state of edge computing, highlighting its architecture, applications, and challenges. The key findings of this survey can be summarized as follows: edge computing has emerged as a promising paradigm to reduce latency and improve real-time processing capabilities [2]. By pushing computing resources and services to the edge of the network, closer to the source of the data [53], edge computing has the potential to enable a wide range of applications, including IoT, smart cities, industrial automation, and healthcare [12]. These applications are critical to the development of innovative services and solutions that can transform various industries and aspects of our lives.\n\nOne of the main challenges in edge computing is the need for efficient resource management and optimization [151]. This challenge arises from the limited resources available at the edge, including computing power, storage, and energy [152]. To address this challenge, researchers have proposed various techniques, such as model compression, distributed inference, and serverless computing [96]. These techniques aim to reduce the computational requirements of edge computing while maintaining the desired level of performance, thereby ensuring the efficient operation of edge devices and applications.\n\nIn addition to resource management, the survey also highlights the importance of security and privacy in edge computing [15]. As edge computing involves the processing and storage of sensitive data at the edge of the network, it is essential to ensure that this data is protected from unauthorized access and cyber threats [153]. Various security measures have been proposed, including encryption, access control, and authentication [154]. These measures are critical to the development of secure edge computing systems that can protect sensitive data and prevent cyber attacks.\n\nThe survey also emphasizes the need for sustainable edge computing [155]. This involves reducing the energy consumption of edge devices and minimizing their environmental impact [80]. To achieve this, researchers have proposed various techniques, such as the use of renewable energy sources, energy-harvesting techniques, and energy-efficient algorithms [156]. These techniques can help reduce the carbon footprint of edge computing and ensure that it is environmentally sustainable.\n\nFurthermore, the survey discusses the role of artificial intelligence (AI) in edge computing [157]. AI has the potential to enable a wide range of applications at the edge, including predictive maintenance, quality control, and smart cities [14]. However, the deployment of AI models at the edge also poses significant challenges, including the need for efficient model training and inference [158]. Addressing these challenges is critical to the development of AI-powered edge computing applications that can transform various industries and aspects of our lives.\n\nFinally, the survey highlights the need for further research in edge computing, particularly in the areas of security, sustainability, and AI [159]. As edge computing continues to evolve, it is essential to address the challenges and limitations of this paradigm and to develop new techniques and technologies that can enable its widespread adoption [8]. By providing a comprehensive overview of the current state of edge computing, this survey aims to contribute to the development of this promising paradigm and to enable the creation of innovative applications and services at the edge of the network [53]. The future of edge computing holds much promise, and ongoing research and development are critical to unlocking its full potential and transforming the way we live and work.\n\n### 8.2 Future Perspectives and Recommendations\n\nAs we look to the future of edge computing, it is clear that this technology has the potential to revolutionize the way we live and work. With the increasing demand for real-time processing, low latency, and high bandwidth, edge computing is poised to play a critical role in enabling a wide range of applications and services, from smart cities and industrial automation to healthcare and transportation [2]. To fully leverage the potential of edge computing, researchers, practitioners, and industries must work together to address the challenges and open research issues in this field, building on the foundations established in the current state of edge computing.\n\nOne key area of focus for future research is the development of more efficient and effective algorithms for edge computing, which will be crucial in reducing latency and improving real-time processing capabilities [160]. This will require innovative solutions to support the growing demands of edge applications, including the development of new algorithms and techniques that can optimize resource utilization and minimize energy consumption. Another important area of research is the development of more secure and reliable edge computing systems, which will be essential in protecting sensitive data and preventing cyber threats [15]. New solutions are needed to mitigate the risks associated with edge computing, including the risk of data breaches and unauthorized access.\n\nIn addition to these technical challenges, there are also a number of economic and social factors that must be considered in the development of edge computing, including the need for sustainable edge computing [51]. The widespread adoption of edge computing will require significant investments in infrastructure and personnel, and will also raise important questions about the ownership and control of data. To address these challenges, it is essential that researchers, practitioners, and industries work together to develop a comprehensive and sustainable framework for edge computing, which will enable the creation of innovative applications and services that can transform various industries and aspects of our lives.\n\nThe potential benefits of edge computing are significant, and this technology has the potential to enable a wide range of innovative applications and services, including the development of more intelligent and autonomous systems [14]. Edge computing can also enable new forms of human-machine interaction, and can support the development of smart cities, industrial automation, and healthcare applications. To realize these benefits, it is essential that researchers and practitioners work together to develop new technologies and applications that can take advantage of the unique capabilities of edge computing, including the integration of edge computing with other emerging technologies such as 5G and 6G networks, artificial intelligence, and the Internet of Things (IoT) [136].\n\nIn terms of recommendations, we suggest that researchers and practitioners focus on developing more efficient and effective algorithms for edge computing, and on developing more secure and reliable edge computing systems [84]. We also recommend that industries and governments invest in the development of edge computing infrastructure and personnel, and that they work together to develop a comprehensive and sustainable framework for edge computing. Furthermore, we suggest that researchers and practitioners explore the potential benefits of edge computing in a wide range of applications and services, and that they work together to develop new technologies and applications that can take advantage of the unique capabilities of edge computing [17].\n\nOverall, the future of edge computing is bright, and this technology has the potential to revolutionize the way we live and work. To realize this potential, it is essential that researchers, practitioners, and industries work together to address the challenges and open research issues in this field, and to develop new technologies and applications that can take advantage of the unique capabilities of edge computing. By working together, we can unlock the full potential of edge computing and create a more intelligent, autonomous, and sustainable future for all. The development of new edge computing architectures and platforms that can support the growing demands of edge applications will also be essential [161], and the use of edge computing in various industries such as healthcare, transportation, and manufacturing will require the development of new use cases and applications [48]. In conclusion, the future of edge computing is exciting and full of possibilities, and we look forward to the opportunities and challenges that it will bring [19].\n\n\n## References\n\n[1] Wireless Edge Computing With Latency and Reliability Guarantees\n\n[2] Edge Computing: A Comprehensive Survey of Current Initiatives and a Roadmap for a Sustainable Edge Computing Development\n\n[3] Mobile Edge Computing\n\n[4] Edge computing vs centralized cloud: Impact of communication latency on the energy consumption of LTE terminal nodes\n\n[5] Dependability in Edge Computing\n\n[6] Edge System Design Using Containers and Unikernels for IoT Applications\n\n[7] Vehicular Cloud Computing: A cost-effective alternative to Edge Computing in 5G networks\n\n[8] Towards Enabling Novel Edge-Enabled Applications\n\n[9] An Edge-Computing Based Architecture for Mobile Augmented Reality\n\n[10] Modern computing: Vision and challenges\n\n[11] Internet of Things (IoT) and New Computing Paradigms\n\n[12] Edge Computing: A Systematic Mapping Study\n\n[13] Edge Computing for IoT\n\n[14] Edge AI: A Taxonomy, Systematic Review and Future Directions\n\n[15] Edge Security: Challenges and Issues\n\n[16] When Edge Meets FaaS: Opportunities and Challenges\n\n[17] 6G White Paper on Edge Intelligence\n\n[18] Survey on Multi-Access Edge Computing for Internet of Things Realization\n\n[19] A Survey of Multi-Access Edge Computing in 5G and Beyond: Fundamentals, Technology Integration, and State-of-the-Art\n\n[20] 5G: Agent for Further Digital Disruptive Transformations\n\n[21] How 5G (and concomitant technologies) will revolutionize healthcare\n\n[22] Edge, Fog, and Cloud Computing : An Overview on Challenges and Applications\n\n[23] Mobile Edge Computing, Metaverse, 6G Wireless Communications, Artificial Intelligence, and Blockchain: Survey and Their Convergence\n\n[24] Key Enabling Technologies for Secure and Scalable Future Fog-IoT Architecture: A Survey\n\n[25] Uncertainty Estimation in Multi-Agent Distributed Learning for AI-Enabled Edge Devices\n\n[26] 6G-enabled Edge AI for Metaverse: Challenges, Methods, and Future Research Directions\n\n[27] The Journey Towards 6G: A Digital and Societal Revolution in the Making\n\n[28] Challenges in designing edge-based middlewares for the Internet of Things: A survey\n\n[29] Applications of Auction and Mechanism Design in Edge Computing: A Survey\n\n[30] Fog Computing: Principals, Architectures, and Applications\n\n[31] Con-Pi: A Distributed Container-Based Edge and Fog Computing Framework\n\n[32] Software-Defined Elastic Provisioning of IoT Edge Computing Virtual Resources\n\n[33] FLight: A Lightweight Federated Learning Framework in Edge and Fog Computing\n\n[34] Resource Allocation for Stable LLM Training in Mobile Edge Computing\n\n[35] Container Orchestration in Edge and Fog Computing Environments for Real-Time IoT Applications\n\n[36] AMP4EC: Adaptive Model Partitioning Framework for Efficient Deep Learning Inference in Edge Computing Environments\n\n[37] DILEMMA: Joint LLM Quantization and Distributed LLM Inference Over Edge Computing Systems\n\n[38] BEHAVE: Behavior-Aware, Intelligent and Fair Resource Management for Heterogeneous Edge-IoT Systems\n\n[39] A Survey on Edge Computing Systems and Tools\n\n[40] EdgeMORE: Improving Resource Allocation with Multiple Options from Tenants\n\n[41] 6GSoft: Software for Edge-to-Cloud Continuum\n\n[42] Exploiting Storage for Computing: Computation Reuse in Collaborative Edge Computing\n\n[43] A Survey on Edge Benchmarking\n\n[44] Toward Edge-enabled Cyber-Physical Systems Testbeds\n\n[45] Predictive Edge Computing with Hard Deadlines\n\n[46] VisioRed: A Visualisation Tool for Interpretable Predictive Maintenance\n\n[47] Network Resource Management For Cyber-Physical Production Systems Based On Quality of Experience\n\n[48] Industrial Edge-based Cyber-Physical Systems -- Application Needs and Concerns for Realization\n\n[49] Proactive and Reactive Autoscaling Techniques for Edge Computing\n\n[50] Driving Intelligent IoT Monitoring and Control through Cloud Computing and Machine Learning\n\n[51] Sustainable Edge Computing: Challenges and Future Directions\n\n[52] The Trusted Edge.\n\n[53] Edge Computing for IoT: Novel Insights from a Comparative Analysis of Access Control Models\n\n[54] Artificial Intelligence at the Edge\n\n[55] Blockchain for 5G and beyond networks: A state of the art survey\n\n[56] 6G: Connectivity in the Era of Distributed Intelligence\n\n[57] Mobile Edge Computing for the Metaverse\n\n[58] Deep Learning in the Era of Edge Computing: Challenges and Opportunities\n\n[59] Edge Computing Architectures for Enabling the Realisation of the Next Generation Robotic Systems\n\n[60] The convergence of blockchain, IoT and 6G: Potential, opportunities, challenges and research roadmap\n\n[61] Attacks Against Security Context in 5G Network\n\n[62] EdgeLinker: Practical Blockchain-based Framework for Healthcare Fog Applications to Enhance Security in Edge-IoT Data Communications\n\n[63] Survey of Security and Data Attacks on Machine Unlearning In Financial and E-Commerce\n\n[64] EdgeLeakage: Membership Information Leakage in Distributed Edge Intelligence Systems\n\n[65] Security and Protocol Exploit Analysis of the 5G Specifications\n\n[66] Improved security solutions for DDoS mitigation in 5G Multi-access Edge Computing\n\n[67] How BlockChain Can Help Enhance The Security And Privacy in Edge Computing?\n\n[68] The Security and Privacy of Mobile Edge Computing: An Artificial Intelligence Perspective\n\n[69] Autonomic Intrusion Response in Distributed Computing using Big Data\n\n[70] Private Edge Computing for Linear Inference Based on Secret Sharing\n\n[71] Resource Scheduling in Edge Computing: A Survey\n\n[72] Joint Task Offloading and Resource Allocation for Multi-Server Mobile-Edge Computing Networks\n\n[73] Priority-based Fair Scheduling in Edge Computing\n\n[74] Profiling AI Models: Towards Efficient Computation Offloading in Heterogeneous Edge AI Systems\n\n[75] EdgeMLBalancer: A Self-Adaptive Approach for Dynamic Model Switching on Resource-Constrained Edge Devices\n\n[76] A Comprehensive Utility Function for Resource Allocation in Mobile Edge Computing\n\n[77] Autonomy and Intelligence in the Computing Continuum: Challenges, Enablers, and Future Directions for Orchestration\n\n[78] Trustworthy Edge Computing through Blockchains\n\n[79] EaaS: A Service-Oriented Edge Computing Framework Towards Distributed Intelligence\n\n[80] Green Edge AI: A Contemporary Survey\n\n[81] Energy-Efficient Joint Offloading and Wireless Resource Allocation Strategy in Multi-MEC Server Systems\n\n[82] Oakestra white paper: An Orchestrator for Edge Computing\n\n[83] Edge computing for cyber-physical systems: A systematic mapping study emphasizing trustworthiness\n\n[84] Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey\n\n[85] Edge AI: On-Demand Accelerating Deep Neural Network Inference via Edge Computing\n\n[86] Edge Intelligence: The Confluence of Edge Computing and Artificial Intelligence\n\n[87] Latency optimized Deep Neural Networks (DNNs): An Artificial Intelligence approach at the Edge using Multiprocessor System on Chip (MPSoC)\n\n[88] Blockchain Powered Edge Intelligence for U-Healthcare in Privacy Critical and Time Sensitive Environment\n\n[89] Integrated Sensing-Communication-Computation for Edge Artificial Intelligence\n\n[90] Large Language Models Empowered Autonomous Edge AI for Connected Intelligence\n\n[91] Evolution of Convolutional Neural Network (CNN): Compute vs Memory bandwidth for Edge AI\n\n[92] OpenEI: An Open Framework for Edge Intelligence\n\n[93] Onboard Optimization and Learning: A Survey\n\n[94] Communication-Computation Trade-Off in Resource-Constrained Edge Inference\n\n[95] DEFER: Distributed Edge Inference for Deep Neural Networks\n\n[96] A Comprehensive Review and a Taxonomy of Edge Machine Learning: Requirements, Paradigms, and Techniques\n\n[97] HRNET: AI on Edge for mask detection and social distancing\n\n[98] Quality of Service (QoS)-driven Edge Computing and Smart Hospitals: A Vision, Architectural Elements, and Future Directions\n\n[99] Distributed Vehicular Computing at the Dawn of 5G: a Survey\n\n[100] Edge Intelligence for Empowering IoT-Based Healthcare Systems\n\n[101] Edge Intelligence for Autonomous Driving in 6G Wireless System: Design Challenges and Solutions\n\n[102] On the Sustainability of AI Inferences in the Edge\n\n[103] Communication-Efficient Edge AI: Algorithms and Systems\n\n[104] Deep Reinforcement Learning for Adaptive Network Slicing in 5G for Intelligent Vehicular Systems and Smart Cities\n\n[105] Fog Computing for Sustainable Smart Cities: A Survey\n\n[106] Mobile Privacy-Preserving Crowdsourced Data Collection in the Smart City\n\n[107] Enhancing Autonomy with Blockchain and Multi-Access Edge Computing in Distributed Robotic Systems\n\n[108] The AI Shadow War: SaaS vs. Edge Computing Architectures\n\n[109] A Novel Access Control and Privacy-Enhancing Approach for Models in Edge Computing\n\n[110] Blockchain-Enabled Device-Enhanced Multi-Access Edge Computing in Open Adversarial Environments\n\n[111] When Mobile Blockchain Meets Edge Computing: Challenges and Applications.\n\n[112] EdgeChain: An Edge-IoT Framework and Prototype Based on Blockchain and Smart Contracts\n\n[113] Deep Learning for Secure Mobile Edge Computing\n\n[114] Blockchains for Internet of Things: Fundamentals, Applications, and Challenges\n\n[115] Secure Computation in Decentralized Data Markets\n\n[116] Homomorphic Encryption-Enabled Distance-Based Distributed Formation Control with Distance Mismatch Estimators\n\n[117] Faster CryptoNets: Leveraging Sparsity for Real-World Encrypted Inference\n\n[118] Secure k-Anonymization over Encrypted Databases\n\n[119] Applications of Differential Privacy in Social Network Analysis: A Survey\n\n[120] Profile-based Privacy for Locally Private Computations\n\n[121] Cloud-Based Quadratic Optimization With Partially Homomorphic Encryption\n\n[122] Private Computation of Polynomials over Networks\n\n[123] Revolutionizing Medical Data Sharing Using Advanced Privacy-Enhancing Technologies: Technical, Legal, and Ethical Synthesis\n\n[124] Performance Evaluation of Secure Multi-party Computation on Heterogeneous Nodes\n\n[125] When approximate design for fast homomorphic computation provides differential privacy guarantees\n\n[126] Low-Complexity Integer Divider Architecture for Homomorphic Encryption\n\n[127] HElium: A Language and Compiler for Fully Homomorphic Encryption with Support for Proxy Re-Encryption\n\n[128] SoK: Privacy-preserving Deep Learning with Homomorphic Encryption\n\n[129] DE-LIoT: The Data-Energy Networking Paradigm for Sustainable Light-Based Internet of Things\n\n[130] Unveiling Energy Efficiency in Deep Learning: Measurement, Prediction, and Scoring across Edge Devices\n\n[131] EASE: Energy-Aware Job Scheduling for Vehicular Edge Networks With Renewable Energy Resources\n\n[132] Energy Consumption of Neural Networks on NVIDIA Edge Boards: an Empirical Model\n\n[133] Energy-Sustainable IoT Connectivity: Vision, Technological Enablers, Challenges, and Future Directions\n\n[134] MEET: Mobility-Enhanced Edge inTelligence for Smart and Green 6G Networks\n\n[135] 6G: The Intelligent Network of Everything\n\n[136] Edge Computing in IoT: A 6G Perspective\n\n[137] Blockchain for Edge of Things: Applications, Opportunities, and Challenges\n\n[138] Mobile Edge Computing: Survey and Research Outlook.\n\n[139] Towards 6G Communications: Architecture, Challenges, and Future Directions\n\n[140] 6G Network Operation Support System\n\n[141] 6G Software Engineering: A Systematic Mapping Study\n\n[142] Security, Trust and Privacy Challenges in AI-Driven 6G Networks\n\n[143] Towards 6G Hyper-Connectivity: Vision, Challenges, and Key Enabling Technologies\n\n[144] 6AInets: Harnessing artificial intelligence for the 6G network security: Impacts and Challenges\n\n[145] 6G Survey on Challenges, Requirements, Applications, Key Enabling Technologies, Use Cases, AI integration issues and Security aspects\n\n[146] Smart Cities: Potentialities and Challenges in a Context of Sharing Economy\n\n[147] A Blockchain Architecture for Industrial Applications\n\n[148] Block Medcare: Advancing Healthcare Through Blockchain Integration\n\n[149] A Secure Healthcare 5.0 System Based on Blockchain Technology Entangled with Federated Learning Technique\n\n[150] Integration of Blockchain and Edge Computing in Internet of Things: A Survey\n\n[151] A Taxonomy for Management and Optimization of Multiple Resources in Edge Computing\n\n[152] Deep Learning at the Edge\n\n[153] Revisiting the Arguments for Edge Computing Research\n\n[154] Dissecting Open Edge Computing Platforms: Ecosystem, Usage, and Security Risks\n\n[155] Sustainable AI Processing at the Edge\n\n[156] Edge-Cloud Polarization and Collaboration: A Comprehensive Survey\n\n[157] Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing\n\n[158] Training Machine Learning models at the Edge: A Survey\n\n[159] Roadmap for Edge AI: A Dagstuhl Perspective\n\n[160] A Survey on Open-Source Edge Computing Simulators and Emulators: The Computing and Networking Convergence Perspective\n\n[161] Towards an Intelligent Edge: Wireless Communication Meets Machine Learning\n\n\n",
+    "reference": {
+        "1": "1905.05316",
+        "2": "1912.08530",
+        "3": "2404.17944",
+        "4": "2111.10076",
+        "5": "1710.11222",
+        "6": "2412.03032",
+        "7": "2507.15670",
+        "8": "1805.06989",
+        "9": "1810.02509",
+        "10": "2401.02469",
+        "11": "1812.00591",
+        "12": "2102.02720",
+        "13": "2402.13056",
+        "14": "2407.04053",
+        "15": "2206.07164",
+        "16": "2307.06397",
+        "17": "2004.14850",
+        "18": "1805.06695",
+        "19": "1906.08452",
+        "20": "1909.10152",
+        "21": "1708.08746",
+        "22": "2211.01863",
+        "23": "2209.14147",
+        "24": "1806.06188",
+        "25": "2403.09141",
+        "26": "2204.06192",
+        "27": "2306.00832",
+        "28": "1912.06567",
+        "29": "2105.03559",
+        "30": "1601.02752",
+        "31": "2101.03533",
+        "32": "2003.11999",
+        "33": "2308.02834",
+        "34": "2409.20247",
+        "35": "2203.05161",
+        "36": "2504.00407",
+        "37": "2503.01704",
+        "38": "2103.11043",
+        "39": "1911.02794",
+        "40": "1908.01526",
+        "41": "2407.05963",
+        "42": "2401.03620",
+        "43": "2004.11725",
+        "44": "1910.01173",
+        "45": "1805.12272",
+        "46": "2103.17003",
+        "47": "2311.06008",
+        "48": "2201.00242",
+        "49": "2510.10166",
+        "50": "2403.18100",
+        "51": "2304.04450",
+        "52": "2105.13601",
+        "53": "2405.07685",
+        "54": "2012.05410",
+        "55": "1912.05062",
+        "56": "2110.07052",
+        "57": "2212.09229",
+        "58": "2010.08861",
+        "59": "2209.08333",
+        "60": "2109.03184",
+        "61": "2303.10955",
+        "62": "2408.15838",
+        "63": "2410.00055",
+        "64": "2404.16851",
+        "65": "1809.06925",
+        "66": "2111.04801",
+        "67": "2111.00416",
+        "68": "2401.01589",
+        "69": "1811.05407",
+        "70": "2005.08593",
+        "71": "2108.08059",
+        "72": "1705.00704",
+        "73": "2001.09070",
+        "74": "2411.00859",
+        "75": "2502.06493",
+        "76": "2012.10468",
+        "77": "2205.01423",
+        "78": "2005.07741",
+        "79": "2209.06613",
+        "80": "2312.00333",
+        "81": "1803.07243",
+        "82": "2207.01577",
+        "83": "2112.00619",
+        "84": "2505.01821",
+        "85": "1910.05316",
+        "86": "1909.00560",
+        "87": "2407.18264",
+        "88": "2506.02038",
+        "89": "2306.01162",
+        "90": "2307.02779",
+        "91": "2311.12816",
+        "92": "1906.01864",
+        "93": "2505.08793",
+        "94": "2006.02166",
+        "95": "2201.06769",
+        "96": "2302.08571",
+        "97": "2111.15208",
+        "98": "2303.06896",
+        "99": "2001.07077",
+        "100": "2103.12144",
+        "101": "2012.06992",
+        "102": "2507.23093",
+        "103": "2002.09668",
+        "104": "2010.09916",
+        "105": "1703.07079",
+        "106": "1607.02805",
+        "107": "2007.01156",
+        "108": "2507.11545",
+        "109": "2411.03847",
+        "110": "2412.02233",
+        "111": "1711.05938",
+        "112": "1806.06185",
+        "113": "1709.08025",
+        "114": "2405.04803",
+        "115": "1907.01489",
+        "116": "2104.07684",
+        "117": "1811.09953",
+        "118": "2108.04780",
+        "119": "2010.02973",
+        "120": "1903.09084",
+        "121": "1809.02267",
+        "122": "2104.01369",
+        "123": "2010.14445",
+        "124": "2004.10926",
+        "125": "2304.02959",
+        "126": "2401.11064",
+        "127": "2312.14250",
+        "128": "2112.12855",
+        "129": "2404.14333",
+        "130": "2310.18329",
+        "131": "2111.02186",
+        "132": "2210.01625",
+        "133": "2306.02444",
+        "134": "2210.15111",
+        "135": "2407.09398",
+        "136": "2111.08943",
+        "137": "2110.05022",
+        "138": "1701.01090",
+        "139": "2201.06079",
+        "140": "2307.09045",
+        "141": "2405.05017",
+        "142": "2409.10337",
+        "143": "2301.11111",
+        "144": "2404.08643",
+        "145": "2206.00868",
+        "146": "2108.09758",
+        "147": "2005.02483",
+        "148": "2410.05251",
+        "149": "2209.09642",
+        "150": "2205.13160",
+        "151": "1801.05610",
+        "152": "1910.10231",
+        "153": "2106.12224",
+        "154": "2404.09681",
+        "155": "2207.01209",
+        "156": "2111.06061",
+        "157": "1905.10083",
+        "158": "2403.02619",
+        "159": "2112.00616",
+        "160": "2505.09995",
+        "161": "1809.00343"
+    },
+    "reference_detail": {
+        "1": {
+            "id": "1905.05316",
+            "title": "Wireless Edge Computing With Latency and Reliability Guarantees",
+            "date": "2019-05-13",
+            "url": "https://arxiv.org/abs/1905.05316"
+        },
+        "2": {
+            "id": "1912.08530",
+            "title": "Edge Computing: A Comprehensive Survey of Current Initiatives and a Roadmap for a Sustainable Edge Computing Development",
+            "date": "2019-12-18",
+            "url": "https://arxiv.org/abs/1912.08530"
+        },
+        "3": {
+            "id": "2404.17944",
+            "title": "Mobile Edge Computing",
+            "date": "2024-04-27",
+            "url": "https://arxiv.org/abs/2404.17944"
+        },
+        "4": {
+            "id": "2111.10076",
+            "title": "Edge computing vs centralized cloud: Impact of communication latency on the energy consumption of LTE terminal nodes",
+            "date": "2021-11-19",
+            "url": "https://arxiv.org/abs/2111.10076"
+        },
+        "5": {
+            "id": "1710.11222",
+            "title": "Dependability in Edge Computing",
+            "date": "2017-10-11",
+            "url": "https://arxiv.org/abs/1710.11222"
+        },
+        "6": {
+            "id": "2412.03032",
+            "title": "Edge System Design Using Containers and Unikernels for IoT Applications",
+            "date": "2024-12-08",
+            "url": "https://arxiv.org/abs/2412.03032"
+        },
+        "7": {
+            "id": "2507.15670",
+            "title": "Vehicular Cloud Computing: A cost-effective alternative to Edge Computing in 5G networks",
+            "date": "2025-07-21",
+            "url": "https://arxiv.org/abs/2507.15670"
+        },
+        "8": {
+            "id": "1805.06989",
+            "title": "Towards Enabling Novel Edge-Enabled Applications",
+            "date": "2018-05-17",
+            "url": "https://arxiv.org/abs/1805.06989"
+        },
+        "9": {
+            "id": "1810.02509",
+            "title": "An Edge-Computing Based Architecture for Mobile Augmented Reality",
+            "date": "2018-10-05",
+            "url": "https://arxiv.org/abs/1810.02509"
+        },
+        "10": {
+            "id": "2401.02469",
+            "title": "Modern computing: Vision and challenges",
+            "date": "2024-01-04",
+            "url": "https://arxiv.org/abs/2401.02469"
+        },
+        "11": {
+            "id": "1812.00591",
+            "title": "Internet of Things (IoT) and New Computing Paradigms",
+            "date": "2018-12-03",
+            "url": "https://arxiv.org/abs/1812.00591"
+        },
+        "12": {
+            "id": "2102.02720",
+            "title": "Edge Computing: A Systematic Mapping Study",
+            "date": "2021-02-04",
+            "url": "https://arxiv.org/abs/2102.02720"
+        },
+        "13": {
+            "id": "2402.13056",
+            "title": "Edge Computing for IoT",
+            "date": "2024-02-20",
+            "url": "https://arxiv.org/abs/2402.13056"
+        },
+        "14": {
+            "id": "2407.04053",
+            "title": "Edge AI: A Taxonomy, Systematic Review and Future Directions",
+            "date": "2024-07-04",
+            "url": "https://arxiv.org/abs/2407.04053"
+        },
+        "15": {
+            "id": "2206.07164",
+            "title": "Edge Security: Challenges and Issues",
+            "date": "2022-06-14",
+            "url": "https://arxiv.org/abs/2206.07164"
+        },
+        "16": {
+            "id": "2307.06397",
+            "title": "When Edge Meets FaaS: Opportunities and Challenges",
+            "date": "2023-07-01",
+            "url": "https://arxiv.org/abs/2307.06397"
+        },
+        "17": {
+            "id": "2004.14850",
+            "title": "6G White Paper on Edge Intelligence",
+            "date": "2020-04-01",
+            "url": "https://arxiv.org/abs/2004.14850"
+        },
+        "18": {
+            "id": "1805.06695",
+            "title": "Survey on Multi-Access Edge Computing for Internet of Things Realization",
+            "date": "2018-05-17",
+            "url": "https://arxiv.org/abs/1805.06695"
+        },
+        "19": {
+            "id": "1906.08452",
+            "title": "A Survey of Multi-Access Edge Computing in 5G and Beyond: Fundamentals, Technology Integration, and State-of-the-Art",
+            "date": "2019-06-20",
+            "url": "https://arxiv.org/abs/1906.08452"
+        },
+        "20": {
+            "id": "1909.10152",
+            "title": "5G: Agent for Further Digital Disruptive Transformations",
+            "date": "2019-09-23",
+            "url": "https://arxiv.org/abs/1909.10152"
+        },
+        "21": {
+            "id": "1708.08746",
+            "title": "How 5G (and concomitant technologies) will revolutionize healthcare",
+            "date": "2017-08-17",
+            "url": "https://arxiv.org/abs/1708.08746"
+        },
+        "22": {
+            "id": "2211.01863",
+            "title": "Edge, Fog, and Cloud Computing : An Overview on Challenges and Applications",
+            "date": "2022-11-03",
+            "url": "https://arxiv.org/abs/2211.01863"
+        },
+        "23": {
+            "id": "2209.14147",
+            "title": "Mobile Edge Computing, Metaverse, 6G Wireless Communications, Artificial Intelligence, and Blockchain: Survey and Their Convergence",
+            "date": "2022-09-28",
+            "url": "https://arxiv.org/abs/2209.14147"
+        },
+        "24": {
+            "id": "1806.06188",
+            "title": "Key Enabling Technologies for Secure and Scalable Future Fog-IoT Architecture: A Survey",
+            "date": "2018-06-16",
+            "url": "https://arxiv.org/abs/1806.06188"
+        },
+        "25": {
+            "id": "2403.09141",
+            "title": "Uncertainty Estimation in Multi-Agent Distributed Learning for AI-Enabled Edge Devices",
+            "date": "2024-03-14",
+            "url": "https://arxiv.org/abs/2403.09141"
+        },
+        "26": {
+            "id": "2204.06192",
+            "title": "6G-enabled Edge AI for Metaverse: Challenges, Methods, and Future Research Directions",
+            "date": "2022-04-13",
+            "url": "https://arxiv.org/abs/2204.06192"
+        },
+        "27": {
+            "id": "2306.00832",
+            "title": "The Journey Towards 6G: A Digital and Societal Revolution in the Making",
+            "date": "2023-06-01",
+            "url": "https://arxiv.org/abs/2306.00832"
+        },
+        "28": {
+            "id": "1912.06567",
+            "title": "Challenges in designing edge-based middlewares for the Internet of Things: A survey",
+            "date": "2019-12-13",
+            "url": "https://arxiv.org/abs/1912.06567"
+        },
+        "29": {
+            "id": "2105.03559",
+            "title": "Applications of Auction and Mechanism Design in Edge Computing: A Survey",
+            "date": "2021-05-08",
+            "url": "https://arxiv.org/abs/2105.03559"
+        },
+        "30": {
+            "id": "1601.02752",
+            "title": "Fog Computing: Principals, Architectures, and Applications",
+            "date": "2016-01-12",
+            "url": "https://arxiv.org/abs/1601.02752"
+        },
+        "31": {
+            "id": "2101.03533",
+            "title": "Con-Pi: A Distributed Container-Based Edge and Fog Computing Framework",
+            "date": "2021-01-10",
+            "url": "https://arxiv.org/abs/2101.03533"
+        },
+        "32": {
+            "id": "2003.11999",
+            "title": "Software-Defined Elastic Provisioning of IoT Edge Computing Virtual Resources",
+            "date": "2020-03-26",
+            "url": "https://arxiv.org/abs/2003.11999"
+        },
+        "33": {
+            "id": "2308.02834",
+            "title": "FLight: A Lightweight Federated Learning Framework in Edge and Fog Computing",
+            "date": "2023-08-05",
+            "url": "https://arxiv.org/abs/2308.02834"
+        },
+        "34": {
+            "id": "2409.20247",
+            "title": "Resource Allocation for Stable LLM Training in Mobile Edge Computing",
+            "date": "2024-09-30",
+            "url": "https://arxiv.org/abs/2409.20247"
+        },
+        "35": {
+            "id": "2203.05161",
+            "title": "Container Orchestration in Edge and Fog Computing Environments for Real-Time IoT Applications",
+            "date": "2022-03-10",
+            "url": "https://arxiv.org/abs/2203.05161"
+        },
+        "36": {
+            "id": "2504.00407",
+            "title": "AMP4EC: Adaptive Model Partitioning Framework for Efficient Deep Learning Inference in Edge Computing Environments",
+            "date": "2025-04-04",
+            "url": "https://arxiv.org/abs/2504.00407"
+        },
+        "37": {
+            "id": "2503.01704",
+            "title": "DILEMMA: Joint LLM Quantization and Distributed LLM Inference Over Edge Computing Systems",
+            "date": "2025-03-03",
+            "url": "https://arxiv.org/abs/2503.01704"
+        },
+        "38": {
+            "id": "2103.11043",
+            "title": "BEHAVE: Behavior-Aware, Intelligent and Fair Resource Management for Heterogeneous Edge-IoT Systems",
+            "date": "2021-03-19",
+            "url": "https://arxiv.org/abs/2103.11043"
+        },
+        "39": {
+            "id": "1911.02794",
+            "title": "A Survey on Edge Computing Systems and Tools",
+            "date": "2019-11-07",
+            "url": "https://arxiv.org/abs/1911.02794"
+        },
+        "40": {
+            "id": "1908.01526",
+            "title": "EdgeMORE: Improving Resource Allocation with Multiple Options from Tenants",
+            "date": "2019-08-05",
+            "url": "https://arxiv.org/abs/1908.01526"
+        },
+        "41": {
+            "id": "2407.05963",
+            "title": "6GSoft: Software for Edge-to-Cloud Continuum",
+            "date": "2024-07-09",
+            "url": "https://arxiv.org/abs/2407.05963"
+        },
+        "42": {
+            "id": "2401.03620",
+            "title": "Exploiting Storage for Computing: Computation Reuse in Collaborative Edge Computing",
+            "date": "2024-01-08",
+            "url": "https://arxiv.org/abs/2401.03620"
+        },
+        "43": {
+            "id": "2004.11725",
+            "title": "A Survey on Edge Benchmarking",
+            "date": "2020-04-24",
+            "url": "https://arxiv.org/abs/2004.11725"
+        },
+        "44": {
+            "id": "1910.01173",
+            "title": "Toward Edge-enabled Cyber-Physical Systems Testbeds",
+            "date": "2019-10-02",
+            "url": "https://arxiv.org/abs/1910.01173"
+        },
+        "45": {
+            "id": "1805.12272",
+            "title": "Predictive Edge Computing with Hard Deadlines",
+            "date": "2018-05-01",
+            "url": "https://arxiv.org/abs/1805.12272"
+        },
+        "46": {
+            "id": "2103.17003",
+            "title": "VisioRed: A Visualisation Tool for Interpretable Predictive Maintenance",
+            "date": "2021-03-01",
+            "url": "https://arxiv.org/abs/2103.17003"
+        },
+        "47": {
+            "id": "2311.06008",
+            "title": "Network Resource Management For Cyber-Physical Production Systems Based On Quality of Experience",
+            "date": "2023-11-10",
+            "url": "https://arxiv.org/abs/2311.06008"
+        },
+        "48": {
+            "id": "2201.00242",
+            "title": "Industrial Edge-based Cyber-Physical Systems -- Application Needs and Concerns for Realization",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2201.00242"
+        },
+        "49": {
+            "id": "2510.10166",
+            "title": "Proactive and Reactive Autoscaling Techniques for Edge Computing",
+            "date": "2025-10-11",
+            "url": "https://arxiv.org/abs/2510.10166"
+        },
+        "50": {
+            "id": "2403.18100",
+            "title": "Driving Intelligent IoT Monitoring and Control through Cloud Computing and Machine Learning",
+            "date": "2024-03-26",
+            "url": "https://arxiv.org/abs/2403.18100"
+        },
+        "51": {
+            "id": "2304.04450",
+            "title": "Sustainable Edge Computing: Challenges and Future Directions",
+            "date": "2023-04-10",
+            "url": "https://arxiv.org/abs/2304.04450"
+        },
+        "52": {
+            "id": "2105.13601",
+            "title": "The Trusted Edge.",
+            "date": "2021-05-28",
+            "url": "https://arxiv.org/abs/2105.13601"
+        },
+        "53": {
+            "id": "2405.07685",
+            "title": "Edge Computing for IoT: Novel Insights from a Comparative Analysis of Access Control Models",
+            "date": "2024-05-01",
+            "url": "https://arxiv.org/abs/2405.07685"
+        },
+        "54": {
+            "id": "2012.05410",
+            "title": "Artificial Intelligence at the Edge",
+            "date": "2020-12-10",
+            "url": "https://arxiv.org/abs/2012.05410"
+        },
+        "55": {
+            "id": "1912.05062",
+            "title": "Blockchain for 5G and beyond networks: A state of the art survey",
+            "date": "2019-12-11",
+            "url": "https://arxiv.org/abs/1912.05062"
+        },
+        "56": {
+            "id": "2110.07052",
+            "title": "6G: Connectivity in the Era of Distributed Intelligence",
+            "date": "2021-10-13",
+            "url": "https://arxiv.org/abs/2110.07052"
+        },
+        "57": {
+            "id": "2212.09229",
+            "title": "Mobile Edge Computing for the Metaverse",
+            "date": "2022-12-19",
+            "url": "https://arxiv.org/abs/2212.09229"
+        },
+        "58": {
+            "id": "2010.08861",
+            "title": "Deep Learning in the Era of Edge Computing: Challenges and Opportunities",
+            "date": "2020-10-17",
+            "url": "https://arxiv.org/abs/2010.08861"
+        },
+        "59": {
+            "id": "2209.08333",
+            "title": "Edge Computing Architectures for Enabling the Realisation of the Next Generation Robotic Systems",
+            "date": "2022-09-17",
+            "url": "https://arxiv.org/abs/2209.08333"
+        },
+        "60": {
+            "id": "2109.03184",
+            "title": "The convergence of blockchain, IoT and 6G: Potential, opportunities, challenges and research roadmap",
+            "date": "2021-09-01",
+            "url": "https://arxiv.org/abs/2109.03184"
+        },
+        "61": {
+            "id": "2303.10955",
+            "title": "Attacks Against Security Context in 5G Network",
+            "date": "2023-03-20",
+            "url": "https://arxiv.org/abs/2303.10955"
+        },
+        "62": {
+            "id": "2408.15838",
+            "title": "EdgeLinker: Practical Blockchain-based Framework for Healthcare Fog Applications to Enhance Security in Edge-IoT Data Communications",
+            "date": "2024-08-28",
+            "url": "https://arxiv.org/abs/2408.15838"
+        },
+        "63": {
+            "id": "2410.00055",
+            "title": "Survey of Security and Data Attacks on Machine Unlearning In Financial and E-Commerce",
+            "date": "2024-10-01",
+            "url": "https://arxiv.org/abs/2410.00055"
+        },
+        "64": {
+            "id": "2404.16851",
+            "title": "EdgeLeakage: Membership Information Leakage in Distributed Edge Intelligence Systems",
+            "date": "2024-04-01",
+            "url": "https://arxiv.org/abs/2404.16851"
+        },
+        "65": {
+            "id": "1809.06925",
+            "title": "Security and Protocol Exploit Analysis of the 5G Specifications",
+            "date": "2018-09-18",
+            "url": "https://arxiv.org/abs/1809.06925"
+        },
+        "66": {
+            "id": "2111.04801",
+            "title": "Improved security solutions for DDoS mitigation in 5G Multi-access Edge Computing",
+            "date": "2021-11-08",
+            "url": "https://arxiv.org/abs/2111.04801"
+        },
+        "67": {
+            "id": "2111.00416",
+            "title": "How BlockChain Can Help Enhance The Security And Privacy in Edge Computing?",
+            "date": "2021-11-01",
+            "url": "https://arxiv.org/abs/2111.00416"
+        },
+        "68": {
+            "id": "2401.01589",
+            "title": "The Security and Privacy of Mobile Edge Computing: An Artificial Intelligence Perspective",
+            "date": "2024-01-03",
+            "url": "https://arxiv.org/abs/2401.01589"
+        },
+        "69": {
+            "id": "1811.05407",
+            "title": "Autonomic Intrusion Response in Distributed Computing using Big Data",
+            "date": "2018-11-13",
+            "url": "https://arxiv.org/abs/1811.05407"
+        },
+        "70": {
+            "id": "2005.08593",
+            "title": "Private Edge Computing for Linear Inference Based on Secret Sharing",
+            "date": "2020-05-18",
+            "url": "https://arxiv.org/abs/2005.08593"
+        },
+        "71": {
+            "id": "2108.08059",
+            "title": "Resource Scheduling in Edge Computing: A Survey",
+            "date": "2021-08-18",
+            "url": "https://arxiv.org/abs/2108.08059"
+        },
+        "72": {
+            "id": "1705.00704",
+            "title": "Joint Task Offloading and Resource Allocation for Multi-Server Mobile-Edge Computing Networks",
+            "date": "2017-05-01",
+            "url": "https://arxiv.org/abs/1705.00704"
+        },
+        "73": {
+            "id": "2001.09070",
+            "title": "Priority-based Fair Scheduling in Edge Computing",
+            "date": "2020-01-24",
+            "url": "https://arxiv.org/abs/2001.09070"
+        },
+        "74": {
+            "id": "2411.00859",
+            "title": "Profiling AI Models: Towards Efficient Computation Offloading in Heterogeneous Edge AI Systems",
+            "date": "2024-11-01",
+            "url": "https://arxiv.org/abs/2411.00859"
+        },
+        "75": {
+            "id": "2502.06493",
+            "title": "EdgeMLBalancer: A Self-Adaptive Approach for Dynamic Model Switching on Resource-Constrained Edge Devices",
+            "date": "2025-02-10",
+            "url": "https://arxiv.org/abs/2502.06493"
+        },
+        "76": {
+            "id": "2012.10468",
+            "title": "A Comprehensive Utility Function for Resource Allocation in Mobile Edge Computing",
+            "date": "2020-12-18",
+            "url": "https://arxiv.org/abs/2012.10468"
+        },
+        "77": {
+            "id": "2205.01423",
+            "title": "Autonomy and Intelligence in the Computing Continuum: Challenges, Enablers, and Future Directions for Orchestration",
+            "date": "2022-05-03",
+            "url": "https://arxiv.org/abs/2205.01423"
+        },
+        "78": {
+            "id": "2005.07741",
+            "title": "Trustworthy Edge Computing through Blockchains",
+            "date": "2020-05-01",
+            "url": "https://arxiv.org/abs/2005.07741"
+        },
+        "79": {
+            "id": "2209.06613",
+            "title": "EaaS: A Service-Oriented Edge Computing Framework Towards Distributed Intelligence",
+            "date": "2022-09-14",
+            "url": "https://arxiv.org/abs/2209.06613"
+        },
+        "80": {
+            "id": "2312.00333",
+            "title": "Green Edge AI: A Contemporary Survey",
+            "date": "2023-12-01",
+            "url": "https://arxiv.org/abs/2312.00333"
+        },
+        "81": {
+            "id": "1803.07243",
+            "title": "Energy-Efficient Joint Offloading and Wireless Resource Allocation Strategy in Multi-MEC Server Systems",
+            "date": "2018-03-20",
+            "url": "https://arxiv.org/abs/1803.07243"
+        },
+        "82": {
+            "id": "2207.01577",
+            "title": "Oakestra white paper: An Orchestrator for Edge Computing",
+            "date": "2022-07-04",
+            "url": "https://arxiv.org/abs/2207.01577"
+        },
+        "83": {
+            "id": "2112.00619",
+            "title": "Edge computing for cyber-physical systems: A systematic mapping study emphasizing trustworthiness",
+            "date": "2021-12-01",
+            "url": "https://arxiv.org/abs/2112.00619"
+        },
+        "84": {
+            "id": "2505.01821",
+            "title": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey",
+            "date": "2025-05-01",
+            "url": "https://arxiv.org/abs/2505.01821"
+        },
+        "85": {
+            "id": "1910.05316",
+            "title": "Edge AI: On-Demand Accelerating Deep Neural Network Inference via Edge Computing",
+            "date": "2019-10-04",
+            "url": "https://arxiv.org/abs/1910.05316"
+        },
+        "86": {
+            "id": "1909.00560",
+            "title": "Edge Intelligence: The Confluence of Edge Computing and Artificial Intelligence",
+            "date": "2019-09-02",
+            "url": "https://arxiv.org/abs/1909.00560"
+        },
+        "87": {
+            "id": "2407.18264",
+            "title": "Latency optimized Deep Neural Networks (DNNs): An Artificial Intelligence approach at the Edge using Multiprocessor System on Chip (MPSoC)",
+            "date": "2024-07-16",
+            "url": "https://arxiv.org/abs/2407.18264"
+        },
+        "88": {
+            "id": "2506.02038",
+            "title": "Blockchain Powered Edge Intelligence for U-Healthcare in Privacy Critical and Time Sensitive Environment",
+            "date": "2025-06-01",
+            "url": "https://arxiv.org/abs/2506.02038"
+        },
+        "89": {
+            "id": "2306.01162",
+            "title": "Integrated Sensing-Communication-Computation for Edge Artificial Intelligence",
+            "date": "2023-06-01",
+            "url": "https://arxiv.org/abs/2306.01162"
+        },
+        "90": {
+            "id": "2307.02779",
+            "title": "Large Language Models Empowered Autonomous Edge AI for Connected Intelligence",
+            "date": "2023-07-06",
+            "url": "https://arxiv.org/abs/2307.02779"
+        },
+        "91": {
+            "id": "2311.12816",
+            "title": "Evolution of Convolutional Neural Network (CNN): Compute vs Memory bandwidth for Edge AI",
+            "date": "2023-11-01",
+            "url": "https://arxiv.org/abs/2311.12816"
+        },
+        "92": {
+            "id": "1906.01864",
+            "title": "OpenEI: An Open Framework for Edge Intelligence",
+            "date": "2019-06-05",
+            "url": "https://arxiv.org/abs/1906.01864"
+        },
+        "93": {
+            "id": "2505.08793",
+            "title": "Onboard Optimization and Learning: A Survey",
+            "date": "2025-05-01",
+            "url": "https://arxiv.org/abs/2505.08793"
+        },
+        "94": {
+            "id": "2006.02166",
+            "title": "Communication-Computation Trade-Off in Resource-Constrained Edge Inference",
+            "date": "2020-06-03",
+            "url": "https://arxiv.org/abs/2006.02166"
+        },
+        "95": {
+            "id": "2201.06769",
+            "title": "DEFER: Distributed Edge Inference for Deep Neural Networks",
+            "date": "2022-01-18",
+            "url": "https://arxiv.org/abs/2201.06769"
+        },
+        "96": {
+            "id": "2302.08571",
+            "title": "A Comprehensive Review and a Taxonomy of Edge Machine Learning: Requirements, Paradigms, and Techniques",
+            "date": "2023-02-16",
+            "url": "https://arxiv.org/abs/2302.08571"
+        },
+        "97": {
+            "id": "2111.15208",
+            "title": "HRNET: AI on Edge for mask detection and social distancing",
+            "date": "2021-11-01",
+            "url": "https://arxiv.org/abs/2111.15208"
+        },
+        "98": {
+            "id": "2303.06896",
+            "title": "Quality of Service (QoS)-driven Edge Computing and Smart Hospitals: A Vision, Architectural Elements, and Future Directions",
+            "date": "2023-03-13",
+            "url": "https://arxiv.org/abs/2303.06896"
+        },
+        "99": {
+            "id": "2001.07077",
+            "title": "Distributed Vehicular Computing at the Dawn of 5G: a Survey",
+            "date": "2020-01-20",
+            "url": "https://arxiv.org/abs/2001.07077"
+        },
+        "100": {
+            "id": "2103.12144",
+            "title": "Edge Intelligence for Empowering IoT-Based Healthcare Systems",
+            "date": "2021-03-22",
+            "url": "https://arxiv.org/abs/2103.12144"
+        },
+        "101": {
+            "id": "2012.06992",
+            "title": "Edge Intelligence for Autonomous Driving in 6G Wireless System: Design Challenges and Solutions",
+            "date": "2020-12-13",
+            "url": "https://arxiv.org/abs/2012.06992"
+        },
+        "102": {
+            "id": "2507.23093",
+            "title": "On the Sustainability of AI Inferences in the Edge",
+            "date": "2025-07-30",
+            "url": "https://arxiv.org/abs/2507.23093"
+        },
+        "103": {
+            "id": "2002.09668",
+            "title": "Communication-Efficient Edge AI: Algorithms and Systems",
+            "date": "2020-02-22",
+            "url": "https://arxiv.org/abs/2002.09668"
+        },
+        "104": {
+            "id": "2010.09916",
+            "title": "Deep Reinforcement Learning for Adaptive Network Slicing in 5G for Intelligent Vehicular Systems and Smart Cities",
+            "date": "2020-10-19",
+            "url": "https://arxiv.org/abs/2010.09916"
+        },
+        "105": {
+            "id": "1703.07079",
+            "title": "Fog Computing for Sustainable Smart Cities: A Survey",
+            "date": "2017-03-21",
+            "url": "https://arxiv.org/abs/1703.07079"
+        },
+        "106": {
+            "id": "1607.02805",
+            "title": "Mobile Privacy-Preserving Crowdsourced Data Collection in the Smart City",
+            "date": "2016-07-11",
+            "url": "https://arxiv.org/abs/1607.02805"
+        },
+        "107": {
+            "id": "2007.01156",
+            "title": "Enhancing Autonomy with Blockchain and Multi-Access Edge Computing in Distributed Robotic Systems",
+            "date": "2020-07-01",
+            "url": "https://arxiv.org/abs/2007.01156"
+        },
+        "108": {
+            "id": "2507.11545",
+            "title": "The AI Shadow War: SaaS vs. Edge Computing Architectures",
+            "date": "2025-07-09",
+            "url": "https://arxiv.org/abs/2507.11545"
+        },
+        "109": {
+            "id": "2411.03847",
+            "title": "A Novel Access Control and Privacy-Enhancing Approach for Models in Edge Computing",
+            "date": "2024-11-06",
+            "url": "https://arxiv.org/abs/2411.03847"
+        },
+        "110": {
+            "id": "2412.02233",
+            "title": "Blockchain-Enabled Device-Enhanced Multi-Access Edge Computing in Open Adversarial Environments",
+            "date": "2024-12-03",
+            "url": "https://arxiv.org/abs/2412.02233"
+        },
+        "111": {
+            "id": "1711.05938",
+            "title": "When Mobile Blockchain Meets Edge Computing: Challenges and Applications.",
+            "date": "2017-11-16",
+            "url": "https://arxiv.org/abs/1711.05938"
+        },
+        "112": {
+            "id": "1806.06185",
+            "title": "EdgeChain: An Edge-IoT Framework and Prototype Based on Blockchain and Smart Contracts",
+            "date": "2018-06-16",
+            "url": "https://arxiv.org/abs/1806.06185"
+        },
+        "113": {
+            "id": "1709.08025",
+            "title": "Deep Learning for Secure Mobile Edge Computing",
+            "date": "2017-09-23",
+            "url": "https://arxiv.org/abs/1709.08025"
+        },
+        "114": {
+            "id": "2405.04803",
+            "title": "Blockchains for Internet of Things: Fundamentals, Applications, and Challenges",
+            "date": "2024-05-01",
+            "url": "https://arxiv.org/abs/2405.04803"
+        },
+        "115": {
+            "id": "1907.01489",
+            "title": "Secure Computation in Decentralized Data Markets",
+            "date": "2019-07-02",
+            "url": "https://arxiv.org/abs/1907.01489"
+        },
+        "116": {
+            "id": "2104.07684",
+            "title": "Homomorphic Encryption-Enabled Distance-Based Distributed Formation Control with Distance Mismatch Estimators",
+            "date": "2021-04-01",
+            "url": "https://arxiv.org/abs/2104.07684"
+        },
+        "117": {
+            "id": "1811.09953",
+            "title": "Faster CryptoNets: Leveraging Sparsity for Real-World Encrypted Inference",
+            "date": "2018-11-25",
+            "url": "https://arxiv.org/abs/1811.09953"
+        },
+        "118": {
+            "id": "2108.04780",
+            "title": "Secure k-Anonymization over Encrypted Databases",
+            "date": "2021-08-10",
+            "url": "https://arxiv.org/abs/2108.04780"
+        },
+        "119": {
+            "id": "2010.02973",
+            "title": "Applications of Differential Privacy in Social Network Analysis: A Survey",
+            "date": "2020-10-06",
+            "url": "https://arxiv.org/abs/2010.02973"
+        },
+        "120": {
+            "id": "1903.09084",
+            "title": "Profile-based Privacy for Locally Private Computations",
+            "date": "2019-03-01",
+            "url": "https://arxiv.org/abs/1903.09084"
+        },
+        "121": {
+            "id": "1809.02267",
+            "title": "Cloud-Based Quadratic Optimization With Partially Homomorphic Encryption",
+            "date": "2018-09-07",
+            "url": "https://arxiv.org/abs/1809.02267"
+        },
+        "122": {
+            "id": "2104.01369",
+            "title": "Private Computation of Polynomials over Networks",
+            "date": "2021-04-03",
+            "url": "https://arxiv.org/abs/2104.01369"
+        },
+        "123": {
+            "id": "2010.14445",
+            "title": "Revolutionizing Medical Data Sharing Using Advanced Privacy-Enhancing Technologies: Technical, Legal, and Ethical Synthesis",
+            "date": "2020-10-27",
+            "url": "https://arxiv.org/abs/2010.14445"
+        },
+        "124": {
+            "id": "2004.10926",
+            "title": "Performance Evaluation of Secure Multi-party Computation on Heterogeneous Nodes",
+            "date": "2020-04-23",
+            "url": "https://arxiv.org/abs/2004.10926"
+        },
+        "125": {
+            "id": "2304.02959",
+            "title": "When approximate design for fast homomorphic computation provides differential privacy guarantees",
+            "date": "2023-04-06",
+            "url": "https://arxiv.org/abs/2304.02959"
+        },
+        "126": {
+            "id": "2401.11064",
+            "title": "Low-Complexity Integer Divider Architecture for Homomorphic Encryption",
+            "date": "2024-01-19",
+            "url": "https://arxiv.org/abs/2401.11064"
+        },
+        "127": {
+            "id": "2312.14250",
+            "title": "HElium: A Language and Compiler for Fully Homomorphic Encryption with Support for Proxy Re-Encryption",
+            "date": "2023-12-21",
+            "url": "https://arxiv.org/abs/2312.14250"
+        },
+        "128": {
+            "id": "2112.12855",
+            "title": "SoK: Privacy-preserving Deep Learning with Homomorphic Encryption",
+            "date": "2021-12-23",
+            "url": "https://arxiv.org/abs/2112.12855"
+        },
+        "129": {
+            "id": "2404.14333",
+            "title": "DE-LIoT: The Data-Energy Networking Paradigm for Sustainable Light-Based Internet of Things",
+            "date": "2024-04-22",
+            "url": "https://arxiv.org/abs/2404.14333"
+        },
+        "130": {
+            "id": "2310.18329",
+            "title": "Unveiling Energy Efficiency in Deep Learning: Measurement, Prediction, and Scoring across Edge Devices",
+            "date": "2023-10-19",
+            "url": "https://arxiv.org/abs/2310.18329"
+        },
+        "131": {
+            "id": "2111.02186",
+            "title": "EASE: Energy-Aware Job Scheduling for Vehicular Edge Networks With Renewable Energy Resources",
+            "date": "2021-11-03",
+            "url": "https://arxiv.org/abs/2111.02186"
+        },
+        "132": {
+            "id": "2210.01625",
+            "title": "Energy Consumption of Neural Networks on NVIDIA Edge Boards: an Empirical Model",
+            "date": "2022-10-04",
+            "url": "https://arxiv.org/abs/2210.01625"
+        },
+        "133": {
+            "id": "2306.02444",
+            "title": "Energy-Sustainable IoT Connectivity: Vision, Technological Enablers, Challenges, and Future Directions",
+            "date": "2023-06-04",
+            "url": "https://arxiv.org/abs/2306.02444"
+        },
+        "134": {
+            "id": "2210.15111",
+            "title": "MEET: Mobility-Enhanced Edge inTelligence for Smart and Green 6G Networks",
+            "date": "2022-10-27",
+            "url": "https://arxiv.org/abs/2210.15111"
+        },
+        "135": {
+            "id": "2407.09398",
+            "title": "6G: The Intelligent Network of Everything",
+            "date": "2024-07-21",
+            "url": "https://arxiv.org/abs/2407.09398"
+        },
+        "136": {
+            "id": "2111.08943",
+            "title": "Edge Computing in IoT: A 6G Perspective",
+            "date": "2021-11-17",
+            "url": "https://arxiv.org/abs/2111.08943"
+        },
+        "137": {
+            "id": "2110.05022",
+            "title": "Blockchain for Edge of Things: Applications, Opportunities, and Challenges",
+            "date": "2021-10-11",
+            "url": "https://arxiv.org/abs/2110.05022"
+        },
+        "138": {
+            "id": "1701.01090",
+            "title": "Mobile Edge Computing: Survey and Research Outlook.",
+            "date": "2017-01-04",
+            "url": "https://arxiv.org/abs/1701.01090"
+        },
+        "139": {
+            "id": "2201.06079",
+            "title": "Towards 6G Communications: Architecture, Challenges, and Future Directions",
+            "date": "2022-01-16",
+            "url": "https://arxiv.org/abs/2201.06079"
+        },
+        "140": {
+            "id": "2307.09045",
+            "title": "6G Network Operation Support System",
+            "date": "2023-07-18",
+            "url": "https://arxiv.org/abs/2307.09045"
+        },
+        "141": {
+            "id": "2405.05017",
+            "title": "6G Software Engineering: A Systematic Mapping Study",
+            "date": "2024-05-08",
+            "url": "https://arxiv.org/abs/2405.05017"
+        },
+        "142": {
+            "id": "2409.10337",
+            "title": "Security, Trust and Privacy Challenges in AI-Driven 6G Networks",
+            "date": "2024-09-16",
+            "url": "https://arxiv.org/abs/2409.10337"
+        },
+        "143": {
+            "id": "2301.11111",
+            "title": "Towards 6G Hyper-Connectivity: Vision, Challenges, and Key Enabling Technologies",
+            "date": "2023-01-26",
+            "url": "https://arxiv.org/abs/2301.11111"
+        },
+        "144": {
+            "id": "2404.08643",
+            "title": "6AInets: Harnessing artificial intelligence for the 6G network security: Impacts and Challenges",
+            "date": "2024-04-01",
+            "url": "https://arxiv.org/abs/2404.08643"
+        },
+        "145": {
+            "id": "2206.00868",
+            "title": "6G Survey on Challenges, Requirements, Applications, Key Enabling Technologies, Use Cases, AI integration issues and Security aspects",
+            "date": "2022-06-02",
+            "url": "https://arxiv.org/abs/2206.00868"
+        },
+        "146": {
+            "id": "2108.09758",
+            "title": "Smart Cities: Potentialities and Challenges in a Context of Sharing Economy",
+            "date": "2021-08-22",
+            "url": "https://arxiv.org/abs/2108.09758"
+        },
+        "147": {
+            "id": "2005.02483",
+            "title": "A Blockchain Architecture for Industrial Applications",
+            "date": "2020-05-01",
+            "url": "https://arxiv.org/abs/2005.02483"
+        },
+        "148": {
+            "id": "2410.05251",
+            "title": "Block Medcare: Advancing Healthcare Through Blockchain Integration",
+            "date": "2024-10-07",
+            "url": "https://arxiv.org/abs/2410.05251"
+        },
+        "149": {
+            "id": "2209.09642",
+            "title": "A Secure Healthcare 5.0 System Based on Blockchain Technology Entangled with Federated Learning Technique",
+            "date": "2022-09-16",
+            "url": "https://arxiv.org/abs/2209.09642"
+        },
+        "150": {
+            "id": "2205.13160",
+            "title": "Integration of Blockchain and Edge Computing in Internet of Things: A Survey",
+            "date": "2022-05-26",
+            "url": "https://arxiv.org/abs/2205.13160"
+        },
+        "151": {
+            "id": "1801.05610",
+            "title": "A Taxonomy for Management and Optimization of Multiple Resources in Edge Computing",
+            "date": "2018-01-17",
+            "url": "https://arxiv.org/abs/1801.05610"
+        },
+        "152": {
+            "id": "1910.10231",
+            "title": "Deep Learning at the Edge",
+            "date": "2019-10-22",
+            "url": "https://arxiv.org/abs/1910.10231"
+        },
+        "153": {
+            "id": "2106.12224",
+            "title": "Revisiting the Arguments for Edge Computing Research",
+            "date": "2021-06-23",
+            "url": "https://arxiv.org/abs/2106.12224"
+        },
+        "154": {
+            "id": "2404.09681",
+            "title": "Dissecting Open Edge Computing Platforms: Ecosystem, Usage, and Security Risks",
+            "date": "2024-04-01",
+            "url": "https://arxiv.org/abs/2404.09681"
+        },
+        "155": {
+            "id": "2207.01209",
+            "title": "Sustainable AI Processing at the Edge",
+            "date": "2022-07-04",
+            "url": "https://arxiv.org/abs/2207.01209"
+        },
+        "156": {
+            "id": "2111.06061",
+            "title": "Edge-Cloud Polarization and Collaboration: A Comprehensive Survey",
+            "date": "2021-11-11",
+            "url": "https://arxiv.org/abs/2111.06061"
+        },
+        "157": {
+            "id": "1905.10083",
+            "title": "Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing",
+            "date": "2019-05-24",
+            "url": "https://arxiv.org/abs/1905.10083"
+        },
+        "158": {
+            "id": "2403.02619",
+            "title": "Training Machine Learning models at the Edge: A Survey",
+            "date": "2024-03-05",
+            "url": "https://arxiv.org/abs/2403.02619"
+        },
+        "159": {
+            "id": "2112.00616",
+            "title": "Roadmap for Edge AI: A Dagstuhl Perspective",
+            "date": "2021-12-01",
+            "url": "https://arxiv.org/abs/2112.00616"
+        },
+        "160": {
+            "id": "2505.09995",
+            "title": "A Survey on Open-Source Edge Computing Simulators and Emulators: The Computing and Networking Convergence Perspective",
+            "date": "2025-05-15",
+            "url": "https://arxiv.org/abs/2505.09995"
+        },
+        "161": {
+            "id": "1809.00343",
+            "title": "Towards an Intelligent Edge: Wireless Communication Meets Machine Learning",
+            "date": "2018-09-02",
+            "url": "https://arxiv.org/abs/1809.00343"
+        }
+    }
+}

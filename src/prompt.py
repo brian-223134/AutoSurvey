@@ -72,7 +72,7 @@ You are provided with a list of outlines as candidates below:\n\
 ---
 Each outline contains a title and several sections.
 Each section follows with a brief sentence to describe what to write in this section.
-You need to generate a final outline based on these provided outlines to make the final outline show comprehensive insights of the topic and more logical.
+You need to generate a final outline based on these provided outlines to make the final outline show comprehensive insights of the topic and more logical.[SECTION NUM CONSTRAINT]
 Return the in the format:
 <format>
 Title: [TITLE OF THE SURVEY]

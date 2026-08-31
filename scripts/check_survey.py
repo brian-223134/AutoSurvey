@@ -102,6 +102,31 @@ def length_band(words, refs=0):
     return '표준', ''
 
 
+def measure(md_path):
+    """한 산출물의 구조를 잰다: 섹션/서브섹션/단어 수.
+
+    `.tex` 가 있으면 그쪽을 센다 — `.md` 헤딩 카운트는 중복 제목과 레벨 오류로
+    부풀려진 전례가 있다 (deepseek 편 117 vs 72). length_report 와 collect_run.py 가
+    같은 계산을 쓰도록 여기로 추출했다 (두 벌이면 반드시 어긋난다).
+    """
+    tex = os.path.splitext(md_path)[0] + '.tex'
+    if os.path.exists(tex):
+        body = open(tex, encoding='utf-8').read().split(r'\begin{document}')[-1]
+        body = re.split(r'\\begin\{thebibliography\}|\\section\*?\{References\}', body)[0]
+        secs = len(re.findall(r'^\\section\{', body, re.M))
+        subs = len(re.findall(r'^\\subsection\{', body, re.M))
+        words = len(re.findall(r"[A-Za-z][A-Za-z'-]*",
+                               re.sub(r'\\[a-zA-Z]+\*?(\[[^\]]*\])?(\{[^}]*\})?', ' ', body)))
+        from_tex = True
+    else:
+        md = open(md_path, encoding='utf-8').read().split('## References')[0]
+        secs = len(re.findall(r'^## ', md, re.M))
+        subs = len(re.findall(r'^### ', md, re.M))
+        words = len(md.split())
+        from_tex = False
+    return {'sections': secs, 'subsections': subs, 'words': words, 'from_tex': from_tex}
+
+
 def length_report(md_paths, asked_len=0, target_words=0):
     """분량이 무엇 때문에 그렇게 나왔는지 분해해서 보여준다.
 
@@ -118,21 +143,9 @@ def length_report(md_paths, asked_len=0, target_words=0):
     print(f' {"계수":>7}' if asked_len else '')
     print('-' * (77 if asked_len else 69))
     for p in md_paths:
-        tex = os.path.splitext(p)[0] + '.tex'
-        if os.path.exists(tex):
-            body = open(tex, encoding='utf-8').read().split(r'\begin{document}')[-1]
-            body = re.split(r'\\begin\{thebibliography\}|\\section\*?\{References\}', body)[0]
-            secs = len(re.findall(r'^\\section\{', body, re.M))
-            subs = len(re.findall(r'^\\subsection\{', body, re.M))
-            words = len(re.findall(r"[A-Za-z][A-Za-z'-]*",
-                                   re.sub(r'\\[a-zA-Z]+\*?(\[[^\]]*\])?(\{[^}]*\})?', ' ', body)))
-            src = ''
-        else:
-            md = open(p, encoding='utf-8').read().split('## References')[0]
-            secs = len(re.findall(r'^## ', md, re.M))
-            subs = len(re.findall(r'^### ', md, re.M))
-            words = len(md.split())
-            src = ' (.md 기준 — .tex 가 없어 부풀려졌을 수 있음)'
+        m = measure(p)
+        secs, subs, words = m['sections'], m['subsections'], m['words']
+        src = '' if m['from_tex'] else ' (.md 기준 — .tex 가 없어 부풀려졌을 수 있음)'
         per = words / subs if subs else 0
         name = os.path.splitext(p)[0].replace('output/', '')
         band, warn = length_band(words)

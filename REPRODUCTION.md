@@ -238,6 +238,7 @@ Evaluation of LLMs는 `d@1`도 0.595 → 0.521로 내려가, 토픽에 더 가�
 | 추가 | 위치 | 기본값 |
 |---|---|---|
 | `--subsection_num` — 섹션당 서브섹션 상한 | `main.py`, `src/agents/outline_writer.py`, `src/prompt.py` | **0 = 원본 동작** |
+| `--enforce_section_num` (2026-08-31) — 섹션 수를 merge 프롬프트까지 관철 | `main.py`, `src/agents/outline_writer.py`, `src/prompt.py` | **미지정 = 원본 동작** (merge 프롬프트 글자 단위 동일 — 렌더 바이트 대조로 확인) |
 
 - `src/prompt.py`의 `several subsections`를 `[SUBSECTION NUM] subsections`로 바꿨고,
   값을 주지 않으면 `several`이 치환돼 **원본 프롬프트와 글자 단위로 같아집니다.**
