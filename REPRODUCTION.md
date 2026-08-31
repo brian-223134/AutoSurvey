@@ -346,7 +346,7 @@ source .env      # export 형식으로 작성돼 있음
 
 | 값 | 위치 |
 |---|---|
-| `temperature=1` (아웃라인·본문) | `outline_writer.py:150,187,247,292` / `writer.py:133,141` |
+| `temperature=1` (아웃라인·본문) | `outline_writer.py:150,187,247,292` / `writer.py:133,141` — 2026-08-31부터 **`AUTOSURVEY_TEMPERATURE` 로 전역 오버라이드 가능**(`model.py`. 비우면 원본 그대로, 설정 시 judge 의 0 포함 전 호출 일괄). 그 이전 산출물은 전부 코드 고정값으로 돌았음 |
 | 러프 아웃라인 청크 30,000 토큰 | `main.py:38` |
 | 재시도 한도 (기본 8) | `model.py:12` — **`AUTOSURVEY_MAX_RETRY` 로 조정 가능** |
 | 429 백오프 15초 기준 · 최대 120초 · 지터 0.75~1.25배 | `model.py:127-133` |
