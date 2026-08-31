@@ -508,6 +508,7 @@ DB 갱신은 GPU와 네트워크만 쓰고 **LLM API를 전혀 쓰지 않아** �
 | `src/prompt.py` | `several subsections` → `[SUBSECTION NUM] subsections`. **값을 주지 않으면 `several`이 들어가 원본과 글자 단위로 같습니다** |
 | `src/agents/outline_writer.py` | `subsection_num` 인자 + `process_outlines`에서 초과 서브섹션 절단 (프롬프트 지시를 모델이 넘길 수 있으므로 코드로 상한 보장) |
 | `main.py` | `--subsection_num`, **기본값 0 = 원본 동작** |
+| `--enforce_section_num` (2026-08-31) | `[SECTION NUM]`이 러프 아웃라인 프롬프트에만 있고 merge 프롬프트에는 없어 **최종 섹션 수가 드리프트**한다(5 지시 → 8 관측, retrieval shuffle 때문에 확률적). 플래그를 주면 merge 프롬프트에 개수 문장을 삽입해 관철 — 논문 §2 "The outline predetermines the number of sections" 서술의 구현. **플래그 없으면 merge 프롬프트는 원본과 글자 단위로 같다** (렌더 바이트 동일성 테스트로 확인) |
 | `scripts/check_survey.py` | `--length` 구간 판정, `--subsection-len=N --target-words=W` 계수 역산 |
 
 길이는 프롬프트가 아니라 **캘리브레이션**으로 맞춥니다 — 목표를 모델 계수로 나눠

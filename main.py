@@ -28,9 +28,10 @@ def write(topic, model, section_num, subsection_len, rag_num, refinement):
         raw_survey, raw_survey_with_references, raw_references = write_subsection(topic, model, outline, subsection_len = subsection_len, rag_num = rag_num, refinement = False)
         return raw_survey_with_references
 
-def write_outline(topic, model, section_num, outline_reference_num, db, api_key, api_url, subsection_num=0):
+def write_outline(topic, model, section_num, outline_reference_num, db, api_key, api_url, subsection_num=0,
+                  enforce_section_num=False):
     outline_writer = outlineWriter(model=model, api_key=api_key, api_url = api_url, database=db,
-                                   subsection_num=subsection_num)
+                                   subsection_num=subsection_num, enforce_section_num=enforce_section_num)
     hello = outline_writer.api_model.chat('hello')
     if hello is None:
         raise RuntimeError('API 연결 실패: 위의 [APIModel] 로그를 확인하세요 (--api_url / --api_key / 서버 상태)')
@@ -94,6 +95,11 @@ def paras_args():
                         help='섹션당 서브섹션 개수 상한. 0이면 원본 AutoSurvey 그대로(모델 재량). '
                              '값을 주면 아웃라인 프롬프트에 개수를 명시하고 초과분은 잘라낸다. '
                              '총 분량 = section_num x subsection_num x (subsection_len x 모델 계수)')
+    parser.add_argument('--enforce_section_num', action='store_true',
+                        help='--section_num 을 merge 프롬프트까지 관철한다. 원본은 러프 아웃라인에만 '
+                             '개수를 넣어 merge 에서 소실되고, 최종 섹션 수가 드리프트한다(5 지시 → 8 관측). '
+                             '논문 §2 "predetermines the number of sections" 서술의 구현. '
+                             '플래그가 없으면(기본) merge 프롬프트는 원본과 글자 단위로 같다')
     parser.add_argument('--outline_reference_num',default=1500, type=int, help='Number of references for outline generation')
     parser.add_argument('--rag_num',default=60, type=int, help='Number of references to use for RAG')
     parser.add_argument('--api_url',default='https://api.openai.com/v1/chat/completions', type=str, help='url for API request')
@@ -187,7 +193,7 @@ def main(args):
     if not os.path.exists(args.saving_path):
         os.mkdir(args.saving_path)
 
-    outline_with_description, outline_wo_description = write_outline(args.topic, args.model, args.section_num, args.outline_reference_num, db, api_key, args.api_url, args.subsection_num)
+    outline_with_description, outline_wo_description = write_outline(args.topic, args.model, args.section_num, args.outline_reference_num, db, api_key, args.api_url, args.subsection_num, args.enforce_section_num)
 
     raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references = write_subsection(args.topic, args.model, outline_with_description, args.subsection_len, args.rag_num, db, api_key, args.api_url)
 

@@ -47,7 +47,8 @@ def _numbered_pairs(outline, name_re):
 
 class outlineWriter():
 
-    def __init__(self, model:str, api_key:str, api_url:str, database, subsection_num:int = 0) -> None:
+    def __init__(self, model:str, api_key:str, api_url:str, database, subsection_num:int = 0,
+                 enforce_section_num:bool = False) -> None:
 
         self.model, self.api_key, self.api_url = model, api_key, api_url
         self.api_model = APIModel(self.model, self.api_key, self.api_url)
@@ -58,6 +59,11 @@ class outlineWriter():
         # 서브섹션 개수 상한. 0이면 원본 그대로 — 프롬프트에 'several'이 들어가고
         # 개수는 모델 재량이 된다. 원본 AutoSurvey의 동작을 기본값으로 유지한다.
         self.subsection_num = subsection_num
+        # 섹션 수를 merge 단계까지 관철할지. [SECTION NUM]은 러프 아웃라인 프롬프트에만
+        # 있어서 최종 개수를 정하는 merge에서 소실된다 — retrieval shuffle 때문에
+        # 지시 5가 8로 드리프트하기도 한다(2026-08-31 실측, 논문은 "predetermined"라
+        # 명시). False(기본)면 merge 프롬프트가 원본과 글자 단위로 같다.
+        self.enforce_section_num = enforce_section_num
 
     def draft_outline(self, topic, reference_num = 600, chunk_size = 30000, section_num = 6):
         # Get database
@@ -72,7 +78,8 @@ class outlineWriter():
         outlines = self.generate_rough_outlines(topic=topic, papers_chunks = abs_chunks, titles_chunks = titles_chunks, section_num=section_num)
         
         # merge outline
-        section_outline = self.merge_outlines(topic=topic, outlines=outlines)
+        section_outline = self.merge_outlines(topic=topic, outlines=outlines,
+                                              section_num=section_num if self.enforce_section_num else 0)
 
         # generate subsection-level outline
         subsection_outlines = self.generate_subsection_outlines(topic=topic, section_outline= section_outline,rag_num= 50)
@@ -151,7 +158,7 @@ class outlineWriter():
         self.output_token_usage += self.token_counter.num_tokens_from_list_string(outlines)
         return outlines
     
-    def merge_outlines(self, topic, outlines):
+    def merge_outlines(self, topic, outlines, section_num=0):
         '''
         You are an expert in artificial intelligence who wants to write a overall survey about [TOPIC].\n\
         You are provided with a list of outlines as candidates below:\n\
@@ -181,7 +188,13 @@ class outlineWriter():
         for i, o in zip(range(len(outlines)), outlines):
             outline_texts += f'---\noutline_id: {i}\n\noutline_content:\n\n{o}\n'
         outline_texts+='---\n'
-        prompt = self.__generate_prompt(MERGING_OUTLINE_PROMPT, paras={'OUTLINE LIST': outline_texts, 'TOPIC':topic})
+        # section_num=0(기본)이면 빈 문자열이 들어가 원본 프롬프트와 글자 단위로 같다.
+        # 문구는 러프 아웃라인 프롬프트의 해당 문장과 같은 어법을 쓴다.
+        constraint = (f'\nThe final outline is supposed to contain {section_num} sections.'
+                      if section_num else '')
+        prompt = self.__generate_prompt(MERGING_OUTLINE_PROMPT,
+                                        paras={'OUTLINE LIST': outline_texts, 'TOPIC':topic,
+                                               'SECTION NUM CONSTRAINT': constraint})
         self.input_token_usage += self.token_counter.num_tokens_from_string(prompt)
 
         outline = self.api_model.chat(prompt, temperature=1)
