@@ -228,6 +228,7 @@ Evaluation of LLMs는 `d@1`도 0.595 → 0.521로 내려가, 토픽에 더 가�
 | 토큰/비용 계측, 추론 토글 | `src/model.py`, `main.py` | 비용을 알 수 없음 |
 | API 키 환경변수화 | `main.py`, `evaluation.py` | 키가 `ps`에 노출 |
 | `reference_detail` 저장 | `main.py` | json에 arXiv 서지정보 없음 |
+| **재시도 소진 시 조용한 섹션 손실** | `src/model.py`, `main.py` | 429로 재시도가 소진되면 `None`이 흘러가 워커 스레드만 죽고, **서브섹션이 빈 채로 서베이가 저장됨**. 백오프에 지터가 없어 동시 요청이 함께 재시도하며 소진을 자초했음 (2026-08-18) |
 
 ### 기능 추가 — 켜지 않으면 원본과 동일합니다
 
@@ -345,7 +346,7 @@ source .env      # export 형식으로 작성돼 있음
 
 | 값 | 위치 |
 |---|---|
-| `temperature=1` (아웃라인·본문) | `outline_writer.py:150,187,247,292` / `writer.py:133,141` |
+| `temperature=1` (아웃라인·본문) | `outline_writer.py:150,187,247,292` / `writer.py:133,141` — 2026-08-31부터 **`AUTOSURVEY_TEMPERATURE` 로 전역 오버라이드 가능**(`model.py`. 비우면 원본 그대로, 설정 시 judge 의 0 포함 전 호출 일괄). 그 이전 산출물은 전부 코드 고정값으로 돌았음 |
 | 러프 아웃라인 청크 30,000 토큰 | `main.py:38` |
 | 재시도 한도 (기본 8) | `model.py:12` — **`AUTOSURVEY_MAX_RETRY` 로 조정 가능** |
 | 429 백오프 15초 기준 · 최대 120초 · 지터 0.75~1.25배 | `model.py:127-133` |

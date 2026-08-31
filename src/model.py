@@ -10,6 +10,12 @@ TIMEOUT = int(os.environ.get('AUTOSURVEY_TIMEOUT', 900))
 # 레이트리밋(429)은 초 단위로 풀리지 않는다. 기본 5회 / 최대 16초 백오프로는
 # 동시 16요청이 몰릴 때 소진되고, 소진되면 서브섹션이 통째로 사라진다.
 MAX_RETRY = int(os.environ.get('AUTOSURVEY_MAX_RETRY', 8))
+# temperature 는 에이전트 호출부에 하드코딩돼 있다(아웃라인·본문 1, judge 0).
+# 결정론이 필요한 실험(temperature=0)을 위해 전역 오버라이드만 열어 둔다 —
+# 비워 두면(기본) 원본 동작 그대로다.
+# ⚠ 설정하면 judge 의 0 을 포함해 **모든** 호출에 일괄 적용된다.
+_t = os.environ.get('AUTOSURVEY_TEMPERATURE', '').strip()
+TEMPERATURE_OVERRIDE = float(_t) if _t else None
 
 
 class APIModel:
@@ -77,6 +83,8 @@ class APIModel:
             self.usage['cost'] += float(usage.get('cost', 0) or 0)
 
     def __req(self, text, temperature, max_try=None):
+        if TEMPERATURE_OVERRIDE is not None:
+            temperature = TEMPERATURE_OVERRIDE
         max_try = max_try or MAX_RETRY
         url = f"{self.__api_url}"
         # temperature는 messages 배열이 아니라 최상위에 와야 실제로 적용된다.

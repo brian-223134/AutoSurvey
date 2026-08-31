@@ -32,3 +32,6 @@ output/surveybench_ref/
 *.out
 *.toc
 *.synctex.gz
+
+HANDOFF.md
+CLAUDE.md
