@@ -1,0 +1,44 @@
+{
+  "topic": "Edge Computing",
+  "md": "output/llama-3.3-70b-cc2512/Edge Computing.md",
+  "generated_at_epoch": 1788157811,
+  "args": "--topic Edge Computing --db_path ./database_commoncorpus-2512 --rag_num 60 --outline_reference_num 1200 --section_num 8 --subsection_len 520 --subsection_num 4",
+  "db_path": "./database_commoncorpus-2512",
+  "db_manifest_sha256": "3dece35bc085a280ce17eb08cbd06306bcb36d3873b4463988d346ce1d9ca75e",
+  "model": "meta-llama/llama-3.3-70b-instruct",
+  "provider_pin": "akashml/fp8",
+  "stages": {
+    "outline": {
+      "in_tokens": 422133,
+      "out_tokens": 8820,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.0885,
+      "retries": 1
+    },
+    "writer": {
+      "in_tokens": 875598,
+      "out_tokens": 70229,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.2073,
+      "retries": 2
+    }
+  },
+  "cost_total_usd": 0.2958,
+  "retries_total": 3,
+  "truncated_calls": 0,
+  "structure": {
+    "sections": 8,
+    "subsections": 25,
+    "words": 15206,
+    "from_tex": true,
+    "references": 219,
+    "citation_runs": 324,
+    "pdf_pages": 42
+  },
+  "duration_sec": 741,
+  "coefficient": {
+    "subsection_len_asked": 520,
+    "words_per_subsection": 608,
+    "ratio": 1.17
+  }
+}

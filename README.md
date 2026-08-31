@@ -633,6 +633,7 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 | `scripts/check_survey.py` | 생성 결과 무결성 — 댕글링 인용 / json 매핑 / 포맷 누출. `--subsection-len=N --target-words=W`로 **분량 계수 캘리브레이션** |
 | `scripts/enrich_references.py` | `.json`에 arXiv 서지정보 채우기 (새 실행은 `main.py`가 자동 처리) |
 | `scripts/md_to_tex.py` | `.md` → `.tex` (Overleaf 업로드 / 서버 로컬 컴파일 둘 다 가능 — 아래) |
+| `scripts/collect_run.py` (2026-08-31) | 실행 로그+산출물 → 편당 `<topic>.run.json` 매니페스트(단계별 토큰·비용·재시도, 구조, DB manifest sha, 계수, 소요시간). `--table`로 전 산출물 집계 표. **로그가 살아있을 때(생성 직후) 바로 만들 것** — 로그는 휘발성이다 |
 
 **분석용**
 
