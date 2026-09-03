@@ -1,0 +1,45 @@
+{
+  "topic": "Instruction Tuning for Large Language Models",
+  "md": "./output/bench-2512-ai1-instruction-tuning/Instruction Tuning for Large Language Models.md",
+  "generated_at_epoch": 1788404228,
+  "args": "--topic Instruction Tuning for Large Language Models --db_path ./database_commoncorpus-bench-2512 --section_num 8 --subsection_num 4 --subsection_len 520 --rag_num 60 --outline_reference_num 1200",
+  "db_path": "./database_commoncorpus-bench-2512",
+  "db_manifest_sha256": "7393bef6b788dcac8b27a0249b7a7eb2756c55a4fb77586cda663362c4638d90",
+  "model": "meta-llama/llama-3.3-70b-instruct",
+  "provider_pin": "akashml/fp8",
+  "stages": {
+    "outline": {
+      "in_tokens": 428077,
+      "out_tokens": 7650,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.0891,
+      "retries": 0
+    },
+    "writer": {
+      "in_tokens": 994287,
+      "out_tokens": 271846,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.2558,
+      "retries": 2
+    }
+  },
+  "cost_total_usd": 0.3449,
+  "retries_total": 2,
+  "truncated_calls": 2,
+  "structure": {
+    "sections": 8,
+    "subsections": 23,
+    "words": 12914,
+    "from_tex": true,
+    "references": 166,
+    "citation_runs": 281,
+    "pdf_pages": 35
+  },
+  "duration_sec": 3847,
+  "coefficient": {
+    "subsection_len_asked": 520,
+    "words_per_subsection": 561,
+    "ratio": 1.08
+  },
+  "note": "run.log는 복원본(원본 삭제). duration_sec는 원본 run.json에서 가져옴."
+}

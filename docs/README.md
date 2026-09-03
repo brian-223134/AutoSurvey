@@ -5,11 +5,15 @@
 
 | 문서 | 용도 |
 |---|---|
-| [`seminar-2026-08-20.md`](seminar-2026-08-20.md) | 인턴 세미나 발표 본문 — 슬라이드 순서대로 |
-| [`seminar-qa.md`](seminar-qa.md) | 예상 질문과 답변 — 근거 수치를 답변 옆에 붙여 둠 |
 | [`evaluation-note.md`](evaluation-note.md) | 평가를 어떻게 했고 **무엇을 못 쟀는지** — 발표에서 가장 방어가 필요한 부분 |
 | [`commoncorpus-setup.md`](commoncorpus-setup.md) | Common Corpus DB 반입 × llama-3.3-70b 백본 셋업 — 재현 체인·검증·분량 캘리브레이션·첫 실행 기록 |
-| [`edge-computing-runs.md`](edge-computing-runs.md) | Edge Computing 4판 메트릭 정리 — 비용·시간·길이·쪽수, 단계별 청구, 발표 멘트용 파생 지표 |
+
+## experiments/ — 편별 실행 기록
+
+| 문서 | 용도 |
+|---|---|
+| [`experiments/edge-computing-experiment.md`](experiments/edge-computing-experiment.md) | Edge Computing 4판 메트릭 — 분량 레버(section/subsection/len) 거동, 단계별 청구, 발표 멘트용 파생 지표 |
+| [`experiments/bench-2512-ai1-instruction-tuning.md`](experiments/bench-2512-ai1-instruction-tuning.md) | **벤치마크 `bench-2512` 첫 편** — 누수 차단 end-to-end 검증, 인덱스 빌드 5회 실패 기록, 25편 본배치 전 미결 3건 |
 
 수치는 전부 저장소의 실측값입니다. 출처를 각 표 아래에 적어 뒀으니
 발표 중 근거를 물으면 그 파일·스크립트를 열면 됩니다.
