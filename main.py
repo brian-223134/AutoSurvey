@@ -128,9 +128,17 @@ def build_reference_detail(references, db):
             # arXiv 제목에는 줄바꿈과 들여쓰기가 들어 있다.
             'title': ' '.join((p.get('title') or '').split()),
             'date': (p.get('date') or '').strip(),
-            'url': f'https://arxiv.org/abs/{rid}',
+            'url': _reference_url(rid, p),
         }
     return detail
+
+
+def _reference_url(rid, p):
+    """id 규칙에 따른 링크. arXiv id면 arxiv.org, DOI id(KISTI DB, `10.`으로 시작)면
+    DB 레코드의 url(doi.org) — 없으면 doi.org/<id>로 만든다."""
+    if str(rid).startswith('10.'):
+        return p.get('url') or f'https://doi.org/{rid}'
+    return f'https://arxiv.org/abs/{rid}'
 
 
 def check_provider_pin(model):

@@ -282,8 +282,10 @@ def format_bibitem(n, title, info):
     arxiv_id = info.get('id', '')
     year = (info.get('date') or '')[:4]
     if arxiv_id:
-        parts.append('arXiv:%s%s.' % (tex_escape(arxiv_id),
-                                      (', %s' % year) if year else ''))
+        # KISTI DB는 id가 arXiv id 또는 DOI(`10.`으로 시작)다. 라벨을 맞춰 준다.
+        label = 'doi' if str(arxiv_id).startswith('10.') else 'arXiv'
+        parts.append('%s:%s%s.' % (label, tex_escape(arxiv_id),
+                                   (', %s' % year) if year else ''))
     if info.get('url'):
         # \url은 hyperref가 제공한다. 내용에 특수문자가 없는 arXiv 링크라 안전하다.
         parts.append('\\url{%s}' % info['url'])
