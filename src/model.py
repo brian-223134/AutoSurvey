@@ -40,7 +40,7 @@ class APIModel:
             self.truncated += 1
 
     def _extra_payload(self):
-        """AUTOSURVEY_REASONING / AUTOSURVEY_PROVIDER 를 페이로드에 반영한다.
+        """AUTOSURVEY_REASONING / AUTOSURVEY_PROVIDER / AUTOSURVEY_MAX_TOKENS 를 페이로드에 반영한다.
 
         둘 다 환경변수를 주지 않으면 아무것도 추가하지 않아 원본 동작이 유지된다.
 
@@ -70,6 +70,20 @@ class APIModel:
                 "order": [p.strip() for p in provider.split(',') if p.strip()],
                 "allow_fallbacks": False,
             }
+
+        # max_tokens — 잘림 가드이지 분량 통제가 아니다. 원논문은 호출당 출력이
+        # 8K 미만(GPT-4 8k, Claude 3 4k)이라는 전제로 설계됐는데, 출력 한도 128K
+        # provider 에서 temperature 0 반복 루프가 한 호출을 45분·128K 토큰까지
+        # 끌고 갔다(2026-09-07 kisti-2512 첫 편). 정상 호출(서브섹션 ≈1K, 아웃라인
+        # ≤2K 토큰)에는 절대 걸리지 않는 값으로 둔다. 비우면 필드 미전송(원본 동작).
+        mt = os.environ.get('AUTOSURVEY_MAX_TOKENS', '').strip()
+        if mt:
+            try:
+                n = int(mt)
+            except ValueError:
+                raise ValueError(f'AUTOSURVEY_MAX_TOKENS 는 정수여야 합니다: {mt!r}')
+            if n > 0:
+                extra["max_tokens"] = n
         return extra
 
     def _record(self, usage):
