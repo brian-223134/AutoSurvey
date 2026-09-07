@@ -57,6 +57,10 @@ def report_usage(stage, agent):
         print(f'[usage]  {stage:7s} ⚠ 출력 잘림 {agent.api_model.truncated}건 — '
               f'해당 서브섹션은 문장 중간에서 끊겼습니다. provider 출력 한도나 '
               f'reasoning 설정을 확인하세요', flush=True)
+    # 가드에 걸려 버리고 다시 받은 응답 수. 출력에는 들어가지 않았지만 비용·시간은 들었다.
+    if getattr(agent.api_model, 'truncation_retries', 0):
+        print(f'[usage]  {stage:7s} 잘림 재요청 {agent.api_model.truncation_retries}회 '
+              f'(버린 응답, 출력 미포함)', flush=True)
     # 재시도를 다 쓴 요청이 하나라도 있으면 그 서브섹션은 비어 있다. 저장하면
     # 섹션이 빠진 서베이가 조용히 남고, check_survey.py 도 인용만 보므로 잡지 못한다.
     # 부분 산출물을 남기느니 여기서 멈춘다.

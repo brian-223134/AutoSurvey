@@ -63,6 +63,7 @@ def parse_log(log_path):
         # finish_reason=length 로 잘린 호출 수. 0이 아니면 그 서베이는 어딘가
         # 문장이 끊긴 채로 들어간 것이다 (model.py 의 경고와 같은 신호).
         'truncated_calls': text.count('출력이 잘렸습니다'),
+        'truncation_retries': text.count('출력이 잘려 재요청'),   # 버리고 다시 받은 응답 수
     }
 
 

@@ -16,6 +16,17 @@ MAX_RETRY = int(os.environ.get('AUTOSURVEY_MAX_RETRY', 8))
 # ⚠ 설정하면 judge 의 0 을 포함해 **모든** 호출에 일괄 적용된다.
 _t = os.environ.get('AUTOSURVEY_TEMPERATURE', '').strip()
 TEMPERATURE_OVERRIDE = float(_t) if _t else None
+# max_tokens 가드(AUTOSURVEY_MAX_TOKENS)에 걸린 응답(finish_reason=length)은 정상 호출에서 나올 수
+# 없다 — 가드가 정상 출력의 4~8배다. 반복 루프의 신호이므로 그 응답은 버리고 새 샘플을 받는다.
+# 기본값: 가드가 설정돼 있으면 켜짐. AUTOSURVEY_RETRY_TRUNCATED=0 으로 끌 수 있고, 가드가 없으면
+# (원본 동작) 잘린 내용을 그대로 쓴다. 재시도를 다 쓰면 마지막 잘린 내용을 받아들이고 잘림으로 센다.
+# 근거: 2026-09-07 temp 0.6 본편에서 draft 호출의 약 30%가 8K 가드까지 갔다(프로브 12회는 0건).
+_rt = os.environ.get('AUTOSURVEY_RETRY_TRUNCATED', '').strip().lower()
+RETRY_TRUNCATED = (_rt in ('1', 'true', 'on', 'yes')) if _rt else bool(os.environ.get('AUTOSURVEY_MAX_TOKENS', '').strip())
+
+
+class _TruncatedResponse(Exception):
+    """max_tokens 가드에 걸린 응답을 재시도 루프로 되돌리기 위한 내부 신호."""
 
 
 class APIModel:
@@ -29,6 +40,7 @@ class APIModel:
         self.retry_count = 0
         # 출력이 잘린 호출 수. 0이 아니면 그 서베이는 문장이 끊긴 채로 들어간 것이다.
         self.truncated = 0
+        self.truncation_retries = 0   # 잘려서 버리고 재요청한 횟수 (출력에 미포함)
         # 최종 실패한 요청 수. 0이 아니면 산출물에 빈 서브섹션이 있다는 뜻이라
         # main.py가 저장을 거부한다.
         self.failed = 0
@@ -135,11 +147,23 @@ class APIModel:
                         # 검사하지 않으면 잘린 서브섹션이 조용히 서베이에 들어간다.
                         # 인용 검사(check_survey.py)로는 잡히지 않는다.
                         if choice.get('finish_reason') == 'length':
+                            if RETRY_TRUNCATED and attempt < max_try - 1:
+                                # 가드에 걸린 응답은 버린다. 같은 temperature 의 새 샘플이 루프를
+                                # 벗어날 확률이 높다. 마지막 시도에서는 아래로 내려가 받아들인다.
+                                with self._lock:
+                                    self.truncation_retries += 1
+                                last_err = '출력 잘림(finish_reason=length) — 반복 루프 의심'
+                                print(f'[APIModel] ⚠ 출력이 잘려 재요청합니다(finish_reason=length, '
+                                      f'{attempt + 1}/{max_try}). 누적 재요청 {self.truncation_retries}회',
+                                      flush=True)
+                                raise _TruncatedResponse()
                             self._note_truncation()
                             print(f'[APIModel] ⚠ 출력이 잘렸습니다(finish_reason=length). '
                                   f'provider 출력 한도 또는 reasoning 토큰 과다. '
                                   f'누적 {self.truncated}건', flush=True)
                         return choice['message']['content']
+            except _TruncatedResponse:
+                pass   # last_err 는 위에서 설정됨 — 아래 백오프(비-429 경로)로 재요청
             except Exception as e:
                 last_err = repr(e)
             # 재시도는 프롬프트를 다시 청구시킨다. 반드시 보이게 남긴다.
