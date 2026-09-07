@@ -1,0 +1,1295 @@
+{
+    "survey": "# Visual Adversarial Attacks and Defenses in the Physical World\n\n## 1 Introduction to Visual Adversarial Attacks\n\n### 1.1 Definition and Goals of Visual Adversarial Attacks\n\nVisual adversarial attacks refer to the process of crafting input data, such as images, to deceive computer vision systems into making incorrect predictions or classifications. These attacks can be launched in both digital and physical domains, and their goals can vary depending on the context and intentions of the attacker. In general, the primary objective of visual adversarial attacks is to exploit the vulnerabilities of deep learning models, which are widely used in computer vision applications, to compromise their performance and reliability [1]. This is achieved by creating adversarial examples, which are input data that have been specifically designed to cause a machine learning model to make a mistake.\n\nThe concept of adversarial examples is closely related to the idea of adding noise or perturbations to the input data, or using more sophisticated methods like generative adversarial networks (GANs) [2]. The goal of adversarial attacks is to create examples that are indistinguishable from legitimate input data but can cause the model to produce incorrect or undesirable outputs. For instance, an attacker could use visual adversarial attacks to cause a self-driving car to misrecognize a stop sign or a pedestrian, leading to potentially catastrophic consequences [3]. Similarly, in medical imaging, adversarial attacks could be used to manipulate images of tumors or other medical conditions, leading to incorrect diagnoses or treatments [4].\n\nVisual adversarial attacks can be categorized into several types, including targeted and untargeted attacks. Targeted attacks aim to cause the model to produce a specific incorrect output, such as misclassifying a stop sign as a speed limit sign [5]. Untargeted attacks, on the other hand, aim to cause the model to produce any incorrect output, without specifying a particular target [6]. Additionally, attacks can be launched in either the digital or physical domain, depending on the context and intentions of the attacker [7]. Understanding these different types of attacks is essential for developing effective defense mechanisms to mitigate these threats.\n\nThe potential impact of visual adversarial attacks on computer vision systems is significant, and it is essential to develop effective defense strategies to mitigate these threats. Several defense strategies have been proposed, including adversarial training, input preprocessing, and robust optimization [8]. Adversarial training involves training the model on a dataset that includes adversarial examples, with the goal of improving its robustness to attacks [9]. Input preprocessing involves modifying the input data to reduce the effectiveness of adversarial attacks, such as by applying noise reduction or data augmentation techniques [10]. Robust optimization involves optimizing the model's parameters to minimize the impact of adversarial attacks, such as by using robust loss functions or regularization techniques [11]. By recognizing the potential impact of visual adversarial attacks, researchers and practitioners can work together to develop more robust and reliable computer vision systems that can withstand these attacks and provide accurate and trustworthy outputs [12]. \n\nIn conclusion, visual adversarial attacks are a significant threat to computer vision systems, and their goals can vary depending on the context and intentions of the attacker. Understanding the concept of adversarial examples and the different types of attacks is essential for developing effective defense mechanisms to mitigate these threats, and ultimately, for ensuring the security and reliability of computer vision systems in various applications, including autonomous driving, surveillance, and medical diagnosis.\n\n### 1.2 Importance of Studying Visual Adversarial Attacks\n\nThe importance of studying visual adversarial attacks cannot be overstated, as these attacks pose a significant threat to the security and reliability of computer vision systems. As discussed earlier, visual adversarial attacks involve the creation of subtle perturbations in input images that can cause deep learning models to misclassify or produce incorrect outputs. These attacks can have severe consequences in various applications, including autonomous driving, surveillance, and medical diagnosis. Therefore, it is crucial to understand the mechanisms of visual adversarial attacks, develop effective defenses, and ensure the security and reliability of computer vision systems.\n\nOne of the primary reasons for studying visual adversarial attacks is to understand their mechanisms and how they can be used to compromise computer vision systems. By analyzing the techniques used to generate adversarial examples, researchers can identify vulnerabilities in deep learning models and develop strategies to mitigate these vulnerabilities [8]. For instance, the [13] paper highlights the importance of understanding the attention mechanisms in deep learning models to develop more robust defenses against adversarial attacks. This understanding is essential for developing effective defense mechanisms, such as those discussed earlier, including adversarial training, input preprocessing, and robust optimization.\n\nAnother critical aspect of studying visual adversarial attacks is the development of effective defenses. Various defense mechanisms have been proposed, including adversarial training, input preprocessing, and gradient masking [9]. However, these defenses are not foolproof, and new attacks can be designed to bypass them. Therefore, it is essential to continue researching and developing more effective defenses against visual adversarial attacks. The [14] paper demonstrates the effectiveness of logit regularization methods in improving the robustness of deep learning models against adversarial attacks. Furthermore, the study of visual adversarial attacks can also inform the development of more robust and secure computer vision systems, which will be discussed in the following sections.\n\nThe study of visual adversarial attacks is also important for ensuring the security and reliability of computer vision systems in real-world applications. For example, in autonomous driving systems, visual adversarial attacks can be used to create fake traffic signs or perturb the input images to cause the system to misbehave [7]. Similarly, in surveillance systems, visual adversarial attacks can be used to create fake or perturbed images to evade detection [15]. The [16] paper highlights the vulnerability of segment anything models to adversarial attacks, which can have severe consequences in real-world applications. By understanding these vulnerabilities, researchers can design more secure and reliable systems that can withstand adversarial attacks.\n\nFurthermore, the study of visual adversarial attacks can also have significant societal implications. As computer vision systems become increasingly ubiquitous in various aspects of our lives, the potential consequences of adversarial attacks can be severe. For example, in healthcare, adversarial attacks can be used to compromise medical imaging systems, leading to misdiagnosis or incorrect treatment [17]. Therefore, it is essential to continue researching and developing more effective defenses against visual adversarial attacks to mitigate these risks.\n\nFinally, the study of visual adversarial attacks can also lead to new research directions and innovations in computer vision and machine learning. By understanding the mechanisms of adversarial attacks, researchers can develop new techniques and methods to improve the robustness and security of computer vision systems [18]. The [19] paper demonstrates the importance of continued research in adversarial attacks and defenses, highlighting the need for more effective and robust defenses against visual adversarial attacks. In conclusion, the study of visual adversarial attacks is crucial for understanding their mechanisms, developing effective defenses, and ensuring the security and reliability of computer vision systems. By continuing to research and develop new techniques and methods, we can improve the robustness and security of computer vision systems and mitigate the risks associated with adversarial attacks, as will be further discussed in the following sections [20], [21], and [22].\n\n## 2 Background and Related Work\n\n### 2.1 Existing Research on Visual Adversarial Attacks\n\nVisual adversarial attacks have been a subject of interest in the field of computer vision and machine learning, with a growing body of research focused on understanding and mitigating these threats. The concept of visual adversarial attacks involves manipulating input images to cause machine learning models to misbehave or produce incorrect outputs. This can be achieved through various means, including adding noise or perturbations to the input images, or using more sophisticated methods such as generative adversarial networks (GANs) [23]. These attacks can have significant consequences, particularly in applications where machine learning models are used to make critical decisions, such as self-driving cars or medical diagnosis.\n\nOne of the earliest and most well-known types of visual adversarial attacks is the fast gradient sign method (FGSM) [8]. This method involves adding noise to the input image in the direction of the gradient of the loss function, which can cause the model to misclassify the image. Other types of attacks include the projected gradient descent (PGD) method [8], which is an iterative version of FGSM, and the Carlini and Wagner (C&W) method [8], which is a more sophisticated attack that uses a different optimization algorithm. In addition to these types of attacks, there are also more specialized types of visual adversarial attacks, such as physical-world attacks [7], which involve manipulating the physical environment to cause the model to misbehave.\n\nTo mitigate these types of attacks, researchers have proposed a variety of defense mechanisms, including adversarial training [8], which involves training the model on a dataset that includes adversarial examples, and input preprocessing [8], which involves modifying the input images to reduce the effectiveness of the attack. Other defense mechanisms include the use of robust optimization algorithms [14], such as logit regularization, and the use of ensemble methods [24], which involve combining the outputs of multiple models to improve robustness. Furthermore, recent research has also explored the use of multimodal models, which combine visual and textual information, to improve the robustness of machine learning models [25].\n\nDespite these efforts, visual adversarial attacks remain a significant threat, and new types of attacks are continually being developed. For example, recent research has shown that it is possible to use GANs to generate highly realistic adversarial examples [23], and that these examples can be used to attack a wide range of machine learning models. Other research has shown that physical-world attacks can be used to manipulate the appearance of objects in the physical environment, causing models to misbehave [7]. Additionally, attacks that involve manipulating the semantics of the input images [26] can also have significant consequences. Therefore, it is essential to continue developing more effective defense mechanisms and improving our understanding of the types of attacks that are possible.\n\nIn conclusion, visual adversarial attacks are a significant threat to the security and reliability of machine learning models, and understanding and mitigating these threats is crucial for ensuring the safe and effective deployment of these models in computer vision applications. By developing more effective defense mechanisms and improving our understanding of the types of attacks that are possible, we can help to ensure the security and reliability of these systems [8]. As the field of visual adversarial attacks continues to evolve, it is essential to evaluate and benchmark these attacks and defenses to identify areas for improvement, which will be discussed in the following section [8].\n\n### 2.2 Evaluation and Benchmarking of Visual Adversarial Attacks and Defenses\n\nEvaluating and benchmarking visual adversarial attacks and defenses is crucial for understanding their effectiveness and identifying areas for improvement, as highlighted in the previous section [8]. The field of visual adversarial attacks has seen significant growth in recent years, with various attacks and defenses being proposed [8]. However, the lack of standardization in evaluation metrics and frameworks has made it challenging to compare the performance of different attacks and defenses [27]. To address this issue, researchers have proposed various evaluation metrics and frameworks for visual adversarial attacks and defenses, which will be discussed in this section.\n\nOne of the key challenges in evaluating visual adversarial attacks and defenses is the development of standardized evaluation metrics. To address this challenge, researchers have proposed various metrics, such as the \"Retention Score\" [28], which quantifies the robustness of vision-language models against jailbreak attacks. This metric takes into account the model's ability to maintain its performance under adversarial attacks and provides a comprehensive evaluation of its robustness. Similarly, the \"hiPAA\" metric [3] has been proposed to evaluate the performance of physical adversarial attacks, considering factors such as effectiveness, stealthiness, robustness, practicability, aesthetics, and economics.\n\nIn addition to these metrics, various evaluation frameworks have been proposed to benchmark visual adversarial attacks and defenses. For example, the \"PatchMap\" framework [29] provides a comprehensive evaluation of adversarial patch attacks, including their effectiveness, stealthiness, and robustness. Similarly, the \"TROJANZOO\" framework [30] has been proposed to evaluate the performance of neural backdoor attacks, providing a comprehensive evaluation of their effectiveness, stealthiness, and robustness. Other frameworks, such as the \"Universal Perturbation Attack\" [31] and the \"REVAL\" framework [32], have also been proposed to evaluate the performance of visual adversarial attacks and defenses.\n\nThe evaluation of visual adversarial attacks and defenses is not limited to the computer vision community. The \"Chain of Attack\" framework [33] has been proposed to evaluate the performance of vision-language models against transfer-based adversarial attacks, providing a comprehensive evaluation of their robustness. Similarly, the \"Multi-Faceted Attack\" framework [21] has been proposed to evaluate the performance of defense-equipped vision-language models against adversarial attacks, providing a comprehensive evaluation of their robustness.\n\nIn conclusion, evaluating and benchmarking visual adversarial attacks and defenses is crucial for understanding their effectiveness and identifying areas for improvement. Various evaluation metrics and frameworks have been proposed to address the lack of standardization in the field, including the \"Retention Score\" metric, the \"hiPAA\" metric, the \"PatchMap\" framework, the \"TROJANZOO\" framework, the \"Universal Perturbation Attack\" metric, and the \"REVAL\" framework [28], [3], [29], [30], [31], [32]. These metrics and frameworks provide a comprehensive evaluation of visual adversarial attacks and defenses, including their effectiveness, stealthiness, and robustness. As the field of visual adversarial attacks continues to evolve, it is essential to develop standardized evaluation metrics and frameworks to compare the performance of different attacks and defenses, which will be further discussed in the following section [8].\n\n## 3 Types of Visual Adversarial Attacks\n\n### 3.1 Physical Adversarial Attacks\n\nPhysical adversarial attacks refer to a type of attack where an adversary intentionally manipulates the physical environment to deceive a computer vision system [3]. These attacks are particularly concerning because they can be launched in the real world, potentially causing harm to people and property. In contrast to digital adversarial attacks, which involve manipulating digital images or data, physical adversarial attacks require an adversary to interact with the physical world, making them more challenging to detect and mitigate. \n\nPhysical adversarial attacks can take many forms, including modifying objects or scenes to mislead a computer vision system [2]. For example, an attacker could place stickers on a stop sign to make it look like a speed limit sign to a self-driving car's computer vision system. Alternatively, an attacker could wear clothing with a specific pattern to evade detection by a surveillance system [34]. The diversity of physical adversarial attacks highlights the need for a comprehensive understanding of the threat models and mechanisms underlying these attacks.\n\nThe threat model for physical adversarial attacks typically involves an adversary with some level of access to the physical environment [35]. The adversary may be able to modify objects or scenes, or they may be able to manipulate the lighting or other environmental factors. In some cases, the adversary may even be able to compromise the computer vision system itself, allowing them to launch more sophisticated attacks [36]. Understanding the capabilities and limitations of an adversary is crucial for developing effective countermeasures against physical adversarial attacks.\n\nStudying physical adversarial attacks is crucial because they can have significant real-world consequences [37]. For example, if an attacker can manipulate a self-driving car's computer vision system, they may be able to cause the car to crash or behave erratically. Similarly, if an attacker can evade detection by a surveillance system, they may be able to commit crimes without being caught [38]. The potential consequences of physical adversarial attacks underscore the need for researchers and practitioners to develop effective detection and response strategies.\n\nTo study physical adversarial attacks, researchers typically use a combination of theoretical and experimental approaches [39]. They may use simulations or laboratory experiments to test the effectiveness of different attack strategies, and they may also use real-world data to evaluate the impact of physical adversarial attacks on computer vision systems [40]. One of the key challenges in studying physical adversarial attacks is developing effective threat models [41]. Because physical adversarial attacks can take many forms, it is difficult to anticipate and prepare for all possible types of attacks. Additionally, the physical environment can be complex and dynamic, making it challenging to predict how an attack will play out in the real world [42].\n\nDespite these challenges, researchers have made significant progress in understanding and mitigating physical adversarial attacks [43]. For example, they have developed techniques for detecting and responding to physical adversarial attacks, such as using machine learning algorithms to identify anomalous patterns in the physical environment [44]. They have also developed more robust computer vision systems that are less vulnerable to physical adversarial attacks [45]. As research in this area continues to evolve, it is likely that we will see the development of even more effective countermeasures against physical adversarial attacks.\n\nIn conclusion, physical adversarial attacks are a significant concern for computer vision systems, and studying these attacks is crucial for developing effective countermeasures [46]. By understanding the threat models and mechanisms of physical adversarial attacks, researchers can develop more robust computer vision systems that are less vulnerable to these types of attacks. Additionally, by developing effective detection and response strategies, researchers can help mitigate the impact of physical adversarial attacks and prevent them from causing harm in the real world [47]. As we move forward, it is essential to continue exploring the intersection of physical adversarial attacks and digital adversarial attacks, as discussed in the next section, to develop a comprehensive understanding of the threats and challenges facing computer vision systems.\n\n### 3.2 Digital Adversarial Attacks\n\nDigital adversarial attacks are a type of attack that involves manipulating digital images or data to deceive machine learning models, particularly those used in computer vision tasks. These attacks are designed to be imperceptible to the human eye, yet can cause significant errors in the model's predictions. In contrast to physical adversarial attacks, which involve manipulating the physical environment to deceive a computer vision system, digital adversarial attacks are launched in the digital domain. This subsection will discuss the definition, types, and differences of digital adversarial attacks from physical adversarial attacks, and explore the defenses against these attacks.\n\nDigital adversarial attacks can be defined as the process of crafting malicious inputs that are designed to mislead machine learning models into making incorrect predictions [48]. These attacks can be launched in various forms, including image classification, object detection, and segmentation. The goal of digital adversarial attacks is to create a perturbed input that is similar to the original input, yet can cause the model to produce a different output. For instance, an attacker may add noise to an image of a stop sign to make it look like a speed limit sign to a self-driving car's computer vision system.\n\nThere are several types of digital adversarial attacks, including white-box, black-box, and gray-box attacks [49]. White-box attacks assume that the attacker has full knowledge of the model's architecture, parameters, and training data. Black-box attacks, on the other hand, assume that the attacker has no knowledge of the model's internal workings and can only observe the input and output. Gray-box attacks fall somewhere in between, where the attacker has some knowledge of the model's internal workings, but not complete knowledge. Digital adversarial attacks can be further categorized into targeted and non-targeted attacks [48]. Targeted attacks aim to mislead the model into producing a specific output, whereas non-targeted attacks aim to cause the model to produce any incorrect output.\n\nOne of the key differences between digital and physical adversarial attacks is the level of control the attacker has over the input [34]. In digital adversarial attacks, the attacker has complete control over the input and can manipulate it in any way they see fit. In physical adversarial attacks, the attacker must manipulate the physical environment in a way that can be captured by a sensor or camera, which can be more challenging. Another key difference between digital and physical adversarial attacks is the level of realism required [46]. Digital adversarial attacks can be launched in a purely digital environment, where the attacker can manipulate the input in any way they see fit. Physical adversarial attacks, on the other hand, require a level of realism, as the attacker must manipulate the physical environment in a way that can be captured by a sensor or camera.\n\nDigital adversarial attacks have been shown to be effective against a wide range of machine learning models, including convolutional neural networks (CNNs) and recurrent neural networks (RNNs) [50]. These attacks can be launched using various techniques, including gradient-based methods and evolutionary algorithms. The effectiveness of digital adversarial attacks has significant implications for the security and reliability of machine learning models in a wide range of applications, including computer vision, natural language processing, and speech recognition. As computer vision systems become increasingly ubiquitous in the physical world, the risk of digital adversarial attacks will only continue to grow, highlighting the need for effective defenses against these attacks.\n\nIn addition to the types and differences of digital adversarial attacks, it is also essential to consider the defenses against these attacks [51]. Defenses against digital adversarial attacks can be categorized into two main types: proactive and reactive defenses. Proactive defenses aim to prevent the attack from occurring in the first place, whereas reactive defenses aim to detect and mitigate the attack after it has occurred. Proactive defenses against digital adversarial attacks include techniques such as adversarial training, where the model is trained on a dataset that includes adversarial examples [49]. This can help the model to learn to recognize and resist adversarial attacks. Another proactive defense is input validation, where the input is checked for validity and consistency before it is passed to the model.\n\nReactive defenses against digital adversarial attacks include techniques such as anomaly detection, where the output of the model is monitored for anomalies and inconsistencies [52]. If an anomaly is detected, the output can be flagged for further review or the model can be re-trained on a new dataset. Another reactive defense is output validation, where the output of the model is checked for validity and consistency before it is used in a downstream application. By combining proactive and reactive defenses, it is possible to develop robust and effective defenses against digital adversarial attacks.\n\nIn conclusion, digital adversarial attacks are a significant threat to the security and reliability of machine learning models, particularly those used in computer vision tasks. These attacks can be launched in various forms and can have significant implications for the security and reliability of machine learning models in a wide range of applications. By understanding the types and differences of digital adversarial attacks, and by developing effective defenses against these attacks, it is possible to mitigate the risks posed by digital adversarial attacks and ensure the security and integrity of machine learning models in the physical world. The next section will discuss hybrid adversarial attacks, which combine the strengths of both physical and digital attacks, and represent a significant threat to the security of computer vision systems [53].\n\n### 3.3 Hybrid Adversarial Attacks\n\nHybrid adversarial attacks represent a significant threat to the security of computer vision systems, as they combine the strengths of both physical and digital attacks. These attacks can be particularly challenging to defend against, as they can exploit vulnerabilities in both the physical and digital domains [34]. Building on the concepts of digital and physical adversarial attacks discussed earlier, hybrid adversarial attacks can be used to create complex and sophisticated attacks that are difficult to detect and defend against.\n\nOne of the key challenges of hybrid adversarial attacks is that they can be designed to evade detection by traditional defense mechanisms. For example, an attacker may use a physical attack to create a perturbation in the input data, and then use a digital attack to exploit the vulnerability created by the physical attack [46]. This can make it difficult for defenders to detect and respond to the attack, as the attack may not be visible through traditional monitoring and detection mechanisms. Furthermore, hybrid adversarial attacks can be used to create complex and sophisticated attacks that are designed to evade detection by multiple layers of defense, such as intrusion detection systems or firewalls [54].\n\nThe potential impact of hybrid adversarial attacks on the physical world is a significant concern, as these attacks can be used to create complex and sophisticated attacks that are designed to evade detection by multiple layers of defense [55]. For instance, an attacker may use a hybrid adversarial attack to create a perturbation in the input data of a self-driving car, which could potentially cause the car to crash or behave erratically. This highlights the need for defenders to consider the potential physical consequences of hybrid adversarial attacks, and to develop defense mechanisms that can mitigate these risks.\n\nTo defend against hybrid adversarial attacks, defenders will need to develop a range of strategies and techniques that can detect and respond to these attacks. This may include the use of physical and digital defense mechanisms, such as intrusion detection systems and firewalls, as well as the development of new and innovative defense mechanisms that can detect and respond to hybrid adversarial attacks [38]. Additionally, defenders may need to consider the use of adversarial training, which involves training computer vision systems to be robust against adversarial attacks [56]. By developing these strategies and techniques, defenders can help to protect computer vision systems against the risks posed by hybrid adversarial attacks, and to ensure the security and integrity of these systems in the physical world.\n\nIn conclusion, hybrid adversarial attacks represent a significant threat to the security of computer vision systems, and defenders will need to develop a range of strategies and techniques to mitigate the risks posed by these attacks. This will require a comprehensive understanding of the vulnerabilities and weaknesses of computer vision systems, as well as the development of new and innovative defense mechanisms that can detect and respond to hybrid adversarial attacks [36]. By developing these strategies and techniques, defenders can help to protect computer vision systems against the risks posed by hybrid adversarial attacks, and to ensure the security and integrity of these systems in the physical world.\n\n## 4 Attack Methods and Techniques\n\n### 4.1 Optimization-based Attack Methods\n\nOptimization-based methods have been widely used to generate visual adversarial examples, which are designed to mislead deep learning models into making incorrect predictions. These methods typically involve formulating an optimization problem, where the goal is to find the minimum perturbation that can be added to an input image to cause a misclassification. One of the most popular optimization-based methods for generating visual adversarial examples is the gradient-based method, which uses the gradient of the loss function to guide the search for the optimal perturbation [57]. This method is based on the idea that the gradient of the loss function can be used to identify the direction in which the perturbation should be added to the input image to maximize the loss. The gradient-based method has been shown to be highly effective in generating visual adversarial examples, but it can be computationally expensive and may not always converge to the optimal solution.\n\nIn addition to the gradient-based method, other optimization algorithms have been used to generate visual adversarial examples. For example, the gradient descent algorithm [58] is a popular choice for optimization-based methods, as it is simple to implement and can be highly effective in finding the optimal perturbation. However, the gradient descent algorithm can be sensitive to the choice of hyperparameters, such as the learning rate and the number of iterations. To address this issue, researchers have proposed various modifications to the gradient descent algorithm, such as the use of momentum or regularization techniques.\n\nFurthermore, other optimization-based methods have been proposed for generating visual adversarial examples. For instance, the method of [59] uses a unified gradient regularization family to generate visual adversarial examples. This method is based on the idea that the gradient of the loss function can be used to regularize the perturbation added to the input image, which can help to improve the robustness of the generated adversarial examples. Additionally, the method of [60] uses submodular optimization to generate visual adversarial examples, while the method of [61] uses bilevel optimization to generate visual adversarial examples.\n\nRecent studies have also focused on developing optimization-based methods that can generate visual adversarial examples that are highly transferable across different models [62]. The method of [63] uses a commonality-oriented gradient optimization method to generate visual adversarial examples that are highly transferable across different models. Similarly, the method of [64] uses a Nesterov accelerated gradient method to generate visual adversarial examples that are highly transferable across different models. These methods have shown promising results in generating visual adversarial examples that can effectively evade detection by different deep learning models.\n\nIn conclusion, optimization-based methods have been widely used to generate visual adversarial examples, which are designed to mislead deep learning models into making incorrect predictions. These methods typically involve formulating an optimization problem, where the goal is to find the minimum perturbation that can be added to an input image to cause a misclassification. By leveraging various optimization algorithms and techniques, researchers have developed effective methods for generating visual adversarial examples that can evade detection by deep learning models. As the field continues to evolve, it is likely that optimization-based methods will play an increasingly important role in the development of visual adversarial attacks, and will be used in conjunction with other methods, such as generative model-based methods, to create even more sophisticated attacks [65].\n\n### 4.2 Generative Model-based Attack Methods\n\nGenerative model-based methods have emerged as a powerful approach for generating visual adversarial examples, offering a complementary perspective to the optimization-based methods discussed in the previous subsection. These methods leverage the capabilities of generative models, such as generative adversarial networks (GANs) and variational autoencoders (VAEs), to create realistic and diverse adversarial examples [65]. GANs, in particular, have been widely used for generating adversarial examples, consisting of two neural networks: a generator and a discriminator. The generator takes a random noise vector as input and produces a synthetic image, while the discriminator takes an image as input and outputs a probability that the image is real.\n\nOne of the key advantages of using GANs for generating adversarial examples is their ability to produce diverse and realistic images [66]. By sampling from the latent space of the generator, it is possible to generate a wide range of images that are similar to the real images in the training dataset. This diversity is particularly useful for generating adversarial examples, as it allows attackers to create a large number of unique examples that can be used to evade detection. Furthermore, the use of GANs can be combined with optimization-based methods to generate more effective adversarial examples, highlighting the potential for hybrid approaches that leverage the strengths of both methods.\n\nVAEs, on the other hand, have also been used for generating adversarial examples [67]. VAEs consist of an encoder and a decoder, where the encoder maps the input image to a latent space, and the decoder maps the latent space back to the input image. VAEs are trained using a reconstruction loss, which encourages the decoder to produce images that are similar to the input images. By using a VAE to generate adversarial examples, attackers can create images that are similar to the real images in the training dataset, but with subtle perturbations that can evade detection. The use of VAEs can also be seen as a way to regularize the generator in GANs, highlighting the connections between different generative models.\n\nAnother approach for generating adversarial examples is to use a combination of GANs and VAEs [68]. This approach, known as a generative adversarial variational autoencoder (GA-VAE), uses a GAN to generate images and a VAE to regularize the generator. The GA-VAE is trained using a combination of the GAN loss and the VAE loss, which encourages the generator to produce images that are both realistic and diverse. This hybrid approach can be seen as a way to balance the trade-off between realism and diversity in generated adversarial examples.\n\nIn addition to GANs and VAEs, other generative models have also been used for generating adversarial examples, such as autoregressive models [69] and flow-based models [70]. These models offer alternative ways to generate adversarial examples, and can be used to create more sophisticated attacks that evade detection.\n\nThe use of generative model-based methods for generating adversarial examples has several advantages over traditional methods. First, generative models can produce highly realistic and diverse images, which can be used to evade detection. Second, generative models can be used to generate adversarial examples that are tailored to specific attack scenarios, such as attacks on image classification models. Finally, generative models can be used to generate adversarial examples that are robust to different types of defenses, such as adversarial training and input preprocessing. These advantages make generative model-based methods a powerful tool for generating visual adversarial examples, and highlight their potential for use in physical-world attacks, which will be discussed in the following subsection.\n\nHowever, the use of generative model-based methods for generating adversarial examples also has several challenges. First, training generative models can be computationally expensive and require large amounts of data. Second, generative models can be sensitive to hyperparameters and require careful tuning to produce high-quality images. Finally, generative models can be vulnerable to mode collapse, where the generator produces limited variations of the same output. These challenges highlight the need for further research into the development of more effective and efficient generative model-based methods for generating adversarial examples.\n\nIn conclusion, generative model-based methods have emerged as a powerful approach for generating visual adversarial examples, offering a complementary perspective to optimization-based methods and highlighting the potential for hybrid approaches that leverage the strengths of both methods [71].\n\n### 4.3 Physical-world Attack Methods\n\nPhysical-world attack methods are designed to generate adversarial examples that can be applied to real-world objects and scenes, posing a significant threat to the security of computer vision systems in various applications, including autonomous driving, surveillance, and robotics. As a natural extension of the generative model-based methods discussed in the previous subsection, physical-world attack methods have gained significant attention in recent years due to their potential to compromise the security of computer vision systems. In this subsection, we will discuss the different physical-world attack methods, including their strengths and weaknesses, and provide an overview of the current state of research in this area.\n\nOne of the key challenges in physical-world attack methods is to ensure that the generated adversarial examples are robust and effective in the physical world. This requires considering various factors, such as lighting conditions, viewpoints, and environmental noise, which can affect the performance of the attack. To address this challenge, researchers have proposed various methods, including the use of 3D modeling and simulation to generate adversarial examples that can be applied to real-world objects and scenes [72]. For instance, 3D modeling can be used to create virtual environments that mimic real-world scenarios, allowing attackers to test and refine their adversarial examples.\n\nAnother approach is to use physical adversarial examples that are designed to be robust to various environmental conditions. For example, [73] proposed a method to generate robust physical adversarial examples that can be applied to real-world objects and scenes. The method uses a combination of digital and physical attacks to generate adversarial examples that are robust to various environmental conditions, including lighting and viewpoints. This approach has been shown to be effective in compromising the security of computer vision systems in various applications.\n\nIn addition to these methods, researchers have also proposed various techniques to improve the effectiveness of physical-world attacks. For example, [74] proposed a method to use shadows to create stealthy and effective physical-world adversarial attacks. The method uses the natural phenomenon of shadows to create adversarial examples that are difficult to detect and can be applied to real-world objects and scenes. This approach highlights the importance of considering the physical environment when designing adversarial attacks.\n\nPhysical-world attack methods have also been applied to various applications, including autonomous driving and surveillance. For example, [75] proposed a method to evaluate the robustness of semantic segmentation models against real-world adversarial patch attacks in autonomous driving applications. The method uses a combination of digital and physical attacks to generate adversarial examples that can be applied to real-world objects and scenes. This approach demonstrates the potential of physical-world attack methods to compromise the security of computer vision systems in safety-critical applications.\n\nFurthermore, physical-world attack methods have been used to attack various types of computer vision systems, including object detection and face recognition systems. For example, [76] proposed a method to use physical camera stickers to attack deep learning systems. The method uses a combination of digital and physical attacks to generate adversarial examples that can be applied to real-world objects and scenes. This approach highlights the vulnerability of computer vision systems to physical-world attacks.\n\nIn addition to these applications, physical-world attack methods have also been used to evaluate the security of computer vision systems in various environments, including indoor and outdoor environments. For example, [40] proposed a method to benchmark the physical-world adversarial robustness of vehicle detection systems in various environments. The method uses a combination of digital and physical attacks to generate adversarial examples that can be applied to real-world objects and scenes. This approach demonstrates the importance of evaluating the security of computer vision systems in various environments.\n\nThe development of physical-world attack methods is an ongoing area of research, with new methods and techniques being proposed regularly. For example, [77] proposed a method to generate physical-world-resilient adversarial examples for autonomous driving applications. The method uses a combination of digital and physical attacks to generate adversarial examples that can be applied to real-world objects and scenes. This approach highlights the potential of physical-world attack methods to compromise the security of computer vision systems in safety-critical applications.\n\nIn conclusion, physical-world attack methods are an important area of research in computer vision, with significant implications for the security of computer vision systems in various applications. The methods discussed in this subsection, including the use of 3D modeling and simulation, physical adversarial examples, and various techniques to improve the effectiveness of physical-world attacks, have demonstrated the potential to compromise the security of computer vision systems in various environments. As we move forward, it is essential to continue researching and developing physical-world attack methods to improve the security and robustness of computer vision systems. Recent works, such as [78], [79], and [80], have made significant contributions to this area, and we can expect to see further advancements in the future.\n\n## 5 Defense Mechanisms and Strategies\n\n### 5.1 Adversarial Training and Input Preprocessing\n\nAdversarial training and input preprocessing are two popular defense mechanisms used to improve the robustness of deep neural networks against adversarial attacks. These mechanisms are crucial in preventing adversarial examples from being processed by the model, which is a key aspect of defending against visual adversarial attacks in the physical world. Adversarial training involves training a model on a dataset that includes adversarial examples, which are specifically designed to mislead the model. This approach has been shown to be effective in improving the robustness of models against various types of attacks [81]. For example, a study on the robustness of deep learning models against adversarial attacks found that adversarial training can improve the robustness of models by up to 50% [82].\n\nOne of the strengths of adversarial training is that it can be used to defend against a wide range of attacks, including white-box and black-box attacks. White-box attacks involve accessing the model's architecture and parameters, while black-box attacks involve accessing only the model's input and output. Adversarial training can be used to defend against both types of attacks by generating adversarial examples that are tailored to the specific attack [43]. Additionally, adversarial training can be used to improve the robustness of models against attacks that are designed to evade detection, such as attacks that use gradient masking or input preprocessing [8]. This is particularly important in the context of visual adversarial attacks, where attackers may use various techniques to evade detection.\n\nHowever, adversarial training also has some weaknesses. One of the main weaknesses is that it can be computationally expensive, especially when generating adversarial examples for large datasets. This can make it difficult to scale up adversarial training to larger models and datasets [83]. Additionally, adversarial training can sometimes lead to a decrease in the model's accuracy on clean data, which can be a problem in applications where accuracy is critical [84]. To address these limitations, researchers have proposed various techniques to improve the effectiveness and efficiency of adversarial training, such as using transferable adversarial examples or multi-task learning.\n\nInput preprocessing is another popular defense mechanism that involves modifying the input data before it is fed into the model. This can include techniques such as data normalization, feature scaling, and dimensionality reduction. Input preprocessing can be used to defend against adversarial attacks by reducing the impact of adversarial perturbations on the model's output [85]. For example, a study on the robustness of deep learning models against adversarial attacks found that input preprocessing can improve the robustness of models by up to 20% [86]. This approach is complementary to detection-based defense mechanisms, which aim to detect and reject adversarial examples, and can be used in conjunction with them to provide an additional layer of protection.\n\nIn addition to adversarial training and input preprocessing, there are several other defense mechanisms that can be used to improve the robustness of deep neural networks against adversarial attacks. These include techniques such as defensive distillation, which involves training a model on a distilled version of the input data [87]. Defensive distillation has been shown to be effective in improving the robustness of models against various types of attacks, including white-box and black-box attacks [88]. Another defense mechanism that can be used to improve the robustness of deep neural networks is adversarial example detection, which involves training a model to detect adversarial examples, and is closely related to the detection-based defense mechanisms discussed earlier [89].\n\nIn conclusion, adversarial training and input preprocessing are two popular defense mechanisms that can be used to improve the robustness of deep neural networks against adversarial attacks. While both mechanisms have their strengths and weaknesses, they can be used together with other defense mechanisms, such as detection-based defenses, to provide a robust defense against a wide range of attacks. By understanding the strengths and weaknesses of different defense mechanisms, researchers and practitioners can develop more effective defenses against adversarial attacks, which is critical for ensuring the security and reliability of deep learning models in a wide range of applications [90].\n\n### 5.2 Detection-Based Defense Mechanisms\n\nDetection-based defense mechanisms play a vital role in identifying and rejecting adversarial examples, thereby preventing them from being processed by the model. As discussed earlier, adversarial training and input preprocessing are two popular defense mechanisms used to improve the robustness of deep neural networks against adversarial attacks. However, detection-based defense mechanisms offer a complementary approach to these methods, aiming to detect the subtle differences between legitimate and adversarial inputs. \n\nOne approach to detection-based defense is to use statistical methods to analyze the input data. For instance, [91] proposes a method that extracts high-level features from the input data and uses them to detect adversarial examples. This approach is based on the observation that adversarial examples often have different high-level features than legitimate inputs. Another statistical approach is to use density estimation methods, such as [92], which estimates the density of the input data and uses it to detect adversarial examples. These statistical methods can be used in conjunction with adversarial training and input preprocessing to provide a robust defense against adversarial attacks.\n\nIn addition to statistical methods, machine learning models can also be used to detect adversarial examples. For example, [93] proposes a method that uses a masked language model to detect adversarial examples in text classification tasks. This approach is based on the observation that adversarial examples often have different linguistic features than legitimate inputs. Similarly, [94] proposes a method that uses an ensemble of explanation techniques to detect adversarial examples. These machine learning-based approaches can be used to improve the accuracy and robustness of detection-based defense mechanisms.\n\nFurthermore, there are also methods that use other techniques to detect adversarial examples. For instance, [95] proposes a method that uses behavioral analysis to detect adversarial examples. This approach is based on the observation that adversarial examples often exhibit different behavioral patterns than legitimate inputs. Another approach is to use frequency-based methods, such as [96], which analyzes the frequency components of the input data to detect adversarial examples. These methods can be used to detect adversarial examples that may evade detection by statistical or machine learning-based methods.\n\nDetection-based defense mechanisms have several advantages over other types of defenses. For one, they do not require modifying the underlying model, which makes them more flexible and easier to deploy. Additionally, detection-based defenses can be used in conjunction with other defense mechanisms, such as adversarial training, to provide an additional layer of protection [89]. This is particularly important in the context of visual adversarial attacks, where attackers may use various techniques to evade detection.\n\nHowever, detection-based defense mechanisms also have some limitations. For one, they may not be able to detect all types of adversarial examples, particularly those that are highly sophisticated or tailored to the specific detection mechanism. Additionally, detection-based defenses may introduce additional computational overhead, which can impact the performance of the system [97]. To address these limitations, researchers have proposed various techniques to improve the effectiveness and efficiency of detection-based defense mechanisms. For instance, [98] proposes a method that uses adversarial training to improve the robustness of detection-based defenses. Another approach is to use ensemble methods, such as [94], which combines multiple detection mechanisms to improve the overall accuracy and robustness of the defense.\n\nIn conclusion, detection-based defense mechanisms are a crucial component in the defense against adversarial examples. These mechanisms aim to detect and reject adversarial examples, preventing them from being processed by the model. While detection-based defenses have several advantages, they also have some limitations, such as the potential for false negatives and additional computational overhead. To address these limitations, researchers have proposed various techniques to improve the effectiveness and efficiency of detection-based defense mechanisms, such as adversarial training and ensemble methods [99]. As we move forward to discuss advanced defense mechanisms, it is essential to consider the role of detection-based defenses in enhancing the security and resilience of computer vision systems against visual adversarial attacks.\n\n### 5.3 Advanced Defense Mechanisms\n\nAdvanced defense mechanisms are crucial in enhancing the security and resilience of computer vision systems against visual adversarial attacks. Building on the detection-based defense mechanisms discussed earlier, which aim to detect and reject adversarial examples, advanced defense mechanisms focus on improving the robustness of models against unknown attacks. One such mechanism is the Meta Invariance Defense [100], which aims to improve the robustness of models against unknown attacks by learning attack-invariant features. \n\nAnother advanced defense mechanism is the use of game-theoretic approaches to model the interactions between attackers and defenders [101]. This approach can be used in conjunction with detection-based defense mechanisms to provide an additional layer of protection. In addition to these mechanisms, there are several other advanced defense approaches that have been proposed in recent years. For example, the use of machine learning and artificial intelligence to detect and respond to attacks [102] has shown significant promise. \n\nThe SHIELD approach [103] uses large language models to detect and explain advanced persistent threats, while the Bi-Level Game-Theoretic Planning approach [104] uses game-theoretic planning to model the interactions between attackers and defenders. Other approaches include the LightDefense approach [105], which uses a lightweight uncertainty-driven defense mechanism to defend against jailbreak attacks, and the Embodied Active Defense approach [106], which uses recurrent feedback to counter adversarial patches. \n\nThe Moving Target Defense approach [107] uses a moving target defense strategy to defend against attacks, and the use of autonomous intelligent cyber-defense agents [108] has also been proposed as a potential advanced defense mechanism. These advanced defense mechanisms can be used to defend against a wide range of attacks, including unknown attacks, advanced persistent threats, jailbreak attacks, and moving target defense attacks. \n\nIn terms of future research directions, there are several areas that are worth exploring. One area is the development of more effective defense mechanisms that can defend against unknown attacks [100]. Another area is the use of game-theoretic approaches to model the interactions between attackers and defenders [101]. The use of machine learning and artificial intelligence to detect and respond to attacks [102] is also an area that is worth exploring. \n\nThe development of more effective defense mechanisms that can defend against advanced persistent threats [103] is also an area that is worth exploring. The use of bi-level game-theoretic planning to model the interactions between attackers and defenders [104] is also an area that is worth exploring. The development of more effective defense mechanisms that can defend against jailbreak attacks [105] and moving target defense attacks [107] is also an area that is worth exploring. \n\nThe use of embodied active defense to counter adversarial patches [106] and autonomous intelligent cyber-defense agents [108] is also an area that is worth exploring. In conclusion, advanced defense mechanisms are crucial in enhancing the security and resilience of computer vision systems against visual adversarial attacks. Several approaches have been proposed in recent years, including the use of meta invariance defense, game-theoretic approaches, machine learning and artificial intelligence, and autonomous intelligent cyber-defense agents. These mechanisms can be used to defend against a wide range of attacks and can be combined with detection-based defense mechanisms to provide comprehensive protection.\n\n## 6 Applications and Case Studies\n\n### 6.1 Autonomous Driving Systems\n\nAutonomous driving systems have revolutionized the transportation industry, with the potential to significantly reduce accidents, improve traffic flow, and enhance the overall driving experience. However, as with any complex system, there are potential vulnerabilities that can be exploited by adversaries. Visual adversarial attacks, in particular, pose a significant threat to the safety and reliability of autonomous driving systems. In this subsection, we will explore the applications of visual adversarial attacks and defenses in autonomous driving systems, building on the concerns raised in the context of surveillance systems, where the reliability of computer vision models is crucial for maintaining public safety.\n\nVisual adversarial attacks involve manipulating the input data to a deep neural network (DNN) in such a way that the output is misclassified or incorrect. In the context of autonomous driving, this can have serious consequences, such as causing the vehicle to misinterpret its surroundings, fail to detect obstacles, or make incorrect decisions. For example, an attacker could create a physical adversarial example, such as a specially designed sticker or patch, that can be placed on a stop sign or other traffic signal, causing the vehicle to misinterpret the signal and fail to stop [109]. This highlights the need for robust defense mechanisms to mitigate the risks associated with visual adversarial attacks in autonomous driving systems.\n\nOne of the key challenges in defending against visual adversarial attacks in autonomous driving systems is the complexity of the input data. Autonomous vehicles rely on a variety of sensors, including cameras, lidar, and radar, to perceive their surroundings. This data is then processed by DNNs to detect and respond to obstacles, traffic signals, and other hazards. However, the complexity of this data makes it difficult to detect and defend against adversarial attacks [110]. To address this challenge, researchers have explored various defense strategies, including adversarial training and detection-based defense mechanisms.\n\nDespite these challenges, researchers have made significant progress in developing defenses against visual adversarial attacks in autonomous driving systems. One approach is to use adversarial training, which involves training the DNN on a dataset that includes adversarial examples [77]. This can help the DNN to learn to recognize and defend against adversarial attacks. Another approach is to use detection-based defense mechanisms, which involve detecting and rejecting adversarial examples [111]. These defense strategies can be applied to various autonomous driving scenarios, including lane detection, object detection, and motion forecasting.\n\nIn terms of specific applications, visual adversarial attacks and defenses have been explored in a variety of autonomous driving scenarios, including lane detection [112], object detection [113], and motion forecasting [114]. These scenarios highlight the potential risks and consequences of visual adversarial attacks and the need for effective defenses. Furthermore, researchers have also explored the use of adversarial attacks to test and evaluate the robustness of autonomous driving systems [115].\n\nIn conclusion, visual adversarial attacks pose a significant threat to the safety and reliability of autonomous driving systems. However, by developing and deploying effective defenses, such as adversarial training and detection-based defense mechanisms, we can help to mitigate this risk. Additionally, greater transparency and collaboration between researchers, industry leaders, and regulators are necessary to share knowledge and best practices for defending against visual adversarial attacks. As autonomous driving systems continue to evolve and improve, it is essential that we prioritize their safety and security, including defending against visual adversarial attacks [116]. By doing so, we can help to ensure the safe and reliable deployment of autonomous driving systems, which has the potential to revolutionize the transportation industry and improve the lives of millions of people [117]. Ultimately, the development of robust defenses against visual adversarial attacks in autonomous driving systems will be crucial for maintaining public trust and confidence in these systems, which is essential for their widespread adoption and success.\n\n### 6.2 Surveillance Systems\n\nSurveillance systems are a crucial component of modern security infrastructure, and their reliability is essential for maintaining public safety and preventing criminal activities. However, the increasing use of deep learning models in surveillance systems has introduced new vulnerabilities, particularly in the form of visual adversarial attacks. These attacks can compromise the accuracy and effectiveness of surveillance systems, allowing malicious individuals to evade detection or manipulate the system's output. The application of visual adversarial attacks in surveillance systems is a growing concern, as demonstrated by [34]. This survey highlights the potential risks and threats associated with physical adversarial attacks on surveillance systems, including the use of adversarial patches, glasses, or hats to evade detection.\n\nOne of the primary challenges in defending against visual adversarial attacks in surveillance systems is the lack of standardized evaluation protocols. As noted in [6], the existing literature on adversarial attacks in object detection is limited, and there is a need for a comprehensive framework to evaluate the effectiveness of different attack methodologies. To address this challenge, researchers have explored various defense strategies, including adversarial training and detection-based defense mechanisms. For instance, [113] demonstrates the effectiveness of adversarial training in improving the robustness of multi-task visual perception models against adversarial attacks. Similarly, [118] proposes a detection-based approach to identify and segment adversarial graphics patterns from images.\n\nThe application of visual adversarial attacks in surveillance systems also raises concerns about the potential for physical attacks. [7] provides a comprehensive survey of physical adversarial attacks on camera-based smart systems, including surveillance systems. Furthermore, the use of visual adversarial attacks in surveillance systems has implications for the development of future surveillance systems. [119] proposes a novel distributed video surveillance system that uses artificial intelligence and digital twins technologies to improve the security and reliability of surveillance systems.\n\nIn addition to the technical challenges, the application of visual adversarial attacks in surveillance systems also raises ethical and societal concerns. [120] emphasizes the need for ensuring the security and reliability of AI models used in military surveillance systems, highlighting the potential risks and consequences of adversarial attacks. As the field of visual adversarial attacks and defenses continues to evolve, it is essential to consider the unique challenges and requirements of surveillance systems, including the need for robust and reliable defense mechanisms. The development of effective defense strategies will be crucial for mitigating the risks associated with visual adversarial attacks in surveillance systems and ensuring the safety and security of individuals and communities.\n\nIn conclusion, the application of visual adversarial attacks in surveillance systems is a growing concern that requires immediate attention. The development of robust defense mechanisms, adversarial training, and detection-based defense mechanisms are essential for mitigating these attacks and ensuring the security and reliability of surveillance systems. As we move forward, it is crucial to continue exploring new defense strategies and considering the physical world constraints, ethical and societal concerns, and the development of future surveillance systems to address the challenges posed by visual adversarial attacks in surveillance systems, ultimately paving the way for the development of more secure and reliable autonomous driving systems and other applications that rely on computer vision models, such as healthcare systems.\n\n### 6.3 Healthcare Applications\n\nThe applications of visual adversarial attacks and defenses in healthcare are a critical area of research, as the vulnerability of medical imaging systems to adversarial attacks can have severe consequences [121]. For instance, adversarial attacks on medical image analysis systems can lead to misdiagnosis or incorrect treatment, which can be life-threatening [17]. Therefore, it is essential to develop effective defense mechanisms to protect medical imaging systems against adversarial attacks [122].\n\nBuilding on the concerns raised by the vulnerability of surveillance systems to visual adversarial attacks, the healthcare sector also faces significant challenges in mitigating these threats. Medical imaging systems, such as MRI and CT scans, are used to diagnose and treat various diseases, but they are vulnerable to adversarial attacks, which can compromise their accuracy and reliability [121]. To address this issue, researchers have proposed various defense mechanisms, including adversarial training and input preprocessing [8]. Adversarial training involves training a model on a dataset that includes adversarial examples, which can help improve the model's robustness to attacks [8]. Input preprocessing involves modifying the input data to reduce the impact of adversarial attacks [8]. For instance, a study used a convolutional autoencoder to denoise perturbed Fast Gradient Sign Method (FGSM) and Projected Gradient Descent (PGD) adversarial images, which improved the accuracy of a medical image analysis system [123].\n\nIn addition to medical image analysis, visual adversarial attacks have also been applied to medical image segmentation, which is a critical task in medical imaging [124]. Medical image segmentation models are vulnerable to adversarial attacks, which can compromise their accuracy and reliability [124]. To address this issue, researchers have proposed various defense mechanisms, including the use of non-local context encoders and adversarial training [125]. Furthermore, visual adversarial attacks have also been applied to other areas of healthcare, such as clinical decision support systems [126] and vision-language models for medical applications [127].\n\nThe development of robust defense mechanisms against visual adversarial attacks in healthcare is crucial for ensuring the accuracy and reliability of medical imaging systems. Researchers have proposed various defense mechanisms, including adversarial training, input preprocessing, and non-local context encoders [122]. These defense mechanisms can help improve the accuracy and reliability of medical imaging systems, which is essential for providing accurate diagnoses and treatments [17]. As the field of visual adversarial attacks and defenses continues to evolve, it is essential to consider the unique challenges and requirements of the healthcare sector, including the need for robust and reliable medical imaging systems.\n\nIn conclusion, the applications of visual adversarial attacks and defenses in healthcare are a critical area of research, as the vulnerability of medical imaging systems to adversarial attacks can have severe consequences [121]. The development of effective defense mechanisms, including adversarial training, input preprocessing, and non-local context encoders, is essential for protecting medical imaging systems against adversarial attacks [122]. As we move forward, it is crucial to continue exploring new defense mechanisms and strategies to mitigate the threats posed by visual adversarial attacks in healthcare, and to ensure the accuracy and reliability of medical imaging systems [17].\n\n## 7 Challenges and Future Directions\n\n### 7.1 Current Challenges and Limitations\n\nDespite the significant advancements in the field of visual adversarial attacks, several challenges and limitations remain to be addressed. One of the primary concerns is the need for more robust and generalizable defenses [8]. Current defense mechanisms often focus on specific types of attacks or datasets, which can lead to a lack of transferability and generalizability to other scenarios. For instance, a defense mechanism that is effective against white-box attacks may not be effective against black-box attacks [128]. Moreover, the complexity of real-world scenarios, such as varying lighting conditions, occlusions, and diverse object shapes, can further exacerbate the challenges faced by defense mechanisms [3]. This highlights the importance of developing defense mechanisms that can adapt to diverse scenarios and attack types.\n\nAnother challenge is the trade-off between robustness and accuracy [129]. Many defense mechanisms aim to improve robustness by reducing the model's sensitivity to adversarial perturbations. However, this can often come at the cost of reduced accuracy on clean inputs. For example, a model that is highly robust to adversarial attacks may not perform as well on clean inputs as a model that is less robust [14]. This trade-off highlights the need for defense mechanisms that can balance robustness and accuracy, ensuring that the model's performance is not compromised in the process of improving its robustness.\n\nThe lack of standardized evaluation metrics and benchmarks is another limitation in the field [19]. Different studies often use different evaluation metrics and benchmarks, making it challenging to compare the effectiveness of various defense mechanisms. Furthermore, the lack of standardized metrics can lead to inconsistent and misleading results, which can hinder the development of more effective defense mechanisms. To address this challenge, there is a need for standardized evaluation metrics and benchmarks that can provide a comprehensive assessment of a defense mechanism's effectiveness.\n\nThe emergence of new attack methods and techniques also poses a significant challenge to defense mechanisms [130]. For instance, the development of more sophisticated attack methods, such as those that use generative models or reinforcement learning, can render existing defense mechanisms ineffective [131]. Moreover, the increasing use of multimodal data, such as images and text, can further complicate the development of effective defense mechanisms [132]. To stay ahead of these emerging threats, defense mechanisms must be continually updated and improved to address the latest attack methods and techniques.\n\nThe need for more efficient and scalable defense mechanisms is another challenge [133]. Many defense mechanisms, such as those that use adversarial training or input preprocessing, can be computationally expensive and require significant resources. This can limit their applicability in real-world scenarios, where computational resources may be limited. Moreover, the increasing use of deep neural networks in real-time applications, such as autonomous driving or video surveillance, requires defense mechanisms that can operate in real-time and with limited computational resources. To address this challenge, there is a need for more efficient and scalable defense mechanisms that can provide robust protection without compromising computational resources.\n\nThe development of more effective and efficient defense mechanisms against physical adversarial attacks is also a significant challenge [7]. Physical adversarial attacks, which involve manipulating the physical environment to deceive a machine learning model, can be particularly challenging to defend against. For instance, an attacker may use a physical object to block or obscure a camera's view, or use a projector to display a fake image. Defense mechanisms against physical adversarial attacks require a deep understanding of the physical environment and the potential attack vectors. To address this challenge, there is a need for more research on physical adversarial attacks and the development of defense mechanisms that can effectively counter these types of attacks.\n\nFinally, the need for more research on the theoretical foundations of visual adversarial attacks is another challenge [134]. Despite the significant advancements in the field, the theoretical foundations of visual adversarial attacks are not yet fully understood. For instance, the reasons why deep neural networks are vulnerable to adversarial attacks are still not fully understood, and the development of more effective defense mechanisms requires a deeper understanding of the underlying theoretical principles. To address this challenge, there is a need for more research on the theoretical foundations of visual adversarial attacks, including the development of new theories and models that can provide a deeper understanding of the underlying mechanisms.\n\nIn conclusion, the field of visual adversarial attacks faces several challenges and limitations, including the need for more robust and generalizable defenses, the trade-off between robustness and accuracy, the lack of standardized evaluation metrics and benchmarks, the emergence of new attack methods and techniques, the need for more efficient and scalable defense mechanisms, the development of more effective defense mechanisms against physical adversarial attacks, and the need for more research on the theoretical foundations of visual adversarial attacks. Addressing these challenges will require significant advances in our understanding of visual adversarial attacks and the development of more effective defense mechanisms, ultimately leading to more secure and robust computer vision systems. This will pave the way for future research directions in the field, including the development of more effective and efficient defense mechanisms, the investigation of physical-world attack methods, and the exploration of novel techniques for detecting and mitigating adversarial attacks.\n\n### 7.2 Future Research Directions\n\nFuture research directions in the field of visual adversarial attacks and defenses are vast and multifaceted, building upon the challenges and limitations identified in the previous section. One potential area of focus is the development of more effective and efficient defense mechanisms [135]. This could involve the use of novel techniques such as generative adversarial networks (GANs) and variational autoencoders (VAEs) to detect and mitigate adversarial attacks [136]. Additionally, researchers may explore the application of machine learning and artificial intelligence to improve the robustness of computer vision systems against visual adversarial attacks [137]. By addressing the trade-off between robustness and accuracy, as well as the need for more standardized evaluation metrics and benchmarks, these defense mechanisms can provide a more comprehensive approach to mitigating visual adversarial attacks.\n\nAnother promising area of research is the investigation of physical-world attack methods and their potential impacts on computer vision systems [138]. This could involve the development of new methodologies for generating adversarial examples that can be applied to real-world objects and scenes [139]. Furthermore, researchers may examine the role of human factors in visual adversarial attacks, including the potential for social engineering and phishing attacks [140]. By exploring these areas, researchers can gain a deeper understanding of the complexities of visual adversarial attacks and develop more effective defense mechanisms.\n\nThe use of blockchain technology and distributed ledger systems is another potential area of research in the field of visual adversarial attacks and defenses [141]. This could involve the development of secure and transparent systems for sharing and verifying visual data, as well as the creation of decentralized networks for detecting and mitigating adversarial attacks [142]. Additionally, researchers may explore the application of large language models (LLMs) and natural language processing (NLP) techniques to improve the robustness of computer vision systems against visual adversarial attacks [143]. These emerging technologies have the potential to provide new avenues for defending against visual adversarial attacks and improving the overall security of computer vision systems.\n\nThe development of more effective and efficient evaluation metrics and benchmarking frameworks is also a critical area of research in the field of visual adversarial attacks and defenses [144]. This could involve the creation of novel metrics and frameworks that can accurately assess the robustness of computer vision systems against visual adversarial attacks, as well as the development of more comprehensive and realistic benchmarking datasets [145]. Furthermore, researchers may examine the potential applications of visual adversarial attacks and defenses in various domains, including healthcare, finance, and transportation [146]. By developing more effective evaluation metrics and benchmarking frameworks, researchers can better understand the strengths and weaknesses of different defense mechanisms and develop more effective solutions.\n\nIn terms of specific techniques, researchers may explore the use of adversarial training and input preprocessing to improve the robustness of computer vision systems against visual adversarial attacks [147]. Additionally, the development of novel architectures and models, such as convolutional neural networks (CNNs) and recurrent neural networks (RNNs), may be investigated [148]. These techniques can provide a foundation for developing more effective defense mechanisms and improving the overall robustness of computer vision systems. As the field of visual adversarial attacks and defenses continues to evolve, it is likely that new techniques and methodologies will emerge, providing new opportunities for research and development.\n\nFinally, researchers may examine the potential ethical and societal implications of visual adversarial attacks and defenses, including the potential for bias and discrimination in computer vision systems [149]. This could involve the development of more transparent and explainable systems, as well as the creation of novel techniques for detecting and mitigating bias and discrimination in computer vision systems [150]. By considering the ethical and societal implications of visual adversarial attacks and defenses, researchers can develop more responsible and effective solutions that prioritize the security and well-being of individuals and society. As the field continues to advance, it is essential to prioritize these considerations and develop solutions that are both effective and responsible. The future of visual adversarial attacks and defenses holds much promise, and it is likely that emerging trends and technologies will continue to shape the field in the years to come [151].\n\n## 8 Ethical and Societal Implications\n\n### 8.1 Introduction to Ethical Considerations\n\nThe emergence of visual adversarial attacks has significant implications for the development and deployment of computer vision systems, raising important ethical considerations that must be addressed by developers, researchers, and users alike [128]. At the heart of these considerations are concerns about privacy, the potential for misuse, and the responsibility of developers to ensure that their systems are designed and used in ways that respect human rights and dignity [152]. As computer vision systems become increasingly pervasive in our daily lives, it is essential to consider the potential risks and consequences of visual adversarial attacks and to develop strategies to mitigate them.\n\nOne of the primary ethical concerns associated with visual adversarial attacks is the potential for privacy violations [153]. Computer vision systems are capable of capturing and processing vast amounts of personal data, including images and videos that may contain sensitive information about individuals [154]. The use of visual adversarial attacks to manipulate or deceive these systems can compromise the privacy of individuals, potentially leading to harmful consequences such as identity theft, stalking, or other forms of harassment [155]. Furthermore, the potential for visual adversarial attacks to breach privacy and data protection can have broader societal implications, highlighting the need for robust privacy and data protection measures to prevent such attacks.\n\nAnother critical ethical consideration is the potential for misuse of visual adversarial attacks [156]. These attacks can be used to manipulate or deceive computer vision systems, potentially leading to harmful consequences such as financial loss, physical harm, or damage to reputation [121]. For example, an attacker could use a visual adversarial attack to manipulate a self-driving car's computer vision system, potentially causing an accident or other harm [3]. Similarly, an attacker could use a visual adversarial attack to manipulate a surveillance system, potentially allowing them to evade detection or commit a crime [118]. To mitigate these risks, developers and researchers must prioritize the development of secure and transparent computer vision systems that are resistant to visual adversarial attacks.\n\nDevelopers and researchers have a responsibility to consider these ethical implications and to design and develop computer vision systems that are resistant to visual adversarial attacks [157]. This includes implementing robust security measures, such as encryption and access controls, to protect against unauthorized access or manipulation of the system [158]. It also includes designing systems that are transparent and explainable, allowing users to understand how the system is making decisions and to identify potential errors or biases [159]. By prioritizing transparency, accountability, and fairness, developers and researchers can help to ensure that computer vision systems are developed and deployed in ways that promote human well-being and respect human rights.\n\nMoreover, the development and deployment of computer vision systems must be guided by a commitment to human rights and dignity [160]. This includes respecting the right to privacy and the right to non-discrimination, as well as ensuring that systems are designed and used in ways that promote transparency, accountability, and fairness [161]. Developers and researchers must also be aware of the potential for visual adversarial attacks to be used as a tool of social control, potentially undermining human rights and dignity [162]. Ultimately, addressing the ethical considerations associated with visual adversarial attacks requires a commitment to ongoing research and development, as well as a willingness to engage with the broader societal implications of these attacks [163]. By doing so, we can help to ensure that computer vision systems are developed and deployed in ways that promote human well-being and respect human rights [164].\n\n### 8.2 Privacy and Data Protection\n\nThe privacy and data protection implications of visual adversarial attacks are a pressing concern, as these attacks can compromise sensitive information and infringe on individuals' right to privacy [155]. As highlighted in the previous discussion on the ethical considerations of visual adversarial attacks, the increasing use of computer vision systems in various applications, such as surveillance, healthcare, and social media, has created a vast amount of visual data that can be exploited by adversaries. The potential for visual adversarial attacks to reveal sensitive information about individuals, such as their identity, location, or activities [165], is significant, and it is essential to understand the risks and develop strategies to mitigate them.\n\nOne of the primary concerns is the potential for visual adversarial attacks to breach privacy and data protection, which can have broader societal implications [153]. For example, an attacker could use a visual adversarial attack to manipulate or distort visual data, potentially influencing public opinion or decision-making. This highlights the need for robust privacy and data protection measures to prevent such attacks and ensure the integrity of visual data. Furthermore, the lack of standardization and regulation in the development and deployment of computer vision systems has created a challenging scenario, where attackers can exploit vulnerabilities with relative ease [166].\n\nTo address these concerns, researchers have proposed various methods for protecting visual data against adversarial attacks, including differential privacy [167] and adversarial training [168]. Additionally, researchers have proposed using generative models to generate synthetic data that can be used to train models, reducing the need for sensitive real-world data [169]. These efforts underscore the importance of developing a comprehensive framework for protecting visual data against adversarial attacks, which should include technical, organizational, and regulatory measures to prevent attacks and ensure the privacy and data protection of individuals [170].\n\nIn developing such a framework, it is essential to prioritize transparency and accountability in the development and deployment of computer vision systems, ensuring that these systems are designed and used in ways that respect individual privacy and data protection rights [171]. This requires a multifaceted approach that involves not only technical solutions but also regulatory and organizational measures to prevent visual adversarial attacks and protect sensitive information. By adopting such an approach, we can ensure the integrity of visual data and protect individuals' rights in the digital age [172]. Ultimately, addressing the privacy and data protection implications of visual adversarial attacks is crucial for maintaining trust in AI systems and promoting a safe and secure digital environment, which is closely tied to the need for regulatory frameworks and accountability mechanisms that will be discussed in the following section.\n\n### 8.3 Regulatory Frameworks and Accountability\n\nThe development and deployment of visual adversarial attacks have significant ethical and societal implications, and regulatory frameworks and accountability mechanisms are essential to ensure their responsible use. As [156] highlights, the lack of a unified regulatory framework can lead to inconsistencies in oversight, creating vulnerabilities that can be exploited at scale. This is particularly concerning in the context of visual adversarial attacks, which can compromise sensitive information and infringe on individuals' right to privacy, as discussed in the previous section.\n\nTo address these concerns, regulatory frameworks should prioritize transparency and accountability in the development and deployment of AI systems. The absence of transparency and accountability can lead to a lack of trust in AI systems, which can have far-reaching consequences. Furthermore, standards and guidelines for the development and deployment of AI systems are crucial, as highlighted by [173]. The lack of standards and guidelines can lead to inconsistent and ineffective approaches to AI governance, exacerbating the risks associated with visual adversarial attacks.\n\nIn addition to transparency and standards, regulatory frameworks should also prioritize accountability and enforcement mechanisms. The EU AI Act (EUAIA) introduces requirements for AI systems that intersect with the processes required to establish adversarial robustness. This underscores the need for regulatory frameworks to keep pace with the evolving landscape of adversarial machine learning, as noted in [90]. The development of regulatory frameworks and accountability mechanisms for visual adversarial attacks is a complex and ongoing challenge that requires careful consideration of multiple factors.\n\nUltimately, the development of safe and secure AI systems, including large language models and vision-language models, is a critical challenge that regulatory frameworks can help address. The protection of human rights and dignity should be a top priority in the development and deployment of visual adversarial attacks, and regulatory frameworks should be designed to safeguard these rights. By prioritizing transparency, accountability, and human rights, regulatory frameworks can play a key role in ensuring the responsible development and deployment of visual adversarial attacks, which is essential for maintaining trust in AI systems and protecting individuals' rights in the digital age.\n\n## 9 Conclusion and Recommendations\n\n### 9.1 Summary of Key Findings\n\nThis subsection provides a comprehensive summary of the key findings and takeaways from the survey on Visual Adversarial Attacks and Defenses in the Physical World. The survey highlights the importance of understanding visual adversarial attacks, their types, and the threat they pose to computer vision systems in the physical world. It also emphasizes the need for effective defenses and the security and reliability of computer vision systems.\n\nThe survey discusses the existing research on visual adversarial attacks, including the different types of attacks and defense mechanisms proposed to mitigate these attacks. It also evaluates and benchmarks visual adversarial attacks and defenses, introducing common metrics and evaluation frameworks used in the field. The survey categorizes and describes different types of visual adversarial attacks, including physical, digital, and hybrid attacks, explaining their methodologies and impacts.\n\nFurthermore, the survey delves into the specifics of various attack methods and techniques used to generate visual adversarial examples. It also discusses the different defense mechanisms and strategies proposed to defend against visual adversarial attacks, including adversarial training and input preprocessing. The applications of visual adversarial attacks and defenses in various fields, such as autonomous driving systems, surveillance systems, and healthcare, are also explored.\n\nThe survey highlights the current challenges and limitations in the field of visual adversarial attacks and defenses, including the need for more robust and generalizable defenses [8]. It also proposes potential future research directions, including the development of more effective and efficient defense mechanisms. The importance of considering the ethical and societal implications of visual adversarial attacks is emphasized, including privacy concerns, potential misuse, and the responsibility of developers [113].\n\nIn terms of specific findings, the survey notes that the use of deep learning models has improved the performance of computer vision systems, but has also increased their vulnerability to visual adversarial attacks. The survey also highlights the importance of using diverse and representative datasets to train and evaluate computer vision models. To address the challenges in this field, researchers and practitioners should prioritize collaboration and knowledge sharing, such as sharing datasets, models, and evaluation metrics to facilitate the development of more robust and generalizable defense mechanisms.\n\nIn conclusion, the survey provides a comprehensive overview of the current state of research on visual adversarial attacks and defenses in the physical world. It highlights the importance of understanding the types of attacks, developing effective defenses, and considering the ethical and societal implications of these attacks. The survey also proposes potential future research directions and emphasizes the need for continued research in this field to ensure the security and reliability of computer vision systems [90].\n\n### 9.2 Recommendations for Practitioners\n\nAs researchers and practitioners in the field of visual adversarial attacks and defenses, it is essential to consider the implications and potential applications of this technology, building upon the comprehensive summary of key findings and takeaways from the survey on Visual Adversarial Attacks and Defenses in the Physical World. The survey highlights the importance of understanding visual adversarial attacks, their types, and the threat they pose to computer vision systems in the physical world, as well as the need for effective defenses and the security and reliability of computer vision systems. Based on the current state of research, several recommendations can be made for those working in this area. Firstly, it is crucial to prioritize the development of more robust and generalizable defense mechanisms [8]. This can be achieved by exploring new architectures, such as the Self-Ensembling Vision Transformer (SEViT) [174], which has shown promising results in improving the robustness of vision models against adversarial attacks.\n\nAnother critical aspect to consider is the evaluation and benchmarking of visual adversarial attacks and defenses [29]. This can help identify the most effective attack methods and defense strategies, allowing researchers to focus on developing more robust models. Furthermore, the use of attention mechanisms, such as the Attention-aggregated Attack [24], can enhance the transferability of adversarial examples and improve the overall robustness of models. The development of more effective methods for detecting and defending against adversarial attacks is also an area of ongoing research, with techniques such as [168] showing promise in detecting and defending against adversarial attacks.\n\nIn addition to these technical recommendations, it is also essential to consider the ethical and societal implications of visual adversarial attacks and defenses [113]. For instance, the potential misuse of adversarial attacks in safety-critical applications, such as autonomous driving, highlights the need for more robust and reliable defense mechanisms. Moreover, the development of methods that can detect and defend against adversarial attacks, such as the MagDR approach [175], is crucial for ensuring the security and integrity of computer vision systems. Practitioners working on visual adversarial attacks and defenses should also be aware of the potential limitations and challenges associated with these technologies, such as the effectiveness of defense mechanisms being limited by the complexity of the attack methods [10].\n\nTo address these challenges, researchers and practitioners should prioritize collaboration and knowledge sharing, such as sharing datasets, models, and evaluation metrics to facilitate the development of more robust and generalizable defense mechanisms. The use of open-source frameworks and tools can also facilitate the development and evaluation of visual adversarial attacks and defenses. As the field of visual adversarial attacks and defenses continues to evolve, it is essential to explore the potential applications and implications of these technologies in various domains, such as healthcare [174], surveillance [113], and e-commerce [176]. By understanding the potential benefits and risks associated with these technologies, researchers and practitioners can develop more effective and robust defense mechanisms that can mitigate the potential threats and ensure the secure deployment of computer vision systems, ultimately informing future research directions in this field.\n\nIn conclusion, the development of visual adversarial attacks and defenses is a rapidly evolving field that requires careful consideration of the technical, ethical, and societal implications. By prioritizing the development of more robust and generalizable defense mechanisms, evaluating and benchmarking attack methods and defense strategies, and considering the potential applications and implications of these technologies, researchers and practitioners can contribute to the development of more secure and reliable computer vision systems [90], and pave the way for future research in this area, including the development of more sophisticated attack methods and more robust defense mechanisms, as discussed in the following section.\n\n### 9.3 Future Research Directions\n\nFuture research in the field of visual adversarial attacks and defenses is expected to build upon the current state of knowledge and address the existing challenges. As discussed in the previous section, the development of more robust and generalizable defense mechanisms is crucial for mitigating the threats posed by visual adversarial attacks. To this end, one potential direction for future research is the development of more sophisticated attack methods, such as [177], that can effectively evade detection by current defense mechanisms. This can help identify the vulnerabilities of existing defense mechanisms and inform the development of more robust models.\n\nAnother area of research that is expected to gain significant attention is the development of more robust defense mechanisms, such as [13], that can withstand various types of attacks. The use of large language models (LLMs) in computer vision tasks is also an area of increasing interest, and research on [128] and [178] has shown that these models are vulnerable to adversarial attacks. Therefore, future research should focus on developing more robust LLMs that can withstand such attacks and exploring the potential applications of LLMs in computer vision.\n\nIn addition to these areas, research on [179] and [180] has shown that metamorphic testing can be an effective way to detect adversarial examples. Future research should explore the use of metamorphic testing in other areas of computer vision, such as object detection and segmentation, and investigate its potential in improving the robustness of computer vision systems. Furthermore, techniques such as [181] and [182] have shown promise in detecting and defending against adversarial attacks, and future research should focus on developing more robust and effective defense mechanisms.\n\nThe development of more effective methods for detecting and defending against adversarial attacks is also an area of ongoing research. Techniques such as [168] have shown promise in detecting and defending against adversarial attacks. Moreover, research on [24] has shown that attention mechanisms can be used to improve the transferability of adversarial examples, and future research should explore the use of attention mechanisms in other areas of computer vision. Additionally, research on [183] has shown that dual attention suppression can be used to generate adversarial camouflage in the physical world, and future research should explore the use of dual attention suppression in other areas of computer vision.\n\nFinally, research on [184] has shown that visualization can be an effective way to understand and analyze adversarial attacks. As the field of visual adversarial attacks and defenses continues to evolve, it is essential to explore the use of visualization in other areas of computer vision, such as object detection and segmentation, and investigate its potential in improving the robustness of computer vision systems. The following section will provide a more in-depth discussion of the potential applications and implications of visual adversarial attacks and defenses in various domains.\n\n\n## References\n\n[1] Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey\n\n[2] State-of-the-art optical-based physical adversarial attacks for deep learning computer vision systems\n\n[3] Physical Adversarial Attack Meets Computer Vision: A Decade Survey\n\n[4] Digital Watermarking as an Adversarial Attack on Medical Image Analysis with Deep Learning\n\n[5] Adversarial Light Projection Attacks on Face Recognition Systems: A  Feasibility Study\n\n[6] A Survey and Evaluation of Adversarial Attacks in Object Detection\n\n[7] Physical Adversarial Attacks for Camera-Based Smart Systems: Current Trends, Categorization, Applications, Research Challenges, and Future Outlook\n\n[8] Adversarial Attacks in Computer Vision: Challenges and Defense Strategies\n\n[9] Certified Defenses for Adversarial Patches\n\n[10] Superpixel Attack - Enhancing Black-Box Adversarial Attack with Image-Driven Division Areas\n\n[11] Robust Feature-Level Adversaries are Interpretability Tools\n\n[12] Adversarial Evasion Attacks on Computer Vision using SHAP Values\n\n[13] BARReL: Bottleneck Attention for Adversarial Robustness in Vision-Based  Reinforcement Learning\n\n[14] Improved Adversarial Robustness via Logit Regularization Methods\n\n[15] Breaking the Illusion: Real-world Challenges for Adversarial Patches in Object Detection\n\n[16] Attack-SAM: Towards Attacking Segment Anything Model With Adversarial Examples\n\n[17] Adversarial Attack Vulnerability of Medical Image Analysis Systems: Unexplored Factors\n\n[18] Proactive Schemes: A Survey of Adversarial Attacks for Social Good\n\n[19] Revisiting Transferable Adversarial Images: Systemization, Evaluation, and New Insights\n\n[20] Adversarial Vision Challenge\n\n[21] Multi-Faceted Attack: Exposing Cross-Model Vulnerabilities in Defense-Equipped Vision-Language Models\n\n[22] Defense That Attacks: How Robust Models Become Better Attackers\n\n[23] AdvFoolGen: Creating Persistent Troubles for Deep Classifiers\n\n[24] Attention-aggregated Attack for Boosting the Transferability of Facial Adversarial Examples\n\n[25] Investigating Vulnerabilities and Defenses Against Audio-Visual Attacks: A Comprehensive Survey Emphasizing Multimodal Models\n\n[26] Frequency-driven Imperceptible Adversarial Attack on Semantic Similarity\n\n[27] Benchmarking adversarial attacks and defenses for time-series data\n\n[28] Retention Score: Quantifying Jailbreak Risks for Vision Language Models\n\n[29] Benchmarking Adversarial Patch Selection and Location\n\n[30] TrojanZoo: Towards Unified, Holistic, and Practical Evaluation of Neural Backdoors\n\n[31] Universal Perturbation Attack on Differentiable No-Reference Image- and Video-Quality Metrics\n\n[32] REVAL: A Comprehension Evaluation on Reliability and Values of Large Vision-Language Models\n\n[33] Chain of Attack: On the Robustness of Vision-Language Models Against Transfer-Based Adversarial Attacks\n\n[34] Physical Adversarial Attacks for Surveillance: A Survey\n\n[35] Attack Taxonomy for Cyber-Physical System\n\n[36] Cyber-Physical Energy Systems Security: Threat Modeling, Risk Assessment, Resources, Metrics, and Case Studies\n\n[37] Machine Learning Security: Threats, Countermeasures, and Evaluations\n\n[38] Defending the Defender: Adversarial Learning Based Defending Strategy for Learning Based Security Methods in Cyber-Physical Systems (CPS)\n\n[39] A Survey on Machine-Learning Based Security Design for Cyber-Physical Systems\n\n[40] Benchmarking the Physical-world Adversarial Robustness of Vehicle Detection\n\n[41] Dependency-based security risk assessment for cyber-physical systems\n\n[42] Spatially Correlated Patterns in Adversarial Images\n\n[43] Defenses in Adversarial Machine Learning: A Survey\n\n[44] LanCe: A Comprehensive and Lightweight CNN Defense Methodology against Physical Adversarial Attacks on Embedded Multimedia Applications\n\n[45] DoPa: A Comprehensive CNN Detection Methodology against Physical  Adversarial Attacks\n\n[46] Adversarial Examples in the Physical World: A Survey\n\n[47] Robustness to Adversarial Attacks in Learning-Enabled Controllers\n\n[48] A Survey on Adversarial Attack in the Age of Artificial Intelligence\n\n[49] Adversarial Attacks and Defenses in Deep Learning\n\n[50] Adversarial Attacks on Deep-Learning Based Radio Signal Classification\n\n[51] Adversarial Learning in Statistical Classification: A Comprehensive  Review of Defenses Against Attacks\n\n[52] Detecting Adversarial Examples - A Lesson from Multimedia Forensics\n\n[53] Backdoor Attacks and Countermeasures on Deep Learning: A Comprehensive  Review\n\n[54] Cyber-Physical Systems Security—A Survey\n\n[55] Attack Anything: Blind DNNs via Universal Background Adversarial Attack\n\n[56] A Survey on Physical Adversarial Attack in Computer Vision\n\n[57] Adapting Step-size: A Unified Perspective to Analyze and Improve Gradient-based Methods for Adversarial Attacks\n\n[58] Efficient Optimization Algorithms for Linear Adversarial Training\n\n[59] A Unified Gradient Regularization Family for Adversarial Examples\n\n[60] Discrete Adversarial Attacks and Submodular Optimization with  Applications to Text Classification\n\n[61] Beyond backpropagation: bilevel optimization through implicit  differentiation and equilibrium propagation\n\n[62] GNP Attack: Transferable Adversarial Examples Via Gradient Norm Penalty\n\n[63] Boosting Adversarial Transferability via Commonality-Oriented Gradient Optimization\n\n[64] Nesterov Accelerated Gradient and Scale Invariance for Adversarial  Attacks\n\n[65] Generative Adversarial Networks : A Survey\n\n[66] CVAE-GAN: Fine-Grained Image Generation through Asymmetric Training\n\n[67] Adversarial Autoencoders\n\n[68] On Unifying Deep Generative Models\n\n[69] Multimodal Generative Models for Scalable Weakly-Supervised Learning\n\n[70] Deep Quantization: Encoding Convolutional Activations with Deep Generative Model\n\n[71] Generative AI in depth: A survey of recent advances, model variants, and real-world applications\n\n[72] Enhancing real-world adversarial patches through 3D modeling of complex target scenes\n\n[73] Robust Physical-World Attacks on Deep Learning Models\n\n[74] Shadows can be Dangerous: Stealthy and Effective Physical-world  Adversarial Attack by Natural Phenomenon\n\n[75] Evaluating the Robustness of Semantic Segmentation for Autonomous Driving against Real-World Adversarial Patch Attacks\n\n[76] Adversarial camera stickers: A physical camera-based attack on deep  learning systems\n\n[77] PhysGAN: Generating Physical-World-Resilient Adversarial Examples for Autonomous Driving\n\n[78] AdvReal: Physical adversarial patch generation framework for security evaluation of object detection systems\n\n[79] Diffusion Attack: Leveraging Stable Diffusion for Naturalistic Image Attacking\n\n[80] Region-Wise Attack: On Efficient Generation of Robust Physical  Adversarial Examples\n\n[81] Robustness and Security in Deep Learning: Adversarial Attacks and Countermeasures\n\n[82] Ignition Phase : Standard Training for Fast Adversarial Robustness\n\n[83] Efficient Adversarial Training With Transferable Adversarial Examples\n\n[84] Instance adaptive adversarial training: Improved accuracy tradeoffs in  neural nets\n\n[85] PCA improves the adversarial robustness of neural networks\n\n[86] Improving Adversarial Robustness via Channel-wise Activation Suppressing\n\n[87] Distillation as a Defense to Adversarial Perturbations Against Deep Neural Networks\n\n[88] Extending Defensive Distillation\n\n[89] Defending Against Adversarial Attack Towards Deep Neural Networks Via Collaborative Multi-Task Training\n\n[90] Adversarial Attacks and Defense Mechanisms in Machine Learning: A Structured Review of Methods, Domains, and Open Challenges\n\n[91] Robust Adversarial Example Detection Algorithm Based on High-Level Feature Differences\n\n[92] Detection of Word Adversarial Examples in Text Classification: Benchmark and Baseline via Robust Density Estimation\n\n[93] Masked Language Model Based Textual Adversarial Example Detection\n\n[94] ExAD: An Ensemble Approach for Explanation-based Adversarial Detection\n\n[95] The Taboo Trap: Behavioural Detection of Adversarial Samples\n\n[96] Frequency Centric Defense Mechanisms against Adversarial Examples\n\n[97] Adversarial Example Devastation and Detection on Speech Recognition System by Adding Random Noise\n\n[98] Iron Sharpens Iron: Defending Against Attacks in Machine-Generated Text Detection with Adversarial Training\n\n[99] CuRTAIL: ChaRacterizing and Thwarting AdversarIal Deep Learning\n\n[100] Meta Invariance Defense Towards Generalizable Robustness to Unknown Adversarial Attacks\n\n[101] DEFENSE-ATTACK INTERACTION OVER OPTIMALLY DESIGNED DEFENSE SYSTEMS VIA GAMES AND RELIABILITY\n\n[102] Machine learning and AI for security mechanisms: A Systematic Literature Review Using a PRISMA Framework\n\n[103] SHIELD: APT Detection and Intelligent Explanation Using LLM\n\n[104] Bi-Level Game-Theoretic Planning of Cyber Deception for Cognitive Arbitrage\n\n[105] LightDefense: A Lightweight Uncertainty-Driven Defense against Jailbreaks via Shifted Token Distribution\n\n[106] Embodied Active Defense: Leveraging Recurrent Feedback to Counter Adversarial Patches\n\n[107] Moving Target Defense Techniques: A Survey\n\n[108] When Autonomous Intelligent Goodware Will Fight Autonomous Intelligent Malware: A Possible Future of Cyber Defense\n\n[109] Rogue Signs: Deceiving Traffic Sign Recognition with Malicious Ads and  Logos\n\n[110] Adversarial Attack and Defense of YOLO Detectors in Autonomous Driving  Scenarios\n\n[111] Real-Time Robust Video Object Detection System Against Physical-World Adversarial Attacks\n\n[112] Dirty Road Can Attack: Security of Deep Learning based Automated Lane  Centering under Physical-World Attack\n\n[113] Adversarial Attacks on Multi-task Visual Perception for Autonomous Driving\n\n[114] Attacking Motion Planners Using Adversarial Perception Errors\n\n[115] Evaluating Adversarial Attacks on Driving Safety in Vision-Based Autonomous Vehicles\n\n[116] Towards Transferable Attacks Against Vision-LLMs in Autonomous Driving with Typography\n\n[117] Adversarial Driving: Attacking End-to-End Autonomous Driving\n\n[118] Detecting and Segmenting Adversarial Graphics Patterns from Images\n\n[119] AiWatch: A Distributed Video Surveillance System Using Artificial Intelligence and Digital Twins Technologies\n\n[120] Securing AI Models Against Adversarial Attacks in Military Surveillance Systems\n\n[121] Adversarial Attacks Against Medical Deep Learning Systems\n\n[122] A Survey on Adversarial Deep Learning Robustness in Medical Image Analysis\n\n[123] Auto encoder-based defense mechanism against popular adversarial attacks in deep learning\n\n[124] Impact of Adversarial Examples on Deep Learning Models for Biomedical Image Segmentation\n\n[125] Non-Local Context Encoder: Robust Biomedical Image Segmentation against Adversarial Attacks\n\n[126] MedAttacker: Exploring Black-Box Adversarial Attacks on Risk Prediction Models in Healthcare\n\n[127] Adversarial prompt and fine-tuning attacks threaten medical large language models\n\n[128] Transferable Adversarial Attacks on Black-Box Vision-Language Models\n\n[129] How robust accuracy suffers from certified training with convex relaxations\n\n[130] SNEAK: Synonymous Sentences-Aware Adversarial Attack on Natural Language  Video Localization\n\n[131] Scratch that! An Evolution-based Adversarial Attack against Neural  Networks\n\n[132] Towards Adversarial Attack on Vision-Language Pre-training Models\n\n[133] A Data Augmentation-based Defense Method Against Adversarial Attacks in Neural Networks\n\n[134] Is current research on adversarial robustness addressing the right problem?\n\n[135] A Survey on Moving Target Defense: Intelligently Affordable, Optimized and Self-Adaptive\n\n[136] Toward Proactive, Adaptive Defense: A Survey on Moving Target Defense\n\n[137] The Impact of Network Design Interventions on the Security of Interdependent Systems\n\n[138] Proactive Defense in a Converged Threat Environment: Leveraging Predictive Cyber Analytics to Safeguard the United States' Critical Infrastructure\n\n[139] Enhancing reconnaissance security: a 2-tier deception-driven model approach (2TDDSM)\n\n[140] Developing a Multi-Layered Defence System to Safeguard Data against Phishing Attacks\n\n[141] Blockchain-Enhanced Privacy Protection in Social Network Research and Applications\n\n[142] Using Chia Blockchain Technology for Department of Defense Systems\n\n[143] JailbreakZoo: Survey, Landscapes, and Horizons in Jailbreaking Large Language and Vision-Language Models\n\n[144] A Comprehensive Survey on the Security of Smart Grid: Challenges, Mitigations, and Future Research Opportunities\n\n[145] Large language models in 6G security: challenges and opportunities\n\n[146] The Role of Cybersecurity in Strengthening Government Security Sectors: A Systematic Literature Review\n\n[147] AI-powered threat detection: Opportunities and limitations in modern cyber defense\n\n[148] Machine learning -based decision support framework for CBRN protection☆\n\n[149] The Shadow of Fraud: The Emerging Danger of AI-powered Social Engineering and its Possible Cure\n\n[150] Shielding Against Social Engineering Threats: A Counterintelligence Approach\n\n[151] Emerging Trends in Cybersecurity: A Holistic View on Current Threats, Assessing Solutions, and Pioneering New Frontiers\n\n[152] The Ethics of Interaction: Mitigating Security Threats in LLMs\n\n[153] The Phantom Menace: Unmasking Privacy Leakages in Vision-Language Models\n\n[154] Ethical Challenges in Computer Vision: Ensuring Privacy and Mitigating Bias in Publicly Available Datasets\n\n[155] Visual Content Privacy Protection: A Survey\n\n[156] Governance Considerations of Adversarial Attacks on AI Systems\n\n[157] Ethical Hacking and Penetration Testing: Securing Digital Assets and Networks\n\n[158] LDP-Feat: Image Features with Local Differential Privacy\n\n[159] AI Ethics—A Bird’s Eye View\n\n[160] Ethical Considerations in Artificial Intelligence: A Comprehensive Disccusion from the Perspective of Computer Vision\n\n[161] A Review of Value-Conflicts in Cybersecurity\n\n[162] Balancing privacy rights and surveillance analytics: a decision process guide\n\n[163] AI Integrity Solutions for Deepfake Identification and Prevention\n\n[164] Applying Standards to Advance Upstream & Downstream Ethics in Large Language Models\n\n[165] Who Can See Through You? Adversarial Shielding Against VLM-Based Attribute Inference Attacks\n\n[166] Evaluating Differentially Private Generative Adversarial Networks Over Membership Inference Attack\n\n[167] Differentially Private and Adversarially Robust Machine Learning: An Empirical Evaluation\n\n[168] AdvAttackVis: An Adversarial Attack Visualization System for Deep Neural Networks\n\n[169] Training face verification models from generated face identity data\n\n[170] Privacy in Practice: Private COVID-19 Detection in X-Ray Images\n\n[171] Quantifying Privacy Risks of Prompts in Visual Prompt Learning\n\n[172] Is Homomorphic Encryption-Based Deep Learning Secure Enough?\n\n[173] Watermarking Without Standards Is Not AI Governance\n\n[174] Self-Ensembling Vision Transformer (SEViT) for Robust Medical Image Classification\n\n[175] MagDR: Mask-guided Detection and Reconstruction for Defending Deepfakes\n\n[176] Securing Visually-Aware Recommender Systems: An Adversarial Image Reconstruction and Detection Framework\n\n[177] PG-Attack: A Precision-Guided Adversarial Attack Framework Against Vision Foundation Models for Autonomous Driving\n\n[178] Improving Adversarial Transferability of Visual-Language Pre-training Models through Collaborative Multimodal Interaction\n\n[179] Metamorphic Detection of Adversarial Examples in Deep Learning Models with Affine Transformations\n\n[180] Enhancing Cross-task Black-Box Transferability of Adversarial Examples  with Dispersion Reduction\n\n[181] Detecting Adversarial Patches with Class Conditional Reconstruction  Networks\n\n[182] Defending Against Person Hiding Adversarial Patch Attack with a Universal White Frame\n\n[183] Dual Attention Suppression Attack: Generate Adversarial Camouflage in Physical World\n\n[184] Adv-Eye: A Transfer-Based Natural Eye Makeup Attack on Face Recognition\n\n\n",
+    "reference": {
+        "1": "10.1109/access.2018.2807385",
+        "2": "2303.12249",
+        "3": "10.1109/tpami.2024.3430860",
+        "4": "10.3390/jimaging8060155",
+        "5": "2003.11145",
+        "6": "10.1109/tnnls.2025.3561225",
+        "7": "10.1109/access.2023.3321118",
+        "8": "10.63345/sjaibt.v2.i4.101",
+        "9": "2003.06693",
+        "10": "10.1007/978-981-99-8388-9_12",
+        "11": "2110.03605",
+        "12": "10.13140/rg.2.2.28762.40647",
+        "13": "2208.10481",
+        "14": "1906.03749",
+        "15": "2410.19863",
+        "16": "2305.00866",
+        "17": "10.1016/j.media.2021.102141",
+        "18": "2409.16491",
+        "19": "10.1109/tpami.2025.3610085",
+        "20": "10.1007/978-3-030-29135-8_5",
+        "21": "2511.16110",
+        "22": "2512.02830",
+        "23": "10.1109/iccvw54120.2021.00021",
+        "24": "2505.03383",
+        "25": "2506.11521",
+        "26": "2203.05151",
+        "27": "10.1007/978-3-030-63836-8_45",
+        "28": "2412.17544",
+        "29": "2508.01676",
+        "30": "10.1109/eurosp53844.2022.00048",
+        "31": "2211.00366",
+        "32": "2503.16566",
+        "33": "10.1109/cvpr52734.2025.01368",
+        "34": "10.1109/tnnls.2023.3321432",
+        "35": "10.22214/ijraset.2022.39734",
+        "36": "10.1109/access.2021.3058403",
+        "37": "10.1109/access.2020.2987435",
+        "38": "10.3390/s23125459",
+        "39": "10.3390/app11125458",
+        "40": "2304.05098",
+        "41": "10.1007/s10207-022-00608-4",
+        "42": "2011.10794",
+        "43": "2312.08890",
+        "44": "10.1109/asp-dac47756.2020.9045584",
+        "45": "1905.08790",
+        "46": "2311.01473",
+        "47": "2006.06861",
+        "48": "10.1155/2021/4907754",
+        "49": "10.1016/j.eng.2019.12.012",
+        "50": "1808.07713",
+        "51": "1904.06292",
+        "52": "1803.03613",
+        "53": "2007.10760",
+        "54": "10.1109/jiot.2017.2703172",
+        "55": "2409.00029",
+        "56": "2209.14262",
+        "57": "2301.11546",
+        "58": "2410.12677",
+        "59": "1511.06385",
+        "60": "1812.00151",
+        "61": "2205.03076",
+        "62": "10.1109/icip49359.2023.10223158",
+        "63": "2506.06992",
+        "64": "1908.06281",
+        "65": "10.21203/rs.3.rs-300223/v1",
+        "66": "1703.10155",
+        "67": "1511.05644",
+        "68": "1706.00550",
+        "69": "1802.05335",
+        "70": "10.1109/cvpr.2017.435",
+        "71": "10.1186/s40537-025-01247-x",
+        "72": "10.1016/j.neucom.2022.05.031",
+        "73": "1707.08945",
+        "74": "2203.03818",
+        "75": "10.1109/wacv51458.2022.00288",
+        "76": "1904.00759",
+        "77": "10.1109/cvpr42600.2020.01426",
+        "78": "10.1016/j.eswa.2025.128967",
+        "79": "10.1109/vrw62533.2024.00284",
+        "80": "1912.02598",
+        "81": "10.52783/jes.1436",
+        "82": "2506.15685",
+        "83": "10.1109/cvpr42600.2020.00126",
+        "84": "1910.08051",
+        "85": "10.14428/esann/2022.es2022-96",
+        "86": "2103.08307",
+        "87": "10.1109/sp.2016.41",
+        "88": "1705.05264",
+        "89": "10.1109/tdsc.2020.3014390",
+        "90": "10.1109/access.2025.3624409",
+        "91": "10.3390/s25061770",
+        "92": "2203.01677",
+        "93": "10.1145/3579856.3590339",
+        "94": "2103.11526",
+        "95": "1811.07375",
+        "96": "2110.13935",
+        "97": "10.17743/jaes.2022.0060",
+        "98": "2502.12734",
+        "99": "10.1109/tdsc.2020.3024191",
+        "100": "10.1109/tpami.2024.3385745",
+        "101": "10.1590/0101-7438.2014.034.02.0215",
+        "102": "10.62486/latia2025331",
+        "103": "2502.02342",
+        "104": "2509.05498",
+        "105": "2504.01533",
+        "106": "2404.00540",
+        "107": "10.1155/2018/3759626",
+        "108": "10.1109/milcom47813.2019.9021038",
+        "109": "1801.02780",
+        "110": "2202.04781",
+        "111": "10.1109/tcad.2023.3305932",
+        "112": "2009.06701",
+        "113": "10.2352/j.imagingsci.technol.2021.65.6.060408",
+        "114": "2311.12722",
+        "115": "10.1109/jiot.2021.3099164",
+        "116": "2405.14169",
+        "117": "2103.09151",
+        "118": "2108.09383",
+        "119": "10.3390/technologies13050195",
+        "120": "10.30574/wjarr.2025.27.2.3084",
+        "121": "1804.05296",
+        "122": "10.3390/electronics10172132",
+        "123": "10.1371/journal.pone.0307363",
+        "124": "10.1007/978-3-030-32245-8_34",
+        "125": "10.1609/aaai.v33i01.33018417",
+        "126": "10.1109/bibm55620.2022.9994898",
+        "127": "10.1038/s41467-025-64062-1",
+        "128": "2505.01050",
+        "129": "2306.06995",
+        "130": "2112.04154",
+        "131": "1912.02316",
+        "132": "2206.09391",
+        "133": "10.1007/978-3-030-60239-0_19",
+        "134": "2208.00539",
+        "135": "10.3390/app13095367",
+        "136": "1909.08092",
+        "137": "10.1109/tcns.2023.3272849",
+        "138": "10.36948/ijfmr.2025.v07i05.55412",
+        "139": "10.11591/ijeecs.v34.i3.pp1999-2006",
+        "140": "10.38124/ijisrt/ijisrt24feb1107",
+        "141": "10.54097/axe0sb93",
+        "142": "10.34190/eccws.23.1.2504",
+        "143": "2407.01599",
+        "144": "2407.07966",
+        "145": "2403.12239",
+        "146": "10.52783/jisem.v10i47s.9313",
+        "147": "10.30574/wjarr.2025.27.2.2854",
+        "148": "10.1016/j.heliyon.2024.e25946",
+        "149": "2407.15912",
+        "150": "10.53477/2284-9378-25-46",
+        "151": "10.30953/bhty.v7.302",
+        "152": "2401.12273",
+        "153": "2408.01228",
+        "154": "2409.10533",
+        "155": "10.1145/3708501",
+        "156": "10.34190/icair.4.1.3194",
+        "157": "10.48175/ijarsct-12422",
+        "158": "10.1109/iccv51070.2023.01612",
+        "159": "10.3390/app12094130",
+        "160": "10.1051/shsconf/202317904024",
+        "161": "10.29297/orbit.v1i1.28",
+        "162": "10.1080/2573234x.2021.1920856",
+        "163": "10.11113/oiji2024.12n1.297",
+        "164": "2306.03503",
+        "165": "2512.18264",
+        "166": "10.1109/access.2021.3137278",
+        "167": "2401.10405",
+        "168": "10.14569/ijacsa.2024.0150538",
+        "169": "2108.00800",
+        "170": "10.5220/0012048100003555",
+        "171": "2310.11970",
+        "172": "10.3390/s21237806",
+        "173": "2505.23814",
+        "174": "2208.02851",
+        "175": "10.1109/cvpr46437.2021.00890",
+        "176": "10.1145/3743681",
+        "177": "2407.13111",
+        "178": "2403.10883",
+        "179": "10.1109/met.2019.00016",
+        "180": "1911.11616",
+        "181": "2011.05850",
+        "182": "2204.13004",
+        "183": "10.1109/cvpr46437.2021.00846",
+        "184": "10.1109/access.2023.3307132"
+    },
+    "reference_detail": {
+        "1": {
+            "id": "10.1109/access.2018.2807385",
+            "title": "Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey",
+            "date": "2018-01-01",
+            "url": "https://doi.org/10.1109/access.2018.2807385"
+        },
+        "2": {
+            "id": "2303.12249",
+            "title": "State-of-the-art optical-based physical adversarial attacks for deep learning computer vision systems",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2303.12249"
+        },
+        "3": {
+            "id": "10.1109/tpami.2024.3430860",
+            "title": "Physical Adversarial Attack Meets Computer Vision: A Decade Survey",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.1109/tpami.2024.3430860"
+        },
+        "4": {
+            "id": "10.3390/jimaging8060155",
+            "title": "Digital Watermarking as an Adversarial Attack on Medical Image Analysis with Deep Learning",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.3390/jimaging8060155"
+        },
+        "5": {
+            "id": "2003.11145",
+            "title": "Adversarial Light Projection Attacks on Face Recognition Systems: A Feasibility Study",
+            "date": "2020-01-01",
+            "url": "https://arxiv.org/abs/2003.11145"
+        },
+        "6": {
+            "id": "10.1109/tnnls.2025.3561225",
+            "title": "A Survey and Evaluation of Adversarial Attacks in Object Detection",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1109/tnnls.2025.3561225"
+        },
+        "7": {
+            "id": "10.1109/access.2023.3321118",
+            "title": "Physical Adversarial Attacks for Camera-Based Smart Systems: Current Trends, Categorization, Applications, Research Challenges, and Future Outlook",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1109/access.2023.3321118"
+        },
+        "8": {
+            "id": "10.63345/sjaibt.v2.i4.101",
+            "title": "Adversarial Attacks in Computer Vision: Challenges and Defense Strategies",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.63345/sjaibt.v2.i4.101"
+        },
+        "9": {
+            "id": "2003.06693",
+            "title": "Certified Defenses for Adversarial Patches",
+            "date": "2020-01-01",
+            "url": "https://arxiv.org/abs/2003.06693"
+        },
+        "10": {
+            "id": "10.1007/978-981-99-8388-9_12",
+            "title": "Superpixel Attack - Enhancing Black-Box Adversarial Attack with Image-Driven Division Areas",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1007/978-981-99-8388-9_12"
+        },
+        "11": {
+            "id": "2110.03605",
+            "title": "Robust Feature-Level Adversaries are Interpretability Tools",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2110.03605"
+        },
+        "12": {
+            "id": "10.13140/rg.2.2.28762.40647",
+            "title": "Adversarial Evasion Attacks on Computer Vision using SHAP Values",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.13140/rg.2.2.28762.40647"
+        },
+        "13": {
+            "id": "2208.10481",
+            "title": "BARReL: Bottleneck Attention for Adversarial Robustness in Vision-Based Reinforcement Learning",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2208.10481"
+        },
+        "14": {
+            "id": "1906.03749",
+            "title": "Improved Adversarial Robustness via Logit Regularization Methods",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1906.03749"
+        },
+        "15": {
+            "id": "2410.19863",
+            "title": "Breaking the Illusion: Real-world Challenges for Adversarial Patches in Object Detection",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2410.19863"
+        },
+        "16": {
+            "id": "2305.00866",
+            "title": "Attack-SAM: Towards Attacking Segment Anything Model With Adversarial Examples",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2305.00866"
+        },
+        "17": {
+            "id": "10.1016/j.media.2021.102141",
+            "title": "Adversarial Attack Vulnerability of Medical Image Analysis Systems: Unexplored Factors",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1016/j.media.2021.102141"
+        },
+        "18": {
+            "id": "2409.16491",
+            "title": "Proactive Schemes: A Survey of Adversarial Attacks for Social Good",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2409.16491"
+        },
+        "19": {
+            "id": "10.1109/tpami.2025.3610085",
+            "title": "Revisiting Transferable Adversarial Images: Systemization, Evaluation, and New Insights",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1109/tpami.2025.3610085"
+        },
+        "20": {
+            "id": "10.1007/978-3-030-29135-8_5",
+            "title": "Adversarial Vision Challenge",
+            "date": "2019-01-01",
+            "url": "https://doi.org/10.1007/978-3-030-29135-8_5"
+        },
+        "21": {
+            "id": "2511.16110",
+            "title": "Multi-Faceted Attack: Exposing Cross-Model Vulnerabilities in Defense-Equipped Vision-Language Models",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2511.16110"
+        },
+        "22": {
+            "id": "2512.02830",
+            "title": "Defense That Attacks: How Robust Models Become Better Attackers",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2512.02830"
+        },
+        "23": {
+            "id": "10.1109/iccvw54120.2021.00021",
+            "title": "AdvFoolGen: Creating Persistent Troubles for Deep Classifiers",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1109/iccvw54120.2021.00021"
+        },
+        "24": {
+            "id": "2505.03383",
+            "title": "Attention-aggregated Attack for Boosting the Transferability of Facial Adversarial Examples",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2505.03383"
+        },
+        "25": {
+            "id": "2506.11521",
+            "title": "Investigating Vulnerabilities and Defenses Against Audio-Visual Attacks: A Comprehensive Survey Emphasizing Multimodal Models",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2506.11521"
+        },
+        "26": {
+            "id": "2203.05151",
+            "title": "Frequency-driven Imperceptible Adversarial Attack on Semantic Similarity",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2203.05151"
+        },
+        "27": {
+            "id": "10.1007/978-3-030-63836-8_45",
+            "title": "Benchmarking adversarial attacks and defenses for time-series data",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1007/978-3-030-63836-8_45"
+        },
+        "28": {
+            "id": "2412.17544",
+            "title": "Retention Score: Quantifying Jailbreak Risks for Vision Language Models",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2412.17544"
+        },
+        "29": {
+            "id": "2508.01676",
+            "title": "Benchmarking Adversarial Patch Selection and Location",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2508.01676"
+        },
+        "30": {
+            "id": "10.1109/eurosp53844.2022.00048",
+            "title": "TrojanZoo: Towards Unified, Holistic, and Practical Evaluation of Neural Backdoors",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.1109/eurosp53844.2022.00048"
+        },
+        "31": {
+            "id": "2211.00366",
+            "title": "Universal Perturbation Attack on Differentiable No-Reference Image- and Video-Quality Metrics",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2211.00366"
+        },
+        "32": {
+            "id": "2503.16566",
+            "title": "REVAL: A Comprehension Evaluation on Reliability and Values of Large Vision-Language Models",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2503.16566"
+        },
+        "33": {
+            "id": "10.1109/cvpr52734.2025.01368",
+            "title": "Chain of Attack: On the Robustness of Vision-Language Models Against Transfer-Based Adversarial Attacks",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1109/cvpr52734.2025.01368"
+        },
+        "34": {
+            "id": "10.1109/tnnls.2023.3321432",
+            "title": "Physical Adversarial Attacks for Surveillance: A Survey",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1109/tnnls.2023.3321432"
+        },
+        "35": {
+            "id": "10.22214/ijraset.2022.39734",
+            "title": "Attack Taxonomy for Cyber-Physical System",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.22214/ijraset.2022.39734"
+        },
+        "36": {
+            "id": "10.1109/access.2021.3058403",
+            "title": "Cyber-Physical Energy Systems Security: Threat Modeling, Risk Assessment, Resources, Metrics, and Case Studies",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1109/access.2021.3058403"
+        },
+        "37": {
+            "id": "10.1109/access.2020.2987435",
+            "title": "Machine Learning Security: Threats, Countermeasures, and Evaluations",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1109/access.2020.2987435"
+        },
+        "38": {
+            "id": "10.3390/s23125459",
+            "title": "Defending the Defender: Adversarial Learning Based Defending Strategy for Learning Based Security Methods in Cyber-Physical Systems (CPS)",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.3390/s23125459"
+        },
+        "39": {
+            "id": "10.3390/app11125458",
+            "title": "A Survey on Machine-Learning Based Security Design for Cyber-Physical Systems",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.3390/app11125458"
+        },
+        "40": {
+            "id": "2304.05098",
+            "title": "Benchmarking the Physical-world Adversarial Robustness of Vehicle Detection",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2304.05098"
+        },
+        "41": {
+            "id": "10.1007/s10207-022-00608-4",
+            "title": "Dependency-based security risk assessment for cyber-physical systems",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.1007/s10207-022-00608-4"
+        },
+        "42": {
+            "id": "2011.10794",
+            "title": "Spatially Correlated Patterns in Adversarial Images",
+            "date": "2020-01-01",
+            "url": "https://arxiv.org/abs/2011.10794"
+        },
+        "43": {
+            "id": "2312.08890",
+            "title": "Defenses in Adversarial Machine Learning: A Survey",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2312.08890"
+        },
+        "44": {
+            "id": "10.1109/asp-dac47756.2020.9045584",
+            "title": "LanCe: A Comprehensive and Lightweight CNN Defense Methodology against Physical Adversarial Attacks on Embedded Multimedia Applications",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1109/asp-dac47756.2020.9045584"
+        },
+        "45": {
+            "id": "1905.08790",
+            "title": "DoPa: A Comprehensive CNN Detection Methodology against Physical Adversarial Attacks",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1905.08790"
+        },
+        "46": {
+            "id": "2311.01473",
+            "title": "Adversarial Examples in the Physical World: A Survey",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2311.01473"
+        },
+        "47": {
+            "id": "2006.06861",
+            "title": "Robustness to Adversarial Attacks in Learning-Enabled Controllers",
+            "date": "2020-01-01",
+            "url": "https://arxiv.org/abs/2006.06861"
+        },
+        "48": {
+            "id": "10.1155/2021/4907754",
+            "title": "A Survey on Adversarial Attack in the Age of Artificial Intelligence",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1155/2021/4907754"
+        },
+        "49": {
+            "id": "10.1016/j.eng.2019.12.012",
+            "title": "Adversarial Attacks and Defenses in Deep Learning",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1016/j.eng.2019.12.012"
+        },
+        "50": {
+            "id": "1808.07713",
+            "title": "Adversarial Attacks on Deep-Learning Based Radio Signal Classification",
+            "date": "2018-01-01",
+            "url": "https://arxiv.org/abs/1808.07713"
+        },
+        "51": {
+            "id": "1904.06292",
+            "title": "Adversarial Learning in Statistical Classification: A Comprehensive Review of Defenses Against Attacks",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1904.06292"
+        },
+        "52": {
+            "id": "1803.03613",
+            "title": "Detecting Adversarial Examples - A Lesson from Multimedia Forensics",
+            "date": "2018-01-01",
+            "url": "https://arxiv.org/abs/1803.03613"
+        },
+        "53": {
+            "id": "2007.10760",
+            "title": "Backdoor Attacks and Countermeasures on Deep Learning: A Comprehensive Review",
+            "date": "2020-01-01",
+            "url": "https://arxiv.org/abs/2007.10760"
+        },
+        "54": {
+            "id": "10.1109/jiot.2017.2703172",
+            "title": "Cyber-Physical Systems Security—A Survey",
+            "date": "2017-01-01",
+            "url": "https://doi.org/10.1109/jiot.2017.2703172"
+        },
+        "55": {
+            "id": "2409.00029",
+            "title": "Attack Anything: Blind DNNs via Universal Background Adversarial Attack",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2409.00029"
+        },
+        "56": {
+            "id": "2209.14262",
+            "title": "A Survey on Physical Adversarial Attack in Computer Vision",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2209.14262"
+        },
+        "57": {
+            "id": "2301.11546",
+            "title": "Adapting Step-size: A Unified Perspective to Analyze and Improve Gradient-based Methods for Adversarial Attacks",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2301.11546"
+        },
+        "58": {
+            "id": "2410.12677",
+            "title": "Efficient Optimization Algorithms for Linear Adversarial Training",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2410.12677"
+        },
+        "59": {
+            "id": "1511.06385",
+            "title": "A Unified Gradient Regularization Family for Adversarial Examples",
+            "date": "2015-01-01",
+            "url": "https://arxiv.org/abs/1511.06385"
+        },
+        "60": {
+            "id": "1812.00151",
+            "title": "Discrete Adversarial Attacks and Submodular Optimization with Applications to Text Classification",
+            "date": "2018-01-01",
+            "url": "https://arxiv.org/abs/1812.00151"
+        },
+        "61": {
+            "id": "2205.03076",
+            "title": "Beyond backpropagation: bilevel optimization through implicit differentiation and equilibrium propagation",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2205.03076"
+        },
+        "62": {
+            "id": "10.1109/icip49359.2023.10223158",
+            "title": "GNP Attack: Transferable Adversarial Examples Via Gradient Norm Penalty",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1109/icip49359.2023.10223158"
+        },
+        "63": {
+            "id": "2506.06992",
+            "title": "Boosting Adversarial Transferability via Commonality-Oriented Gradient Optimization",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2506.06992"
+        },
+        "64": {
+            "id": "1908.06281",
+            "title": "Nesterov Accelerated Gradient and Scale Invariance for Adversarial Attacks",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1908.06281"
+        },
+        "65": {
+            "id": "10.21203/rs.3.rs-300223/v1",
+            "title": "Generative Adversarial Networks : A Survey",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.21203/rs.3.rs-300223/v1"
+        },
+        "66": {
+            "id": "1703.10155",
+            "title": "CVAE-GAN: Fine-Grained Image Generation through Asymmetric Training",
+            "date": "2017-01-01",
+            "url": "https://arxiv.org/abs/1703.10155"
+        },
+        "67": {
+            "id": "1511.05644",
+            "title": "Adversarial Autoencoders",
+            "date": "2015-01-01",
+            "url": "https://arxiv.org/abs/1511.05644"
+        },
+        "68": {
+            "id": "1706.00550",
+            "title": "On Unifying Deep Generative Models",
+            "date": "2017-01-01",
+            "url": "https://arxiv.org/abs/1706.00550"
+        },
+        "69": {
+            "id": "1802.05335",
+            "title": "Multimodal Generative Models for Scalable Weakly-Supervised Learning",
+            "date": "2018-01-01",
+            "url": "https://arxiv.org/abs/1802.05335"
+        },
+        "70": {
+            "id": "10.1109/cvpr.2017.435",
+            "title": "Deep Quantization: Encoding Convolutional Activations with Deep Generative Model",
+            "date": "2017-01-01",
+            "url": "https://doi.org/10.1109/cvpr.2017.435"
+        },
+        "71": {
+            "id": "10.1186/s40537-025-01247-x",
+            "title": "Generative AI in depth: A survey of recent advances, model variants, and real-world applications",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1186/s40537-025-01247-x"
+        },
+        "72": {
+            "id": "10.1016/j.neucom.2022.05.031",
+            "title": "Enhancing real-world adversarial patches through 3D modeling of complex target scenes",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.1016/j.neucom.2022.05.031"
+        },
+        "73": {
+            "id": "1707.08945",
+            "title": "Robust Physical-World Attacks on Deep Learning Models",
+            "date": "2017-01-01",
+            "url": "https://arxiv.org/abs/1707.08945"
+        },
+        "74": {
+            "id": "2203.03818",
+            "title": "Shadows can be Dangerous: Stealthy and Effective Physical-world Adversarial Attack by Natural Phenomenon",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2203.03818"
+        },
+        "75": {
+            "id": "10.1109/wacv51458.2022.00288",
+            "title": "Evaluating the Robustness of Semantic Segmentation for Autonomous Driving against Real-World Adversarial Patch Attacks",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.1109/wacv51458.2022.00288"
+        },
+        "76": {
+            "id": "1904.00759",
+            "title": "Adversarial camera stickers: A physical camera-based attack on deep learning systems",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1904.00759"
+        },
+        "77": {
+            "id": "10.1109/cvpr42600.2020.01426",
+            "title": "PhysGAN: Generating Physical-World-Resilient Adversarial Examples for Autonomous Driving",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1109/cvpr42600.2020.01426"
+        },
+        "78": {
+            "id": "10.1016/j.eswa.2025.128967",
+            "title": "AdvReal: Physical adversarial patch generation framework for security evaluation of object detection systems",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1016/j.eswa.2025.128967"
+        },
+        "79": {
+            "id": "10.1109/vrw62533.2024.00284",
+            "title": "Diffusion Attack: Leveraging Stable Diffusion for Naturalistic Image Attacking",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.1109/vrw62533.2024.00284"
+        },
+        "80": {
+            "id": "1912.02598",
+            "title": "Region-Wise Attack: On Efficient Generation of Robust Physical Adversarial Examples",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1912.02598"
+        },
+        "81": {
+            "id": "10.52783/jes.1436",
+            "title": "Robustness and Security in Deep Learning: Adversarial Attacks and Countermeasures",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.52783/jes.1436"
+        },
+        "82": {
+            "id": "2506.15685",
+            "title": "Ignition Phase : Standard Training for Fast Adversarial Robustness",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2506.15685"
+        },
+        "83": {
+            "id": "10.1109/cvpr42600.2020.00126",
+            "title": "Efficient Adversarial Training With Transferable Adversarial Examples",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1109/cvpr42600.2020.00126"
+        },
+        "84": {
+            "id": "1910.08051",
+            "title": "Instance adaptive adversarial training: Improved accuracy tradeoffs in neural nets",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1910.08051"
+        },
+        "85": {
+            "id": "10.14428/esann/2022.es2022-96",
+            "title": "PCA improves the adversarial robustness of neural networks",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.14428/esann/2022.es2022-96"
+        },
+        "86": {
+            "id": "2103.08307",
+            "title": "Improving Adversarial Robustness via Channel-wise Activation Suppressing",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2103.08307"
+        },
+        "87": {
+            "id": "10.1109/sp.2016.41",
+            "title": "Distillation as a Defense to Adversarial Perturbations Against Deep Neural Networks",
+            "date": "2016-01-01",
+            "url": "https://doi.org/10.1109/sp.2016.41"
+        },
+        "88": {
+            "id": "1705.05264",
+            "title": "Extending Defensive Distillation",
+            "date": "2017-01-01",
+            "url": "https://arxiv.org/abs/1705.05264"
+        },
+        "89": {
+            "id": "10.1109/tdsc.2020.3014390",
+            "title": "Defending Against Adversarial Attack Towards Deep Neural Networks Via Collaborative Multi-Task Training",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1109/tdsc.2020.3014390"
+        },
+        "90": {
+            "id": "10.1109/access.2025.3624409",
+            "title": "Adversarial Attacks and Defense Mechanisms in Machine Learning: A Structured Review of Methods, Domains, and Open Challenges",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1109/access.2025.3624409"
+        },
+        "91": {
+            "id": "10.3390/s25061770",
+            "title": "Robust Adversarial Example Detection Algorithm Based on High-Level Feature Differences",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.3390/s25061770"
+        },
+        "92": {
+            "id": "2203.01677",
+            "title": "Detection of Word Adversarial Examples in Text Classification: Benchmark and Baseline via Robust Density Estimation",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2203.01677"
+        },
+        "93": {
+            "id": "10.1145/3579856.3590339",
+            "title": "Masked Language Model Based Textual Adversarial Example Detection",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1145/3579856.3590339"
+        },
+        "94": {
+            "id": "2103.11526",
+            "title": "ExAD: An Ensemble Approach for Explanation-based Adversarial Detection",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2103.11526"
+        },
+        "95": {
+            "id": "1811.07375",
+            "title": "The Taboo Trap: Behavioural Detection of Adversarial Samples",
+            "date": "2018-01-01",
+            "url": "https://arxiv.org/abs/1811.07375"
+        },
+        "96": {
+            "id": "2110.13935",
+            "title": "Frequency Centric Defense Mechanisms against Adversarial Examples",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2110.13935"
+        },
+        "97": {
+            "id": "10.17743/jaes.2022.0060",
+            "title": "Adversarial Example Devastation and Detection on Speech Recognition System by Adding Random Noise",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.17743/jaes.2022.0060"
+        },
+        "98": {
+            "id": "2502.12734",
+            "title": "Iron Sharpens Iron: Defending Against Attacks in Machine-Generated Text Detection with Adversarial Training",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2502.12734"
+        },
+        "99": {
+            "id": "10.1109/tdsc.2020.3024191",
+            "title": "CuRTAIL: ChaRacterizing and Thwarting AdversarIal Deep Learning",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1109/tdsc.2020.3024191"
+        },
+        "100": {
+            "id": "10.1109/tpami.2024.3385745",
+            "title": "Meta Invariance Defense Towards Generalizable Robustness to Unknown Adversarial Attacks",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.1109/tpami.2024.3385745"
+        },
+        "101": {
+            "id": "10.1590/0101-7438.2014.034.02.0215",
+            "title": "DEFENSE-ATTACK INTERACTION OVER OPTIMALLY DESIGNED DEFENSE SYSTEMS VIA GAMES AND RELIABILITY",
+            "date": "2014-01-01",
+            "url": "https://doi.org/10.1590/0101-7438.2014.034.02.0215"
+        },
+        "102": {
+            "id": "10.62486/latia2025331",
+            "title": "Machine learning and AI for security mechanisms: A Systematic Literature Review Using a PRISMA Framework",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.62486/latia2025331"
+        },
+        "103": {
+            "id": "2502.02342",
+            "title": "SHIELD: APT Detection and Intelligent Explanation Using LLM",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2502.02342"
+        },
+        "104": {
+            "id": "2509.05498",
+            "title": "Bi-Level Game-Theoretic Planning of Cyber Deception for Cognitive Arbitrage",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2509.05498"
+        },
+        "105": {
+            "id": "2504.01533",
+            "title": "LightDefense: A Lightweight Uncertainty-Driven Defense against Jailbreaks via Shifted Token Distribution",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2504.01533"
+        },
+        "106": {
+            "id": "2404.00540",
+            "title": "Embodied Active Defense: Leveraging Recurrent Feedback to Counter Adversarial Patches",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2404.00540"
+        },
+        "107": {
+            "id": "10.1155/2018/3759626",
+            "title": "Moving Target Defense Techniques: A Survey",
+            "date": "2018-01-01",
+            "url": "https://doi.org/10.1155/2018/3759626"
+        },
+        "108": {
+            "id": "10.1109/milcom47813.2019.9021038",
+            "title": "When Autonomous Intelligent Goodware Will Fight Autonomous Intelligent Malware: A Possible Future of Cyber Defense",
+            "date": "2019-01-01",
+            "url": "https://doi.org/10.1109/milcom47813.2019.9021038"
+        },
+        "109": {
+            "id": "1801.02780",
+            "title": "Rogue Signs: Deceiving Traffic Sign Recognition with Malicious Ads and Logos",
+            "date": "2018-01-01",
+            "url": "https://arxiv.org/abs/1801.02780"
+        },
+        "110": {
+            "id": "2202.04781",
+            "title": "Adversarial Attack and Defense of YOLO Detectors in Autonomous Driving Scenarios",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2202.04781"
+        },
+        "111": {
+            "id": "10.1109/tcad.2023.3305932",
+            "title": "Real-Time Robust Video Object Detection System Against Physical-World Adversarial Attacks",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1109/tcad.2023.3305932"
+        },
+        "112": {
+            "id": "2009.06701",
+            "title": "Dirty Road Can Attack: Security of Deep Learning based Automated Lane Centering under Physical-World Attack",
+            "date": "2020-01-01",
+            "url": "https://arxiv.org/abs/2009.06701"
+        },
+        "113": {
+            "id": "10.2352/j.imagingsci.technol.2021.65.6.060408",
+            "title": "Adversarial Attacks on Multi-task Visual Perception for Autonomous Driving",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.2352/j.imagingsci.technol.2021.65.6.060408"
+        },
+        "114": {
+            "id": "2311.12722",
+            "title": "Attacking Motion Planners Using Adversarial Perception Errors",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2311.12722"
+        },
+        "115": {
+            "id": "10.1109/jiot.2021.3099164",
+            "title": "Evaluating Adversarial Attacks on Driving Safety in Vision-Based Autonomous Vehicles",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1109/jiot.2021.3099164"
+        },
+        "116": {
+            "id": "2405.14169",
+            "title": "Towards Transferable Attacks Against Vision-LLMs in Autonomous Driving with Typography",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2405.14169"
+        },
+        "117": {
+            "id": "2103.09151",
+            "title": "Adversarial Driving: Attacking End-to-End Autonomous Driving",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2103.09151"
+        },
+        "118": {
+            "id": "2108.09383",
+            "title": "Detecting and Segmenting Adversarial Graphics Patterns from Images",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2108.09383"
+        },
+        "119": {
+            "id": "10.3390/technologies13050195",
+            "title": "AiWatch: A Distributed Video Surveillance System Using Artificial Intelligence and Digital Twins Technologies",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.3390/technologies13050195"
+        },
+        "120": {
+            "id": "10.30574/wjarr.2025.27.2.3084",
+            "title": "Securing AI Models Against Adversarial Attacks in Military Surveillance Systems",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.30574/wjarr.2025.27.2.3084"
+        },
+        "121": {
+            "id": "1804.05296",
+            "title": "Adversarial Attacks Against Medical Deep Learning Systems",
+            "date": "2018-01-01",
+            "url": "https://arxiv.org/abs/1804.05296"
+        },
+        "122": {
+            "id": "10.3390/electronics10172132",
+            "title": "A Survey on Adversarial Deep Learning Robustness in Medical Image Analysis",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.3390/electronics10172132"
+        },
+        "123": {
+            "id": "10.1371/journal.pone.0307363",
+            "title": "Auto encoder-based defense mechanism against popular adversarial attacks in deep learning",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.1371/journal.pone.0307363"
+        },
+        "124": {
+            "id": "10.1007/978-3-030-32245-8_34",
+            "title": "Impact of Adversarial Examples on Deep Learning Models for Biomedical Image Segmentation",
+            "date": "2019-01-01",
+            "url": "https://doi.org/10.1007/978-3-030-32245-8_34"
+        },
+        "125": {
+            "id": "10.1609/aaai.v33i01.33018417",
+            "title": "Non-Local Context Encoder: Robust Biomedical Image Segmentation against Adversarial Attacks",
+            "date": "2019-01-01",
+            "url": "https://doi.org/10.1609/aaai.v33i01.33018417"
+        },
+        "126": {
+            "id": "10.1109/bibm55620.2022.9994898",
+            "title": "MedAttacker: Exploring Black-Box Adversarial Attacks on Risk Prediction Models in Healthcare",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.1109/bibm55620.2022.9994898"
+        },
+        "127": {
+            "id": "10.1038/s41467-025-64062-1",
+            "title": "Adversarial prompt and fine-tuning attacks threaten medical large language models",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1038/s41467-025-64062-1"
+        },
+        "128": {
+            "id": "2505.01050",
+            "title": "Transferable Adversarial Attacks on Black-Box Vision-Language Models",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2505.01050"
+        },
+        "129": {
+            "id": "2306.06995",
+            "title": "How robust accuracy suffers from certified training with convex relaxations",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2306.06995"
+        },
+        "130": {
+            "id": "2112.04154",
+            "title": "SNEAK: Synonymous Sentences-Aware Adversarial Attack on Natural Language Video Localization",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2112.04154"
+        },
+        "131": {
+            "id": "1912.02316",
+            "title": "Scratch that! An Evolution-based Adversarial Attack against Neural Networks",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1912.02316"
+        },
+        "132": {
+            "id": "2206.09391",
+            "title": "Towards Adversarial Attack on Vision-Language Pre-training Models",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2206.09391"
+        },
+        "133": {
+            "id": "10.1007/978-3-030-60239-0_19",
+            "title": "A Data Augmentation-based Defense Method Against Adversarial Attacks in Neural Networks",
+            "date": "2020-01-01",
+            "url": "https://doi.org/10.1007/978-3-030-60239-0_19"
+        },
+        "134": {
+            "id": "2208.00539",
+            "title": "Is current research on adversarial robustness addressing the right problem?",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2208.00539"
+        },
+        "135": {
+            "id": "10.3390/app13095367",
+            "title": "A Survey on Moving Target Defense: Intelligently Affordable, Optimized and Self-Adaptive",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.3390/app13095367"
+        },
+        "136": {
+            "id": "1909.08092",
+            "title": "Toward Proactive, Adaptive Defense: A Survey on Moving Target Defense",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1909.08092"
+        },
+        "137": {
+            "id": "10.1109/tcns.2023.3272849",
+            "title": "The Impact of Network Design Interventions on the Security of Interdependent Systems",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1109/tcns.2023.3272849"
+        },
+        "138": {
+            "id": "10.36948/ijfmr.2025.v07i05.55412",
+            "title": "Proactive Defense in a Converged Threat Environment: Leveraging Predictive Cyber Analytics to Safeguard the United States' Critical Infrastructure",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.36948/ijfmr.2025.v07i05.55412"
+        },
+        "139": {
+            "id": "10.11591/ijeecs.v34.i3.pp1999-2006",
+            "title": "Enhancing reconnaissance security: a 2-tier deception-driven model approach (2TDDSM)",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.11591/ijeecs.v34.i3.pp1999-2006"
+        },
+        "140": {
+            "id": "10.38124/ijisrt/ijisrt24feb1107",
+            "title": "Developing a Multi-Layered Defence System to Safeguard Data against Phishing Attacks",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.38124/ijisrt/ijisrt24feb1107"
+        },
+        "141": {
+            "id": "10.54097/axe0sb93",
+            "title": "Blockchain-Enhanced Privacy Protection in Social Network Research and Applications",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.54097/axe0sb93"
+        },
+        "142": {
+            "id": "10.34190/eccws.23.1.2504",
+            "title": "Using Chia Blockchain Technology for Department of Defense Systems",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.34190/eccws.23.1.2504"
+        },
+        "143": {
+            "id": "2407.01599",
+            "title": "JailbreakZoo: Survey, Landscapes, and Horizons in Jailbreaking Large Language and Vision-Language Models",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2407.01599"
+        },
+        "144": {
+            "id": "2407.07966",
+            "title": "A Comprehensive Survey on the Security of Smart Grid: Challenges, Mitigations, and Future Research Opportunities",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2407.07966"
+        },
+        "145": {
+            "id": "2403.12239",
+            "title": "Large language models in 6G security: challenges and opportunities",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2403.12239"
+        },
+        "146": {
+            "id": "10.52783/jisem.v10i47s.9313",
+            "title": "The Role of Cybersecurity in Strengthening Government Security Sectors: A Systematic Literature Review",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.52783/jisem.v10i47s.9313"
+        },
+        "147": {
+            "id": "10.30574/wjarr.2025.27.2.2854",
+            "title": "AI-powered threat detection: Opportunities and limitations in modern cyber defense",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.30574/wjarr.2025.27.2.2854"
+        },
+        "148": {
+            "id": "10.1016/j.heliyon.2024.e25946",
+            "title": "Machine learning -based decision support framework for CBRN protection☆",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.1016/j.heliyon.2024.e25946"
+        },
+        "149": {
+            "id": "2407.15912",
+            "title": "The Shadow of Fraud: The Emerging Danger of AI-powered Social Engineering and its Possible Cure",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2407.15912"
+        },
+        "150": {
+            "id": "10.53477/2284-9378-25-46",
+            "title": "Shielding Against Social Engineering Threats: A Counterintelligence Approach",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.53477/2284-9378-25-46"
+        },
+        "151": {
+            "id": "10.30953/bhty.v7.302",
+            "title": "Emerging Trends in Cybersecurity: A Holistic View on Current Threats, Assessing Solutions, and Pioneering New Frontiers",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.30953/bhty.v7.302"
+        },
+        "152": {
+            "id": "2401.12273",
+            "title": "The Ethics of Interaction: Mitigating Security Threats in LLMs",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2401.12273"
+        },
+        "153": {
+            "id": "2408.01228",
+            "title": "The Phantom Menace: Unmasking Privacy Leakages in Vision-Language Models",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2408.01228"
+        },
+        "154": {
+            "id": "2409.10533",
+            "title": "Ethical Challenges in Computer Vision: Ensuring Privacy and Mitigating Bias in Publicly Available Datasets",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2409.10533"
+        },
+        "155": {
+            "id": "10.1145/3708501",
+            "title": "Visual Content Privacy Protection: A Survey",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.1145/3708501"
+        },
+        "156": {
+            "id": "10.34190/icair.4.1.3194",
+            "title": "Governance Considerations of Adversarial Attacks on AI Systems",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.34190/icair.4.1.3194"
+        },
+        "157": {
+            "id": "10.48175/ijarsct-12422",
+            "title": "Ethical Hacking and Penetration Testing: Securing Digital Assets and Networks",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.48175/ijarsct-12422"
+        },
+        "158": {
+            "id": "10.1109/iccv51070.2023.01612",
+            "title": "LDP-Feat: Image Features with Local Differential Privacy",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1109/iccv51070.2023.01612"
+        },
+        "159": {
+            "id": "10.3390/app12094130",
+            "title": "AI Ethics—A Bird’s Eye View",
+            "date": "2022-01-01",
+            "url": "https://doi.org/10.3390/app12094130"
+        },
+        "160": {
+            "id": "10.1051/shsconf/202317904024",
+            "title": "Ethical Considerations in Artificial Intelligence: A Comprehensive Disccusion from the Perspective of Computer Vision",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1051/shsconf/202317904024"
+        },
+        "161": {
+            "id": "10.29297/orbit.v1i1.28",
+            "title": "A Review of Value-Conflicts in Cybersecurity",
+            "date": "2017-01-01",
+            "url": "https://doi.org/10.29297/orbit.v1i1.28"
+        },
+        "162": {
+            "id": "10.1080/2573234x.2021.1920856",
+            "title": "Balancing privacy rights and surveillance analytics: a decision process guide",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1080/2573234x.2021.1920856"
+        },
+        "163": {
+            "id": "10.11113/oiji2024.12n1.297",
+            "title": "AI Integrity Solutions for Deepfake Identification and Prevention",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.11113/oiji2024.12n1.297"
+        },
+        "164": {
+            "id": "2306.03503",
+            "title": "Applying Standards to Advance Upstream & Downstream Ethics in Large Language Models",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2306.03503"
+        },
+        "165": {
+            "id": "2512.18264",
+            "title": "Who Can See Through You? Adversarial Shielding Against VLM-Based Attribute Inference Attacks",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2512.18264"
+        },
+        "166": {
+            "id": "10.1109/access.2021.3137278",
+            "title": "Evaluating Differentially Private Generative Adversarial Networks Over Membership Inference Attack",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1109/access.2021.3137278"
+        },
+        "167": {
+            "id": "2401.10405",
+            "title": "Differentially Private and Adversarially Robust Machine Learning: An Empirical Evaluation",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2401.10405"
+        },
+        "168": {
+            "id": "10.14569/ijacsa.2024.0150538",
+            "title": "AdvAttackVis: An Adversarial Attack Visualization System for Deep Neural Networks",
+            "date": "2024-01-01",
+            "url": "https://doi.org/10.14569/ijacsa.2024.0150538"
+        },
+        "169": {
+            "id": "2108.00800",
+            "title": "Training face verification models from generated face identity data",
+            "date": "2021-01-01",
+            "url": "https://arxiv.org/abs/2108.00800"
+        },
+        "170": {
+            "id": "10.5220/0012048100003555",
+            "title": "Privacy in Practice: Private COVID-19 Detection in X-Ray Images",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.5220/0012048100003555"
+        },
+        "171": {
+            "id": "2310.11970",
+            "title": "Quantifying Privacy Risks of Prompts in Visual Prompt Learning",
+            "date": "2023-01-01",
+            "url": "https://arxiv.org/abs/2310.11970"
+        },
+        "172": {
+            "id": "10.3390/s21237806",
+            "title": "Is Homomorphic Encryption-Based Deep Learning Secure Enough?",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.3390/s21237806"
+        },
+        "173": {
+            "id": "2505.23814",
+            "title": "Watermarking Without Standards Is Not AI Governance",
+            "date": "2025-01-01",
+            "url": "https://arxiv.org/abs/2505.23814"
+        },
+        "174": {
+            "id": "2208.02851",
+            "title": "Self-Ensembling Vision Transformer (SEViT) for Robust Medical Image Classification",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2208.02851"
+        },
+        "175": {
+            "id": "10.1109/cvpr46437.2021.00890",
+            "title": "MagDR: Mask-guided Detection and Reconstruction for Defending Deepfakes",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1109/cvpr46437.2021.00890"
+        },
+        "176": {
+            "id": "10.1145/3743681",
+            "title": "Securing Visually-Aware Recommender Systems: An Adversarial Image Reconstruction and Detection Framework",
+            "date": "2025-01-01",
+            "url": "https://doi.org/10.1145/3743681"
+        },
+        "177": {
+            "id": "2407.13111",
+            "title": "PG-Attack: A Precision-Guided Adversarial Attack Framework Against Vision Foundation Models for Autonomous Driving",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2407.13111"
+        },
+        "178": {
+            "id": "2403.10883",
+            "title": "Improving Adversarial Transferability of Visual-Language Pre-training Models through Collaborative Multimodal Interaction",
+            "date": "2024-01-01",
+            "url": "https://arxiv.org/abs/2403.10883"
+        },
+        "179": {
+            "id": "10.1109/met.2019.00016",
+            "title": "Metamorphic Detection of Adversarial Examples in Deep Learning Models with Affine Transformations",
+            "date": "2019-01-01",
+            "url": "https://doi.org/10.1109/met.2019.00016"
+        },
+        "180": {
+            "id": "1911.11616",
+            "title": "Enhancing Cross-task Black-Box Transferability of Adversarial Examples with Dispersion Reduction",
+            "date": "2019-01-01",
+            "url": "https://arxiv.org/abs/1911.11616"
+        },
+        "181": {
+            "id": "2011.05850",
+            "title": "Detecting Adversarial Patches with Class Conditional Reconstruction Networks",
+            "date": "2020-01-01",
+            "url": "https://arxiv.org/abs/2011.05850"
+        },
+        "182": {
+            "id": "2204.13004",
+            "title": "Defending Against Person Hiding Adversarial Patch Attack with a Universal White Frame",
+            "date": "2022-01-01",
+            "url": "https://arxiv.org/abs/2204.13004"
+        },
+        "183": {
+            "id": "10.1109/cvpr46437.2021.00846",
+            "title": "Dual Attention Suppression Attack: Generate Adversarial Camouflage in Physical World",
+            "date": "2021-01-01",
+            "url": "https://doi.org/10.1109/cvpr46437.2021.00846"
+        },
+        "184": {
+            "id": "10.1109/access.2023.3307132",
+            "title": "Adv-Eye: A Transfer-Based Natural Eye Makeup Attack on Face Recognition",
+            "date": "2023-01-01",
+            "url": "https://doi.org/10.1109/access.2023.3307132"
+        }
+    }
+}
