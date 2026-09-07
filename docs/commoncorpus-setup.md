@@ -1,5 +1,8 @@
 # Common Corpus DB 반입 × llama-3.3-70b 백본 — 셋업 기록 (2026-08-31)
 
+> **기록 문서.** asg-common-corpus(bench-2512)는 2026-09-07부로 쓰지 않는다. 현행 corpus·프로파일은 [`direction-2026-09.md`](direction-2026-09.md).
+> 이 문서의 temperature 0·분량 캘리브레이션(§4)은 폐기됐다(temp 0 반복 루프, `subsection_len` 둔감).
+
 기존 실험(배포본·최신화본 DB × haiku·deepseek 백본)과 **두 축이 동시에** 바뀐다:
 corpus 가 `asg-common-corpus` 반출본으로, 백본이 `meta-llama/llama-3.3-70b-instruct`
 (akashml/fp8, temperature=0)로. 따라서 **이 축의 산출물은 기존 산출물과 같은 표에

@@ -5,8 +5,9 @@
 
 | 문서 | 용도 |
 |---|---|
+| **[`direction-2026-09.md`](direction-2026-09.md)** | **현재 실험 방향(정본)** — KISTI corpus 벤치마크: DB·디코딩 프로파일·분량 비통제·평가 규약·실측·결정 로그 |
 | [`evaluation-note.md`](evaluation-note.md) | 평가를 어떻게 했고 **무엇을 못 쟀는지** — 발표에서 가장 방어가 필요한 부분 |
-| [`commoncorpus-setup.md`](commoncorpus-setup.md) | Common Corpus DB 반입 × llama-3.3-70b 백본 셋업 — 재현 체인·검증·분량 캘리브레이션·첫 실행 기록 |
+| [`commoncorpus-setup.md`](commoncorpus-setup.md) | (기록) Common Corpus DB 반입 × llama-3.3-70b 백본 셋업 — **asg-common-corpus는 2026-09-07부로 미사용** |
 
 ## experiments/ — 편별 실행 기록
 

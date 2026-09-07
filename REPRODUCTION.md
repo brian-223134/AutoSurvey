@@ -178,6 +178,24 @@ python scripts/append_snapshot.py --base ./database \
 > top-1200 자체가 달라집니다 — 실측으로 기존 결과와의 교집합이 16~35%에 불과합니다
 > (§3-1). 비교하려면 같은 스냅샷끼리 하세요.
 
+### C. KISTI 벤치마크 DB — 2026-09-07 생성 (현행)
+
+`--db_path ./database_kisti-kisti-2512`. corpus가 A·B(arXiv 전용)와 **다르다** — KISTI Science Data Lake 파생 스토어(`science_datalake_260825`)의 view `kisti-2512`.
+생성 체인: `kisti_data/adapter/common/view.py` → `export.py --format autosurvey` → `adapter/autosurvey/build_db.sh`(nomic, GPU 3, 2h17m). 검증은 `docs/experiments/kisti-2512-sec3-physical-adversarial-attacks.md` §4.
+
+| 파일 | 크기 | md5 |
+|---|---|---|
+| `arxiv_paper_db.json` | 2,348,211,177 B | `9aefb2f0978ea3b2ca151125f5a725be` |
+| `faiss_paper_abs_embeddings.bin` | 5,074,025,517 B | `f7a0073662d299ca7fa1fa166858efc0` |
+| `faiss_paper_title_embeddings.bin` | 5,074,025,517 B | `c7b339783370ac9963b25205e31924dc` |
+| `arxivid_to_index_abs.json` | 54,360,237 B | `af75d0262beba35a9ac0d64be90e68de` |
+| `kisti-2512.autosurvey.json.manifest.json` (= `corpus_export_manifest.json`) | — | export content_sha256 `54b4e7b4f54ec78f…`, file_sha256 `90a278b1f3bbe118…` |
+
+- **내용**: 1,651,701편, 필드 `id`/`title`/`abs`/`date`/`cat`/`url`. `authors` 없음. `id`는 arXiv base id(455,171) 또는 DOI(1,196,530) — id 규칙 B. `date`는 `YYYY-01-01`(연 단위). `cat`은 OpenAlex subfield.
+- **제외**: GT survey 본체 25 + arXiv twin 15(38키) — view 단계에서 제외, 인덱스에 부재 확인.
+- **원본 패키지 지문**: `paper_meta.duckdb` sha256 `63324de0…`(패키지 SHA256SUMS). 패키지는 `/data2/chanjoong/kisti_data/science_datalake_260825/`, 읽기 전용.
+- `check_db.py --verify-embeddings`의 cos 0.975 경고는 nomic 장시간 빌드의 수치 변동 — argmax 자기일치 60/60으로 순서 정상 확인. **재빌드 금지.**
+
 ### 3-1. 두 스냅샷의 커버리지 차이 (실측)
 
 `scripts/compare_snapshots.py`로 잰 값입니다. `d@1200`이 **낮을수록** 1200편을 채워도
@@ -269,6 +287,10 @@ Evaluation of LLMs는 `d@1`도 0.595 → 0.521로 내려가, 토픽에 더 가�
 | `AUTOSURVEY_MAX_THREADS` | `4` | 동시 API 호출 수. 높이면 429 폭주 |
 | `AUTOSURVEY_PROVIDER` | *(6편 생성 시 미설정)* | OpenRouter 엔드포인트 고정. 값은 endpoint tag(`parasail/fp8`). **미설정이면 provider가 매 호출 달라져 같은 서베이 안에서 quantization이 섞입니다** |
 | `CUDA_VISIBLE_DEVICES` | `0` | 임베딩에 쓸 GPU. **공용 서버라 0번이 차 있을 수 있습니다** — 실행 전 `nvidia-smi`로 빈 GPU를 골라 덮어쓰세요. 어느 GPU를 쓰든 결과는 같습니다(생성은 원격 API) |
+| `AUTOSURVEY_TEMPERATURE` | `0.6` (2026-09-07 ~; 08-31~09-07은 `0`) | 전 호출 일괄 오버라이드. **0은 llama-3.3-70b 반복 루프 유발** |
+| `AUTOSURVEY_MAX_TOKENS` | `8192` (2026-09-07 ~) | 잘림 가드. 설정 시 `AUTOSURVEY_RETRY_TRUNCATED` 기본 on — 가드에 걸린 응답은 버리고 재요청 |
+| `AUTOSURVEY_DEVICE` | (비움 = auto) / `cpu` | 질의 임베딩 디바이스. GPU가 전량 점유면 `cpu` — 결과 무관 |
+| `AUTOSURVEY_MAX_RETRY` | 실행 시 `10` | akashml 429 대비. `chat()` 경로는 `max_try=5` 하드코딩이 남아 있음(refine·outline) |
 
 ```bash
 source .env      # export 형식으로 작성돼 있음
@@ -437,6 +459,19 @@ python main.py \
 > 빼먹으면 8섹션 × 4 = 동시 32 가 되어 레이트리밋에 바로 걸립니다.
 
 ---
+
+### 5-4. KISTI 벤치마크 실행 (2026-09-07 ~)
+
+산출물 `output/kisti-2512-sec3-physical-adversarial-attacks{,-t06-r1,-t06-r2,-t06-r3}/`. 편별 `*.run.json`이 모델·provider·비용·재시도·잘림·DB manifest sha·구조를 담는다.
+
+| 편 | 코드 | 프로파일 | 인자 | 소요 / 비용 |
+|---|---|---|---|---|
+| 첫 편 | `e9e49c3` 이전 | temp 0, 가드 없음 | `--section_num 8 --subsection_num 4 --subsection_len 520 --rag_num 60 --outline_reference_num 1200` | 93분 / $0.307 |
+| t06-r1 | `cb1ba00` | temp 0.6 + max_tokens 8192 | 〃 | 53분 / $0.374 |
+| t06-r2 · r3 | `baa46cc` | 〃 + 잘림 재요청 | 〃 | 30분 / $0.338 · 19분 / $0.347 |
+| **본배치 (예정)** | — | 〃 | `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (분량 비통제) | 편당 약 20~30분 / $0.35 |
+
+실행 명령·검증·PDF 절차는 `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6과 첫 편 문서 §7. 길이 계수 프로브(`scripts/probe_length.py`, `output/probes/`)는 `docs/experiments/probe-temp06-length-coefficient.md`.
 
 ## 6. 비용 · 토큰 실측
 
