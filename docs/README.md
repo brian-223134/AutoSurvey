@@ -15,6 +15,7 @@
 | [`experiments/edge-computing-experiment.md`](experiments/edge-computing-experiment.md) | Edge Computing 4판 메트릭 — 분량 레버(section/subsection/len) 거동, 단계별 청구, 발표 멘트용 파생 지표 |
 | [`experiments/bench-2512-ai1-instruction-tuning.md`](experiments/bench-2512-ai1-instruction-tuning.md) | **벤치마크 `bench-2512` 첫 편** — 누수 차단 end-to-end 검증, 인덱스 빌드 5회 실패 기록, 25편 본배치 전 미결 3건 |
 | [`experiments/kisti-2512-sec3-physical-adversarial-attacks.md`](experiments/kisti-2512-sec3-physical-adversarial-attacks.md) | **KISTI DB `kisti-2512` 첫 편** — 인덱스 빌드·argmax 검증, DOI/arXiv 혼합 id 처리, 누수 차단, §2.1 반복 루프 결함과 본배치 전 미결 4건 |
+| [`experiments/probe-temp06-length-coefficient.md`](experiments/probe-temp06-length-coefficient.md) | **디코딩 프로파일 변경(temp 0.6 · max_tokens 8K) 근거 + 길이 계수 재측정** — 프로브 12회, 초안 계수 1.51×/1.86×, run-to-run CV 11~24%, 잘림 0, `--subsection_len 520` 유지 결정 |
 
 수치는 전부 저장소의 실측값입니다. 출처를 각 표 아래에 적어 뒀으니
 발표 중 근거를 물으면 그 파일·스크립트를 열면 됩니다.

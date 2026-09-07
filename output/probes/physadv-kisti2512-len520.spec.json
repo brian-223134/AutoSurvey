@@ -1,0 +1,24 @@
+{
+  "label": "physadv-kisti2512-len520",
+  "purpose": "앞으로 쓸 조건(KISTI DB, 지시 520)에서의 계수. 서브섹션은 2026-09-07 kisti-2512 첫 편(temp 0) 아웃라인에서 가져옴 — 그 편의 최종본 단어 수: 3.1 401 · 4.1 597 · 5.1 697 (LCE 후). 프로브는 1차 초안이라 직접 비교는 아님",
+  "topic": "Visual Adversarial Attacks and Defenses in the Physical World",
+  "subsection_len": 520,
+  "rag_num": 60,
+  "probes": [
+    {
+      "section": "Types of Physical Adversarial Attacks",
+      "subsection": "Sticker Attacks and Camouflage Attacks",
+      "description": "Describe physical-world adversarial attacks realized as printed stickers, patches, and camouflage textures applied to objects or worn by people, how they are optimized to survive printing, viewpoint, and lighting changes, and their effectiveness against detectors and classifiers."
+    },
+    {
+      "section": "Defense Mechanisms Against Visual Adversarial Attacks",
+      "subsection": "Adversarial Training and Input Preprocessing",
+      "description": "Review defenses that harden models through adversarial training and defenses that transform or purify inputs before inference, and discuss how well each transfers from digital perturbations to physical-world attacks."
+    },
+    {
+      "section": "Evaluation Metrics and Benchmarking",
+      "subsection": "Metrics for Evaluating Adversarial Attacks",
+      "description": "Summarize the metrics used to evaluate physical adversarial attacks, including attack success rate, robustness across distances, angles, and lighting, transferability, and stealthiness, and the benchmarks and protocols used to report them."
+    }
+  ]
+}

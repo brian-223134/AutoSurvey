@@ -1,0 +1,24 @@
+{
+  "label": "edge-cc2512-len700",
+  "purpose": "08-31 temp-0 프로브(Edge Computing, 지시 700, database_commoncorpus-2512, 서브섹션 3개)와 같은 조건을 temp 0.6에서 재현 — temperature 효과 분리. 08-31 값: Task Offloading 1,263단어(1.80×) · On-Device 960(1.37×) · Privacy 762(1.09×), 평균 1.42×",
+  "topic": "Edge Computing",
+  "subsection_len": 700,
+  "rag_num": 60,
+  "probes": [
+    {
+      "section": "Computation Offloading in Edge Computing",
+      "subsection": "Task Offloading Strategies",
+      "description": "Survey strategies for deciding whether, where, and when to offload computation tasks from end devices to edge servers or the cloud, including optimization-based, heuristic, and learning-based approaches, and the trade-offs between latency, energy, and cost."
+    },
+    {
+      "section": "Edge Intelligence",
+      "subsection": "On-Device and Edge Inference",
+      "description": "Review techniques for running deep learning inference on resource-constrained end devices and edge nodes, including model compression, partitioning, early exit, and hardware acceleration, and their accuracy-latency-energy trade-offs."
+    },
+    {
+      "section": "Security and Privacy in Edge Computing",
+      "subsection": "Privacy-Preserving Edge Computing",
+      "description": "Discuss privacy threats specific to edge environments and countermeasures such as federated learning, differential privacy, secure aggregation, and trusted execution, with attention to the overhead they impose on edge resources."
+    }
+  ]
+}
