@@ -14,10 +14,10 @@
 
 | 항목 | 상태 |
 |---|---|
-| corpus | KISTI SDL view `kisti-2512` 1,651,701편. AutoSurvey DB `database_kisti-kisti-2512/` **빌드·검증 완료** (2h17m, argmax 60/60) |
+| corpus | KISTI SDL view `kisti-2512` **v2 1,651,487편**(2026-09-08 08:08 UTC ~). AutoSurvey DB `database_kisti-kisti-2512/`는 같은 경로에서 v2로 교체됨(v1 인덱스 차분, 재빌드 아님). v1은 `-v1/`. 결과에 view 버전(v2 `591b4325` / v1 `c7b8d4e7`) 표기 |
 | 프로파일 | llama-3.3-70b @ akashml/fp8 · **temperature 0.6 · max_tokens 8192 · 잘림 재요청 on** (`.env` 활성 블록) |
 | 분량 | **통제 안 함.** 본배치는 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (`--subsection_num` 미지정) |
-| 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
+| 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3, **전부 view v1**). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
 | **다음** | **25편 본배치** — 편당 약 20~30분·$0.35. **OpenRouter 키 한도 상향 필요**(잔여 약 $5.4, 24편 약 $8.4) |
 | 미결 | DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
 

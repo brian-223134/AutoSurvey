@@ -178,10 +178,31 @@ python scripts/append_snapshot.py --base ./database \
 > top-1200 자체가 달라집니다 — 실측으로 기존 결과와의 교집합이 16~35%에 불과합니다
 > (§3-1). 비교하려면 같은 스냅샷끼리 하세요.
 
-### C. KISTI 벤치마크 DB — 2026-09-07 생성 (현행)
+### C. KISTI 벤치마크 DB — view `kisti-2512` (현행 **v2**, 2026-09-08 ~)
 
 `--db_path ./database_kisti-kisti-2512`. corpus가 A·B(arXiv 전용)와 **다르다** — KISTI Science Data Lake 파생 스토어(`science_datalake_260825`)의 view `kisti-2512`.
-생성 체인: `kisti_data/adapter/common/view.py` → `export.py --format autosurvey` → `adapter/autosurvey/build_db.sh`(nomic, GPU 3, 2h17m). 검증은 `docs/experiments/kisti-2512-sec3-physical-adversarial-attacks.md` §4.
+생성 체인: `kisti_data/adapter/common/view.py` → `export.py --format autosurvey` → `adapter/autosurvey/build_db.sh`(nomic, GPU 3, 2h17m, **v1**) → `adapter/common/index_diff.py`(v1 → v2 차분 적용, 재빌드 아님). 검증은 `docs/experiments/kisti-2512-sec3-physical-adversarial-attacks.md` §4.
+
+**같은 경로에 버전이 둘 있었다.** 결과 기록에는 view 버전(papers.parquet sha 앞 8자)과 인덱스 `view_diff_manifest.json`의 `created_at`을 적는다.
+
+| 버전 | 기간 | 편수 | view papers.parquet sha | 디렉터리 | 산출물 |
+|---|---|---:|---|---|---|
+| **v2** | 2026-09-08 08:08 UTC ~ | **1,651,487** | `591b4325e190170b…` | `database_kisti-kisti-2512/` (`view_diff_manifest.json` created_at `2026-09-08T07:17:00+00:00`) | 본배치(예정) |
+| v1 | 2026-09-07 07:46 ~ 09-08 | 1,651,701 | `c7b8d4e71d2467a7…` | `database_kisti-kisti-2512-v1/` (보존) | sec #3 4편 전부 |
+
+v2 = v1 − 214편: GT 사본 2편(`2507.16731` = edge-slm-cloud-llm GT의 arXiv 선행판, `10.1109/comst.2025.3648785` = wireless-foundation-models GT의 IEEE 출판본) + arXiv `2601.*` 212편(KISTI `year=2025` 오기재로 cutoff 이후가 섞임). 남은 벡터는 v1과 바이트 동일.
+
+**v2 파일 지문** (`database_kisti-kisti-2512/`, 2026-09-08)
+
+| 파일 | 크기 | md5 |
+|---|---|---|
+| `arxiv_paper_db.json` | 2,347,885,964 B | `2c55d322ac68ad207af012eef879f021` |
+| `faiss_paper_abs_embeddings.bin` | 5,073,368,109 B | `6072197b0a9c0a254d16e542d6c4f9a7` |
+| `faiss_paper_title_embeddings.bin` | 5,073,368,109 B | `2805a0a5266d3e0fda246cc0c557f84e` |
+| `arxivid_to_index_abs.json` | 54,355,299 B | `9d433b948d837ff1e337e6aeee3394be` |
+| `kisti-2512.autosurvey.json.manifest.json` (= `corpus_export_manifest.json`) | — | export content_sha256 `1bca9e73c773767b…`, view sha `591b4325…` |
+
+**v1 파일 지문** (`database_kisti-kisti-2512-v1/`, 2026-09-07 빌드 — sec #3 4편의 재현에는 이쪽)
 
 | 파일 | 크기 | md5 |
 |---|---|---|
@@ -189,10 +210,10 @@ python scripts/append_snapshot.py --base ./database \
 | `faiss_paper_abs_embeddings.bin` | 5,074,025,517 B | `f7a0073662d299ca7fa1fa166858efc0` |
 | `faiss_paper_title_embeddings.bin` | 5,074,025,517 B | `c7b339783370ac9963b25205e31924dc` |
 | `arxivid_to_index_abs.json` | 54,360,237 B | `af75d0262beba35a9ac0d64be90e68de` |
-| `kisti-2512.autosurvey.json.manifest.json` (= `corpus_export_manifest.json`) | — | export content_sha256 `54b4e7b4f54ec78f…`, file_sha256 `90a278b1f3bbe118…` |
+| `kisti-2512.autosurvey.json.manifest.json` | — | export content_sha256 `54b4e7b4f54ec78f…`, file_sha256 `90a278b1f3bbe118…` |
 
-- **내용**: 1,651,701편, 필드 `id`/`title`/`abs`/`date`/`cat`/`url`. `authors` 없음. `id`는 arXiv base id(455,171) 또는 DOI(1,196,530) — id 규칙 B. `date`는 `YYYY-01-01`(연 단위). `cat`은 OpenAlex subfield.
-- **제외**: GT survey 본체 25 + arXiv twin 15(38키) — view 단계에서 제외, 인덱스에 부재 확인.
+- **내용**: 필드 `id`/`title`/`abs`/`date`/`cat`/`url`. `authors` 없음. `id`는 arXiv base id(v2 454,958) 또는 DOI(1,196,529) — id 규칙 B. `date`는 `YYYY-01-01`(연 단위). `cat`은 OpenAlex subfield.
+- **제외**: GT survey 본체 25 + twin·사본 15(v2 **40키**; v1 38키) — view 단계에서 제외, 인덱스에 부재 확인. v2는 arXiv 신형 id YYMM > 2512도 제외.
 - **원본 패키지 지문**: `paper_meta.duckdb` sha256 `63324de0…`(패키지 SHA256SUMS). 패키지는 `/data2/chanjoong/kisti_data/science_datalake_260825/`, 읽기 전용.
 - `check_db.py --verify-embeddings`의 cos 0.975 경고는 nomic 장시간 빌드의 수치 변동 — argmax 자기일치 60/60으로 순서 정상 확인. **재빌드 금지.**
 

@@ -8,7 +8,7 @@
 
 ## 1. 실행 조건
 
-공통: llama-3.3-70b @ akashml/fp8 · temperature 0.6 · max_tokens 8192 · `--section_num 8 --subsection_num 4 --subsection_len 520 --rag_num 60 --outline_reference_num 1200` · `MAX_THREADS=1` · `MAX_RETRY=10` · DB `database_kisti-kisti-2512` · 질의 임베딩 CPU(`AUTOSURVEY_DEVICE=cpu`, GPU 전량 점유) · `setsid nohup`.
+공통: **view v1**(`c7b8d4e7…`, 1,651,701편 — 2026-09-08 v2 교체 전; v1 DB는 현재 `database_kisti-kisti-2512-v1/`) · llama-3.3-70b @ akashml/fp8 · temperature 0.6 · max_tokens 8192 · `--section_num 8 --subsection_num 4 --subsection_len 520 --rag_num 60 --outline_reference_num 1200` · `MAX_THREADS=1` · `MAX_RETRY=10` · DB `database_kisti-kisti-2512` · 질의 임베딩 CPU(`AUTOSURVEY_DEVICE=cpu`, GPU 전량 점유) · `setsid nohup`.
 
 | | temp 0 첫 편 (참고) | **t06-r1** | **t06-r2** |
 |---|---|---|---|

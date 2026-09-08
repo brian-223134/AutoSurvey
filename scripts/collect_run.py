@@ -85,6 +85,31 @@ def db_manifest_sha(db_path):
     return None
 
 
+def db_view(db_path):
+    """DB 디렉터리가 어느 view 버전인지. 같은 경로에 버전이 갈아끼워질 수 있으므로(2026-09-08 v1→v2)
+    export manifest의 view sha와, 차분 적용 시 남는 view_diff_manifest.json의 created_at을 함께 적는다.
+    sha 앞 8자 ↔ 버전 라벨은 docs/direction-2026-09.md §5 (v1 c7b8d4e7, v2 591b4325)."""
+    info = {'name': None, 'papers_parquet_sha256': None, 'index_manifest_created_at': None,
+            'index_removed_count': None}
+    for p in glob.glob(os.path.join(db_path, '*.manifest.json')):
+        try:
+            v = json.load(open(p)).get('view') or {}
+            info['name'] = v.get('name')
+            info['papers_parquet_sha256'] = (v.get('files_sha256') or {}).get('papers.parquet')
+            break
+        except Exception:
+            pass
+    diff = os.path.join(db_path, 'view_diff_manifest.json')
+    if os.path.exists(diff):
+        try:
+            d = json.load(open(diff))
+            info['index_manifest_created_at'] = d.get('created_at')
+            info['index_removed_count'] = d.get('removed_count')
+        except Exception:
+            pass
+    return info
+
+
 def pdf_pages(pdf_path):
     try:
         out = subprocess.check_output(['pdfinfo', pdf_path], text=True)
@@ -114,6 +139,7 @@ def build_manifest(md_path, log_path, args_str, db_path):
         'args': args_str or None,
         'db_path': db_path,
         'db_manifest_sha256': db_manifest_sha(db_path) if db_path else None,
+        'view': db_view(db_path) if db_path else None,
         **info,
         'structure': {
             **st,

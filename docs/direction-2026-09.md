@@ -7,14 +7,14 @@
 | 항목 | 값 |
 |---|---|
 | 목표 | **4개 ASG agent**(AutoSurvey · SurveyForge · SurveyX · LLM×MapReduce-V2)를 **같은 corpus·같은 백본·같은 topic 25편**으로 돌려 GT survey 참고문헌 대비 recall·precision을 비교 |
-| corpus | **KISTI Science Data Lake 파생 스토어**(14.8M편 전편 원문) → view `kisti-2512` **1,651,701편**. asg-common-corpus(bench-2512)는 2026-09-07부로 **미사용** |
-| AutoSurvey DB | `database_kisti-kisti-2512/` (12.3GB, 2026-09-07 빌드·argmax 검증) — 지문은 `REPRODUCTION.md` §3-C |
-| topic | 5 domain × 5 = 25편 (`kisti_data/data/topics.kisti.jsonl`의 `title`). GT 본체 25 + twin 15 = 38키 view에서 제외 |
+| corpus | **KISTI Science Data Lake 파생 스토어**(14.8M편 전편 원문) → view `kisti-2512` **v2 1,651,487편**(2026-09-08 08:08 UTC ~; v1 1,651,701편). asg-common-corpus(bench-2512)는 2026-09-07부로 **미사용** |
+| AutoSurvey DB | `database_kisti-kisti-2512/` (12.3GB) — **v2**(v1 인덱스에서 214 벡터 제거, `view_diff_manifest.json` created_at `2026-09-08T07:17:00Z`). v1은 `database_kisti-kisti-2512-v1/`. 지문은 `REPRODUCTION.md` §3-C |
+| topic | 5 domain × 5 = 25편 (`kisti_data/data/topics.kisti.jsonl`의 `title`). GT 본체 25 + twin·사본 15 = **40키** view에서 제외(v2) |
 | 백본 | `meta-llama/llama-3.3-70b-instruct` @ OpenRouter, provider 핀 **akashml/fp8** |
 | 디코딩 프로파일 | **temperature 0.6 · max_tokens 8192 · 잘림 재요청 on** (§3) |
 | 출력 분량 | **통제하지 않는다** (§4). 본배치는 논문 기본값(8섹션, 서브섹션 상한 없음, `subsection_len` 700) |
 | 평가 | GT in-view refs 분모의 recall + precision 병기, refs 수 공변량, run-to-run ±1.7%p(잠정), topic ceiling 병기 (§5) |
-| 진행 | sec #3(physical-adversarial) 4편 완료(§6). 25편 본배치 **미착수**, OpenRouter 키 잔여 약 $5.4 |
+| 진행 | sec #3(physical-adversarial) 4편 완료(§6, **전부 view v1**). 25편 본배치 **미착수**(v2로 실행), OpenRouter 키 잔여 약 $5.4 |
 | 워크스페이스 | corpus·adapter·topic 선정: `/data2/chanjoong/kisti_data/` (별도 git, remote 없음). AutoSurvey 쪽은 이 저장소 |
 
 ## 1. 목표와 설계
@@ -31,9 +31,10 @@
 | 패키지 | `/data2/chanjoong/kisti_data/science_datalake_260825/` — DuckDB 7종 + `body_store.sqlite`(원문, zlib) + tantivy BM25. **읽기 전용, 이동 금지** | `kisti_data/docs/kisti-db.md` |
 | 전체 | 14,843,789편, DOI 키, 연 단위 `year`만 있음 | 〃 |
 | universe `kisti` | year ≤ 2025 ∧ ¬철회 ∧ title ∧ abstract ≥ 50자 ∧ (en ∨ null) ∧ (CS topic ∨ arXiv cs.*) = 1,651,706 | `data/views/kisti-2512/view_manifest.json` |
-| view | 1,651,701편 (GT/twin 5편 제외 실적용). arXiv id 455,171 (27.6%) · DOI id 1,196,530 | 〃 |
+| view **v2** (2026-09-08) | **1,651,487편** = v1 − GT 사본 2편(`2507.16731` edge-slm-cloud-llm 선행판, `10.1109/comst.2025.3648785` wireless-foundation-models 출판본) − arXiv `2601.*` 212편(KISTI `year=2025` 오기재). papers.parquet sha **`591b4325…`**. arXiv id 454,958 · DOI id 1,196,529 | 〃 |
+| view v1 (2026-09-07) | 1,651,701편, sha `c7b8d4e7…`. `data/views/kisti-2512-v1/`에 보존. sec #3 4편은 전부 v1 | 〃 |
 | id 규칙 B | `10.48550/arxiv.<id>` → arXiv base id, 그 외 DOI 소문자. url은 각각 arxiv.org/abs · doi.org | `adapter/common/ids.py` |
-| export | `data/exports/kisti-2512.autosurvey.json` 2.35GB, content_sha256 `54b4e7b4…` | manifest |
+| export | `data/exports/kisti-2512.autosurvey.json` — v2 1,651,487 레코드, content_sha256 `1bca9e73…` (v1은 `54b4e7b4…`) | manifest |
 | 특징 | 출판 venue 논문(IEEE·Springer·ACM…)이 72%, 전편 원문 보유. **2023–2025 arXiv 수록률 56–63%**라 LLM 시대 topic의 ceiling이 낮다(25편 21~68%) | `topic-selection.md` §7 |
 
 AutoSurvey 쪽 함정: refs id가 arXiv/DOI 혼합이라 `main.py`·`md_to_tex.py`가 DOI 링크를 분기한다(`068c4e9`). `enrich_references.py`(arXiv API)는 DOI id에 동작하지 않는다 — view `authors.parquet`로 대체 후처리 **미구현**. Elsevier 제목의 `☆`는 md_to_tex가 제거한다.
@@ -75,8 +76,11 @@ AUTOSURVEY_DEVICE=cpu               # GPU 전량 점유 시 질의 임베딩만 
 | 병기 | run-to-run 오차 **±1.7%p(잠정, 같은 코드 2회 차이 3.4%p)** · topic ceiling(예: sec #3 68%) · 잘림 재요청 수 |
 | 누수 | GT DOI·twin arXiv id·twin 제목이 본문·refs에 0회여야 함. 인덱스 id 매핑에서도 부재 확인 |
 | 기록 | 편당 `<topic>.run.json`(`scripts/collect_run.py`) — 모델·provider·비용·재시도·잘림·DB manifest sha·구조·쪽수 |
+| **view 버전 표기** | 결과마다 view sha 앞 8자(v2 `591b4325`, v1 `c7b8d4e7`)와 인덱스 `view_diff_manifest.json`의 `created_at`을 적는다. 2026-09-08 08:08 UTC 이전 실행분은 v1 |
 
-## 6. 지금까지의 실측 — sec #3 physical-adversarial-attacks (ceiling 68%)
+## 6. 지금까지의 실측 — sec #3 physical-adversarial-attacks (ceiling 68%, **view v1 `c7b8d4e7`**)
+
+네 편 모두 v2 교체(2026-09-08) 전 실행이다. 제거된 216편(GT 사본 2 + 2601.* 212)은 이 topic과 무관하고 in_view 분모 149도 그대로라 수치는 유효하다.
 
 | 편 | 프로파일 | 소요 / 비용 | 구조 / 본문 단어 | 루프 오염 | refs (arXiv/DOI) | recall / precision |
 |---|---|---:|---|---|---|---|
@@ -108,6 +112,7 @@ AUTOSURVEY_DEVICE=cpu               # GPU 전량 점유 시 질의 임베딩만 
 | 09-07 | 잘림 재요청 | `baa46cc` |
 | 09-07 | 분량 비통제, 본배치 논문 기본값, recall+precision 병기 | `docs/experiments/kisti-2512-sec3-temp06-runs.md` §7 |
 | 09-07 | `☆`·`★` 제거 | `537886f` |
+| 09-08 | view `kisti-2512` **v2** 교체(kisti_data 측): GT 사본 2편 + arXiv 2601.* 212편 제거, exclude 40키, AutoSurvey DB 같은 경로에서 차분 적용. 이후 실행은 v2, 이전 4편은 v1로 표기 | kisti_data `32c130d`·`cf1e9ba`, `AGENT-HANDOFF.md` §0 |
 
 ## 9. 관련 문서
 

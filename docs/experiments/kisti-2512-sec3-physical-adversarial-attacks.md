@@ -25,7 +25,7 @@ GT: *Visual Adversarial Attacks and Defenses in the Physical World: A Survey* (A
 | 항목 | 값 |
 |---|---|
 | 백본 | `meta-llama/llama-3.3-70b-instruct` @ OpenRouter, provider 핀 **akashml/fp8**, temp 0 |
-| DB | `database_kisti-kisti-2512` — 1,651,701편, export manifest sha `54b4e7b4…` (view `kisti-2512`, 패키지 `science_datalake_260825`) |
+| DB | `database_kisti-kisti-2512` — **view v1** 1,651,701편(papers.parquet sha `c7b8d4e7…`), export manifest sha `54b4e7b4…`, 패키지 `science_datalake_260825`. 2026-09-08 v2 교체 전 실행. v1 DB는 현재 `database_kisti-kisti-2512-v1/` |
 | 인덱스 | 2026-09-07 신규 빌드 (§4) · `nomic-ai/nomic-embed-text-v1`, dim 768 |
 | 파라미터 | `--section_num 8 --subsection_num 4 --subsection_len 520` (bench-2512 첫 편과 동일) |
 | 검색 | `--rag_num 60 --outline_reference_num 1200` |

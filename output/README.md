@@ -184,6 +184,7 @@ corpus가 다르다(KISTI SDL view `kisti-2512` 1.65M편, arXiv+DOI 혼합). 설
 | `probes/` | 길이 계수 프로브 12회 (spec·결과 JSON) | | | | | $0.044 | | `docs/experiments/probe-temp06-length-coefficient.md` |
 
 recall 분모는 GT in-view refs 149편(topic ceiling 68%). 같은 코드 2회(r2·r3) 차이 3.4%p → run-to-run ±1.7%p 잠정.
+**view 버전**: 위 4편은 전부 **v1**(`c7b8d4e7`, 2026-09-08 08:08 UTC 교체 전). 이후 실행분은 v2(`591b4325`, 1,651,487편)로 표기한다 — `../docs/direction-2026-09.md` §5.
 
 ## 비교할 때 주의할 점
 

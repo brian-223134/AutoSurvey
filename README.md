@@ -75,7 +75,7 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 |---|---|---|---|---|
 | 배포본 | `database/` | 537,665 | ~2024-04-26 | 3.9GB |
 | **최신화본** | `database_2026-08/` | **909,293** | **~2026-08-03** (배포본 537,665편 **전부 포함**) | 6.9GB |
-| **KISTI 벤치마크 (현행)** | `database_kisti-kisti-2512/` | **1,651,701** | KISTI SDL 260825 view `kisti-2512` — year ≤ 2025, GT/twin 제외, arXiv+DOI id 혼합 | 12.3GB |
+| **KISTI 벤치마크 (현행)** | `database_kisti-kisti-2512/` | **1,651,487** (v2, 2026-09-08 ~) | KISTI SDL 260825 view `kisti-2512` v2 — year ≤ 2025, GT/twin/사본 40키 제외, arXiv 2601.* 제거, arXiv+DOI id 혼합. v1(1,651,701)은 `database_kisti-kisti-2512-v1/` | 12.3GB |
 
 > **KISTI DB는 위 둘과 corpus가 다릅니다**(arXiv 전용이 아니라 출판 venue 논문 72%). 산출물을 같은 표에 놓지 않습니다.
 > 생성 절차는 `/data2/chanjoong/kisti_data/adapter/autosurvey/`, 지문은 `REPRODUCTION.md` §3-C.
