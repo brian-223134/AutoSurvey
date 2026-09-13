@@ -119,6 +119,9 @@ UNICODE_FIXES = {
     '₀': r'$_0$', '₁': r'$_1$', '₂': r'$_2$', '₃': r'$_3$', '₄': r'$_4$',
     '⁰': r'$^0$', '¹': r'$^1$', '²': r'$^2$', '³': r'$^3$', '⁴': r'$^4$',
     '\U0001d458': '$k$',        # MATHEMATICAL ITALIC SMALL K
+    # Elsevier/ScienceDirect 제목 끝의 각주 표식이 KISTI 메타에 섞여 들어온다
+    # (예: "…CBRN protection☆", Heliyon 2024). 제목의 일부가 아니므로 지운다.
+    '☆': '', '★': '',
 }
 
 # 그리스 문자는 하나씩 겪을 때마다 추가하는 대신 통째로 넣는다. 본편 산출물이
@@ -282,8 +285,10 @@ def format_bibitem(n, title, info):
     arxiv_id = info.get('id', '')
     year = (info.get('date') or '')[:4]
     if arxiv_id:
-        parts.append('arXiv:%s%s.' % (tex_escape(arxiv_id),
-                                      (', %s' % year) if year else ''))
+        # KISTI DB는 id가 arXiv id 또는 DOI(`10.`으로 시작)다. 라벨을 맞춰 준다.
+        label = 'doi' if str(arxiv_id).startswith('10.') else 'arXiv'
+        parts.append('%s:%s%s.' % (label, tex_escape(arxiv_id),
+                                   (', %s' % year) if year else ''))
     if info.get('url'):
         # \url은 hyperref가 제공한다. 내용에 특수문자가 없는 arXiv 링크라 안전하다.
         parts.append('\\url{%s}' % info['url'])

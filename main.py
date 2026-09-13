@@ -57,6 +57,10 @@ def report_usage(stage, agent):
         print(f'[usage]  {stage:7s} ⚠ 출력 잘림 {agent.api_model.truncated}건 — '
               f'해당 서브섹션은 문장 중간에서 끊겼습니다. provider 출력 한도나 '
               f'reasoning 설정을 확인하세요', flush=True)
+    # 가드에 걸려 버리고 다시 받은 응답 수. 출력에는 들어가지 않았지만 비용·시간은 들었다.
+    if getattr(agent.api_model, 'truncation_retries', 0):
+        print(f'[usage]  {stage:7s} 잘림 재요청 {agent.api_model.truncation_retries}회 '
+              f'(버린 응답, 출력 미포함)', flush=True)
     # 재시도를 다 쓴 요청이 하나라도 있으면 그 서브섹션은 비어 있다. 저장하면
     # 섹션이 빠진 서베이가 조용히 남고, check_survey.py 도 인용만 보므로 잡지 못한다.
     # 부분 산출물을 남기느니 여기서 멈춘다.
@@ -128,9 +132,17 @@ def build_reference_detail(references, db):
             # arXiv 제목에는 줄바꿈과 들여쓰기가 들어 있다.
             'title': ' '.join((p.get('title') or '').split()),
             'date': (p.get('date') or '').strip(),
-            'url': f'https://arxiv.org/abs/{rid}',
+            'url': _reference_url(rid, p),
         }
     return detail
+
+
+def _reference_url(rid, p):
+    """id 규칙에 따른 링크. arXiv id면 arxiv.org, DOI id(KISTI DB, `10.`으로 시작)면
+    DB 레코드의 url(doi.org) — 없으면 doi.org/<id>로 만든다."""
+    if str(rid).startswith('10.'):
+        return p.get('url') or f'https://doi.org/{rid}'
+    return f'https://arxiv.org/abs/{rid}'
 
 
 def check_provider_pin(model):

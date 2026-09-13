@@ -1,0 +1,53 @@
+{
+  "topic": "Visual Adversarial Attacks and Defenses in the Physical World",
+  "md": "output/kisti-2512-sec3-physical-adversarial-attacks-t06-r1/Visual Adversarial Attacks and Defenses in the Physical World.md",
+  "generated_at_epoch": 1788788052,
+  "args": "--section_num 8 --subsection_num 4 --subsection_len 520 --rag_num 60 --outline_reference_num 1200 --db_path ./database_kisti-kisti-2512 --embedding_model nomic-ai/nomic-embed-text-v1",
+  "db_path": "./database_kisti-kisti-2512",
+  "db_manifest_sha256": "54b4e7b4f54ec78f10dee8fc42a86c828713bf1ba933ad3ae3f3df48fc837e14",
+  "model": "meta-llama/llama-3.3-70b-instruct",
+  "provider_pin": "akashml/fp8",
+  "stages": {
+    "outline": {
+      "in_tokens": 438726,
+      "out_tokens": 8210,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.0916,
+      "retries": 2
+    },
+    "writer": {
+      "in_tokens": 1010948,
+      "out_tokens": 160541,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.2819,
+      "retries": 6
+    }
+  },
+  "cost_total_usd": 0.3735,
+  "retries_total": 8,
+  "truncated_calls": 12,
+  "truncation_retries": 0,
+  "structure": {
+    "sections": 8,
+    "subsections": 25,
+    "words": 22193,
+    "from_tex": true,
+    "references": 235,
+    "citation_runs": 631,
+    "pdf_pages": 55
+  },
+  "duration_sec": 3193,
+  "coefficient": {
+    "subsection_len_asked": 520,
+    "words_per_subsection": 888,
+    "ratio": 1.71
+  },
+  "view": {
+    "name": "kisti-2512",
+    "label": "v1",
+    "papers_parquet_sha256": "c7b8d4e71d2467a7ee86c6353e784a5ece00e29a6c597602415a5c8a8ba777bc",
+    "index_manifest_created_at": null,
+    "index_removed_count": null,
+    "note": "2026-09-07 v1 빌드로 실행. view v2 교체(2026-09-08 08:08 UTC) 이전. v1 DB는 database_kisti-kisti-2512-v1/ (소급 기록 2026-09-08)"
+  }
+}

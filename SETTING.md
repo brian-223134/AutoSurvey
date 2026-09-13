@@ -526,6 +526,13 @@ python scripts/compare_snapshots.py --old ./database --new ./database_2026-08 \
 
 ---
 
+### 경로 E: KISTI Science Data Lake DB — **2026-09-07 채택 (벤치마크 현행)**
+
+arXiv 전용이던 A~D와 달리 **출판 venue 논문 72% + 전편 원문**을 가진 KISTI 전달본(14.8M편)에서 CS view 1,651,701편을 뽑아 만든다.
+생성은 이 저장소가 아니라 `/data2/chanjoong/kisti_data/adapter/`가 담당한다 — `common/view.py` → `common/export.py --format autosurvey` → `autosurvey/build_db.sh`(이 저장소의 `scripts/build_index.py` 호출, GPU 약 2h17m).
+결과 `database_kisti-kisti-2512/`는 A~D와 같은 4파일 구조라 `--db_path`만 바꾸면 된다. 단 `id`가 arXiv/DOI 혼합이라 arXiv 형식을 가정하는 후처리(`enrich_references.py`)는 DOI 분에 동작하지 않는다.
+지문·검증은 `REPRODUCTION.md` §3-C, 설계는 `docs/direction-2026-09.md`, DB 자체는 `kisti_data/docs/kisti-db.md`.
+
 ## 6. 실행 — OpenRouter
 
 논문의 writer 모델은 **Claude-3-Haiku**(`claude-3-haiku-20240307`)입니다. 평가는 GPT-4 + Claude-3-Haiku + Gemini-1.5-Pro 혼합.

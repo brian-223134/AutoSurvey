@@ -9,7 +9,7 @@ import unittest
 from tests._loader import ROOT  # noqa: F401  (sys.path 설정)
 from src.model import APIModel
 
-ENV_KEYS = ('AUTOSURVEY_REASONING', 'AUTOSURVEY_PROVIDER')
+ENV_KEYS = ('AUTOSURVEY_REASONING', 'AUTOSURVEY_PROVIDER', 'AUTOSURVEY_MAX_TOKENS')
 
 
 class ExtraPayloadTest(unittest.TestCase):
@@ -55,6 +55,22 @@ class ExtraPayloadTest(unittest.TestCase):
         os.environ['AUTOSURVEY_PROVIDER'] = 'parasail/fp8, novita/fp8'
         self.assertEqual(self.model._extra_payload()['provider']['order'],
                          ['parasail/fp8', 'novita/fp8'])
+
+    def test_max_tokens_는_정수로_실린다(self):
+        """잘림 가드. 정상 호출엔 안 걸리는 값(8192)을 실험 프로파일에 둔다."""
+        os.environ['AUTOSURVEY_MAX_TOKENS'] = '8192'
+        self.assertEqual(self.model._extra_payload(), {'max_tokens': 8192})
+
+    def test_max_tokens_비우거나_0이면_보내지_않는다(self):
+        for v in ('', '   ', '0'):
+            os.environ['AUTOSURVEY_MAX_TOKENS'] = v
+            self.assertNotIn('max_tokens', self.model._extra_payload(), f'값={v!r}')
+
+    def test_max_tokens_정수가_아니면_즉시_실패(self):
+        """조용히 무시하면 128K 한도로 돌아가 45분짜리 호출이 재발한다."""
+        os.environ['AUTOSURVEY_MAX_TOKENS'] = '8k'
+        with self.assertRaises(ValueError):
+            self.model._extra_payload()
 
     def test_provider_공백만_있으면_무시(self):
         os.environ['AUTOSURVEY_PROVIDER'] = '   '

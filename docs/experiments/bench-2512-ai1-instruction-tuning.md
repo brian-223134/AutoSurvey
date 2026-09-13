@@ -1,5 +1,8 @@
 # bench-2512 첫 편 — Instruction Tuning for LLMs (2026-09-03)
 
+> **기록 문서.** bench-2512(asg-common-corpus)는 2026-09-07부로 쓰지 않는다. 현행은 KISTI corpus — [`../direction-2026-09.md`](../direction-2026-09.md).
+> §5의 미결 ①(runaway)은 temp 0.6 + max_tokens 8192 + 잘림 재요청으로 해소됐고, ③(분량 정합)은 "분량 비통제"로 대체됐다.
+
 벤치마크 view `bench-2512`(947,451편)로 만든 **첫 산출물**의 기록이다.
 목적은 품질 평가가 아니라 **파이프라인 검증** — DB·인덱스·누수 차단·생성·컴파일이
 end-to-end로 도는지 확인하고, 25편 본배치의 단가·소요를 실측하는 것이다.

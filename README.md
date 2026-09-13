@@ -5,11 +5,16 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 **2024-04에 멈춰 있던 논문 DB를 2026-08까지 최신화**했으며(53.7만 → 90.9만편, §3),
 모델에 따라 3배까지 벌어지던 **출력 분량에 통제 수단**을 붙였습니다(§4).
 
+> **현재 단계 (2026-09-07 ~)**: 위 세 가지는 2026-08 단계의 결과입니다. 지금은 **KISTI Science Data Lake corpus(1.65M편 view)로
+> 4개 ASG agent 벤치마크**를 진행 중이며, DB·디코딩 프로파일(temp 0.6 · max_tokens 8K · 잘림 재요청)·분량 비통제·평가 규약은
+> **[`docs/direction-2026-09.md`](docs/direction-2026-09.md)** 가 정본입니다. 아래 §3·§4는 기록으로 남깁니다.
+
 원본 README(논문 소개)는 맨 아래 [원본 프로젝트](#원본-프로젝트)로 옮겼습니다.
 
 | 문서 | 역할 |
 |---|---|
 | **`README.md`** (이 문서) | 프로젝트가 무엇이고, 무엇이 나왔고, 다음에 무엇을 하는지 |
+| **[`docs/direction-2026-09.md`](docs/direction-2026-09.md)** | **현재 실험 방향** — KISTI corpus 벤치마크의 DB·프로파일·평가 규약·결정 로그 (2026-09-07 ~) |
 | [`HANDOFF.md`](HANDOFF.md) | 지금 어디까지 됐고 다음에 뭘 하면 되는지 — **작업 시작 전 필독** |
 | [`REPRODUCTION.md`](REPRODUCTION.md) | 산출물 재현에 필요한 입력값 일체 (환경·DB 지문·커밋·하이퍼파라미터) |
 | [`SETTING.md`](SETTING.md) | 세팅 **절차**와 각 패치의 근거 |
@@ -45,6 +50,7 @@ AutoSurvey/
 ├── scripts/                 이 포크에서 추가한 도구 (§5)
 ├── database/                논문 DB — 저자 배포본, 3.9GB. git에 없음 (.gitignore)
 ├── database_2026-08/        논문 DB — 최신화본, 6.9GB. 위를 확장한 것 (§3)
+├── database_kisti-kisti-2512/  논문 DB — KISTI 벤치마크용 1.65M편, 12.3GB (docs/direction-2026-09.md §2)
 ├── output/                  생성된 서베이 — 모델별 디렉터리
 │   ├── haiku/                  본편 3편
 │   ├── deepseek-v4-pro/        본편 1편
@@ -59,9 +65,9 @@ AutoSurvey/
 └── .env                     API 키 등 — git에 없음, 권한 600
 ```
 
-### 데이터베이스 — 스냅샷 2개
+### 데이터베이스 — 스냅샷 3개
 
-**둘 다 git에 없습니다**(`.gitignore`). 배포본은 저자 배포본을 scp로 반입한 것이고
+**전부 git에 없습니다**(`.gitignore`). 배포본은 저자 배포본을 scp로 반입한 것이고
 (이 서버에서 OneDrive는 차단), 최신화본은 거기에 arXiv에서 받은 신규 논문을 더한 것입니다.
 md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 
@@ -69,6 +75,10 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 |---|---|---|---|---|
 | 배포본 | `database/` | 537,665 | ~2024-04-26 | 3.9GB |
 | **최신화본** | `database_2026-08/` | **909,293** | **~2026-08-03** (배포본 537,665편 **전부 포함**) | 6.9GB |
+| **KISTI 벤치마크 (현행)** | `database_kisti-kisti-2512/` | **1,651,487** (v2, 2026-09-08 ~) | KISTI SDL 260825 view `kisti-2512` v2 — year ≤ 2025, GT/twin/사본 40키 제외, arXiv 2601.* 제거, arXiv+DOI id 혼합. v1(1,651,701)은 `database_kisti-kisti-2512-v1/` | 12.3GB |
+
+> **KISTI DB는 위 둘과 corpus가 다릅니다**(arXiv 전용이 아니라 출판 venue 논문 72%). 산출물을 같은 표에 놓지 않습니다.
+> 생성 절차는 `/data2/chanjoong/kisti_data/adapter/autosurvey/`, 지문은 `REPRODUCTION.md` §3-C.
 
 > **`database_2026-08`은 "2026-08의 논문"이 아니라 "2026-08 시점의 스냅샷"입니다.**
 > 배포본을 통째로 담고 그 위에 2024-04-27 이후 논문 371,628편을 얹은 **상위 집합**입니다.
@@ -453,6 +463,10 @@ DB 갱신은 GPU와 네트워크만 쓰고 **LLM API를 전혀 쓰지 않아** �
 ---
 
 ## 4. 개선 방향 — 분량 통제
+
+> **2026-09-07 결정**: KISTI 벤치마크에서는 **출력 분량을 통제하지 않습니다**. `--subsection_len`은 모델이 둔감하고(지시 700→1,056단어, 520→965단어)
+> run-to-run 편차가 커서 역산이 성립하지 않습니다. 본배치는 논문 기본값(8섹션·서브섹션 상한 없음·700)으로 돌리고 분량은 agent 속성으로 기록합니다.
+> 아래 내용은 2026-08 백본 비교 단계의 기록입니다. 근거: `docs/experiments/probe-temp06-length-coefficient.md`.
 
 ### 4.1 문제
 
