@@ -121,7 +121,8 @@ AutoSurvey/
 ├── scripts/                 이 포크에서 추가한 도구 (§5)
 ├── database/                논문 DB — 저자 배포본, 3.9GB. git에 없음 (.gitignore)
 ├── database_2026-08/        논문 DB — 최신화본, 6.9GB. 위를 확장한 것 (§3)
-├── database_kisti-kisti-2512/  논문 DB — KISTI 벤치마크용 1.65M편, 12.3GB (docs/direction-2026-09.md §2)
+├── database_kisti-kisti-2608/  논문 DB — KISTI 벤치마크용 **현행** 1,663,704편(시간 컷 없음, topic 정책이 자름) + paper_dates.json
+├── database_kisti-kisti-2512/  논문 DB — KISTI view v2 1.65M편(09-08~09-14), 위의 base
 ├── output/                  생성된 서베이 — 모델별 디렉터리
 │   ├── haiku/                  본편 3편
 │   ├── deepseek-v4-pro/        본편 1편

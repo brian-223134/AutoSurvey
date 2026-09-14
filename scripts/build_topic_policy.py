@@ -279,6 +279,8 @@ def build(args):
             if span > 365:
                 notes.append(f'선행판과 게재 사이 {span}일 — GT 게재본에 그 사이 추가된 ref 는 채점 분모에서 빠져야 함')
         t = r['t']
+        if t.get('retrieval_cutoff_at') and best and t['retrieval_cutoff_at'] != best['date']:
+            notes.append(f"topics.kisti.jsonl 의 retrieval_cutoff_at={t['retrieval_cutoff_at']} 과 다름 — 분모 재계산 필요")
         out.append({
             'topic_id': r['slug'], 'topic': t['title'], 'domain': r['domain'],
             'gt_doi': r['gt_doi'], 'gt_arxiv_id': r['gt_arxiv'], 'twin_arxiv_id': r['twin'],
@@ -288,7 +290,11 @@ def build(args):
             'date_sources': sorted(cands, key=lambda c: c['date']),
             'exclude_ids': r['ids'],
             'corpus_snapshot_id': snapshot, 'view': args.view,
-            'n_gt_refs_year_cutoff': t.get('n_gt_refs'),   # 기존(연 단위 2025 cutoff) 분모 — 참고용, 새 분모는 policy_report.py
+            'n_gt_refs_year_cutoff': t.get('n_gt_refs'),   # 기존(연 단위 2025 cutoff) 분모 — 호환용
+            # corpus 측이 topic cutoff 로 재계산한 분모(2026-09-14, gap_to_80.py): 분모 · 이론적 ceiling 분모 · 기준 view
+            'n_gt_refs_cutoff': t.get('n_gt_refs_cutoff'),
+            'n_gt_refs_cutoff_pool': t.get('n_gt_refs_cutoff_pool'),
+            'n_gt_refs_cutoff_view': t.get('n_gt_refs_cutoff_view'),
             'status': status, 'review_notes': notes,
         })
 

@@ -31,9 +31,12 @@ TinyDB 레코드 순서 == FAISS 행 번호 == id→index 매핑, 셋이 같아�
 """
 
 import argparse
+import datetime
+import glob
 import hashlib
 import json
 import os
+import re
 import shutil
 import sys
 
@@ -42,6 +45,9 @@ import numpy as np
 import torch
 from sentence_transformers import SentenceTransformer
 from tqdm import trange
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.retrieval_policy import arxiv_yymm  # noqa: E402
 
 TITLE_BIN = 'faiss_paper_title_embeddings.bin'
 ABS_BIN = 'faiss_paper_abs_embeddings.bin'
@@ -76,6 +82,28 @@ def md5(path, chunk=1 << 24):
 def load_table(path):
     with open(path) as f:
         return json.load(f)['cs_paper_info']
+
+
+def dedup_key(pid):
+    """같은 논문 판정 키. arXiv id 는 버전 접미사를 뗀 base id, DOI 는 소문자 그대로.
+
+    예전엔 `id.split('v')[0]` 이었는데 KISTI DB 의 DOI id(`10.1109/tvt.…`, `10.1001/jamanetworkopen…`)는
+    안에 'v' 가 있어 서로 다른 DOI 가 같은 stem 으로 뭉쳐 신규 레코드가 조용히 버려진다(2026-09-14).
+    """
+    pid = str(pid).strip()
+    if arxiv_yymm(pid):
+        return re.sub(r'v\d+$', '', pid)
+    return pid.lower()
+
+
+def first_manifest(dirpath):
+    """DB 디렉터리의 export manifest(*.manifest.json) 하나 — collect_run.db_manifest_sha 와 같은 규칙."""
+    for p in sorted(glob.glob(os.path.join(dirpath, '*.manifest.json'))):
+        try:
+            return os.path.basename(p), json.load(open(p))
+        except Exception:
+            continue
+    return None, None
 
 
 def check_consistency(label, table_list, mapping, ntotal_title, ntotal_abs):
@@ -139,11 +167,10 @@ def main():
 
     # 중복 차단. harvest 의 --exclude-db 로 이미 걸렀어야 하지만, 여기서 다시 본다.
     # 버전 접미사가 달라도 같은 논문이므로 base id 로 비교한다.
-    base_ids = {r['id'] for r in base_list}
-    base_stems = {i.split('v')[0] for i in base_ids}
+    base_stems = {dedup_key(r['id']) for r in base_list}
     fresh, dup, seen = [], 0, set()
     for r in new_list:
-        stem = r['id'].split('v')[0]
+        stem = dedup_key(r['id'])
         if stem in base_stems or stem in seen:
             dup += 1
             continue
@@ -156,11 +183,15 @@ def main():
         print('추가할 논문이 없습니다.', file=sys.stderr)
         return 1
 
-    missing = [f for f in ('id', 'title', 'abs', 'date', 'url', 'cat', 'authors')
-               if any(f not in r for r in fresh[:1000])]
+    # id/title/abs/date/url 은 런타임이 읽는다. cat/authors 는 표시용이라 없어도 된다
+    # (KISTI export 에는 authors 가 없다 — docs/asg/autosurvey.md §1).
+    missing = [f for f in ('id', 'title', 'abs', 'date', 'url') if any(f not in r for r in fresh[:1000])]
     if missing:
         print(f'  !! 신규 레코드에 없는 필드: {missing}', file=sys.stderr)
         return 1
+    optional_missing = [f for f in ('cat', 'authors') if any(f not in r for r in fresh[:1000])]
+    if optional_missing:
+        print(f'  (참고) 신규 레코드에 없는 선택 필드: {optional_missing} — 런타임 무관')
 
     n_base, n_new = len(base_list), len(fresh)
     print(f'\n  {n_base:,} + {n_new:,} = {n_base + n_new:,}편')
@@ -213,9 +244,35 @@ def main():
     newest = max(r['date'] for r in merged_list if r.get('date'))
     print(f'  수록 논문 최신일: {newest}')
     print(f'  {"파일":<38} {"크기(B)":>16}  md5')
+    fps = {}
     for name in (DB_JSON, ABS_BIN, TITLE_BIN, MAP_JSON):
         p = os.path.join(args.out, name)
-        print(f'  {name:<38} {os.path.getsize(p):>16,}  {md5(p)}')
+        fps[name] = {'bytes': os.path.getsize(p), 'md5': md5(p)}
+        print(f'  {name:<38} {fps[name]["bytes"]:>16,}  {fps[name]["md5"]}')
+
+    # 출처 기록 — 어느 스냅샷에 무엇을 얼마나 붙였는지. collect_run.db_view 가 created_at 을 읽는다.
+    base_mname, base_manifest = first_manifest(args.base)
+    new_manifest_path = args.new + '.manifest.json'
+    new_manifest = json.load(open(new_manifest_path)) if os.path.exists(new_manifest_path) else None
+    manifest = {
+        'created_at': datetime.datetime.utcnow().isoformat(timespec='seconds') + 'Z',
+        'builder': 'scripts/append_snapshot.py',
+        'base': {'dir': os.path.abspath(args.base), 'records': n_base, 'manifest': base_mname,
+                 'content_sha256': (base_manifest or {}).get('content_sha256'),
+                 'view': (base_manifest or {}).get('view')},
+        'new': {'path': os.path.abspath(args.new), 'records_in_file': len(new_list), 'added': n_new,
+                'skipped_duplicate': dup, 'manifest': new_manifest},
+        'embedding': {'model': args.embedding_model, 'device': device, 'batch_size': args.batch_size,
+                      'prefix': 'search_document: '},
+        'merged': {'records': len(merged_list), 'index_type': 'IndexFlatL2', 'position_mapping': '0-based, base prefix + appended',
+                   'files': fps, 'newest_date': newest},
+    }
+    with open(os.path.join(args.out, 'append_manifest.json'), 'w') as f:
+        json.dump(manifest, f, indent=2, ensure_ascii=False)
+    if new_manifest is not None:
+        # 이름에 '.manifest.json' 이 들어가지 않게 — *.manifest.json 글롭은 전체 export manifest 하나만 잡아야 한다.
+        shutil.copy(new_manifest_path, os.path.join(args.out, 'append_source_manifest.json'))
+    print(f'  출처 기록: {os.path.join(args.out, "append_manifest.json")}')
 
     print(f'\n완료: {n_base:,} -> {len(merged_list):,}편')
     print(f'검증: python scripts/check_db.py --db-path {args.out}')

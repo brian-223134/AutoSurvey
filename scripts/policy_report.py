@@ -8,11 +8,12 @@
   cutoff            정책의 retrieval_cutoff_at
   allowed           DB 에서 cutoff 이전임이 확실한 편수 / 전체 (sidecar paper_dates.json 이 있으면 그 날짜로,
                     없으면 arXiv id YYMM + 레코드 연도로 — main.py 의 판정과 같은 규칙)
-  GT in_view        GT ref 중 view 에 있는 것(기존 분모, gap_to_80_refs.jsonl tier=in_view)
-  GT < cutoff       그중 S2 publicationDate(일 단위)가 cutoff 이전인 것 = **새 채점 분모(ceiling)**
-  GT date?          in_view 인데 publicationDate 가 없어 판정 못 한 것
-GT 쪽 날짜는 Semantic Scholar 의 publicationDate(ref 자체의 공개일)라 corpus 레코드 날짜와 출처가 다르다 —
-채점기는 이 표가 아니라 같은 규칙을 자기 데이터로 다시 적용해야 한다. 여기서는 규모만 본다.
+  n_gt_refs_cutoff  corpus 측이 topic cutoff 로 재계산한 채점 분모 (data/topics.kisti.jsonl, 2026-09-14 gap_to_80.py)
+  in_view           gap_to_80_refs.jsonl 의 tier == in_view (= 정책이 실제로 허용하는 분모; 위와 같아야 함, 다르면 ‼)
+  blocked           tier == in_view_blocked — view 엔 있지만 레코드 날짜가 거칠어 정책이 막는 ref (날짜 정밀화로 회수 가능)
+  undated           tier == undated — 날짜가 전혀 없어 분모 밖
+  pool              n_gt_refs_cutoff_pool — cutoff 이전 identifiable ref 전체 (이론적 ceiling 분모)
+구 형식(2026-09-14 이전, tier 에 in_view_blocked 가 없고 publicationDate 만 있는) refs 파일도 읽는다.
 """
 import argparse
 import collections
@@ -52,17 +53,30 @@ def main():
     ap.add_argument('--policy', default='data/topic_policy.kisti-2512.jsonl')
     ap.add_argument('--db-path', default='./database_kisti-kisti-2512')
     ap.add_argument('--refs', default=os.path.join(KISTI_ROOT, 'candidates', 'gap_to_80_refs.jsonl'))
+    ap.add_argument('--topics', default=os.path.join(KISTI_ROOT, 'data', 'topics.kisti.jsonl'),
+                    help='n_gt_refs_cutoff·pool 열의 출처')
     ap.add_argument('--no-db', action='store_true', help='DB 허용 편수 계산 생략')
     args = ap.parse_args()
 
     rows = load_policy_rows(args.policy)
-    refs = collections.defaultdict(list)
+    tiers = collections.defaultdict(collections.Counter)      # slug → tier → 수
+    legacy = collections.defaultdict(list)                    # 구 형식: in_view 행의 publicationDate 로 직접 판정
+    new_format = False
     if os.path.exists(args.refs):
         for line in open(args.refs, encoding='utf-8'):
             if line.strip():
                 r = json.loads(line)
+                tiers[r['slug']][r.get('tier')] += 1
                 if r.get('tier') == 'in_view':
-                    refs[r['slug']].append(r)
+                    legacy[r['slug']].append(r)
+                if r.get('tier') == 'in_view_blocked' or 'record_date' in r:
+                    new_format = True
+    topics = {}
+    if os.path.exists(args.topics):
+        for line in open(args.topics, encoding='utf-8'):
+            if line.strip():
+                t = json.loads(line)
+                topics[t['slug']] = t
 
     db_dates, db_src = (None, None)
     if not args.no_db:
@@ -72,8 +86,12 @@ def main():
         date_count = collections.Counter(db_dates.values())
         ub = {d: upper_bound(d) for d in date_count}
 
-    print(f'| topic_id | cutoff | 출처 | allowed / DB | GT in_view | GT < cutoff | GT date? | status |')
-    print('|---|---|---|---:|---:|---:|---:|---|')
+    if new_format:
+        print('| topic_id | cutoff | 출처 | allowed / DB | n_gt_refs_cutoff | in_view | blocked | undated | pool | status |')
+        print('|---|---|---|---:|---:|---:|---:|---:|---:|---|')
+    else:
+        print('| topic_id | cutoff | 출처 | allowed / DB | GT in_view | GT < cutoff | GT date? | status |')
+        print('|---|---|---|---:|---:|---:|---:|---|')
     for row in rows:
         pol = RetrievalPolicy(cutoff=row.get('retrieval_cutoff_at'), exclude_ids=row.get('exclude_ids') or [])
         allowed = '-'
@@ -81,7 +99,17 @@ def main():
             n_ok = sum(c for d, c in date_count.items() if ub[d] is not None and ub[d] < pol.cutoff)
             n_ok -= sum(1 for e in pol.exclude_ids if e in db_dates and pol.allows_date(db_dates[e]))
             allowed = f'{n_ok:,} / {len(db_dates):,} ({n_ok / len(db_dates):.0%})'
-        gt = refs.get(row['topic_id'], [])
+        src = (row.get('gt_first_public_source') or '-').split(' ')[0]
+        tc = tiers.get(row['topic_id'], collections.Counter())
+        if new_format:
+            t = topics.get(row['topic_id'], {})
+            n_cut = t.get('n_gt_refs_cutoff')
+            mark = '' if n_cut is None or n_cut == tc['in_view'] else ' ‼'
+            print(f'| {row["topic_id"]} | {row.get("retrieval_cutoff_at") or "-"} | {src} | {allowed} | '
+                  f'{n_cut if n_cut is not None else "-"} | {tc["in_view"]}{mark} | {tc["in_view_blocked"]} | {tc["undated"]} | '
+                  f'{t.get("n_gt_refs_cutoff_pool", "-")} | {row.get("status")} |')
+            continue
+        gt = legacy.get(row['topic_id'], [])
         n_before = n_unknown = 0
         for r in gt:
             d = normalize(r.get('publicationDate'))
@@ -89,7 +117,6 @@ def main():
                 n_unknown += 1
             elif pol.allows_date(d):
                 n_before += 1
-        src = (row.get('gt_first_public_source') or '-').split(' ')[0]
         print(f'| {row["topic_id"]} | {row.get("retrieval_cutoff_at") or "-"} | {src} | {allowed} | '
               f'{len(gt)} | {n_before} | {n_unknown} | {row.get("status")} |')
     return 0

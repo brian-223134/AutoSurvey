@@ -14,13 +14,13 @@
 
 | 항목 | 상태 |
 |---|---|
-| corpus | KISTI SDL view `kisti-2512` **v2 1,651,487편**(2026-09-08 08:08 UTC ~). AutoSurvey DB `database_kisti-kisti-2512/`는 같은 경로에서 v2로 교체됨(v1 인덱스 차분, 재빌드 아님). v1은 `-v1/`. 결과에 view 버전(v2 `591b4325` / v1 `c7b8d4e7`) 표기 |
+| corpus | KISTI SDL view **`kisti-2608` 1,663,704편**(2026-09-14 ~, 시간 컷 없음). AutoSurvey DB **`database_kisti-kisti-2608/`** = v2 인덱스 + 추가분 12,217편 append(`append_manifest.json`) + sidecar `paper_dates.json`. 이전 `database_kisti-kisti-2512/`(v2), `-v1/`. 결과에 view 버전(**`c1a0c6b3` / 2026-09-14T13:18:56Z**; v2 `591b4325` / v1 `c7b8d4e7`) 표기 |
 | 프로파일 | llama-3.3-70b @ akashml/fp8 · **temperature 0.6 · max_tokens 8192 · 잘림 재요청 on** (`.env` 활성 블록) |
 | 분량 | **통제 안 함.** 본배치는 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (`--subsection_num` 미지정) |
-| **검색 정책 (09-14)** | **topic 별 cutoff = GT 최초 공개일**(교수님 지시). `--topic_policy data/topic_policy.kisti-2512.jsonl --topic_id <slug>` 필수. DB 디렉터리에 `paper_dates.json`(sidecar, gitignore — 없으면 `scripts/build_paper_dates.py` 로 재생성, asg-corpus env). 정본 [`docs/retrieval-policy.md`](docs/retrieval-policy.md) |
+| **검색 정책 (09-14)** | **topic 별 cutoff = GT 최초 공개일**(교수님 지시). `--db_path ./database_kisti-kisti-2608 --topic_policy data/topic_policy.kisti-2608.jsonl --topic_id <slug>` 필수. DB 디렉터리에 `paper_dates.json`(sidecar, gitignore — 없으면 `kisti_data/data/views/kisti-2608/paper_dates.json` 복사 또는 `scripts/build_paper_dates.py`). 채점 분모는 `kisti_data/data/topics.kisti.jsonl` 의 `n_gt_refs_cutoff`. 정본 [`docs/retrieval-policy.md`](docs/retrieval-policy.md) |
 | 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3, **전부 view v1, 정책 없음** → 새 규약에선 재실행 대상). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
 | **다음** | **25편 본배치** — 편당 약 20~30분·$0.35. **OpenRouter 키 한도 상향 필요**(잔여 약 $5.4, 24편 약 $8.4) |
-| 미결 | 채점 분모를 topic cutoff 이전 ref 로 재계산(채점 측) · twin 없는 GT 12편 선행판 확인 · DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
+| 미결 | 2026년 arXiv 초록 결손 36,697편(2602~2606) 회수 여부·`in_view_blocked` 37건·기본 view 전환 시점(corpus 측 결정 대기) · twin 없는 GT 12편 선행판 확인 · DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
 
 실행 템플릿·검증 절차: `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6, 첫 편 문서 §7. 실행은 반드시 `setsid nohup`, `AUTOSURVEY_MAX_THREADS=1 AUTOSURVEY_MAX_RETRY=10`, GPU 없으면 `AUTOSURVEY_DEVICE=cpu`.
 다른 agent용 인수인계: `/data2/chanjoong/kisti_data/docs/asg/AGENT-HANDOFF.md`.

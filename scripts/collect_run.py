@@ -107,6 +107,16 @@ def db_view(db_path):
             info['index_removed_count'] = d.get('removed_count')
         except Exception:
             pass
+    # append_snapshot.py 로 확장한 DB(2026-09-14 kisti-2608 = v2 + 12,217편)는 append_manifest.json 이 출처다.
+    app = os.path.join(db_path, 'append_manifest.json')
+    if os.path.exists(app):
+        try:
+            a = json.load(open(app))
+            info['index_manifest_created_at'] = a.get('created_at')
+            info['index_appended_count'] = (a.get('new') or {}).get('added')
+            info['index_base_content_sha256'] = (a.get('base') or {}).get('content_sha256')
+        except Exception:
+            pass
     return info
 
 
