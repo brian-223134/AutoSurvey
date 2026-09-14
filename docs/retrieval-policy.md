@@ -11,10 +11,11 @@ publish 날짜 이전까지만 retrieval** 할 수 있게 한다. 이 문서는 
 | 규칙 | 문헌 공개일의 **상한**(정밀도상 가장 늦은 날짜) `< retrieval_cutoff_at` 일 때만 허용. 당일 제외. 날짜 불명은 제외 |
 | cutoff | topic 별 `gt_first_public_at` = GT 의 **가장 이른** 공개일(arXiv 선행판 v1 > Crossref created > published-online) |
 | 구현 | `src/retrieval_policy.py`(규칙) · `src/database.py`(FAISS `IDSelectorBitmap` — 검색 **자체**가 허용 집합 안에서 돈다) · `main.py`(`--topic_policy/--topic_id`, `--retrieval_cutoff`, `--exclude_ids`) |
-| 정책 파일 | `data/topic_policy.kisti-2512.jsonl` (25행, 전부 status ok) + 근거 캐시 `data/topic_policy.kisti-2512.sources.json` — `scripts/build_topic_policy.py --fetch` 산출 |
-| 문헌 날짜 | DB 디렉터리의 sidecar `paper_dates.json`(`scripts/build_paper_dates.py`): arXiv id → 투고월(month), DOI → OpenAlex `publication_date`(day), 나머지 KISTI 연도(year). sidecar 없으면 arXiv 월 + 연 단위로 판정 |
+| 정책 파일 | **`data/topic_policy.kisti-2608.jsonl`**(현행 view, 25행 전부 status ok; cutoff 값은 view 무관, `corpus_snapshot_id` 와 corpus 측 분모 필드 `n_gt_refs_cutoff`·`_pool` 만 다름) · `data/topic_policy.kisti-2512.jsonl`(v2 기록) + 근거 캐시 `data/topic_policy.kisti-2512.sources.json` — `scripts/build_topic_policy.py` 산출 |
+| 문헌 날짜 | DB 디렉터리의 sidecar `paper_dates.json`: arXiv id → 투고월(month), DOI → OpenAlex `publication_date`(day), 나머지 KISTI 연도(year). **현행은 corpus 측 `kisti_data/data/views/kisti-2608/paper_dates.json` 사본**(4 agent 공통, `adapter/common/paper_dates.py`; AutoSurvey 의 `scripts/build_paper_dates.py` 와 같은 규칙·형식). sidecar 없으면 arXiv 월 + 연 단위로 판정 |
 | 기록 | `<topic>.json['retrieval_policy']`(정책·허용 편수·허용 집합 sha256·제외 사유별 편수) → `collect_run.py` 가 `run.json` 으로 |
-| 영향 | 25 topic 중 **14편**은 arXiv 선행판 때문에 cutoff 가 2022-11 ~ 2025-07 로 앞당겨져 허용 corpus 가 72~96%; **2편**(llm-watermarking·wireless)은 2025-12 초순·하순; **9편**은 2026 이후라 현행 view 와 동일. §5 표 |
+| corpus | **view `kisti-2608`**(2026-09-14, 1,663,704편, **시간 컷 없음**) — corpus 는 스냅샷 전체를 두고 topic 정책이 자른다. AutoSurvey DB `database_kisti-kisti-2608/` = v2 인덱스 + 추가분 12,217편 append. §10 |
+| 영향 | 25 topic 중 **14편**은 arXiv 선행판 때문에 cutoff 가 2022-11 ~ 2025-07 로 앞당겨져 허용 corpus 가 72~88%; **2편**(llm-watermarking·wireless)은 2025-12; **9편**은 2026년 cutoff 라 2026년 문헌 일부(99~100%)를 본다. §5 표 |
 
 ## 1. 왜 바꾸는가
 
@@ -41,11 +42,11 @@ KISTI export 의 `date` 는 `YYYY-01-01`(manifest `date_precision: year`)뿐이�
 
 | 레코드 | 출처 | 정밀도 | 편수 (v2 DB, 2026-09-14) |
 |---|---|---|---|
-| arXiv id (신형·구형) | id 의 YYMM = v1 투고월. OpenAlex 는 보지 않는다 — KISTI 의 arXiv 레코드 초록이 v1 이 아닐 수 있어 월 상한이 안전 | month | 454,958 |
-| DOI | OpenAlex 미러 `works.parquet`(4.79억 편) `publication_date`, DOI 조인. **OpenAlex 연도 < KISTI 연도면 다른 판**이므로 KISTI 연도 유지 | day | 1,191,972 |
+| arXiv id (신형·구형) | id 의 YYMM = v1 투고월. OpenAlex 는 보지 않는다 — KISTI 의 arXiv 레코드 초록이 v1 이 아닐 수 있어 월 상한이 안전 | month | 460,772 (v2 DB 454,958) |
+| DOI | OpenAlex 미러 `works.parquet`(4.79억 편) `publication_date`, DOI 조인. **OpenAlex 연도 < KISTI 연도면 다른 판**이므로 KISTI 연도 유지 | day | 1,198,375 (v2 DB 1,191,972) |
 | DOI (OpenAlex 연도 충돌 4,556 · 미매칭 1) | KISTI `year` | year | 4,557 |
 
-- 파일: `database_kisti-kisti-2512/paper_dates.json` (62,332,660 B, `{"meta":…, "dates": {id: "YYYY[-MM[-DD]]"}}`). 지문은 `REPRODUCTION.md` §3-C. 빌드 428초(asg-corpus env, duckdb). DB 디렉터리는 gitignore 라 **재현 시 다시 만든다**(`build_paper_dates.py`, 명령은 스크립트 docstring).
+- 파일: 현행 `database_kisti-kisti-2608/paper_dates.json` = corpus 측 `kisti_data/data/views/kisti-2608/paper_dates.json` 사본(62,744,411 B, md5 `aa145cc43b2315a513fb4760453478f2`, created_at `2026-09-14T13:26:03Z`, 4 agent 공통). v2 DB 용은 AutoSurvey 가 만든 `database_kisti-kisti-2512/paper_dates.json`(62,332,660 B, 428초). 형식 `{"meta":…, "dates": {id: "YYYY[-MM[-DD]]"}}`. 지문은 `REPRODUCTION.md` §3-C. DB 디렉터리는 gitignore 라 **재현 시 복사하거나 다시 만든다**(`build_paper_dates.py`).
 - KISTI `year` 가 arXiv id 월과 어긋나는 레코드가 1,245편 있었다(2601.* 가 year=2025 등). id 를 우선한다.
 - arXiv 스냅샷(`survey-search/data/papers.duckdb`)의 `date` 는 **최신판 날짜**(2409.18169v6 → 2026-04-23)라 v1 날짜로 쓸 수 없다. `submitted_date` 는 월초로 뭉개져 있다. 쓰지 않았다.
 
@@ -90,57 +91,64 @@ twin ↔ topic 매핑은 asg-common-corpus `candidates/GT-SURVEYS.md`(2026-09-02
 | agentic-satellite-networks | 2026-02-03 | Crossref created | twin 없음 |
 | ai-video-streaming | 2024-06-04 | twin 2406.02302 v1 | |
 
-## 5. corpus 와 채점 분모에 미치는 영향 (`scripts/policy_report.py`, 2026-09-14)
+## 5. corpus 와 채점 분모에 미치는 영향 (view `kisti-2608`, `scripts/policy_report.py`, 2026-09-14)
 
-allowed = 허용 편수 / 1,651,487. GT in_view = 기존 분모(`gap_to_80_refs.jsonl` tier in_view). GT < cutoff = 그중 S2 `publicationDate` 가 cutoff 이전 = **새 분모 후보**. date? = in_view 인데 날짜가 없어 판정 못 한 ref.
+allowed = 허용 편수 / 1,663,704. **n_gt_refs_cutoff** = corpus 측이 재계산한 채점 분모(`kisti_data/data/topics.kisti.jsonl`; 규칙 identifiable ∧
+ref 공개일 상한 < cutoff ∧ view 안 ∧ 레코드 날짜 상한 < cutoff). in_view = `gap_to_80_refs.jsonl` 의 `tier == in_view`(같아야 함, 25/25 일치).
+blocked = view 엔 있지만 레코드 날짜가 거칠어 정책이 막는 ref(`in_view_blocked`, 합 37). undated = 날짜 없는 ref(합 3). pool = cutoff 이전 identifiable
+ref 전체(이론적 ceiling 분모).
 
-| topic_id | cutoff | allowed | GT in_view | GT < cutoff | date? |
-|---|---|---:|---:|---:|---:|
-| instruction-tuning-llms | 2023-08-21 | 1,304,896 (79%) | 110 | 96 | 1 |
-| llm-function-calling | 2026-01-14 | 1,651,487 (100%) | 74 | 74 | 0 |
-| model-merging | 2024-08-14 | 1,460,094 (88%) | 165 | 141 | 1 |
-| diffusion-model-alignment | 2026-02-10 | 1,651,487 (100%) | 139 | 139 | 0 |
-| llm-agent-optimization | 2025-03-16 | 1,540,142 (93%) | 112 | 105 | 1 |
-| retrieval-explainability | 2022-12-14 | 1,202,448 (73%) | 127 | 114 | 1 |
-| trustworthy-rag | 2025-02-08 | 1,528,223 (93%) | 86 | 78 | 0 |
-| large-models-timeseries | 2023-10-16 | 1,326,717 (80%) | 213 | 191 | 1 |
-| deep-graph-clustering | 2022-11-23 | 1,191,055 (72%) | 108 | 89 | 2 |
-| negative-sampling-recsys | 2026-01-28 | 1,651,487 (100%) | 138 | 137 | 1 |
-| mllm-adversarial-attacks | 2026-03-30 | 1,651,487 (100%) | 52 | 51 | 1 |
-| llm-training-data-detection | 2026-01-07 | 1,651,487 (100%) | 56 | 56 | 0 |
-| physical-adversarial-attacks | 2022-11-03 | 1,186,466 (72%) | 149 | 130 | 2 |
-| harmful-finetuning | 2024-09-26 | 1,472,911 (89%) | 120 | 87 | 0 |
-| llm-watermarking | 2025-12-05 | 1,641,322 (99%) | 44 | 0 | 44 |
-| moe-inference-optimization | 2024-12-18 | 1,503,417 (91%) | 113 | 111 | 0 |
-| kv-cache-serving | 2026-07-01 | 1,651,487 (100%) | 60 | 60 | 0 |
-| edge-slm-cloud-llm | 2025-07-22 | 1,591,193 (96%) | 136 | 134 | 1 |
-| llm-edge-inference | 2026-04-24 | 1,651,487 (100%) | 85 | 83 | 2 |
-| llm-distributed-training | 2024-07-29 | 1,451,432 (88%) | 174 | 167 | 1 |
-| edge-cloud-collaboration | 2025-05-03 | 1,561,520 (95%) | 167 | 166 | 1 |
-| wireless-foundation-models | 2025-12-26 | 1,643,688 (100%) | 119 | 118 | 1 |
-| ai-wireless-reasoning | 2026-04-23 | 1,651,487 (100%) | 72 | 71 | 1 |
-| agentic-satellite-networks | 2026-02-03 | 1,651,487 (100%) | 66 | 59 | 7 |
-| ai-video-streaming | 2024-06-04 | 1,431,447 (87%) | 79 | 69 | 7 |
+| topic_id | cutoff | allowed | n_gt_refs_cutoff | blocked | undated | pool |
+|---|---|---:|---:|---:|---:|---:|
+| instruction-tuning-llms | 2023-08-21 | 1,304,896 (78%) | 95 | 2 | 0 | 138 |
+| llm-function-calling | 2026-01-14 | 1,654,546 (99%) | 74 | 0 | 0 | 157 |
+| model-merging | 2024-08-14 | 1,460,094 (88%) | 139 | 3 | 1 | 222 |
+| diffusion-model-alignment | 2026-02-10 | 1,663,703 (100%) | 139 | 0 | 0 | 230 |
+| llm-agent-optimization | 2025-03-16 | 1,540,142 (93%) | 102 | 4 | 0 | 197 |
+| retrieval-explainability | 2022-12-14 | 1,202,448 (72%) | 113 | 2 | 0 | 171 |
+| trustworthy-rag | 2025-02-08 | 1,528,223 (92%) | 78 | 0 | 0 | 133 |
+| large-models-timeseries | 2023-10-16 | 1,326,717 (80%) | 183 | 9 | 1 | 325 |
+| deep-graph-clustering | 2022-11-23 | 1,191,055 (72%) | 83 | 6 | 0 | 142 |
+| negative-sampling-recsys | 2026-01-28 | 1,657,045 (100%) | 138 | 0 | 0 | 249 |
+| mllm-adversarial-attacks | 2026-03-30 | 1,663,703 (100%) | 52 | 0 | 0 | 109 |
+| llm-training-data-detection | 2026-01-07 | 1,653,071 (99%) | 56 | 0 | 0 | 109 |
+| physical-adversarial-attacks | 2022-11-03 | 1,186,466 (71%) | 128 | 3 | 0 | 183 |
+| harmful-finetuning | 2024-09-26 | 1,472,911 (89%) | 84 | 3 | 0 | 145 |
+| llm-watermarking | 2025-12-05 | 1,641,322 (99%) | 44 | 0 | 0 | 105 |
+| moe-inference-optimization | 2024-12-18 | 1,503,417 (90%) | 111 | 0 | 0 | 191 |
+| kv-cache-serving | 2026-07-01 | 1,663,704 (100%) | 61 | 0 | 0 | 142 |
+| edge-slm-cloud-llm | 2025-07-22 | 1,591,193 (96%) | 134 | 1 | 1 | 262 |
+| llm-edge-inference | 2026-04-24 | 1,663,704 (100%) | 85 | 0 | 0 | 163 |
+| llm-distributed-training | 2024-07-29 | 1,451,432 (87%) | 165 | 3 | 0 | 310 |
+| edge-cloud-collaboration | 2025-05-03 | 1,561,520 (94%) | 167 | 0 | 0 | 346 |
+| wireless-foundation-models | 2025-12-26 | 1,643,688 (99%) | 119 | 0 | 0 | 284 |
+| ai-wireless-reasoning | 2026-04-23 | 1,663,704 (100%) | 72 | 0 | 0 | 160 |
+| agentic-satellite-networks | 2026-02-03 | 1,663,703 (100%) | 66 | 0 | 0 | 307 |
+| ai-video-streaming | 2024-06-04 | 1,431,447 (86%) | 71 | 1 | 0 | 204 |
 
-- GT in_view 가 `topics.kisti.jsonl` 의 `n_gt_refs` 와 ±1~2 다른 topic 이 있다(감사 매칭 방식 차이). 분모 확정은 채점 측 몫이다 — **채점기는 같은 규칙(ref 공개일 상한 < cutoff)을 자기 데이터로 다시 적용**해야 한다. 이 표는 규모 확인용.
-- `llm-watermarking` 은 refs.json 이 Crossref 기탁 목록(날짜 없음)이라 44편 전부 판정 불가 — S2 재추출이 필요하다(`topic-selection.md` 결정 6).
-- 선행판이 있는 topic 에서 GT 게재본에 나중에 추가된 ref(선행판 이후 문헌)는 분모에서 빠진다. 예: harmful-finetuning 120 → 87.
+- 25편 분모 합 2,559(구 `n_gt_refs` 합 2,767). cutoff 가 2025 이전인 16 topic 의 허용 편수는 v2 DB 와 동일(예: physical-adversarial 1,186,466) — 추가분 12,217편이 전부 2026년·2601.* 이라 그 topic 들엔 보이지 않는다.
+- 2026년 cutoff 9 topic 은 2026년 문헌을 본다(예: kv-cache-serving 07-01 → 전부, llm-training-data-detection 01-07 → 1,653,071). arXiv 2026 논문은 월 단위라 cutoff 달의 것은 제외된다(보수적).
+- 2026-09-14 이전 이 절에 있던 v2 기준 추정치(S2 `publicationDate` 로 직접 판정)는 corpus 측 재계산과 ±3 이내였다(physical-adversarial 130 → 128, harmful-finetuning 87 → 84).
+- `llm-watermarking` 은 refs.json 에 S2 날짜가 없지만 arXiv id 월·year 로 판정돼 44편이 분모에 남는다(corpus 측). S2 재추출은 여전히 권장.
+- 선행판이 있는 topic 에서 GT 게재본에 나중에 추가된 ref(선행판 이후 문헌)는 분모에서 빠진다. 예: harmful-finetuning 107 → 84.
 
 ## 6. 실행·기록
 
 ```bash
 # 정책 생성(네트워크; 캐시가 있으면 --fetch 생략 가능)
 python scripts/build_topic_policy.py --fetch
-# 문헌 날짜 sidecar (DB 디렉터리마다 1회, asg-corpus env)
-$ASG_PY scripts/build_paper_dates.py --db-path ./database_kisti-kisti-2512 \
-    --openalex /data2/chanjoong/survey-agent/asg-common-corpus/data/upstream/cd87dd0/openalex/works/works.parquet
+# DB: v2 인덱스에 corpus 측 추가분 export 를 append (2026-09-14, 임베딩 GPU 수 분) — 먼저 --check-only
+python scripts/append_snapshot.py --base ./database_kisti-kisti-2512 \
+    --new /data2/chanjoong/kisti_data/data/exports/kisti-2608.autosurvey.minus-kisti-2512.json --out ./database_kisti-kisti-2608
+# 문헌 날짜 sidecar — corpus 측 파일 복사(4 agent 공통). 다른 DB 는 build_paper_dates.py 로 생성(asg-corpus env)
+cp /data2/chanjoong/kisti_data/data/views/kisti-2608/paper_dates.json ./database_kisti-kisti-2608/
 # 생성 — 정책 행은 --topic_id 로 고른다 (없으면 --topic 문자열 완전 일치)
 python main.py --topic "Visual Adversarial Attacks and Defenses in the Physical World" \
-    --topic_policy data/topic_policy.kisti-2512.jsonl --topic_id physical-adversarial-attacks \
-    --db_path ./database_kisti-kisti-2512 --embedding_model nomic-ai/nomic-embed-text-v1 \
+    --topic_policy data/topic_policy.kisti-2608.jsonl --topic_id physical-adversarial-attacks \
+    --db_path ./database_kisti-kisti-2608 --embedding_model nomic-ai/nomic-embed-text-v1 \
     --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200 ...
 # 영향 표
-python scripts/policy_report.py
+python scripts/policy_report.py --policy data/topic_policy.kisti-2608.jsonl --db-path ./database_kisti-kisti-2608
 ```
 
 - 로그: `[policy] topic_id=… cutoff<… 제외 id N개` 와 `허용 a/b편 — 제외: id / 날짜없음 / cutoff 이후 day·month·year; 날짜 출처 {...}`.
@@ -165,12 +173,42 @@ python scripts/policy_report.py
 - 인용 → id 매핑: 정책 없이는 "Physical adversarial attack meets computer vision: a decade survey" 가 `10.1109/tpami.2024.3430860`(2024 게재판)로 매핑됐고, 정책에서는 `2209.14262`(2022-09 arXiv 판)로 매핑됐다 — 제목 인덱스 제한이 동작한다. 나머지 3건(`1712.09665`·`1707.08945`·`1707.07397`)은 양쪽 동일.
 - 제외 id 직접 조회 0건.
 
+### 8-2. kisti-2608 DB 스모크 (2026-09-14, append 직후)
+
+- DB 로드 48초, 인덱스 = id 매핑 = TinyDB = sidecar 1,663,704. append 구간(위치 1,651,487 이후) 표본은 전부 2026-01 문헌(`10.1001/jamanetworkopen.2025.52099` 2026-01-16, `2601.22158` 2026-01), base 구간 표본은 v2 그대로.
+- `check_db.py --skip-search` 통과.
+
+| topic | cutoff | 허용 (기대) | 제외 day / month / year | outline 풀 1,200 위반 | 가장 늦은 허용 | 2026년 문헌 |
+|---|---|---:|---|---:|---|---:|
+| physical-adversarial-attacks | 2022-11-03 | **1,186,466** (1,186,466) | 332,849 / 142,636 / 1,753 | 0 | 2022-10-31 (`2210.17140`) | 0 |
+| kv-cache-serving | 2026-07-01 | **1,663,704** (1,663,704) | 0 / 0 / 0 | 0 | 2026-01-31 (`2601.21420`) | 48 |
+| llm-training-data-detection | 2026-01-07 | **1,653,071** (1,653,071) | 4,819 / 5,814 / 0 | 0 | 2025-12-31 (`2512.24265`) | 0 |
+
+- physical-adversarial 의 허용 집합 sha256 `4bee99cd9f46c4fc…` 는 v2 DB 스모크(§8)와 **같다** — v2 prefix 가 바이트 그대로이고 추가분 12,217편이 이 topic 에는 하나도 허용되지 않는다는 뜻.
+- kv-cache-serving 의 outline 풀에 2026년 문헌 48편이 들어왔다 — 시간 컷 없는 view 로 바꾼 효과. llm-training-data-detection(01-07)은 2026년 문헌이 날짜 상한(1월 말·1-16 등) 때문에 전부 제외됐다 — 보수적 규칙대로.
+
 ## 9. 한계·미결
 
 1. **arXiv 레코드의 버전** — KISTI 의 arXiv 레코드(`10.48550/arxiv.<id>`)는 버전 없는 키라 초록이 최신판일 수 있다. 월 단위 상한으로 "v1 이 cutoff 이전"임은 보장하지만 제공하는 초록이 v1 것이라는 보장은 없다(origin 문서 §4.4 "v1 만 허용되는 경우 원문·파생자료도 v1 인지"). 해결하려면 arXiv 판별 재수확이 필요 — 미착수.
 2. **OpenAlex `publication_date` 의 의미** — 저널판의 게재일이다. 같은 논문의 arXiv 판이 corpus 에 따로 있으면 그 레코드는 자기 월로 판정되므로 판별 규칙과 어긋나지 않는다.
 3. **twin 없는 GT 12편** — 등록된 선행판이 없을 뿐, 존재하지 않는다는 확인은 아니다(kv-cache-serving 등 ACL 논문은 있을 가능성이 높다). 발견되면 `candidate.yaml gt.arxiv_id` 또는 TWIN 표에 등록하고 정책을 재생성한다. view 에서의 제외(누수)는 corpus 측 재작업.
-4. **채점 분모** — §5 표대로 topic 별로 줄어든다. 채점 측이 같은 규칙으로 분모를 다시 계산해야 하고, `llm-watermarking` 은 ref 날짜부터 확보해야 한다.
+4. **채점 분모** — corpus 측이 09-14 에 재계산 완료(`n_gt_refs_cutoff`, §5). 남은 것: `in_view_blocked` 37건을 ceiling 손실로 둘지 날짜를 정밀화할지, `llm-watermarking` S2 재추출.
 5. **기존 산출물** — sec #3 4편은 정책 없이(cutoff 2025-12-31 view) 생성됐다. 새 규약에서는 비교 대상이 아니므로 재실행한다.
 6. **GT reference 보강**(origin 문서 §4.3) — corpus 에 없는 GT ref 추가는 이번 범위 밖. 추가하더라도 cutoff 이전 판만 허용된다는 규칙은 이 코드가 그대로 적용한다(sidecar 에 날짜만 넣으면 됨).
-7. 다른 3개 agent(SurveyForge·SurveyX·LLM×MR)에도 같은 topic 정책 파일을 적용해야 통제 실험이 성립한다 — 정책 JSONL 은 agent 무관 형식이고, 문헌 날짜 sidecar 규칙(§3)도 같은 export 에서 재사용 가능.
+7. 다른 3개 agent(SurveyForge·SurveyX·LLM×MR)에도 같은 topic 정책 파일을 적용해야 통제 실험이 성립한다 — corpus 측이 공통 판정 모듈 `adapter/common/retrieval_policy.py` 와 공통 sidecar 를 마련했고(09-14), 각 agent 의 검색 경로 적용은 그쪽 세션 몫(`AGENT-HANDOFF.md` §0).
+8. **2026년 arXiv 초록 결손** — KISTI 의 arXiv `2602.*`~`2606.*` 36,697편은 초록이 없어 view 규칙(abstract ≥ 50)에서 빠진다(`2601.*` 만 초록 있음). 2026년 cutoff 9 topic 에 직접 영향. 회수 여부는 corpus 측 결정 대기 — AutoSurvey 는 시도하지 않는다.
+
+## 10. 2026-09-14 후속 — 시간 컷 없는 view `kisti-2608` 로 전환
+
+corpus 측(`kisti_data`, `docs/asg/AGENT-HANDOFF.md` §0)이 `view.py --no-year-cutoff` 로 **`kisti-2608`**(1,663,704편 = kisti-2512 v2 + 2026년 12,005 + arXiv 2601.* 212 복귀,
+papers.parquet sha `c1a0c6b3…`, created_at `2026-09-14T13:18:56Z`)을 만들고, 추가분 export(`kisti-2608.autosurvey.minus-kisti-2512.json`, 12,217편)·공통 sidecar·분모 재계산을 끝냈다. AutoSurvey 쪽 적용:
+
+| 항목 | 내용 |
+|---|---|
+| DB | `database_kisti-kisti-2608/` = v2 4파일을 읽어 추가분 12,217편을 nomic 으로 임베딩해 **뒤에 append**(`scripts/append_snapshot.py`, IndexFlatL2 라 기존 행 번호 보존, TinyDB 순서 = v2 prefix + 추가분). 출처 `append_manifest.json`, 전체 export manifest `kisti-2608.autosurvey.json.manifest.json`, 추가분 manifest `append_source_manifest.json`. 지문 `REPRODUCTION.md` §3-C |
+| append_snapshot.py 수정 | KISTI 레코드엔 `authors` 가 없어 필수 필드에서 뺌(런타임 무관); 중복 판정을 `id.split('v')` 에서 arXiv base id / DOI 전체 비교로 바꿈(DOI 안의 'v' 에서 서로 다른 DOI 가 뭉치던 결함); 출처 manifest 기록 |
+| sidecar | corpus 측 `data/views/kisti-2608/paper_dates.json` 을 그대로 복사(md5 `aa145cc4…`). 4 agent 가 같은 파일로 판정 |
+| 정책 파일 | `data/topic_policy.kisti-2608.jsonl` — 캐시만으로 재생성(네트워크 없음). cutoff 25행 전부 corpus 측 `topics.kisti.jsonl` 의 `retrieval_cutoff_at` 과 일치. 행에 `n_gt_refs_cutoff`·`_pool`·`_view` 추가 |
+| 검증 | §5 표(sidecar 기준)가 corpus 측 표와 25/25 일치. 실 DB 스모크 §8-2: 3 topic 허용 편수 기대치와 일치, 위반 0 |
+| 실행 | `--db_path ./database_kisti-kisti-2608 --topic_policy data/topic_policy.kisti-2608.jsonl --topic_id <slug>`. 결과 버전 열 `c1a0c6b3 / 2026-09-14T13:18:56Z` |
+| 하지 않은 것 | `KISTI_VIEW` 기본값 변경(corpus 측), 2026년 arXiv 초록 결손 회수 — 둘 다 결정 대기 |
