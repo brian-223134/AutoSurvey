@@ -4,45 +4,11 @@
 결과가 비거나 새는데, IDSelectorBitmap 은 검색 단계에서 후보를 제한하므로 그런 일이 없다.
 torch/sentence_transformers 는 스텁으로 갈아끼운다(임베딩은 이 테스트의 관심사가 아니다).
 """
-import sys
-import types
 import unittest
 
 import numpy as np
 
-from tests._loader import ROOT  # noqa: F401
-
-
-def _stub(name, **attrs):
-    m = types.ModuleType(name)
-    for k, v in attrs.items():
-        setattr(m, k, v)
-    return m
-
-
-def _import_database():
-    if 'src.database' in sys.modules:
-        return sys.modules['src.database']
-    saved = {k: sys.modules.get(k) for k in
-             ('torch', 'transformers', 'sentence_transformers', 'h5py', 'tinydb', 'src.utils')}
-    torch = _stub('torch', device=lambda n: n, cuda=types.SimpleNamespace(is_available=lambda: False),
-                  backends=types.SimpleNamespace())
-    sys.modules['torch'] = torch
-    sys.modules['transformers'] = _stub('transformers', AutoModel=object, AutoTokenizer=object,
-                                        AutoModelForSequenceClassification=object)
-    sys.modules['sentence_transformers'] = _stub('sentence_transformers', SentenceTransformer=object)
-    sys.modules['h5py'] = _stub('h5py')
-    sys.modules['tinydb'] = _stub('tinydb', TinyDB=object, Query=object)
-    sys.modules['src.utils'] = _stub('src.utils', tokenCounter=object)
-    try:
-        import src.database as db
-        return db
-    finally:
-        for k, v in saved.items():
-            if v is None:
-                sys.modules.pop(k, None)
-            else:
-                sys.modules[k] = v
+from tests._loader import load_database
 
 
 try:
@@ -57,7 +23,7 @@ class SelectorSearchTest(unittest.TestCase):
 
     def setUp(self):
         import faiss
-        self.dbmod = _import_database()
+        self.dbmod = load_database()
         from src.retrieval_policy import RetrievalPolicy
         # 6편: 1차원 벡터 = 위치. 질의 0.0 에 가까운 순 = id 순.
         ids = ['10.1/a', '2210.00001', '2211.00001', '10.1/b', '10.1/c', '2301.00001']

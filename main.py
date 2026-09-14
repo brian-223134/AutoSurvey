@@ -282,6 +282,7 @@ def main(args):
         # 어떤 허용 집합에서 검색했는지 — 정책·cutoff·허용 편수·지문. 없으면 None(원본 동작).
         save_dic['retrieval_policy'] = db.policy_report
         f.write(json.dumps(save_dic, indent=4, ensure_ascii=False))
+    db.close()
 
 if __name__ == '__main__':
 

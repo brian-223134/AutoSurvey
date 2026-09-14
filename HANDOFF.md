@@ -676,8 +676,8 @@ conda activate autosurvey
 python -m unittest discover -s tests -t .
 ```
 
-**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 66개가 **0.2초**에 끝납니다.
-네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock).
+**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 128개가 **1.2초**에 끝납니다(2026-09-14 기준).
+네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock, 임베딩·LLM 은 `tests/_loader.py` 의 가짜).
 
 무엇을 지키는지:
 
@@ -688,6 +688,10 @@ python -m unittest discover -s tests -t .
 | `test_harvest_schema.py` (16) | 배포 DB 표기 규약 — **`date`가 `<created>`가 아니라 v1 제출일** / 초록의 TeX escape 보존 / 제목 금지문자 제거 / 저자 유니코드 |
 | `test_length_band.py` (7) | 분량 구간 경계와 실측값 판정 |
 | `test_provider_pin.py` (6) | 모델·provider 어긋나면 중단, 네트워크 장애는 막지 않음 |
+| `test_retrieval_policy.py` (22) | **topic cutoff 판정 규칙** — 공개일 상한 < cutoff(당일·월말·연말·불명), arXiv 구형/신형 id 월, KISTI `YYYY-01-01` 을 연 단위로, 정책 파일 해석·needs_review 거부 |
+| `test_database_policy.py` (7) | FAISS 선택자가 **검색 자체**를 허용 집합에 제한(k > 허용 편수여도 새지 않음), 제목 인덱스·직접 조회 제한, sidecar 우선, 허용 집합 지문 |
+| `test_main_policy.py` (9) | `--topic_policy/--retrieval_cutoff` 해석이 DB 로딩 전에 실패하는지, 저장 전 참고문헌 허용 검증 |
+| `test_pipeline_e2e.py` (5) | **예시 논문 13편 + 가짜 LLM·임베딩으로 `main.main()` 을 끝까지** — DB 디렉터리 계약, LLM 호출 순서·횟수(러프 2·merge 1·서브아웃라인·편집·초안·점검·LCE), 인용 번호 매핑, `check_survey` 통과, 정책 유무에 따른 누수 차단 대조, `--enforce_section_num` |
 
 **변이 테스트로 실제로 잡는지 확인했습니다** — 프롬프트 기본값 변경, 절단 로직 제거,
 구간 경계 변경, `allow_fallbacks` 반전, `date`를 `<created>`로 바꾸기 5가지를 넣어

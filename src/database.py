@@ -31,7 +31,8 @@ def _db_date_precision(db_path):
     arXiv 수확 DB(`date` = 투고일)는 day."""
     for p in glob.glob(os.path.join(db_path, '*.manifest.json')):
         try:
-            prec = str(json.load(open(p)).get('date_precision') or '')
+            with open(p) as f:
+                prec = str(json.load(f).get('date_precision') or '')
         except Exception:
             continue
         if prec.lower().startswith('year'):
@@ -87,6 +88,13 @@ class database():
         self.policy_report = None
         if policy is not None and getattr(policy, 'active', False):
             self.set_policy(policy)
+
+    def close(self):
+        """TinyDB 파일 핸들을 닫는다. 검색 인덱스는 메모리에 있으므로 닫은 뒤에도 검색은 된다."""
+        try:
+            self.db.close()
+        except Exception:
+            pass
 
     def load_index_arxivid(self, db_path):
         with open(f'{db_path}/arxivid_to_index_abs.json','r') as f:
