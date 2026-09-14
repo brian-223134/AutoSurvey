@@ -1,0 +1,375 @@
+{
+ "crossref": {
+  "10.1145/3777411": {
+   "created": "2025-11-17",
+   "published-online": "2026-01-08",
+   "published-print": "2026-05-31",
+   "issued": "2026-01-08",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Instruction Tuning for Large Language Models: A Survey",
+   "fetched_at": "2026-09-14T12:00:37"
+  },
+  "10.1145/3788284": {
+   "created": "2026-01-14",
+   "published-online": "2026-02-25",
+   "published-print": "2026-07-31",
+   "issued": "2026-02-25",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Function Calling in Large Language Models: Industrial Practices, Challenges, and Future Directions",
+   "fetched_at": "2026-09-14T12:00:39"
+  },
+  "10.1145/3787849": {
+   "created": "2026-01-10",
+   "published-online": "2026-02-09",
+   "published-print": "2026-06-30",
+   "issued": "2026-02-09",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Model Merging in LLMs, MLLMs, and Beyond: Methods, Theories, Applications, and Opportunities",
+   "fetched_at": "2026-09-14T12:00:41"
+  },
+  "10.1145/3796982": {
+   "created": "2026-02-10",
+   "published-online": "2026-03-10",
+   "published-print": "2026-07-31",
+   "issued": "2026-03-10",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Alignment of Diffusion Models: Fundamentals, Challenges, and Future",
+   "fetched_at": "2026-09-14T12:00:43"
+  },
+  "10.1145/3789261": {
+   "created": "2026-01-24",
+   "published-online": "2026-02-11",
+   "published-print": "2026-07-31",
+   "issued": "2026-02-11",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "A Survey on the Optimization of Large Language Model-based Agents",
+   "fetched_at": "2026-09-14T12:00:45"
+  },
+  "10.1145/3801957": {
+   "created": "2026-03-26",
+   "published-online": "2026-05-01",
+   "published-print": "2026-08-30",
+   "issued": "2026-05-01",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Explainability of Text Processing and Retrieval Methods: A Survey",
+   "fetched_at": "2026-09-14T12:00:47"
+  },
+  "10.1145/3837074": {
+   "created": "2026-08-06",
+   "published-online": "2026-09-04",
+   "published-print": "2026-11-30",
+   "issued": "2026-09-04",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Towards Trustworthy Retrieval Augmented Generation for Large Language Models: A Survey",
+   "fetched_at": "2026-09-14T12:00:49"
+  },
+  "10.1145/3821637": {
+   "created": "2026-06-23",
+   "published-online": "2026-07-28",
+   "published-print": "2026-10-31",
+   "issued": "2026-07-28",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Large Models for Time Series and Spatio-Temporal Data: A Survey and Outlook",
+   "fetched_at": "2026-09-14T12:00:52"
+  },
+  "10.1109/tkde.2026.3669747": {
+   "created": "2026-03-03",
+   "published-online": null,
+   "published-print": "2026-06",
+   "issued": "2026-06",
+   "type": "journal-article",
+   "container": "IEEE Transactions on Knowledge and Data Engineering",
+   "title": "A Survey of Deep Graph Clustering: Taxonomy, Challenge, Application, and Open Resource",
+   "fetched_at": "2026-09-14T12:00:53"
+  },
+  "10.1145/3793855": {
+   "created": "2026-01-28",
+   "published-online": "2026-04-16",
+   "published-print": "2026-05-31",
+   "issued": "2026-04-16",
+   "type": "journal-article",
+   "container": "ACM Transactions on Information Systems",
+   "title": "Negative Sampling in Recommendation: A Survey and Future Directions",
+   "fetched_at": "2026-09-14T12:00:56"
+  },
+  "10.1145/3779430": {
+   "created": "2026-01-07",
+   "published-online": "2026-02-12",
+   "published-print": "2026-07-31",
+   "issued": "2026-02-12",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Detecting Training Data For Large Language Models: A Survey",
+   "fetched_at": "2026-09-14T12:00:58"
+  },
+  "10.1145/3793659": {
+   "created": "2026-02-10",
+   "published-online": "2026-04-01",
+   "published-print": "2026-07-31",
+   "issued": "2026-04-01",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Visual Adversarial Attacks and Defenses in the Physical World: A Survey",
+   "fetched_at": "2026-09-14T12:01:00"
+  },
+  "10.1145/3817114": {
+   "created": "2026-05-22",
+   "published-online": "2026-06-23",
+   "published-print": "2026-10-31",
+   "issued": "2026-06-23",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Harmful Fine-tuning Attacks and Defenses for Large Language Models: A Survey",
+   "fetched_at": "2026-09-14T12:01:02"
+  },
+  "10.1145/3773028": {
+   "created": "2025-12-05",
+   "published-online": "2026-02-04",
+   "published-print": "2026-05-31",
+   "issued": "2026-02-04",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Securing Large Language Models: A Survey of Watermarking and Fingerprinting Techniques",
+   "fetched_at": "2026-09-14T12:01:04"
+  },
+  "10.1145/3794845": {
+   "created": "2026-02-09",
+   "published-online": "2026-03-09",
+   "published-print": "2026-07-31",
+   "issued": "2026-03-09",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "A Survey on Inference Optimization Techniques for Mixture of Experts Models",
+   "fetched_at": "2026-09-14T12:01:06"
+  },
+  "10.18653/v1/2026.findings-acl.1916": {
+   "created": "2026-07-01",
+   "published-online": null,
+   "published-print": "2026",
+   "issued": "2026",
+   "type": "proceedings-article",
+   "container": "Findings of the Association for Computational Linguistics: ACL 2026",
+   "title": "Towards Efficient Large Language Model Serving: A Survey on System-Aware KV Cache Optimization",
+   "fetched_at": "2026-09-14T12:01:08"
+  },
+  "10.1145/3838593": {
+   "created": "2026-08-24",
+   "published-online": "2026-08-24",
+   "published-print": null,
+   "issued": "2026-08-24",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Collaborative Inference and Learning between Edge SLMs and Cloud LLMs: A Survey of Algorithms, Execution, and Open Challenges",
+   "fetched_at": "2026-09-14T12:01:10"
+  },
+  "10.1145/3809166": {
+   "created": "2026-04-24",
+   "published-online": "2026-05-19",
+   "published-print": "2026-09-30",
+   "issued": "2026-05-19",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Network Edge Inference for Large Language Models: Principles, Techniques, and Opportunities",
+   "fetched_at": "2026-09-14T12:01:12"
+  },
+  "10.1007/s44336-026-00038-z": {
+   "created": "2026-06-01",
+   "published-online": "2026-06-01",
+   "published-print": null,
+   "issued": "2026-06-01",
+   "type": "journal-article",
+   "container": "Vicinagearth",
+   "title": "Efficient training of large language models on distributed infrastructures: a survey",
+   "fetched_at": "2026-09-14T12:01:14"
+  },
+  "10.1109/comst.2026.3669216": {
+   "created": "2026-03-02",
+   "published-online": null,
+   "published-print": "2026",
+   "issued": "2026",
+   "type": "journal-article",
+   "container": "IEEE Communications Surveys &amp; Tutorials",
+   "title": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey",
+   "fetched_at": "2026-09-14T12:01:16"
+  },
+  "10.1109/comst.2025.3648785": {
+   "created": "2025-12-26",
+   "published-online": null,
+   "published-print": "2026",
+   "issued": "2026",
+   "type": "journal-article",
+   "container": "IEEE Communications Surveys &amp; Tutorials",
+   "title": "Multi-Modal Data-Enhanced Foundation Models for Prediction and Control in Wireless Networks: A Survey",
+   "fetched_at": "2026-09-14T12:01:18"
+  },
+  "10.1145/3811822": {
+   "created": "2026-04-23",
+   "published-online": "2026-06-24",
+   "published-print": "2026-10-31",
+   "issued": "2026-06-24",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "AI Reasoning for Wireless Communications and Networking: A Survey and Perspectives",
+   "fetched_at": "2026-09-14T12:01:20"
+  },
+  "10.1109/comst.2026.3660854": {
+   "created": "2026-02-03",
+   "published-online": null,
+   "published-print": "2026",
+   "issued": "2026",
+   "type": "journal-article",
+   "container": "IEEE Communications Surveys &amp; Tutorials",
+   "title": "Agentic Satellite-Augmented Low-Altitude Economy and Terrestrial Networks: A Survey on Generative Approaches",
+   "fetched_at": "2026-09-14T12:01:21"
+  },
+  "10.1145/3838182": {
+   "created": "2026-08-05",
+   "published-online": "2026-08-21",
+   "published-print": "2026-11-30",
+   "issued": "2026-08-21",
+   "type": "journal-article",
+   "container": "ACM Computing Surveys",
+   "title": "Towards AI-Assisted Sustainable Adaptive Video Streaming Systems: Tutorial and Survey",
+   "fetched_at": "2026-09-14T12:01:24"
+  }
+ },
+ "arxiv": {
+  "2406.02302": {
+   "published": "2024-06-04",
+   "citation_date": "2024-06-04",
+   "latest_version": "2406.02302v1",
+   "title": "Towards AI-Assisted Sustainable Adaptive Video Streaming Systems: Tutorial and Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:00:05"
+  },
+  "2407.20018": {
+   "published": "2024-07-29",
+   "citation_date": "2024-07-29",
+   "latest_version": "2407.20018v1",
+   "title": "Efficient Training of Large Language Models on Distributed Infrastructures: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:00:08"
+  },
+  "2502.06872": {
+   "published": "2025-02-08",
+   "citation_date": "2025-02-08",
+   "latest_version": "2502.06872v1",
+   "title": "Towards Trustworthy Retrieval Augmented Generation for Large Language Models: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:00:20"
+  },
+  "2507.16731": {
+   "published": "2025-07-22",
+   "citation_date": "2025-07-22",
+   "latest_version": "2507.16731v1",
+   "title": "Collaborative Inference and Learning between Edge SLMs and Cloud LLMs: A Survey of Algorithms, Execution, and Open Challenges",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:00:30"
+  },
+  "2601.03181": {
+   "published": "2026-01-06",
+   "citation_date": "2026-01-06",
+   "latest_version": "2601.03181v1",
+   "title": "Multi-Modal Data-Enhanced Foundation Models for Prediction and Control in Wireless Networks: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:00:33"
+  },
+  "2603.27918": {
+   "published": "2026-03-30",
+   "citation_date": "2026-03-30",
+   "latest_version": "2603.27918v1",
+   "title": "Adversarial Attacks on Multimodal Large Language Models: A Comprehensive Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:00:36"
+  },
+  "2211.01671": {
+   "published": "2022-11-03",
+   "citation_date": "2022-11-03",
+   "latest_version": "2211.01671v6",
+   "title": "Visual Adversarial Attacks and Defenses in the Physical World: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:29"
+  },
+  "2211.12875": {
+   "published": "2022-11-23",
+   "citation_date": "2022-11-23",
+   "latest_version": "2211.12875v4",
+   "title": "A Survey of Deep Graph Clustering: Taxonomy, Challenge, Application, and Open Resource",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:32"
+  },
+  "2212.07126": {
+   "published": "2022-12-14",
+   "citation_date": "2022-12-14",
+   "latest_version": "2212.07126v3",
+   "title": "Explainability of Text Processing and Retrieval Methods: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:35"
+  },
+  "2308.10792": {
+   "published": "2023-08-21",
+   "citation_date": "2023-08-21",
+   "latest_version": "2308.10792v10",
+   "title": "Instruction Tuning for Large Language Models: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:38"
+  },
+  "2310.10196": {
+   "published": "2023-10-16",
+   "citation_date": "2023-10-16",
+   "latest_version": "2310.10196v3",
+   "title": "Large Models for Time Series and Spatio-Temporal Data: A Survey and Outlook",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:42"
+  },
+  "2408.07666": {
+   "published": "2024-08-14",
+   "citation_date": "2024-08-14",
+   "latest_version": "2408.07666v5",
+   "title": "Model Merging in LLMs, MLLMs, and Beyond: Methods, Theories, Applications and Opportunities",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:45"
+  },
+  "2409.18169": {
+   "published": "2024-09-26",
+   "citation_date": "2024-09-26",
+   "latest_version": "2409.18169v6",
+   "title": "Harmful Fine-tuning Attacks and Defenses for Large Language Models: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:48"
+  },
+  "2412.14219": {
+   "published": "2024-12-18",
+   "citation_date": "2024-12-18",
+   "latest_version": "2412.14219v2",
+   "title": "A Survey on Inference Optimization Techniques for Mixture of Experts Models",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:51"
+  },
+  "2503.12434": {
+   "published": "2025-03-16",
+   "citation_date": "2025-03-16",
+   "latest_version": "2503.12434v2",
+   "title": "A Survey on the Optimization of Large Language Model-based Agents",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:54"
+  },
+  "2505.01821": {
+   "published": "2025-05-03",
+   "citation_date": "2025-05-03",
+   "latest_version": "2505.01821v5",
+   "title": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey",
+   "source": "arxiv.org/abs submission history [v1]",
+   "fetched_at": "2026-09-14T12:04:57"
+  }
+ },
+ "fetched_at": "2026-09-14T12:04:57"
+}

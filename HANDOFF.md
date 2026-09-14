@@ -1,6 +1,6 @@
 # HANDOFF — AutoSurvey 세팅 인수인계
 
-**최종 갱신**: 2026-09-07 (KISTI 벤치마크 단계 — 아래 첫 절) · 2026-08 단계 기록은 그 아래
+**최종 갱신**: 2026-09-14 (검색 정책 추가) · 2026-09-07 KISTI 벤치마크 단계 — 아래 첫 절 · 2026-08 단계 기록은 그 아래
 **목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현은 범위 밖.
 평가는 **SurveyBench 인용 커버리지만** 씁니다 — LLM-as-Judge 는 하지 않기로 확정(2026-08-05).
 **상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
@@ -17,9 +17,10 @@
 | corpus | KISTI SDL view `kisti-2512` **v2 1,651,487편**(2026-09-08 08:08 UTC ~). AutoSurvey DB `database_kisti-kisti-2512/`는 같은 경로에서 v2로 교체됨(v1 인덱스 차분, 재빌드 아님). v1은 `-v1/`. 결과에 view 버전(v2 `591b4325` / v1 `c7b8d4e7`) 표기 |
 | 프로파일 | llama-3.3-70b @ akashml/fp8 · **temperature 0.6 · max_tokens 8192 · 잘림 재요청 on** (`.env` 활성 블록) |
 | 분량 | **통제 안 함.** 본배치는 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (`--subsection_num` 미지정) |
-| 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3, **전부 view v1**). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
+| **검색 정책 (09-14)** | **topic 별 cutoff = GT 최초 공개일**(교수님 지시). `--topic_policy data/topic_policy.kisti-2512.jsonl --topic_id <slug>` 필수. DB 디렉터리에 `paper_dates.json`(sidecar, gitignore — 없으면 `scripts/build_paper_dates.py` 로 재생성, asg-corpus env). 정본 [`docs/retrieval-policy.md`](docs/retrieval-policy.md) |
+| 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3, **전부 view v1, 정책 없음** → 새 규약에선 재실행 대상). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
 | **다음** | **25편 본배치** — 편당 약 20~30분·$0.35. **OpenRouter 키 한도 상향 필요**(잔여 약 $5.4, 24편 약 $8.4) |
-| 미결 | DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
+| 미결 | 채점 분모를 topic cutoff 이전 ref 로 재계산(채점 측) · twin 없는 GT 12편 선행판 확인 · DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
 
 실행 템플릿·검증 절차: `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6, 첫 편 문서 §7. 실행은 반드시 `setsid nohup`, `AUTOSURVEY_MAX_THREADS=1 AUTOSURVEY_MAX_RETRY=10`, GPU 없으면 `AUTOSURVEY_DEVICE=cpu`.
 다른 agent용 인수인계: `/data2/chanjoong/kisti_data/docs/asg/AGENT-HANDOFF.md`.

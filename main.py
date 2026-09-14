@@ -6,6 +6,8 @@ from src.agents.outline_writer import outlineWriter
 from src.agents.writer import subsectionWriter
 from src.agents.judge import Judge
 from src.database import database
+from src.retrieval_policy import (RetrievalPolicy, load_exclude_file, load_policy_rows,
+                                  parse_day, policy_from_row, select_row)
 from tqdm import tqdm
 import time
 
@@ -110,6 +112,18 @@ def paras_args():
     parser.add_argument('--api_key',default='', type=str, help='API key for the model')
     parser.add_argument('--db_path',default='./database', type=str, help='Directory of the database.')
     parser.add_argument('--embedding_model',default='nomic-ai/nomic-embed-text-v1', type=str, help='Embedding model for retrieval.')
+    # --- 검색 허용 정책 (2026-09-14, 교수님 지시: GT survey 최초 공개일 이전 문헌만 검색) ---
+    parser.add_argument('--topic_policy', default='', type=str,
+                        help='topic 정책 JSONL (scripts/build_topic_policy.py 산출). 행을 --topic_id 로, '
+                             '없으면 --topic 문자열 완전 일치로 고른다. 행의 retrieval_cutoff_at 과 '
+                             'exclude_ids 를 DB 검색에 적용한다')
+    parser.add_argument('--topic_id', default='', type=str,
+                        help='정책 파일의 topic_id (예: physical-adversarial-attacks)')
+    parser.add_argument('--retrieval_cutoff', default='', type=str,
+                        help='YYYY-MM-DD. 이 날짜 **이전**(당일 제외) 공개가 확실한 문헌만 검색한다. '
+                             '정책 파일 없이 단독으로 쓰거나, 정책 행의 값을 덮어쓴다(덮어쓴 사실은 기록됨)')
+    parser.add_argument('--exclude_ids', default='', type=str,
+                        help='추가로 제외할 DB id 목록 파일(한 줄에 하나, 탭 뒤 사유 열 무시)')
     args = parser.parse_args()
     return args
 
@@ -127,11 +141,15 @@ def build_reference_detail(references, db):
     detail = {}
     for num, rid in references.items():
         p = infos.get(rid, {})
+        # 공개일은 정책 판정에 쓴 값(sidecar > arXiv id YYMM > 레코드 date)과 정밀도를 같이 적는다.
+        d, prec, src = db.date_of(rid) if hasattr(db, 'date_of') else ((p.get('date') or '').strip(), None, 'db_date')
         detail[str(num)] = {
             'id': rid,
             # arXiv 제목에는 줄바꿈과 들여쓰기가 들어 있다.
             'title': ' '.join((p.get('title') or '').split()),
-            'date': (p.get('date') or '').strip(),
+            'date': d or (p.get('date') or '').strip(),
+            'date_precision': prec,
+            'date_source': src,
             'url': _reference_url(rid, p),
         }
     return detail
@@ -190,6 +208,46 @@ def resolve_api_key(args):
     return key.strip()
 
 
+def resolve_retrieval_policy(args):
+    """CLI 인자 → RetrievalPolicy (없으면 None = 원본 동작).
+
+    DB 로딩(수 분) 전에 해석한다 — 정책 파일에 topic 이 없거나 최초 공개일이 미확정(status≠ok)이면
+    여기서 멈춘다. 불확실한 cutoff 로 조용히 돌면 누수 여부를 알 수 없는 산출물이 남는다.
+    """
+    extra = load_exclude_file(args.exclude_ids) if args.exclude_ids else []
+    cutoff = args.retrieval_cutoff.strip() or None
+    if cutoff:
+        parse_day(cutoff)     # 형식 검증
+    if args.topic_policy:
+        rows = load_policy_rows(args.topic_policy)
+        try:
+            row = select_row(rows, topic_id=args.topic_id or None, topic=args.topic or None)
+        except KeyError as e:
+            raise RuntimeError(f'--topic_policy {args.topic_policy}: {e}')
+        policy = policy_from_row(row, cutoff_override=cutoff, extra_exclude=extra)
+        if row.get('topic') and args.topic and row['topic'].strip() != args.topic.strip():
+            print(f'[policy] ⚠ --topic "{args.topic}" 와 정책 행의 topic "{row["topic"]}" 이 다릅니다 '
+                  f'(topic_id={row.get("topic_id")}). 의도한 것인지 확인하세요', flush=True)
+    elif cutoff or extra:
+        policy = RetrievalPolicy(cutoff=cutoff, exclude_ids=extra, topic=args.topic,
+                                 gt_first_public_source='cli:--retrieval_cutoff' if cutoff else None)
+    else:
+        return None
+    print(f'[policy] {policy.describe()}', flush=True)
+    return policy
+
+
+def verify_references_allowed(references, db):
+    """최종 참고문헌이 전부 허용 집합 안에 있는지 확인한다. 검색이 선택자 안에서 돌므로 어긋날 수
+    없지만, 정책의 목적이 누수 차단이라 산출물 저장 직전에 한 번 더 명시적으로 검사한다."""
+    if db.policy is None:
+        return
+    bad = sorted({rid for rid in references.values() if not db.is_allowed(rid)})
+    if bad:
+        raise RuntimeError(f'정책 위반: 허용 집합 밖의 참고문헌 {len(bad)}건이 산출물에 들어갔습니다 — '
+                           f'저장하지 않고 중단합니다. 예: {bad[:5]}')
+
+
 def main(args):
 
     api_key = resolve_api_key(args)
@@ -200,7 +258,9 @@ def main(args):
 
     check_provider_pin(args.model)
 
-    db = database(db_path = args.db_path, embedding_model = args.embedding_model)
+    policy = resolve_retrieval_policy(args)
+
+    db = database(db_path = args.db_path, embedding_model = args.embedding_model, policy = policy)
 
     if not os.path.exists(args.saving_path):
         os.mkdir(args.saving_path)
@@ -208,6 +268,8 @@ def main(args):
     outline_with_description, outline_wo_description = write_outline(args.topic, args.model, args.section_num, args.outline_reference_num, db, api_key, args.api_url, args.subsection_num, args.enforce_section_num)
 
     raw_survey, raw_survey_with_references, raw_references, refined_survey, refined_survey_with_references, refined_references = write_subsection(args.topic, args.model, outline_with_description, args.subsection_len, args.rag_num, db, api_key, args.api_url)
+
+    verify_references_allowed(refined_references, db)
 
     # 'a+' 로 두면 같은 토픽 재실행 시 이어붙어 evaluation.py의 json.loads가 깨진다.
     with open(f'{args.saving_path}/{args.topic}.md', 'w') as f:
@@ -217,6 +279,8 @@ def main(args):
         save_dic['survey'] = refined_survey_with_references
         save_dic['reference'] = refined_references
         save_dic['reference_detail'] = build_reference_detail(refined_references, db)
+        # 어떤 허용 집합에서 검색했는지 — 정책·cutoff·허용 편수·지문. 없으면 None(원본 동작).
+        save_dic['retrieval_policy'] = db.policy_report
         f.write(json.dumps(save_dic, indent=4, ensure_ascii=False))
 
 if __name__ == '__main__':

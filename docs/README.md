@@ -6,6 +6,7 @@
 | 문서 | 용도 |
 |---|---|
 | **[`direction-2026-09.md`](direction-2026-09.md)** | **현재 실험 방향(정본)** — KISTI corpus 벤치마크: DB·디코딩 프로파일·분량 비통제·평가 규약·실측·결정 로그 |
+| **[`retrieval-policy.md`](retrieval-policy.md)** | **검색 허용 정책(정본, 2026-09-14)** — topic 별 cutoff = GT survey 최초 공개일. 판정 규칙·문헌 날짜 출처·GT 날짜 근거 25행·corpus/분모 영향 표·검증·한계 |
 | [`evaluation-note.md`](evaluation-note.md) | 평가를 어떻게 했고 **무엇을 못 쟀는지** — 발표에서 가장 방어가 필요한 부분 |
 | [`commoncorpus-setup.md`](commoncorpus-setup.md) | (기록) Common Corpus DB 반입 × llama-3.3-70b 백본 셋업 — **asg-common-corpus는 2026-09-07부로 미사용** |
 

@@ -213,6 +213,7 @@ v2 = v1 − 214편: GT 사본 2편(`2507.16731` = edge-slm-cloud-llm GT의 arXiv
 | `kisti-2512.autosurvey.json.manifest.json` | — | export content_sha256 `54b4e7b4f54ec78f…`, file_sha256 `90a278b1f3bbe118…` |
 
 - **내용**: 필드 `id`/`title`/`abs`/`date`/`cat`/`url`. `authors` 없음. `id`는 arXiv base id(v2 454,958) 또는 DOI(1,196,529) — id 규칙 B. `date`는 `YYYY-01-01`(연 단위). `cat`은 OpenAlex subfield.
+- **공개일 sidecar** (2026-09-14, topic cutoff 판정용): `paper_dates.json` 62,332,660 B md5 `42e65cb43b6f6bbb5bf396ae29d174e0`, meta created_at `2026-09-14T12:05:00Z`. 1,651,487편 = arXiv 투고월 454,958 + OpenAlex 일 단위 1,191,972 + KISTI 연도 4,557. 입력: 위 `arxiv_paper_db.json`(v2) + OpenAlex 미러 `asg-common-corpus/data/upstream/cd87dd0/openalex/works/works.parquet`(134,752,212,966 B, mtime 2026-08-27). 재생성: `scripts/build_paper_dates.py`(asg-corpus env, 428초). 정책 실행분의 `run.json['retrieval_policy'].allowed_fingerprint_sha256`은 이 sidecar 에 의존한다.
 - **제외**: GT survey 본체 25 + twin·사본 15(v2 **40키**; v1 38키) — view 단계에서 제외, 인덱스에 부재 확인. v2는 arXiv 신형 id YYMM > 2512도 제외.
 - **원본 패키지 지문**: `paper_meta.duckdb` sha256 `63324de0…`(패키지 SHA256SUMS). 패키지는 `/data2/chanjoong/kisti_data/science_datalake_260825/`, 읽기 전용.
 - `check_db.py --verify-embeddings`의 cos 0.975 경고는 nomic 장시간 빌드의 수치 변동 — argmax 자기일치 60/60으로 순서 정상 확인. **재빌드 금지.**
@@ -278,6 +279,7 @@ Evaluation of LLMs는 `d@1`도 0.595 → 0.521로 내려가, 토픽에 더 가�
 |---|---|---|
 | `--subsection_num` — 섹션당 서브섹션 상한 | `main.py`, `src/agents/outline_writer.py`, `src/prompt.py` | **0 = 원본 동작** |
 | `--enforce_section_num` (2026-08-31) — 섹션 수를 merge 프롬프트까지 관철 | `main.py`, `src/agents/outline_writer.py`, `src/prompt.py` | **미지정 = 원본 동작** (merge 프롬프트 글자 단위 동일 — 렌더 바이트 대조로 확인) |
+| `--topic_policy` / `--topic_id` / `--retrieval_cutoff` / `--exclude_ids` (2026-09-14) — topic 별 검색 cutoff(GT 최초 공개일). FAISS 선택자로 검색 자체를 허용 집합에 제한, 제목 인덱스·직접 조회도 제한, 저장 전 참고문헌 검증 | `main.py`, `src/database.py`, `src/retrieval_policy.py` | **미지정 = 원본 동작**(전체 인덱스 검색). 정본 `docs/retrieval-policy.md` |
 
 - `src/prompt.py`의 `several subsections`를 `[SUBSECTION NUM] subsections`로 바꿨고,
   값을 주지 않으면 `several`이 치환돼 **원본 프롬프트와 글자 단위로 같아집니다.**
@@ -490,7 +492,9 @@ python main.py \
 | 첫 편 | `e9e49c3` 이전 | temp 0, 가드 없음 | `--section_num 8 --subsection_num 4 --subsection_len 520 --rag_num 60 --outline_reference_num 1200` | 93분 / $0.307 |
 | t06-r1 | `cb1ba00` | temp 0.6 + max_tokens 8192 | 〃 | 53분 / $0.374 |
 | t06-r2 · r3 | `baa46cc` | 〃 + 잘림 재요청 | 〃 | 30분 / $0.338 · 19분 / $0.347 |
-| **본배치 (예정)** | — | 〃 | `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (분량 비통제) | 편당 약 20~30분 / $0.35 |
+| **본배치 (예정)** | — | 〃 | `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (분량 비통제) **+ `--topic_policy data/topic_policy.kisti-2512.jsonl --topic_id <slug>`** (2026-09-14 검색 정책, `docs/retrieval-policy.md`) | 편당 약 20~30분 / $0.35 |
+
+위 4편은 **검색 정책 없이**(view 의 `year ≤ 2025` 만) 생성됐다. `run.json` 의 `retrieval_policy` 가 `null` 이면 그런 실행이다.
 
 실행 명령·검증·PDF 절차는 `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6과 첫 편 문서 §7. 길이 계수 프로브(`scripts/probe_length.py`, `output/probes/`)는 `docs/experiments/probe-temp06-length-coefficient.md`.
 

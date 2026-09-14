@@ -639,6 +639,8 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 | `scripts/build_index.py` | `build_database.ipynb` 대체 (노트북은 `index_gpu_to_cpu` 에러로 실행 불가) |
 | `scripts/check_oai_schema.py` | 수집 결과가 배포 DB와 **같은 표기인지** 문자 단위 대조. 수집 전에 돌릴 것 |
 | `scripts/append_snapshot.py` | 기존 스냅샷을 **읽기만 하고** 신규 논문을 더한 새 스냅샷 생성 |
+| `scripts/build_paper_dates.py` (2026-09-14) | DB 디렉터리에 문헌 공개일 sidecar `paper_dates.json` 생성 — arXiv id 투고월 + OpenAlex 일 단위(DOI). topic cutoff 판정용. asg-corpus env(duckdb) |
+| `scripts/build_topic_policy.py` (2026-09-14) | topic 별 검색 정책 JSONL — GT 최초 공개일(arXiv 선행판 v1 / Crossref) 조회·근거 캐시. `main.py --topic_policy` 입력 |
 
 **산출물 처리용**
 
@@ -655,6 +657,7 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 |---|---|
 | `scripts/compare_snapshots.py` | 두 스냅샷의 토픽 커버리지 비교 (`d@1` / `d@K` / 감쇠 / 교집합) |
 | `scripts/to_surveybench_ref.py` | SurveyBench 인용 커버리지 채점 — **LLM 호출 0회**. `ref.json` 변환 + 채점 + 분모에서 빠진 인용 보고 |
+| `scripts/policy_report.py` (2026-09-14) | topic 정책이 corpus 허용 편수와 GT ref 분모에 미치는 영향 표 (`docs/retrieval-policy.md` §5) |
 
 ---
 
