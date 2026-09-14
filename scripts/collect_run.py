@@ -110,6 +110,34 @@ def db_view(db_path):
     return info
 
 
+def retrieval_policy_summary(json_path):
+    """<topic>.json 의 retrieval_policy 블록에서 재현·대조에 필요한 것만 추린다."""
+    if not os.path.exists(json_path):
+        return None
+    try:
+        rp = json.load(open(json_path)).get('retrieval_policy')
+    except Exception:
+        return None
+    if not rp:
+        return None
+    pol = rp.get('policy') or {}
+    return {
+        'topic_id': pol.get('topic_id'),
+        'gt_first_public_at': pol.get('gt_first_public_at'),
+        'gt_first_public_source': pol.get('gt_first_public_source'),
+        'retrieval_cutoff_at': pol.get('retrieval_cutoff_at'),
+        'exclude_ids': pol.get('exclude_ids'),
+        'corpus_snapshot_id': pol.get('corpus_snapshot_id'),
+        'cutoff_override': pol.get('cutoff_override'),
+        'allowed': rp.get('allowed'),
+        'index_total': rp.get('index_total'),
+        'allowed_fingerprint_sha256': rp.get('allowed_fingerprint_sha256'),
+        'excluded': rp.get('excluded'),
+        'allowed_date_source': rp.get('allowed_date_source'),
+        'sidecar': (rp.get('sidecar') or {}).get('created_at') if rp.get('sidecar') else None,
+    }
+
+
 def pdf_pages(pdf_path):
     try:
         out = subprocess.check_output(['pdfinfo', pdf_path], text=True)
@@ -140,6 +168,9 @@ def build_manifest(md_path, log_path, args_str, db_path):
         'db_path': db_path,
         'db_manifest_sha256': db_manifest_sha(db_path) if db_path else None,
         'view': db_view(db_path) if db_path else None,
+        # 검색 허용 정책(topic 별 cutoff·제외 id·허용 편수·지문). main.py 가 <topic>.json 에 남긴다.
+        # None 이면 정책 없이(전체 인덱스) 검색한 실행이다.
+        'retrieval_policy': retrieval_policy_summary(base + '.json'),
         **info,
         'structure': {
             **st,

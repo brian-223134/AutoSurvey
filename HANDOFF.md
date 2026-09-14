@@ -1,6 +1,6 @@
 # HANDOFF — AutoSurvey 세팅 인수인계
 
-**최종 갱신**: 2026-09-07 (KISTI 벤치마크 단계 — 아래 첫 절) · 2026-08 단계 기록은 그 아래
+**최종 갱신**: 2026-09-14 (검색 정책 추가) · 2026-09-07 KISTI 벤치마크 단계 — 아래 첫 절 · 2026-08 단계 기록은 그 아래
 **목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현은 범위 밖.
 평가는 **SurveyBench 인용 커버리지만** 씁니다 — LLM-as-Judge 는 하지 않기로 확정(2026-08-05).
 **상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
@@ -17,9 +17,10 @@
 | corpus | KISTI SDL view `kisti-2512` **v2 1,651,487편**(2026-09-08 08:08 UTC ~). AutoSurvey DB `database_kisti-kisti-2512/`는 같은 경로에서 v2로 교체됨(v1 인덱스 차분, 재빌드 아님). v1은 `-v1/`. 결과에 view 버전(v2 `591b4325` / v1 `c7b8d4e7`) 표기 |
 | 프로파일 | llama-3.3-70b @ akashml/fp8 · **temperature 0.6 · max_tokens 8192 · 잘림 재요청 on** (`.env` 활성 블록) |
 | 분량 | **통제 안 함.** 본배치는 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (`--subsection_num` 미지정) |
-| 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3, **전부 view v1**). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
+| **검색 정책 (09-14)** | **topic 별 cutoff = GT 최초 공개일**(교수님 지시). `--topic_policy data/topic_policy.kisti-2512.jsonl --topic_id <slug>` 필수. DB 디렉터리에 `paper_dates.json`(sidecar, gitignore — 없으면 `scripts/build_paper_dates.py` 로 재생성, asg-corpus env). 정본 [`docs/retrieval-policy.md`](docs/retrieval-policy.md) |
+| 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3, **전부 view v1, 정책 없음** → 새 규약에선 재실행 대상). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
 | **다음** | **25편 본배치** — 편당 약 20~30분·$0.35. **OpenRouter 키 한도 상향 필요**(잔여 약 $5.4, 24편 약 $8.4) |
-| 미결 | DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
+| 미결 | 채점 분모를 topic cutoff 이전 ref 로 재계산(채점 측) · twin 없는 GT 12편 선행판 확인 · DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
 
 실행 템플릿·검증 절차: `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6, 첫 편 문서 §7. 실행은 반드시 `setsid nohup`, `AUTOSURVEY_MAX_THREADS=1 AUTOSURVEY_MAX_RETRY=10`, GPU 없으면 `AUTOSURVEY_DEVICE=cpu`.
 다른 agent용 인수인계: `/data2/chanjoong/kisti_data/docs/asg/AGENT-HANDOFF.md`.
@@ -675,8 +676,8 @@ conda activate autosurvey
 python -m unittest discover -s tests -t .
 ```
 
-**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 66개가 **0.2초**에 끝납니다.
-네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock).
+**설치할 것이 없습니다** — `unittest`는 표준 라이브러리이고, 128개가 **1.2초**에 끝납니다(2026-09-14 기준).
+네트워크·GPU·DB·API를 전혀 쓰지 않습니다(`requests.get`은 mock, 임베딩·LLM 은 `tests/_loader.py` 의 가짜).
 
 무엇을 지키는지:
 
@@ -687,6 +688,10 @@ python -m unittest discover -s tests -t .
 | `test_harvest_schema.py` (16) | 배포 DB 표기 규약 — **`date`가 `<created>`가 아니라 v1 제출일** / 초록의 TeX escape 보존 / 제목 금지문자 제거 / 저자 유니코드 |
 | `test_length_band.py` (7) | 분량 구간 경계와 실측값 판정 |
 | `test_provider_pin.py` (6) | 모델·provider 어긋나면 중단, 네트워크 장애는 막지 않음 |
+| `test_retrieval_policy.py` (22) | **topic cutoff 판정 규칙** — 공개일 상한 < cutoff(당일·월말·연말·불명), arXiv 구형/신형 id 월, KISTI `YYYY-01-01` 을 연 단위로, 정책 파일 해석·needs_review 거부 |
+| `test_database_policy.py` (7) | FAISS 선택자가 **검색 자체**를 허용 집합에 제한(k > 허용 편수여도 새지 않음), 제목 인덱스·직접 조회 제한, sidecar 우선, 허용 집합 지문 |
+| `test_main_policy.py` (9) | `--topic_policy/--retrieval_cutoff` 해석이 DB 로딩 전에 실패하는지, 저장 전 참고문헌 허용 검증 |
+| `test_pipeline_e2e.py` (5) | **예시 논문 13편 + 가짜 LLM·임베딩으로 `main.main()` 을 끝까지** — DB 디렉터리 계약, LLM 호출 순서·횟수(러프 2·merge 1·서브아웃라인·편집·초안·점검·LCE), 인용 번호 매핑, `check_survey` 통과, 정책 유무에 따른 누수 차단 대조, `--enforce_section_num` |
 
 **변이 테스트로 실제로 잡는지 확인했습니다** — 프롬프트 기본값 변경, 절단 로직 제거,
 구간 경계 변경, `allow_fallbacks` 반전, `date`를 `<created>`로 바꾸기 5가지를 넣어

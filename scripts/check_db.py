@@ -51,6 +51,15 @@ def main():
         print('\n위 이름으로 rename 하거나 src/database.py의 경로를 고치세요.')
         return 1
 
+    # 선택 파일: topic 별 cutoff 판정에 쓰는 공개일 sidecar (scripts/build_paper_dates.py).
+    side = os.path.join(args.db_path, 'paper_dates.json')
+    if os.path.exists(side):
+        meta = json.load(open(side)).get('meta', {})
+        print(f'  OK   {"paper_dates.json":38s} {os.path.getsize(side) / (1024 ** 2):9.1f} MB  '
+              f'공개일 sidecar — {meta.get("dated"):,}편, 정밀도 {meta.get("by_precision")}, 생성 {meta.get("created_at")}')
+    else:
+        print(f'  -    {"paper_dates.json":38s} {"":9s}   없음 — DOI 레코드는 연 단위로 판정됨 (build_paper_dates.py 로 생성 가능)')
+
     print('\n=== 2. TinyDB 스키마 ===')
     with open(os.path.join(args.db_path, 'arxiv_paper_db.json')) as f:
         db = json.load(f)

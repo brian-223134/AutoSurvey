@@ -20,10 +20,81 @@ GPU 서버에서 **서베이 생성 파이프라인을 end-to-end로 재현**했
 | [`SETTING.md`](SETTING.md) | 세팅 **절차**와 각 패치의 근거 |
 | [`output/README.md`](output/README.md) | 산출물의 결과 수치와 비교 시 주의점 |
 | [`.env.example`](.env.example) | 환경변수 템플릿 — `cp .env.example .env` 후 키만 채우면 됩니다 |
-| [`tests/`](tests/) | `python -m unittest discover -s tests -t .` — 78개, 0.3초. 네트워크·GPU 불필요 |
+| [`tests/`](tests/) | `python -m unittest discover -s tests -t .` — 128개, 1.2초. 네트워크·GPU 불필요. `test_pipeline_e2e.py` 가 가짜 LLM·임베딩으로 생성 파이프라인 전체를 돈다(§0) |
 
 > 세 프로젝트(AutoSci·AutoSurvey·SurveyForge) 비교와 **시스템 간 통제 프로토콜**은
 > 이 저장소 밖 `../SURVEY_REPORT.md`에 있습니다(§7). git 추적 대상이 아닙니다.
+
+---
+
+## 0. 서베이는 어떻게 생성되는가
+
+`main.py --topic "<주제>"` 한 번에 **검색 → 아웃라인 → 본문 → 정제 → 저장**이 이어진다. LLM 은 단계마다 다른 프롬프트(`src/prompt.py`)로
+불리고, 논문은 전부 로컬 DB(`--db_path`)의 **제목·초록**만 쓴다(원문 없음). 2026-09-14부터는 topic 별 검색 정책이 검색 단계 앞에 선다.
+
+```mermaid
+flowchart TD
+    subgraph IN["입력"]
+        T["--topic 문자열"]
+        DBD["DB 디렉터리<br/>TinyDB JSON · FAISS(title/abs) · id 매핑<br/>(선택) paper_dates.json"]
+        POL["topic 정책 JSONL<br/>--topic_policy / --topic_id<br/>(없으면 원본 동작)"]
+    end
+
+    subgraph DB["검색 계층 — src/database.py"]
+        SEL["허용 집합 비트맵<br/>공개일 상한 &lt; cutoff ∧ 제외 id 아님<br/>→ FAISS IDSelector"]
+        Q["질의 임베딩(nomic)<br/>→ 허용 집합 안에서 Top-K"]
+    end
+
+    subgraph OUT["아웃라인 — outline_writer.draft_outline"]
+        R1["topic 으로 검색<br/>--outline_reference_num (1200)"]
+        CH["초록을 30K 토큰 단위로 chunk"]
+        RO["러프 아웃라인 × chunk 수 (LLM)<br/>--section_num"]
+        MG["아웃라인 병합 (LLM)<br/>--enforce_section_num"]
+        R2["섹션 설명으로 검색<br/>50편 (하드코딩)"]
+        SO["서브섹션 아웃라인 × 섹션 (LLM)<br/>--subsection_num"]
+        ED["최종 편집 (LLM)<br/># / ## / ### 형식"]
+    end
+
+    subgraph WR["본문 — writer.write"]
+        R3["서브섹션 설명으로 검색<br/>--rag_num (60)"]
+        DR["초안 × 서브섹션 (LLM, 섹션별 스레드)<br/>--subsection_len, [paper_title] 인용"]
+        CK["인용 점검 × 서브섹션 (LLM)"]
+        NUM1["조립 + 인용 → 번호<br/>제목 인덱스 Top-1 (허용 집합 안)"]
+        LCE["LCE 정제 (LLM)<br/>짝수 서브섹션 pass → 홀수 pass<br/>이웃 서브섹션을 함께 봄"]
+        NUM2["재조립 + 번호 매기기"]
+    end
+
+    subgraph SAVE["저장 — main.py"]
+        VF["참고문헌 전부 허용 집합 안인지 검증"]
+        MD["&lt;topic&gt;.md"]
+        JS["&lt;topic&gt;.json<br/>survey · reference · reference_detail(날짜·정밀도·링크)<br/>· retrieval_policy(cutoff·허용 편수·지문)"]
+        RUN["scripts/collect_run.py → &lt;topic&gt;.run.json"]
+    end
+
+    T --> R1
+    DBD --> SEL
+    POL --> SEL
+    SEL --> Q
+    Q --> R1 & R2 & R3 & NUM1
+    R1 --> CH --> RO --> MG --> R2 --> SO --> ED
+    ED --> R3 --> DR --> CK --> NUM1 --> LCE --> NUM2 --> VF
+    VF --> MD & JS
+    JS --> RUN
+```
+
+| 단계 | LLM 호출 | 검색 | 코드 |
+|---|---|---|---|
+| 러프 아웃라인 | chunk 수만큼 (1,200편 초록 ≈ 3~5 chunk) | topic → `outline_reference_num` | `outline_writer.generate_rough_outlines` |
+| 병합 | 1 | — | `outline_writer.merge_outlines` |
+| 서브섹션 아웃라인 | 섹션 수 | 섹션 설명 → 50 | `outline_writer.generate_subsection_outlines` |
+| 최종 편집 | 1 | — | `outline_writer.edit_final_outline` |
+| 초안 + 인용 점검 | 서브섹션 수 × 2 | 서브섹션 설명 → `rag_num` | `writer.write_subsection_with_reflection` |
+| LCE 정제 | 서브섹션 수 (짝수 pass 후 홀수 pass) | — | `writer.refine_subsections` |
+| 인용 번호 매기기 | 0 | `[paper_title]` → 제목 인덱스 Top-1 | `writer.replace_citations_with_numbers` |
+
+- temperature 는 위 호출 전부 1(원본)이고 `AUTOSURVEY_TEMPERATURE` 로 일괄 덮어쓴다. `AUTOSURVEY_MAX_TOKENS` 가드에 걸린 응답은 버리고 재요청한다(`src/model.py`).
+- 검색 정책의 규칙·근거·영향은 [`docs/retrieval-policy.md`](docs/retrieval-policy.md).
+- 이 흐름 전체를 **가짜 LLM·가짜 임베딩·예시 논문 13편**으로 끝까지 돌려 보는 테스트가 [`tests/test_pipeline_e2e.py`](tests/test_pipeline_e2e.py) 다 — 호출 순서·횟수, 인용 번호 매핑, 정책 유무에 따른 누수 차단까지 1초 안에 확인한다.
 
 ---
 
@@ -60,7 +131,7 @@ AutoSurvey/
 │   ├── deepseek-smoke/         파이프라인 점검용
 │   └── deepseek-v4-flash-smoke/  파이프라인 점검용 + 분량 계수 측정
 ├── examples/                원저자들이 생성한 서베이 3편 (대조용)
-├── tests/                   unittest 78개, 0.3초. 네트워크·GPU 불필요
+├── tests/                   unittest 128개, 1.2초. 네트워크·GPU 불필요 (test_pipeline_e2e.py = 가짜 서베이 end-to-end)
 ├── .env.example             환경변수 템플릿 (커밋됨)
 └── .env                     API 키 등 — git에 없음, 권한 600
 ```
@@ -639,6 +710,8 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 | `scripts/build_index.py` | `build_database.ipynb` 대체 (노트북은 `index_gpu_to_cpu` 에러로 실행 불가) |
 | `scripts/check_oai_schema.py` | 수집 결과가 배포 DB와 **같은 표기인지** 문자 단위 대조. 수집 전에 돌릴 것 |
 | `scripts/append_snapshot.py` | 기존 스냅샷을 **읽기만 하고** 신규 논문을 더한 새 스냅샷 생성 |
+| `scripts/build_paper_dates.py` (2026-09-14) | DB 디렉터리에 문헌 공개일 sidecar `paper_dates.json` 생성 — arXiv id 투고월 + OpenAlex 일 단위(DOI). topic cutoff 판정용. asg-corpus env(duckdb) |
+| `scripts/build_topic_policy.py` (2026-09-14) | topic 별 검색 정책 JSONL — GT 최초 공개일(arXiv 선행판 v1 / Crossref) 조회·근거 캐시. `main.py --topic_policy` 입력 |
 
 **산출물 처리용**
 
@@ -655,6 +728,7 @@ OpenRouter는 같은 모델을 19개 provider로 라우팅하는데 quantization
 |---|---|
 | `scripts/compare_snapshots.py` | 두 스냅샷의 토픽 커버리지 비교 (`d@1` / `d@K` / 감쇠 / 교집합) |
 | `scripts/to_surveybench_ref.py` | SurveyBench 인용 커버리지 채점 — **LLM 호출 0회**. `ref.json` 변환 + 채점 + 분모에서 빠진 인용 보고 |
+| `scripts/policy_report.py` (2026-09-14) | topic 정책이 corpus 허용 편수와 GT ref 분모에 미치는 영향 표 (`docs/retrieval-policy.md` §5) |
 
 ---
 
