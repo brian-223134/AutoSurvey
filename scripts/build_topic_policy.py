@@ -58,6 +58,11 @@ TWIN = {
     'llm-distributed-training': '2407.20018',
     'edge-cloud-collaboration': '2505.01821',
     'ai-video-streaming': '2406.02302',
+    # 2026-09-28 추가 — kisti_data candidates/pool (CSUR 2026 수확) 에서 S2 externalIds 로 확인한 선행판 (제목 일치 1.0).
+    # 세 id 모두 KISTI 에 없어 view 내용은 불변, cutoff 만 앞당겨진다.
+    'diffusion-model-alignment': '2409.07253',
+    'ai-wireless-reasoning': '2509.09193',
+    'llm-edge-inference': '2604.22906',
 }
 
 UA = 'AutoSurvey-topic-policy/0.1 (research; mailto:kimchanjoong54@gmail.com)'

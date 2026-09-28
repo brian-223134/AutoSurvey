@@ -369,7 +369,31 @@
    "title": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey",
    "source": "arxiv.org/abs submission history [v1]",
    "fetched_at": "2026-09-14T12:04:57"
+  },
+  "2409.07253": {
+   "published": "2024-09-11",
+   "updated": "2026-02-05",
+   "latest_version": "2409.07253v4",
+   "title": "Alignment of Diffusion Models: Fundamentals, Challenges, and Future",
+   "source": "export.arxiv.org API <published>",
+   "fetched_at": "2026-09-28T05:12:39"
+  },
+  "2604.22906": {
+   "published": "2026-04-24",
+   "updated": "2026-04-24",
+   "latest_version": "2604.22906v1",
+   "title": "Network Edge Inference for Large Language Models: Principles, Techniques, and Opportunities",
+   "source": "export.arxiv.org API <published>",
+   "fetched_at": "2026-09-28T05:12:39"
+  },
+  "2509.09193": {
+   "published": "2025-09-11",
+   "updated": "2025-09-11",
+   "latest_version": "2509.09193v1",
+   "title": "AI Reasoning for Wireless Communications and Networking: A Survey and Perspectives",
+   "source": "export.arxiv.org API <published>",
+   "fetched_at": "2026-09-28T05:12:39"
   }
  },
- "fetched_at": "2026-09-14T12:04:57"
+ "fetched_at": "2026-09-28T05:12:39"
 }
