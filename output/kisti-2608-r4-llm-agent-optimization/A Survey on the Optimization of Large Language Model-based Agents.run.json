@@ -1,0 +1,81 @@
+{
+  "topic": "A Survey on the Optimization of Large Language Model-based Agents",
+  "md": "output/kisti-2608-r4-llm-agent-optimization/A Survey on the Optimization of Large Language Model-based Agents.md",
+  "generated_at_epoch": 1790738443,
+  "args": "--topic_policy data/topic_policy.kisti-2608-r4.jsonl --topic_id llm-agent-optimization --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200 --db_path ./database_kisti-kisti-2608-r4 --embedding_model nomic-ai/nomic-embed-text-v1 | env AUTOSURVEY_MAX_THREADS=1 AUTOSURVEY_MAX_RETRY=10 AUTOSURVEY_DEVICE=cpu | view kisti-2608-r4 32a77a48 / 2026-09-30",
+  "db_path": "./database_kisti-kisti-2608-r4",
+  "db_manifest_sha256": "eaf5c3a048a99776910abf416049f6e4a6e5035110f994f4c293502be4c297fc",
+  "view": {
+    "name": "kisti-2608-r4",
+    "papers_parquet_sha256": "32a77a486c2c750182fb48a44c6bb5c04e46af15e7eae3407465ea1e418816cc",
+    "index_manifest_created_at": "2026-09-30T02:24:10Z",
+    "index_removed_count": null,
+    "index_appended_count": 1258,
+    "index_base_content_sha256": "5453803480460c36a58b0dc479c4a6e7557faa354b0de7ff008934ccd5d96a95"
+  },
+  "retrieval_policy": {
+    "topic_id": "llm-agent-optimization",
+    "gt_first_public_at": "2025-03-16",
+    "gt_first_public_source": "arxiv:2503.12434 v1 published (twin)",
+    "retrieval_cutoff_at": "2025-03-16",
+    "exclude_ids": [
+      "10.1145/3789261",
+      "2503.12434"
+    ],
+    "corpus_snapshot_id": "kisti-2608-r4 papers.parquet sha256:32a77a486c2c750182fb48a44c6bb5c04e46af15e7eae3407465ea1e418816cc",
+    "cutoff_override": null,
+    "allowed": 1541302,
+    "index_total": 1697512,
+    "allowed_fingerprint_sha256": "efe95869ded411e27c17211a5c82994fc6c3961faa3e7e0c642eb47f5c539523",
+    "excluded": {
+      "excluded_id": 0,
+      "no_date": 0,
+      "after_cutoff": {
+        "day": 98272,
+        "month": 57909,
+        "year": 29
+      }
+    },
+    "allowed_date_source": {
+      "sidecar": 1541302
+    },
+    "sidecar": "2026-09-30T02:11:54+00:00"
+  },
+  "model": "meta-llama/llama-3.3-70b-instruct",
+  "provider_pin": "akashml/fp8",
+  "stages": {
+    "outline": {
+      "in_tokens": 470033,
+      "out_tokens": 11603,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.0993,
+      "retries": 3
+    },
+    "writer": {
+      "in_tokens": 1417458,
+      "out_tokens": 199592,
+      "reasoning_tokens": 0,
+      "cost_usd": 0.3736,
+      "retries": 47
+    }
+  },
+  "cost_total_usd": 0.4729,
+  "retries_total": 50,
+  "truncated_calls": 0,
+  "truncation_retries": 9,
+  "structure": {
+    "sections": 10,
+    "subsections": 34,
+    "words": 22824,
+    "from_tex": true,
+    "references": 372,
+    "citation_runs": 474,
+    "pdf_pages": 63
+  },
+  "duration_sec": 1847,
+  "coefficient": {
+    "subsection_len_asked": 700,
+    "words_per_subsection": 671,
+    "ratio": 0.96
+  }
+}
