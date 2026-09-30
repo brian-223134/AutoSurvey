@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB 디렉터리에 `paper_dates.json` (id → 공개일, 정밀도 포함) sidecar 를 만든다.
 
-    $ASG_PY scripts/build_paper_dates.py --db-path ./database_kisti-kisti-2512 \
+    $ASG_PY scripts/build_paper_dates.py --db-path ./database_kisti-kisti-2608-r4 \
         --openalex /data2/chanjoong/survey-agent/asg-common-corpus/data/upstream/cd87dd0/openalex/works/works.parquet
 
 왜: KISTI export 의 `date` 는 연 단위(`YYYY-01-01`)뿐이라, topic cutoff 가 연중(예: 2025-12-05)이면

@@ -1,6 +1,6 @@
 # HANDOFF — AutoSurvey 세팅 인수인계
 
-**최종 갱신**: 2026-09-14 (검색 정책 추가) · 2026-09-07 KISTI 벤치마크 단계 — 아래 첫 절 · 2026-08 단계 기록은 그 아래
+**최종 갱신**: 2026-09-30 (corpus r4 전환·PoC 1편·DB 정리) · 2026-09-14 검색 정책 · 2026-09-07 KISTI 벤치마크 단계 — 아래 첫 절 · 2026-08 단계 기록은 그 아래
 **목표**: 논문(초록 DB)을 토대로 **survey 문서가 실제로 생성되는 것까지**. 논문 수치 재현은 범위 밖.
 평가는 **SurveyBench 인용 커버리지만** 씁니다 — LLM-as-Judge 는 하지 않기로 확정(2026-08-05).
 **상세 배경**: `SETTING.md` (환경·패치·비용 전반) / `REPRODUCTION.md` (산출물 재현 정보).
@@ -8,21 +8,22 @@
 
 ---
 
-## 현재 단계 (2026-09-07) — KISTI corpus 벤치마크
+## 현재 단계 (2026-09-30) — KISTI corpus 벤치마크, r4 PoC 완료
 
 정본: [`docs/direction-2026-09.md`](docs/direction-2026-09.md). 요지만 적는다.
 
 | 항목 | 상태 |
 |---|---|
-| corpus | KISTI SDL view **`kisti-2608` 1,663,704편**(2026-09-14 ~, 시간 컷 없음). AutoSurvey DB **`database_kisti-kisti-2608/`** = v2 인덱스 + 추가분 12,217편 append(`append_manifest.json`) + sidecar `paper_dates.json`. 이전 `database_kisti-kisti-2512/`(v2), `-v1/`. 결과에 view 버전(**`c1a0c6b3` / 2026-09-14T13:18:56Z**; v2 `591b4325` / v1 `c7b8d4e7`) 표기 |
+| corpus | KISTI SDL view **`kisti-2608-r4` 1,697,512편**(2026-09-30 ~, 시간 컷 없음; r2 1,696,254 + GT survey reference 원문 확보분 1,258). AutoSurvey DB **`database_kisti-kisti-2608-r4/`** = r2 인덱스 + 1,258편 append(`append_manifest.json`) + sidecar `paper_dates.json`(r4 판). **재빌드 금지**(`check_db.py` §4 cos 0.98 '문제 있음' 은 nomic 오탐). 결과 버전 열 **`32a77a48` / 2026-09-30**. 이전 판 이력·지문은 `REPRODUCTION.md` §3-C |
 | 프로파일 | llama-3.3-70b @ akashml/fp8 · **temperature 0.6 · max_tokens 8192 · 잘림 재요청 on** (`.env` 활성 블록) |
 | 분량 | **통제 안 함.** 본배치는 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (`--subsection_num` 미지정) |
-| **검색 정책 (09-14)** | **topic 별 cutoff = GT 최초 공개일**(교수님 지시). `--db_path ./database_kisti-kisti-2608 --topic_policy data/topic_policy.kisti-2608.jsonl --topic_id <slug>` 필수. DB 디렉터리에 `paper_dates.json`(sidecar, gitignore — 없으면 `kisti_data/data/views/kisti-2608/paper_dates.json` 복사 또는 `scripts/build_paper_dates.py`). 채점 분모는 `kisti_data/data/topics.kisti.jsonl` 의 `n_gt_refs_cutoff`. 정본 [`docs/retrieval-policy.md`](docs/retrieval-policy.md) |
-| 완료 | sec #3 physical-adversarial 4편 (temp 0 · 0.6 r1 · r2 · r3, **전부 view v1, 정책 없음** → 새 규약에선 재실행 대상). 루프 오염 0(재요청 코드), recall 8.1~13.4%, run-to-run ±1.7%p 잠정 |
-| **다음** | **25편 본배치** — 편당 약 20~30분·$0.35. **OpenRouter 키 한도 상향 필요**(잔여 약 $5.4, 24편 약 $8.4) |
-| 미결 | 2026년 arXiv 초록 결손 36,697편(2602~2606) 회수 여부·`in_view_blocked` 37건·기본 view 전환 시점(corpus 측 결정 대기) · twin 없는 GT 12편 선행판 확인 · DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 72%에 미동작) · 재요청 소진 시 대책 · 80% 보강안(교수님 결정) |
+| **검색 정책 (09-14)** | **topic 별 cutoff = GT 최초 공개일**(교수님 지시). `--db_path ./database_kisti-kisti-2608-r4 --topic_policy data/topic_policy.kisti-2608-r4.jsonl --topic_id <slug>` 필수(**DB·정책 파일은 같은 판끼리**). 채점 분모 `n_gt_refs_cutoff` 25편 합 **4,010**(r2 까지 2,543 — **r2 이전 결과와 recall 을 같은 표에 놓지 말 것**). 정본 [`docs/retrieval-policy.md`](docs/retrieval-policy.md) |
+| 완료 | **r4 PoC 1편** llm-agent-optimization — 허용 1,541,302(지문 `efe95869`, 기대치 일치) · recall **13/190 = 6.8%** · precision 13/372 = 3.5% · 누수 0 · 31분 · $0.473 · 63쪽 ([기록](docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md)). 이전 sec #3 physical-adversarial 4편은 view v1·정책 없음 → 비교 대상 아님 |
+| **다음** | **나머지 24편 본배치** — 편당 약 31분·$0.47 → 약 $11.3. **OpenRouter 키 잔여 $10.16 → 한도 상향 필요**. 편마다 `scripts/score_kisti.py` 로 채점 |
+| DB 정리 (09-30) | `database_kisti-kisti-2512-v1/`·`-2512/`·`-2608-r2/` 삭제(37 GB). 메타데이터·재생성 경로는 [`docs/db-manifests/`](docs/db-manifests/README.md). 남은 것: `database/`(배포본) · `database_2026-08/`(`_harvest/` 가 kisti_data 입력) · `database_kisti-kisti-2608/`(LLM×MR kisti-2608 pool 의 `db_path`) · **`database_kisti-kisti-2608-r4/`** |
+| 미결 | twin 미확인 GT 7편(cutoff 가 Crossref 근거) 선행판 확인 · `in_view_blocked` 2건(r4) · DOI id 저자 보강(`enrich_references.py`는 arXiv API라 DOI 분에 미동작) · 재요청 소진 시 대책 · `database_kisti-kisti-2608/` 은 LLM×MR 이 r4 로 옮기면 삭제 가능 |
 
-실행 템플릿·검증 절차: `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6, 첫 편 문서 §7. 실행은 반드시 `setsid nohup`, `AUTOSURVEY_MAX_THREADS=1 AUTOSURVEY_MAX_RETRY=10`, GPU 없으면 `AUTOSURVEY_DEVICE=cpu`.
+실행 템플릿·검증·채점 절차: [`docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`](docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md) §6. 실행은 반드시 `setsid nohup`, `AUTOSURVEY_MAX_THREADS=1 AUTOSURVEY_MAX_RETRY=10`, GPU 없으면 `AUTOSURVEY_DEVICE=cpu`.
 다른 agent용 인수인계: `/data2/chanjoong/kisti_data/docs/asg/AGENT-HANDOFF.md`.
 
 ---

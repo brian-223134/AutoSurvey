@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """topic 정책이 corpus 와 채점 분모에 무엇을 하는지 표로 뽑는다.
 
-    python scripts/policy_report.py [--policy data/topic_policy.kisti-2512.jsonl] \
-        [--db-path ./database_kisti-kisti-2512] [--refs /data2/chanjoong/kisti_data/candidates/gap_to_80_refs.jsonl]
+    python scripts/policy_report.py [--policy data/topic_policy.kisti-2608-r4.jsonl] \
+        [--db-path ./database_kisti-kisti-2608-r4] [--refs /data2/chanjoong/kisti_data/candidates/gap_to_80_refs.jsonl]
 
 열:
   cutoff            정책의 retrieval_cutoff_at
@@ -50,8 +50,8 @@ def load_db_dates(db_path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--policy', default='data/topic_policy.kisti-2512.jsonl')
-    ap.add_argument('--db-path', default='./database_kisti-kisti-2512')
+    ap.add_argument('--policy', default='data/topic_policy.kisti-2608-r4.jsonl')
+    ap.add_argument('--db-path', default='./database_kisti-kisti-2608-r4')
     ap.add_argument('--refs', default=os.path.join(KISTI_ROOT, 'candidates', 'gap_to_80_refs.jsonl'))
     ap.add_argument('--topics', default=os.path.join(KISTI_ROOT, 'data', 'topics.kisti.jsonl'),
                     help='n_gt_refs_cutoff·pool 열의 출처')

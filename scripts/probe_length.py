@@ -14,7 +14,7 @@ paper_texts 조립 · APIModel(.env 의 provider 핀 / temperature 오버라이�
 
 사용:
     python scripts/probe_length.py --spec output/probes/<name>.spec.json \
-        --db_path ./database_kisti-kisti-2512 --repeat 2
+        --db_path ./database_kisti-kisti-2608-r4 --repeat 2
 spec JSON: {"label", "topic", "subsection_len", "rag_num", "probes": [{"section",
 "subsection", "description"}, ...]}
 """

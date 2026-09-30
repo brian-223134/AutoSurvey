@@ -121,8 +121,8 @@ AutoSurvey/
 ├── scripts/                 이 포크에서 추가한 도구 (§5)
 ├── database/                논문 DB — 저자 배포본, 3.9GB. git에 없음 (.gitignore)
 ├── database_2026-08/        논문 DB — 최신화본, 6.9GB. 위를 확장한 것 (§3)
-├── database_kisti-kisti-2608/  논문 DB — KISTI 벤치마크용 **현행** 1,663,704편(시간 컷 없음, topic 정책이 자름) + paper_dates.json
-├── database_kisti-kisti-2512/  논문 DB — KISTI view v2 1.65M편(09-08~09-14), 위의 base
+├── database_kisti-kisti-2608-r4/  논문 DB — KISTI 벤치마크용 **현행** 1,697,512편(시간 컷 없음, topic 정책이 자름) + paper_dates.json
+├── database_kisti-kisti-2608/  논문 DB — KISTI view kisti-2608 1,663,704편(09-14~09-28). LLM×MR kisti-2608 pool 용으로 보존
 ├── output/                  생성된 서베이 — 모델별 디렉터리
 │   ├── haiku/                  본편 3편
 │   ├── deepseek-v4-pro/        본편 1편
@@ -137,7 +137,7 @@ AutoSurvey/
 └── .env                     API 키 등 — git에 없음, 권한 600
 ```
 
-### 데이터베이스 — 스냅샷 3개
+### 데이터베이스 — 스냅샷 4개 (배포본 · 최신화본 · KISTI 2)
 
 **전부 git에 없습니다**(`.gitignore`). 배포본은 저자 배포본을 scp로 반입한 것이고
 (이 서버에서 OneDrive는 차단), 최신화본은 거기에 arXiv에서 받은 신규 논문을 더한 것입니다.
@@ -147,7 +147,8 @@ md5 지문은 [`REPRODUCTION.md`](REPRODUCTION.md) §3.
 |---|---|---|---|---|
 | 배포본 | `database/` | 537,665 | ~2024-04-26 | 3.9GB |
 | **최신화본** | `database_2026-08/` | **909,293** | **~2026-08-03** (배포본 537,665편 **전부 포함**) | 6.9GB |
-| **KISTI 벤치마크 (현행)** | `database_kisti-kisti-2512/` | **1,651,487** (v2, 2026-09-08 ~) | KISTI SDL 260825 view `kisti-2512` v2 — year ≤ 2025, GT/twin/사본 40키 제외, arXiv 2601.* 제거, arXiv+DOI id 혼합. v1(1,651,701)은 `database_kisti-kisti-2512-v1/` | 12.3GB |
+| **KISTI 벤치마크 (현행)** | `database_kisti-kisti-2608-r4/` | **1,697,512** (r4, 2026-09-30 ~) | KISTI SDL 260825 view `kisti-2608-r4` — **시간 컷 없음**(topic 정책 `data/topic_policy.kisti-2608-r4.jsonl` 이 GT 최초 공개일로 자름), GT/twin/사본 43키 제외, arXiv+DOI id 혼합 | 13.0GB |
+| KISTI (이전) | `database_kisti-kisti-2608/` | 1,663,704 (09-14 ~ 09-28) | view `kisti-2608`. v2(`database_kisti-kisti-2512/`)·v1·r2 디렉터리는 2026-09-30 삭제 — `docs/db-manifests/` | 12.7GB |
 
 > **KISTI DB는 위 둘과 corpus가 다릅니다**(arXiv 전용이 아니라 출판 venue 논문 72%). 산출물을 같은 표에 놓지 않습니다.
 > 생성 절차는 `/data2/chanjoong/kisti_data/adapter/autosurvey/`, 지문은 `REPRODUCTION.md` §3-C.

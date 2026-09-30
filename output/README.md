@@ -172,6 +172,19 @@ v4-flash 두 편의 섹션/서브섹션은 **중복 헤딩 제거 후** 기준�
 
 ## KISTI 벤치마크 (2026-09-07 ~) — 위 표와 같은 축에 놓지 않음
 
+### 현행 — view `kisti-2608-r4` + topic 정책 (2026-09-30 ~)
+
+DB `database_kisti-kisti-2608-r4`(1,697,512편) + `data/topic_policy.kisti-2608-r4.jsonl`, 프로파일 temp 0.6 + 8K 가드 + 잘림 재요청, 인자 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200`. 결과 버전 열 **`32a77a48 / 2026-09-30`**. 채점은 `scripts/score_kisti.py`(분모 `n_gt_refs_cutoff`, 누수 검사) → `<topic>.score.json`. **아래 이전 표(v1·정책 없음, 분모 다름)와 같은 표에 놓지 않는다.**
+
+| 디렉터리 | topic_id | cutoff | 허용 / 지문 | 섹션/서브 | 단어 | refs (arXiv/DOI) | 쪽 | 소요 / 비용 | recall / precision (분모) | 누수 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `kisti-2608-r4-llm-agent-optimization/` | llm-agent-optimization | 2025-03-16 | 1,541,302 / `efe95869` | 10 / 34 | 23,596 | 372 (271/101) | 63 | 31분 / $0.473 | **6.8% / 3.5%** (190) | 0 |
+
+기록: `../docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`.
+
+### 이전 — view `kisti-2512` v1, 정책 없음 (2026-09-07 ~ 09-08)
+
+
 corpus가 다르다(KISTI SDL view `kisti-2512` 1.65M편, arXiv+DOI 혼합). 설계·규약은 `../docs/direction-2026-09.md`, 편별 기록은 `../docs/experiments/kisti-2512-sec3-*.md`. 단어는 md 본문 기준, 비용은 run.json.
 
 | 디렉터리 | 프로파일 | 섹션/서브 | 단어 | refs (arXiv/DOI) | 쪽 | 비용 | recall / precision | 비고 |

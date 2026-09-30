@@ -3,7 +3,7 @@
 `output/` 아래 서베이 6편이 **어떤 환경 · 어떤 데이터 · 어떤 코드 · 어떤 입력값**으로
 나왔는지를 한곳에 모은 문서입니다. 여기 적힌 것만으로 같은 조건을 다시 만들 수 있어야 합니다.
 
-**최종 갱신**: 2026-08-03 / 브랜치 `reproduce` / HEAD `74f601d`
+**최종 갱신**: 2026-09-30 (§3-C KISTI r4·DB 정리, §5-4 PoC) · 2026-08-03 / 브랜치 `reproduce` / HEAD `74f601d`
 
 | 문서 | 역할 |
 |---|---|
@@ -178,22 +178,57 @@ python scripts/append_snapshot.py --base ./database \
 > top-1200 자체가 달라집니다 — 실측으로 기존 결과와의 교집합이 16~35%에 불과합니다
 > (§3-1). 비교하려면 같은 스냅샷끼리 하세요.
 
-### C. KISTI 벤치마크 DB — view `kisti-2512` (현행 **v2**, 2026-09-08 ~)
+### C. KISTI 벤치마크 DB — 현행 view **`kisti-2608-r4`** (2026-09-30 ~)
 
-`--db_path ./database_kisti-kisti-2512`. corpus가 A·B(arXiv 전용)와 **다르다** — KISTI Science Data Lake 파생 스토어(`science_datalake_260825`)의 view `kisti-2512`.
-생성 체인: `kisti_data/adapter/common/view.py` → `export.py --format autosurvey` → `adapter/autosurvey/build_db.sh`(nomic, GPU 3, 2h17m, **v1**) → `adapter/common/index_diff.py`(v1 → v2 차분 적용, 재빌드 아님). 검증은 `docs/experiments/kisti-2512-sec3-physical-adversarial-attacks.md` §4.
+`--db_path ./database_kisti-kisti-2608-r4`. corpus가 A·B(arXiv 전용)와 **다르다** — KISTI Science Data Lake 파생 스토어(`science_datalake_260825`)의 view.
+생성 체인: `kisti_data/adapter/common/view.py` → `export.py --format autosurvey` → `adapter/autosurvey/build_db.sh`(nomic, GPU 3, 2h17m, **v1**) → `adapter/common/index_diff.py`(v1 → v2 차분 적용, 재빌드 아님) → `scripts/append_snapshot.py`(v2 → kisti-2608 → r2 → r4, 추가분만 임베딩해 뒤에 append). 검증은 `docs/experiments/kisti-2512-sec3-physical-adversarial-attacks.md` §4.
 
-**같은 경로에 버전이 둘 있었다.** 결과 기록에는 view 버전(papers.parquet sha 앞 8자)과 인덱스 `view_diff_manifest.json`의 `created_at`을 적는다.
+결과 기록에는 view 버전(papers.parquet sha 앞 8자)과 인덱스 manifest(`append_manifest.json` / `view_diff_manifest.json`)의 `created_at`을 적는다.
 
 | 버전 | 기간 | 편수 | view papers.parquet sha | 디렉터리 | 산출물 |
 |---|---|---:|---|---|---|
-| **kisti-2608** | 2026-09-14 13:48 UTC ~ | **1,663,704** | `c1a0c6b3fe1bd46f…` | `database_kisti-kisti-2608/` (`append_manifest.json` created_at 2026-09-14T13:48Z; 시간 컷 없음, topic 정책 필수) | **본배치(예정)** |
-| v2 | 2026-09-08 08:08 ~ 09-14 | 1,651,487 | `591b4325e190170b…` | `database_kisti-kisti-2512/` (`view_diff_manifest.json` created_at `2026-09-08T07:17:00+00:00`) | 정책 스모크만 |
-| v1 | 2026-09-07 07:46 ~ 09-08 | 1,651,701 | `c7b8d4e71d2467a7…` | `database_kisti-kisti-2512-v1/` (보존) | sec #3 4편 전부 |
+| **kisti-2608-r4** | 2026-09-30 02:24 UTC ~ | **1,697,512** | `32a77a486c2c7501…` | **`database_kisti-kisti-2608-r4/`** (`append_manifest.json` created_at 2026-09-30T02:24:10Z; base r2 + 1,258) | PoC 1편(llm-agent-optimization), **본배치** |
+| kisti-2608-r2 | 2026-09-28 10:14 ~ 09-30 | 1,696,254 | `6727c7b85303b7c1…` | `database_kisti-kisti-2608-r2/` — **2026-09-30 삭제**(메타데이터 `docs/db-manifests/`) | 없음 |
+| kisti-2608 | 2026-09-14 13:48 ~ 09-28 | 1,663,704 | `c1a0c6b3fe1bd46f…` | `database_kisti-kisti-2608/` (보존 — LLM×MapReduce-V2 kisti-2608 pool 의 `db_path`) | 없음 |
+| v2 | 2026-09-08 08:08 ~ 09-14 | 1,651,487 | `591b4325e190170b…` | `database_kisti-kisti-2512/` — **2026-09-30 삭제** | 정책 스모크만 |
+| v1 | 2026-09-07 07:46 ~ 09-08 | 1,651,701 | `c7b8d4e71d2467a7…` | `database_kisti-kisti-2512-v1/` — **2026-09-30 삭제** | sec #3 4편 전부 |
+
+> 삭제한 3개의 재생성 경로·남긴 메타데이터는 [`docs/db-manifests/README.md`](docs/db-manifests/README.md). 아래 지문은 삭제 전 실측이다.
+
+**kisti-2608-r4 파일 지문** (`database_kisti-kisti-2608-r4/`, 2026-09-30 02:24 UTC — **현행**)
+
+r2 4파일을 읽어 corpus 측 추가분 export(`kisti_data/data/exports/kisti-2608-r4.autosurvey.minus-kisti-2608-r2.json`, **1,258편** = GT survey reference 원문 확보분 — arXiv v1 e-print 784 · OA/무료 proceedings PDF 114 · t0 구제 · 날짜 정밀화, content_sha256 `6004e19a…`)를 nomic 으로 임베딩해 뒤에 append(`scripts/append_snapshot.py`). 출처 `append_manifest.json`(base r2 content_sha256 `54538034…`, 추가 1,258, 중복 0).
+
+| 파일 | 크기 | md5 |
+|---|---|---|
+| `arxiv_paper_db.json` | 2,424,173,143 B | `6529221402b3fefb7ab0840ca2d523ca` |
+| `faiss_paper_abs_embeddings.bin` | 5,214,756,909 B | `ab76da815f0d84dac101e44c04e98f0c` |
+| `faiss_paper_title_embeddings.bin` | 5,214,756,909 B | `9ea685b05b716dce90d2e077fe9c0090` |
+| `arxivid_to_index_abs.json` | 55,507,486 B | `f9bcfbf3541890e017c775bdac703493` |
+| `paper_dates.json` (공개일 sidecar, corpus 측 `data/views/kisti-2608-r4/paper_dates.json` 사본) | 63,693,838 B | `f8fa28e3917bd91bf225300dcde9e508` |
+| `kisti-2608-r4.autosurvey.json.manifest.json` (= `corpus_export_manifest.json`) | — | view papers.parquet sha **`32a77a48…`** |
+| `append_source_manifest.json` | — | 추가분 export manifest 사본(`diff_view` = kisti-2608-r2 `6727c7b8…`) |
+
+- sidecar meta: created_at `2026-09-30T02:11:54Z`, 1,697,512편 전부 날짜 있음 — month 462,193 · day 1,230,756 · year 4,563 (출처 arXiv id 460,763 · OpenAlex day 1,198,454 · overlay published_at 33,732 · KISTI 연도 4,563).
+- 검증(corpus 측, 2026-09-30): title·abs 각 1,697,512벡터, 정합 OK, 검색 스모크 OK. `check_db.py` 의 '문제 있음' 은 §4 저장벡터 재현 최저 cos 0.9798 뿐(기록된 nomic 오탐) — base 구간은 r2 인덱스와 바이트 동일(표본 5,002행), 추가분은 재임베딩 cos 1.0. **재빌드 금지.**
+- 정책 적용 허용 편수(25 topic)는 `docs/retrieval-policy.md` §5. PoC 점검값: llm-agent-optimization 허용 1,541,302 · 지문 `efe95869…`.
+- 결과 버전 열: **`32a77a48` / 2026-09-30**.
+
+**kisti-2608-r2 파일 지문** (`database_kisti-kisti-2608-r2/`, 2026-09-28 10:14 UTC — 2026-09-30 삭제)
+
+kisti-2608 4파일 + 추가분 `kisti-2608-r2.autosurvey.minus-kisti-2608.json`(32,550편 = KISTI arXiv 2026 초록 결손분에 스냅샷 초록·v1 제출일을 얹어 편입, content_sha256 `ee7a3704…`) append, 7분 26초.
+
+| 파일 | 크기 | md5 |
+|---|---|---|
+| `arxiv_paper_db.json` | 2,422,144,151 B | `f1705508d503376f7e5f2f0daa5b9745` |
+| `faiss_paper_abs_embeddings.bin` | 5,210,892,333 B | `c83607dd2bcc8cebdb8b832a58928c9b` |
+| `faiss_paper_title_embeddings.bin` | 5,210,892,333 B | `1622d5ee8013640c1f244332f9099800` |
+| `arxivid_to_index_abs.json` | 55,472,037 B | `11d5caa74610f7c3dedb87bd6f05e231` |
+| `paper_dates.json` (corpus 측 `data/views/kisti-2608-r2/paper_dates.json` 사본) | 63,652,111 B | `e66756c54f7220fa0a0623c260c02e58` |
 
 v2 = v1 − 214편: GT 사본 2편(`2507.16731` = edge-slm-cloud-llm GT의 arXiv 선행판, `10.1109/comst.2025.3648785` = wireless-foundation-models GT의 IEEE 출판본) + arXiv `2601.*` 212편(KISTI `year=2025` 오기재로 cutoff 이후가 섞임). 남은 벡터는 v1과 바이트 동일.
 
-**kisti-2608 파일 지문** (`database_kisti-kisti-2608/`, 2026-09-14 13:48 UTC — **현행**)
+**kisti-2608 파일 지문** (`database_kisti-kisti-2608/`, 2026-09-14 13:48 UTC — 보존, 현행 아님)
 
 v2 4파일을 읽어 corpus 측 추가분 export(`kisti_data/data/exports/kisti-2608.autosurvey.minus-kisti-2512.json`, 12,217편 = 2026년 12,005 + arXiv `2601.*` 212, content_sha256 `c6445c61…`)를 nomic 으로 임베딩해 **뒤에 append** 한 것(`scripts/append_snapshot.py`, GPU 5, batch 128). IndexFlatL2 라 v2 의 행 번호는 그대로이고 TinyDB 순서 = v2 prefix + 추가분. 출처는 `append_manifest.json`(base content_sha256 `1bca9e73…`, 추가 12,217, 중복 0).
 
@@ -207,11 +242,11 @@ v2 4파일을 읽어 corpus 측 추가분 export(`kisti_data/data/exports/kisti-
 | `kisti-2608.autosurvey.json.manifest.json` (= `corpus_export_manifest.json`) | — | 전체 export content_sha256 `6987aa7b…`, view papers.parquet sha **`c1a0c6b3…`**, created_at `2026-09-14T13:18:56Z` |
 | `append_source_manifest.json` | — | 추가분 export manifest 사본(`diff_view` = kisti-2512 v2 `591b4325…`) |
 
-- 편수 1,663,704 = arXiv id 460,772 + DOI 1,202,932. 시간 컷 없음(스냅샷 260825 전체) — **topic 정책 없이 쓰면 2026년 문헌이 샌다.** 실행은 반드시 `--topic_policy data/topic_policy.kisti-2608.jsonl --topic_id <slug>`(§5-4).
+- 편수 1,663,704 = arXiv id 460,772 + DOI 1,202,932. 시간 컷 없음(스냅샷 260825 전체) — **topic 정책 없이 쓰면 2026년 문헌이 샌다.** 이 DB 로 실행한다면 `--topic_policy data/topic_policy.kisti-2608.jsonl --topic_id <slug>` 짝(현행은 r4, §5-4).
 - 검증(2026-09-14): `check_db.py --skip-search` 통과(인덱스 ntotal = id 매핑 = TinyDB 1,663,704), 정책 스모크 — physical-adversarial 허용 1,186,466(v2 와 동일), kv-cache-serving 1,663,704, llm-training-data-detection 1,653,071, 반환 id 위반 0.
 - 결과 버전 열: **`c1a0c6b3` / 2026-09-14T13:18:56Z**.
 
-**v2 파일 지문** (`database_kisti-kisti-2512/`, 2026-09-08)
+**v2 파일 지문** (`database_kisti-kisti-2512/`, 2026-09-08 — 2026-09-30 삭제)
 
 | 파일 | 크기 | md5 |
 |---|---|---|
@@ -221,7 +256,7 @@ v2 4파일을 읽어 corpus 측 추가분 export(`kisti_data/data/exports/kisti-
 | `arxivid_to_index_abs.json` | 54,355,299 B | `9d433b948d837ff1e337e6aeee3394be` |
 | `kisti-2512.autosurvey.json.manifest.json` (= `corpus_export_manifest.json`) | — | export content_sha256 `1bca9e73c773767b…`, view sha `591b4325…` |
 
-**v1 파일 지문** (`database_kisti-kisti-2512-v1/`, 2026-09-07 빌드 — sec #3 4편의 재현에는 이쪽)
+**v1 파일 지문** (`database_kisti-kisti-2512-v1/`, 2026-09-07 빌드 — sec #3 4편의 재현에는 이쪽, 2026-09-30 삭제)
 
 | 파일 | 크기 | md5 |
 |---|---|---|
@@ -504,18 +539,19 @@ python main.py \
 
 ### 5-4. KISTI 벤치마크 실행 (2026-09-07 ~)
 
-산출물 `output/kisti-2512-sec3-physical-adversarial-attacks{,-t06-r1,-t06-r2,-t06-r3}/`. 편별 `*.run.json`이 모델·provider·비용·재시도·잘림·DB manifest sha·구조를 담는다.
+산출물 `output/kisti-2512-sec3-physical-adversarial-attacks{,-t06-r1,-t06-r2,-t06-r3}/`(DB v1, 정책 없음) · `output/kisti-2608-r4-llm-agent-optimization/`(r4 + 정책, `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`). 편별 `*.run.json`이 모델·provider·비용·재시도·잘림·DB manifest sha·구조를 담는다.
 
 | 편 | 코드 | 프로파일 | 인자 | 소요 / 비용 |
 |---|---|---|---|---|
 | 첫 편 | `e9e49c3` 이전 | temp 0, 가드 없음 | `--section_num 8 --subsection_num 4 --subsection_len 520 --rag_num 60 --outline_reference_num 1200` | 93분 / $0.307 |
 | t06-r1 | `cb1ba00` | temp 0.6 + max_tokens 8192 | 〃 | 53분 / $0.374 |
 | t06-r2 · r3 | `baa46cc` | 〃 + 잘림 재요청 | 〃 | 30분 / $0.338 · 19분 / $0.347 |
-| **본배치 (예정)** | — | 〃 | `--db_path ./database_kisti-kisti-2608 --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (분량 비통제) **+ `--topic_policy data/topic_policy.kisti-2608.jsonl --topic_id <slug>`** (2026-09-14 검색 정책, `docs/retrieval-policy.md`; DB 는 시간 컷 없는 kisti-2608) | 편당 약 20~30분 / $0.35 |
+| **PoC r4** (2026-09-30) | `1527a80` | 〃 | `--db_path ./database_kisti-kisti-2608-r4 --topic_policy data/topic_policy.kisti-2608-r4.jsonl --topic_id llm-agent-optimization --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` | 31분 / $0.473 |
+| **본배치 (예정, 24편)** | — | 〃 | 위와 같고 `--topic_id <slug>` 만 바꾼다 (DB·정책 파일은 **r4 짝**; 2026-09-14 검색 정책, `docs/retrieval-policy.md`) | 편당 약 31분 / $0.47 |
 
-위 4편은 **검색 정책 없이**(view 의 `year ≤ 2025` 만) 생성됐다. `run.json` 의 `retrieval_policy` 가 `null` 이면 그런 실행이다.
+sec #3 4편은 **검색 정책 없이**(view 의 `year ≤ 2025` 만) 생성됐다. 정책 실행분은 `scripts/score_kisti.py` 로 채점해 `<topic>.score.json` 을 남긴다(분모 `n_gt_refs_cutoff`, 누수 검사 포함). `run.json` 의 `retrieval_policy` 가 `null` 이면 그런 실행이다.
 
-실행 명령·검증·PDF 절차는 `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6과 첫 편 문서 §7. 길이 계수 프로브(`scripts/probe_length.py`, `output/probes/`)는 `docs/experiments/probe-temp06-length-coefficient.md`.
+**현행 실행 템플릿(생성 → 검사 → PDF → run.json → 채점)은 `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md` §6.** 이전 편의 명령은 `docs/experiments/kisti-2512-sec3-temp06-runs.md` §6과 첫 편 문서 §7. 길이 계수 프로브(`scripts/probe_length.py`, `output/probes/`)는 `docs/experiments/probe-temp06-length-coefficient.md`.
 
 ## 6. 비용 · 토큰 실측
 

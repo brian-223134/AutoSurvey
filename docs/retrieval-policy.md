@@ -1,4 +1,4 @@
-# 검색 허용 정책 — GT survey 최초 공개일 이전 문헌만 검색 (2026-09-14)
+# 검색 허용 정책 — GT survey 최초 공개일 이전 문헌만 검색 (2026-09-14, 현행 판 r4 2026-09-30)
 
 **정본.** 교수님 지시(2026-09-14): reference cutoff 를 2025-12-31 로 고정하지 말고, **GT 로 쓰는 survey 의 최초
 publish 날짜 이전까지만 retrieval** 할 수 있게 한다. 이 문서는 그 구현·근거·검증·한계를 적는다. 실험 방향 전체는
@@ -11,11 +11,11 @@ publish 날짜 이전까지만 retrieval** 할 수 있게 한다. 이 문서는 
 | 규칙 | 문헌 공개일의 **상한**(정밀도상 가장 늦은 날짜) `< retrieval_cutoff_at` 일 때만 허용. 당일 제외. 날짜 불명은 제외 |
 | cutoff | topic 별 `gt_first_public_at` = GT 의 **가장 이른** 공개일(arXiv 선행판 v1 > Crossref created > published-online) |
 | 구현 | `src/retrieval_policy.py`(규칙) · `src/database.py`(FAISS `IDSelectorBitmap` — 검색 **자체**가 허용 집합 안에서 돈다) · `main.py`(`--topic_policy/--topic_id`, `--retrieval_cutoff`, `--exclude_ids`) |
-| 정책 파일 | **`data/topic_policy.kisti-2608.jsonl`**(현행 view, 25행 전부 status ok; cutoff 값은 view 무관, `corpus_snapshot_id` 와 corpus 측 분모 필드 `n_gt_refs_cutoff`·`_pool` 만 다름) · `data/topic_policy.kisti-2512.jsonl`(v2 기록) + 근거 캐시 `data/topic_policy.kisti-2512.sources.json` — `scripts/build_topic_policy.py` 산출 |
-| 문헌 날짜 | DB 디렉터리의 sidecar `paper_dates.json`: arXiv id → 투고월(month), DOI → OpenAlex `publication_date`(day), 나머지 KISTI 연도(year). **현행은 corpus 측 `kisti_data/data/views/kisti-2608/paper_dates.json` 사본**(4 agent 공통, `adapter/common/paper_dates.py`; AutoSurvey 의 `scripts/build_paper_dates.py` 와 같은 규칙·형식). sidecar 없으면 arXiv 월 + 연 단위로 판정 |
+| 정책 파일 | **`data/topic_policy.kisti-2608-r4.jsonl`**(현행 view r4, 25행 전부 status ok; cutoff 값은 view 무관, `corpus_snapshot_id` 와 corpus 측 분모 필드 `n_gt_refs_cutoff`·`_pool` 만 다름. **DB 와 같은 판끼리 짝**) · 이전 판 `topic_policy.kisti-2608{,-r2}.jsonl` · `data/topic_policy.kisti-2512.jsonl`(v2 기록) + 근거 캐시 `data/topic_policy.kisti-2512.sources.json` — `scripts/build_topic_policy.py` 산출 |
+| 문헌 날짜 | DB 디렉터리의 sidecar `paper_dates.json`: arXiv id → 투고월(month), DOI → OpenAlex `publication_date`(day), 나머지 KISTI 연도(year). **현행은 corpus 측 `kisti_data/data/views/kisti-2608-r4/paper_dates.json` 사본**(4 agent 공통, `adapter/common/paper_dates.py`; AutoSurvey 의 `scripts/build_paper_dates.py` 와 같은 규칙·형식). sidecar 없으면 arXiv 월 + 연 단위로 판정 |
 | 기록 | `<topic>.json['retrieval_policy']`(정책·허용 편수·허용 집합 sha256·제외 사유별 편수) → `collect_run.py` 가 `run.json` 으로 |
-| corpus | **view `kisti-2608`**(2026-09-14, 1,663,704편, **시간 컷 없음**) — corpus 는 스냅샷 전체를 두고 topic 정책이 자른다. AutoSurvey DB `database_kisti-kisti-2608/` = v2 인덱스 + 추가분 12,217편 append. §10 |
-| 영향 | 25 topic 중 **14편**은 arXiv 선행판 때문에 cutoff 가 2022-11 ~ 2025-07 로 앞당겨져 허용 corpus 가 72~88%; **2편**(llm-watermarking·wireless)은 2025-12; **9편**은 2026년 cutoff 라 2026년 문헌 일부(99~100%)를 본다. §5 표 |
+| corpus | **view `kisti-2608-r4`**(2026-09-30, 1,697,512편, **시간 컷 없음**) — corpus 는 스냅샷 전체를 두고 topic 정책이 자른다. AutoSurvey DB `database_kisti-kisti-2608-r4/` = kisti-2608 → r2(+32,550) → r4(+1,258) append. §10·§11 |
+| 영향 | 25 topic 중 **18편**은 arXiv 판(선행판 v1·GT 자체) 날짜가 cutoff 라 2022-11 ~ 2026-04; **7편**은 Crossref 근거(2025-12 ~ 2026-07). 허용 corpus 70~100%. 분모 합 **4,010**(r4). §5 표 |
 
 ## 1. 왜 바꾸는가
 
@@ -46,7 +46,7 @@ KISTI export 의 `date` 는 `YYYY-01-01`(manifest `date_precision: year`)뿐이�
 | DOI | OpenAlex 미러 `works.parquet`(4.79억 편) `publication_date`, DOI 조인. **OpenAlex 연도 < KISTI 연도면 다른 판**이므로 KISTI 연도 유지 | day | 1,198,375 (v2 DB 1,191,972) |
 | DOI (OpenAlex 연도 충돌 4,556 · 미매칭 1) | KISTI `year` | year | 4,557 |
 
-- 파일: 현행 `database_kisti-kisti-2608/paper_dates.json` = corpus 측 `kisti_data/data/views/kisti-2608/paper_dates.json` 사본(62,744,411 B, md5 `aa145cc43b2315a513fb4760453478f2`, created_at `2026-09-14T13:26:03Z`, 4 agent 공통). v2 DB 용은 AutoSurvey 가 만든 `database_kisti-kisti-2512/paper_dates.json`(62,332,660 B, 428초). 형식 `{"meta":…, "dates": {id: "YYYY[-MM[-DD]]"}}`. 지문은 `REPRODUCTION.md` §3-C. DB 디렉터리는 gitignore 라 **재현 시 복사하거나 다시 만든다**(`build_paper_dates.py`).
+- 파일: 현행 `database_kisti-kisti-2608-r4/paper_dates.json` = corpus 측 `kisti_data/data/views/kisti-2608-r4/paper_dates.json` 사본(63,693,838 B, md5 `f8fa28e3917bd91bf225300dcde9e508`, created_at `2026-09-30T02:11:54Z`, 4 agent 공통; r2 이후 overlay 문헌은 `published_at` 을 쓴다). 이전: `database_kisti-kisti-2608/paper_dates.json`(kisti-2608 판, 62,744,411 B, md5 `aa145cc4…`), v2 DB 용 AutoSurvey 자체 생성본(62,332,660 B, 428초 — 디렉터리와 함께 09-30 삭제). 형식 `{"meta":…, "dates": {id: "YYYY[-MM[-DD]]"}}`. 지문은 `REPRODUCTION.md` §3-C. DB 디렉터리는 gitignore 라 **재현 시 복사하거나 다시 만든다**(`build_paper_dates.py`).
 - KISTI `year` 가 arXiv id 월과 어긋나는 레코드가 1,245편 있었다(2601.* 가 year=2025 등). id 를 우선한다.
 - arXiv 스냅샷(`survey-search/data/papers.duckdb`)의 `date` 는 **최신판 날짜**(2409.18169v6 → 2026-04-23)라 v1 날짜로 쓸 수 없다. `submitted_date` 는 월초로 뭉개져 있다. 쓰지 않았다.
 
@@ -68,7 +68,7 @@ twin ↔ topic 매핑은 asg-common-corpus `candidates/GT-SURVEYS.md`(2026-09-02
 | instruction-tuning-llms | 2023-08-21 | twin 2308.10792 v1 | 게재 2026-01-08 |
 | llm-function-calling | 2026-01-14 | Crossref created | twin 없음 — 선행판 미확인 |
 | model-merging | 2024-08-14 | twin 2408.07666 v1 | |
-| diffusion-model-alignment | 2026-02-10 | Crossref created | twin 없음 |
+| diffusion-model-alignment | **2024-09-11** | twin 2409.07253 v1 | 09-28 twin 등록(이전 2026-02-10 Crossref) — §11 |
 | llm-agent-optimization | 2025-03-16 | twin 2503.12434 v1 | |
 | retrieval-explainability | 2022-12-14 | twin 2212.07126 v1 | |
 | trustworthy-rag | 2025-02-08 | twin 2502.06872 v1 | |
@@ -83,72 +83,79 @@ twin ↔ topic 매핑은 asg-common-corpus `candidates/GT-SURVEYS.md`(2026-09-02
 | moe-inference-optimization | 2024-12-18 | twin 2412.14219 v1 | |
 | kv-cache-serving | 2026-07-01 | Crossref created | twin 없음 (ACL Findings — 선행판 가능성 높음, 미확인) |
 | edge-slm-cloud-llm | 2025-07-22 | 선행판 2507.16731 v1 | v2 에서 view 제외된 그 사본 |
-| llm-edge-inference | 2026-04-24 | Crossref created | twin 없음 |
+| llm-edge-inference | 2026-04-24 | twin 2604.22906 v1 | 09-28 twin 등록(날짜 동일) — §11 |
 | llm-distributed-training | 2024-07-29 | twin 2407.20018 v1 | |
 | edge-cloud-collaboration | 2025-05-03 | twin 2505.01821 v1 | |
 | wireless-foundation-models | 2025-12-26 | Crossref created (COMST early access) | arXiv 2601.03181 은 2026-01-06 |
-| ai-wireless-reasoning | 2026-04-23 | Crossref created | twin 없음 |
+| ai-wireless-reasoning | **2025-09-11** | twin 2509.09193 v1 | 09-28 twin 등록(이전 2026-04-23 Crossref) — §11 |
 | agentic-satellite-networks | 2026-02-03 | Crossref created | twin 없음 |
 | ai-video-streaming | 2024-06-04 | twin 2406.02302 v1 | |
 
-## 5. corpus 와 채점 분모에 미치는 영향 (view `kisti-2608`, `scripts/policy_report.py`, 2026-09-14)
+## 5. corpus 와 채점 분모에 미치는 영향 (view `kisti-2608-r4`, `scripts/policy_report.py`, 2026-09-30)
 
-allowed = 허용 편수 / 1,663,704. **n_gt_refs_cutoff** = corpus 측이 재계산한 채점 분모(`kisti_data/data/topics.kisti.jsonl`; 규칙 identifiable ∧
-ref 공개일 상한 < cutoff ∧ view 안 ∧ 레코드 날짜 상한 < cutoff). in_view = `gap_to_80_refs.jsonl` 의 `tier == in_view`(같아야 함, 25/25 일치).
-blocked = view 엔 있지만 레코드 날짜가 거칠어 정책이 막는 ref(`in_view_blocked`, 합 37). undated = 날짜 없는 ref(합 3). pool = cutoff 이전 identifiable
-ref 전체(이론적 ceiling 분모).
+allowed = 허용 편수 / 1,697,512. **n_gt_refs_cutoff** = corpus 측이 재계산한 채점 분모(`kisti_data/data/topics.kisti.jsonl`, `n_gt_refs_cutoff_view` = `kisti-2608-r4 32a77a48`; 규칙 identifiable ∧
+ref 공개일 상한 < cutoff ∧ view 안 ∧ 레코드 날짜 상한 < cutoff). `gap_to_80_refs.jsonl` 의 `tier == in_view` 와 **25/25 일치**.
+blocked = view 엔 있지만 레코드 날짜가 거칠어 정책이 막는 ref(`in_view_blocked`, 합 2). undated = 날짜 없는 ref(합 3). pool = cutoff 이전 identifiable
+ref 전체(이론적 ceiling 분모). 출처 = cutoff 근거.
 
-| topic_id | cutoff | allowed | n_gt_refs_cutoff | blocked | undated | pool |
-|---|---|---:|---:|---:|---:|---:|
-| instruction-tuning-llms | 2023-08-21 | 1,304,896 (78%) | 95 | 2 | 0 | 138 |
-| llm-function-calling | 2026-01-14 | 1,654,546 (99%) | 74 | 0 | 0 | 157 |
-| model-merging | 2024-08-14 | 1,460,094 (88%) | 139 | 3 | 1 | 222 |
-| diffusion-model-alignment | 2026-02-10 | 1,663,703 (100%) | 139 | 0 | 0 | 230 |
-| llm-agent-optimization | 2025-03-16 | 1,540,142 (93%) | 102 | 4 | 0 | 197 |
-| retrieval-explainability | 2022-12-14 | 1,202,448 (72%) | 113 | 2 | 0 | 171 |
-| trustworthy-rag | 2025-02-08 | 1,528,223 (92%) | 78 | 0 | 0 | 133 |
-| large-models-timeseries | 2023-10-16 | 1,326,717 (80%) | 183 | 9 | 1 | 325 |
-| deep-graph-clustering | 2022-11-23 | 1,191,055 (72%) | 83 | 6 | 0 | 142 |
-| negative-sampling-recsys | 2026-01-28 | 1,657,045 (100%) | 138 | 0 | 0 | 249 |
-| mllm-adversarial-attacks | 2026-03-30 | 1,663,703 (100%) | 52 | 0 | 0 | 109 |
-| llm-training-data-detection | 2026-01-07 | 1,653,071 (99%) | 56 | 0 | 0 | 109 |
-| physical-adversarial-attacks | 2022-11-03 | 1,186,466 (71%) | 128 | 3 | 0 | 183 |
-| harmful-finetuning | 2024-09-26 | 1,472,911 (89%) | 84 | 3 | 0 | 145 |
-| llm-watermarking | 2025-12-05 | 1,641,322 (99%) | 44 | 0 | 0 | 105 |
-| moe-inference-optimization | 2024-12-18 | 1,503,417 (90%) | 111 | 0 | 0 | 191 |
-| kv-cache-serving | 2026-07-01 | 1,663,704 (100%) | 61 | 0 | 0 | 142 |
-| edge-slm-cloud-llm | 2025-07-22 | 1,591,193 (96%) | 134 | 1 | 1 | 262 |
-| llm-edge-inference | 2026-04-24 | 1,663,704 (100%) | 85 | 0 | 0 | 163 |
-| llm-distributed-training | 2024-07-29 | 1,451,432 (87%) | 165 | 3 | 0 | 310 |
-| edge-cloud-collaboration | 2025-05-03 | 1,561,520 (94%) | 167 | 0 | 0 | 346 |
-| wireless-foundation-models | 2025-12-26 | 1,643,688 (99%) | 119 | 0 | 0 | 284 |
-| ai-wireless-reasoning | 2026-04-23 | 1,663,704 (100%) | 72 | 0 | 0 | 160 |
-| agentic-satellite-networks | 2026-02-03 | 1,663,703 (100%) | 66 | 0 | 0 | 307 |
-| ai-video-streaming | 2024-06-04 | 1,431,447 (86%) | 71 | 1 | 0 | 204 |
+| topic_id | cutoff | 출처 | allowed | n_gt_refs_cutoff | blocked | undated | pool |
+|---|---|---|---:|---:|---:|---:|---:|
+| instruction-tuning-llms | 2023-08-21 | arxiv:2308.10792 | 1,305,390 (77%) | 131 | 0 | 0 | 138 |
+| llm-function-calling | 2026-01-14 | crossref:10.1145/3788284 | 1,655,800 (98%) | 153 | 0 | 0 | 157 |
+| model-merging | 2024-08-14 | arxiv:2408.07666 | 1,461,094 (86%) | 211 | 1 | 1 | 222 |
+| diffusion-model-alignment | 2024-09-11 | arxiv:2409.07253 | 1,470,953 (87%) | 179 | 0 | 0 | 189 |
+| llm-agent-optimization | 2025-03-16 | arxiv:2503.12434 | 1,541,302 (91%) | 190 | 0 | 0 | 197 |
+| retrieval-explainability | 2022-12-14 | arxiv:2212.07126 | 1,202,705 (71%) | 141 | 0 | 0 | 171 |
+| trustworthy-rag | 2025-02-08 | arxiv:2502.06872 | 1,529,357 (90%) | 116 | 0 | 0 | 133 |
+| large-models-timeseries | 2023-10-16 | arxiv:2310.10196 | 1,327,286 (78%) | 281 | 0 | 1 | 325 |
+| deep-graph-clustering | 2022-11-23 | arxiv:2211.12875 | 1,191,311 (70%) | 110 | 0 | 0 | 142 |
+| negative-sampling-recsys | 2026-01-28 | crossref:10.1145/3793855 | 1,658,303 (98%) | 172 | 0 | 0 | 249 |
+| mllm-adversarial-attacks | 2026-03-30 | arxiv:2603.27918 | 1,676,337 (99%) | 106 | 0 | 0 | 109 |
+| llm-training-data-detection | 2026-01-07 | crossref:10.1145/3779430 | 1,654,323 (97%) | 87 | 0 | 0 | 109 |
+| physical-adversarial-attacks | 2022-11-03 | arxiv:2211.01671 | 1,186,719 (70%) | 158 | 0 | 0 | 183 |
+| harmful-finetuning | 2024-09-26 | arxiv:2409.18169 | 1,473,965 (87%) | 144 | 0 | 0 | 145 |
+| llm-watermarking | 2025-12-05 | crossref:10.1145/3773028 | 1,642,570 (97%) | 80 | 0 | 0 | 105 |
+| moe-inference-optimization | 2024-12-18 | arxiv:2412.14219 | 1,504,520 (89%) | 174 | 1 | 0 | 191 |
+| kv-cache-serving | 2026-07-01 | crossref:10.18653/v1/2026.findings-acl.1916 | 1,696,084 (100%) | 135 | 0 | 0 | 142 |
+| edge-slm-cloud-llm | 2025-07-22 | arxiv:2507.16731 | 1,592,410 (94%) | 231 | 0 | 1 | 262 |
+| llm-edge-inference | 2026-04-24 | arxiv:2604.22906 | 1,682,901 (99%) | 135 | 0 | 0 | 163 |
+| llm-distributed-training | 2024-07-29 | arxiv:2407.20018 | 1,452,414 (86%) | 223 | 0 | 0 | 310 |
+| edge-cloud-collaboration | 2025-05-03 | arxiv:2505.01821 | 1,562,699 (92%) | 240 | 0 | 0 | 346 |
+| wireless-foundation-models | 2025-12-26 | crossref:10.1109/comst.2025.3648785 | 1,644,939 (97%) | 238 | 0 | 0 | 284 |
+| ai-wireless-reasoning | 2025-09-11 | arxiv:2509.09193 | 1,611,575 (95%) | 127 | 0 | 0 | 154 |
+| agentic-satellite-networks | 2026-02-03 | crossref:10.1109/comst.2026.3660854 | 1,665,588 (98%) | 151 | 0 | 0 | 307 |
+| ai-video-streaming | 2024-06-04 | arxiv:2406.02302 | 1,432,358 (84%) | 97 | 0 | 0 | 204 |
 
-- 25편 분모 합 2,559(구 `n_gt_refs` 합 2,767). cutoff 가 2025 이전인 16 topic 의 허용 편수는 v2 DB 와 동일(예: physical-adversarial 1,186,466) — 추가분 12,217편이 전부 2026년·2601.* 이라 그 topic 들엔 보이지 않는다.
-- 2026년 cutoff 9 topic 은 2026년 문헌을 본다(예: kv-cache-serving 07-01 → 전부, llm-training-data-detection 01-07 → 1,653,071). arXiv 2026 논문은 월 단위라 cutoff 달의 것은 제외된다(보수적).
-- 2026-09-14 이전 이 절에 있던 v2 기준 추정치(S2 `publicationDate` 로 직접 판정)는 corpus 측 재계산과 ±3 이내였다(physical-adversarial 130 → 128, harmful-finetuning 87 → 84).
-- `llm-watermarking` 은 refs.json 에 S2 날짜가 없지만 arXiv id 월·year 로 판정돼 44편이 분모에 남는다(corpus 측). S2 재추출은 여전히 권장.
-- 선행판이 있는 topic 에서 GT 게재본에 나중에 추가된 ref(선행판 이후 문헌)는 분모에서 빠진다. 예: harmful-finetuning 107 → 84.
+- 25편 분모 합 **4,010**(kisti-2608 2,559 → 09-28 twin 등록 2,541 → r2 2,543 → r4 4,010). r4 가 GT survey reference 원문 확보분 1,258편을 넣어 topic 별로 최대 2배 넘게 커졌다(예: agentic-satellite-networks 66 → 151, llm-agent-optimization 102 → 190). **r2 이전 결과와 recall 을 같은 표에 놓지 않는다.**
+- 09-28 twin 등록(§11)으로 diffusion-model-alignment(2026-02-10 → 2024-09-11)·ai-wireless-reasoning(2026-04-23 → 2025-09-11)의 cutoff 가 앞당겨졌다. 두 topic 의 이전 허용 집합은 무효.
+- `in_view_blocked` 합 37(09-14) → 2(r4). r4 는 corpus 측 날짜 정밀화(overlay `published_at`)를 포함한다.
+- 2026년 cutoff topic 은 2026년 문헌을 본다(예: kv-cache-serving 07-01 → 1,696,084). arXiv 2026 논문은 월 단위라 cutoff 달의 것은 제외된다(보수적).
+- 선행판이 있는 topic 에서 GT 게재본에 나중에 추가된 ref(선행판 이후 문헌)는 분모에서 빠진다(pool 과 분모의 차이 일부).
+- kisti-2608 판(2026-09-14) 표는 이 파일의 git 이력(`1527a80` 이전)에 있다. 그 판에서 v2 기준 추정치(S2 `publicationDate` 직접 판정)는 corpus 측 재계산과 ±3 이내였다.
 
 ## 6. 실행·기록
 
+현행 판(r4) 기준. 판이 바뀌면 DB·sidecar·정책 파일을 **같은 판으로** 함께 바꾼다.
+
 ```bash
-# 정책 생성(네트워크; 캐시가 있으면 --fetch 생략 가능)
-python scripts/build_topic_policy.py --fetch
-# DB: v2 인덱스에 corpus 측 추가분 export 를 append (2026-09-14, 임베딩 GPU 수 분) — 먼저 --check-only
-python scripts/append_snapshot.py --base ./database_kisti-kisti-2512 \
-    --new /data2/chanjoong/kisti_data/data/exports/kisti-2608.autosurvey.minus-kisti-2512.json --out ./database_kisti-kisti-2608
+# 정책 생성 — 캐시만으로(네트워크 불필요). 새 twin 이 생기면 --fetch
+python scripts/build_topic_policy.py --view kisti-2608-r4 --out data/topic_policy.kisti-2608-r4.jsonl
+# DB: 이전 판 인덱스에 corpus 측 추가분 export 를 append (임베딩 GPU 수 분) — 먼저 --check-only
+python scripts/append_snapshot.py --base ./database_kisti-kisti-2608-r2 \
+    --new /data2/chanjoong/kisti_data/data/exports/kisti-2608-r4.autosurvey.minus-kisti-2608-r2.json --out ./database_kisti-kisti-2608-r4
+#   (r2 디렉터리는 09-30 삭제 — 다시 만들려면 docs/db-manifests/README.md)
 # 문헌 날짜 sidecar — corpus 측 파일 복사(4 agent 공통). 다른 DB 는 build_paper_dates.py 로 생성(asg-corpus env)
-cp /data2/chanjoong/kisti_data/data/views/kisti-2608/paper_dates.json ./database_kisti-kisti-2608/
+cp /data2/chanjoong/kisti_data/data/views/kisti-2608-r4/paper_dates.json ./database_kisti-kisti-2608-r4/
 # 생성 — 정책 행은 --topic_id 로 고른다 (없으면 --topic 문자열 완전 일치)
-python main.py --topic "Visual Adversarial Attacks and Defenses in the Physical World" \
-    --topic_policy data/topic_policy.kisti-2608.jsonl --topic_id physical-adversarial-attacks \
-    --db_path ./database_kisti-kisti-2608 --embedding_model nomic-ai/nomic-embed-text-v1 \
+python main.py --topic "A Survey on the Optimization of Large Language Model-based Agents" \
+    --topic_policy data/topic_policy.kisti-2608-r4.jsonl --topic_id llm-agent-optimization \
+    --db_path ./database_kisti-kisti-2608-r4 --embedding_model nomic-ai/nomic-embed-text-v1 \
     --section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200 ...
+# 채점 — 분모 n_gt_refs_cutoff, 누수 검사 포함
+python scripts/score_kisti.py --json "output/<dir>/<topic>.json" \
+    --topic_policy data/topic_policy.kisti-2608-r4.jsonl --topic_id <slug> --out "output/<dir>/<topic>.score.json"
 # 영향 표
-python scripts/policy_report.py --policy data/topic_policy.kisti-2608.jsonl --db-path ./database_kisti-kisti-2608
+python scripts/policy_report.py --policy data/topic_policy.kisti-2608-r4.jsonl --db-path ./database_kisti-kisti-2608-r4
 ```
 
 - 로그: `[policy] topic_id=… cutoff<… 제외 id N개` 와 `허용 a/b편 — 제외: id / 날짜없음 / cutoff 이후 day·month·year; 날짜 출처 {...}`.
@@ -191,14 +198,16 @@ python scripts/policy_report.py --policy data/topic_policy.kisti-2608.jsonl --db
 
 1. **arXiv 레코드의 버전** — KISTI 의 arXiv 레코드(`10.48550/arxiv.<id>`)는 버전 없는 키라 초록이 최신판일 수 있다. 월 단위 상한으로 "v1 이 cutoff 이전"임은 보장하지만 제공하는 초록이 v1 것이라는 보장은 없다(origin 문서 §4.4 "v1 만 허용되는 경우 원문·파생자료도 v1 인지"). 해결하려면 arXiv 판별 재수확이 필요 — 미착수.
 2. **OpenAlex `publication_date` 의 의미** — 저널판의 게재일이다. 같은 논문의 arXiv 판이 corpus 에 따로 있으면 그 레코드는 자기 월로 판정되므로 판별 규칙과 어긋나지 않는다.
-3. **twin 없는 GT 12편** — 등록된 선행판이 없을 뿐, 존재하지 않는다는 확인은 아니다(kv-cache-serving 등 ACL 논문은 있을 가능성이 높다). 발견되면 `candidate.yaml gt.arxiv_id` 또는 TWIN 표에 등록하고 정책을 재생성한다. view 에서의 제외(누수)는 corpus 측 재작업.
-4. **채점 분모** — corpus 측이 09-14 에 재계산 완료(`n_gt_refs_cutoff`, §5). 남은 것: `in_view_blocked` 37건을 ceiling 손실로 둘지 날짜를 정밀화할지, `llm-watermarking` S2 재추출.
+3. **twin 없는 GT — 12편 → 7편**(09-28 에 3편 등록, §11; 남은 7편은 cutoff 가 Crossref 근거) — 등록된 선행판이 없을 뿐, 존재하지 않는다는 확인은 아니다(kv-cache-serving 등 ACL 논문은 있을 가능성이 높다). 발견되면 `candidate.yaml gt.arxiv_id` 또는 TWIN 표에 등록하고 정책을 재생성한다. view 에서의 제외(누수)는 corpus 측 재작업.
+4. **채점 분모** — corpus 측이 09-14 에 재계산 완료(`n_gt_refs_cutoff`, §5). 남은 것: `in_view_blocked` 37건을 ceiling 손실로 둘지 날짜를 정밀화할지, `llm-watermarking` S2 재추출. → **09-30 r4 로 재계산(합 4,010, `in_view_blocked` 2)**, §5.
 5. **기존 산출물** — sec #3 4편은 정책 없이(cutoff 2025-12-31 view) 생성됐다. 새 규약에서는 비교 대상이 아니므로 재실행한다.
-6. **GT reference 보강**(origin 문서 §4.3) — corpus 에 없는 GT ref 추가는 이번 범위 밖. 추가하더라도 cutoff 이전 판만 허용된다는 규칙은 이 코드가 그대로 적용한다(sidecar 에 날짜만 넣으면 됨).
+6. **GT reference 보강**(origin 문서 §4.3) — corpus 에 없는 GT ref 추가는 이번 범위 밖. 추가하더라도 cutoff 이전 판만 허용된다는 규칙은 이 코드가 그대로 적용한다(sidecar 에 날짜만 넣으면 됨). → **09-30 r4 가 GT reference 원문 확보분 1,258편을 corpus 에 넣었다**(§11). 규칙은 그대로 적용됐다.
 7. 다른 3개 agent(SurveyForge·SurveyX·LLM×MR)에도 같은 topic 정책 파일을 적용해야 통제 실험이 성립한다 — corpus 측이 공통 판정 모듈 `adapter/common/retrieval_policy.py` 와 공통 sidecar 를 마련했고(09-14), 각 agent 의 검색 경로 적용은 그쪽 세션 몫(`AGENT-HANDOFF.md` §0).
-8. **2026년 arXiv 초록 결손** — KISTI 의 arXiv `2602.*`~`2606.*` 36,697편은 초록이 없어 view 규칙(abstract ≥ 50)에서 빠진다(`2601.*` 만 초록 있음). 2026년 cutoff 9 topic 에 직접 영향. 회수 여부는 corpus 측 결정 대기 — AutoSurvey 는 시도하지 않는다.
+8. **2026년 arXiv 초록 결손** — KISTI 의 arXiv `2602.*`~`2606.*` 36,697편은 초록이 없어 view 규칙(abstract ≥ 50)에서 빠진다(`2601.*` 만 초록 있음). 2026년 cutoff 9 topic 에 직접 영향. 회수 여부는 corpus 측 결정 대기 — AutoSurvey 는 시도하지 않는다. → **09-28 r2 가 스냅샷 초록으로 32,550편을 편입해 해소**(§11; non-CS 4,508편은 거부).
 
 ## 10. 2026-09-14 후속 — 시간 컷 없는 view `kisti-2608` 로 전환
+
+> 기록. 현행 판은 r4(§11). `database_kisti-kisti-2608/` 은 보존, 그 base 였던 `database_kisti-kisti-2512/` 는 09-30 삭제.
 
 corpus 측(`kisti_data`, `docs/asg/AGENT-HANDOFF.md` §0)이 `view.py --no-year-cutoff` 로 **`kisti-2608`**(1,663,704편 = kisti-2512 v2 + 2026년 12,005 + arXiv 2601.* 212 복귀,
 papers.parquet sha `c1a0c6b3…`, created_at `2026-09-14T13:18:56Z`)을 만들고, 추가분 export(`kisti-2608.autosurvey.minus-kisti-2512.json`, 12,217편)·공통 sidecar·분모 재계산을 끝냈다. AutoSurvey 쪽 적용:
@@ -212,3 +221,17 @@ papers.parquet sha `c1a0c6b3…`, created_at `2026-09-14T13:18:56Z`)을 만들�
 | 검증 | §5 표(sidecar 기준)가 corpus 측 표와 25/25 일치. 실 DB 스모크 §8-2: 3 topic 허용 편수 기대치와 일치, 위반 0 |
 | 실행 | `--db_path ./database_kisti-kisti-2608 --topic_policy data/topic_policy.kisti-2608.jsonl --topic_id <slug>`. 결과 버전 열 `c1a0c6b3 / 2026-09-14T13:18:56Z` |
 | 하지 않은 것 | `KISTI_VIEW` 기본값 변경(corpus 측), 2026년 arXiv 초록 결손 회수 — 둘 다 결정 대기 |
+
+## 11. 2026-09-28 ~ 09-30 — twin 3편 등록, r2 · r4 판
+
+corpus 측 이력은 `kisti_data/docs/asg/AGENT-HANDOFF.md` §0. AutoSurvey 쪽에서 바뀐 것만 적는다. **cutoff 규칙·코드(`src/retrieval_policy.py`·`src/database.py`)는 그대로**이고, 정책 파일·DB·sidecar 만 판을 따라 바뀌었다.
+
+| 날짜 | 변경 | AutoSurvey 산출 |
+|---|---|---|
+| 09-28 | **twin 3편 등록**(CSUR 2026 GT pool 수확에서 발견): diffusion-model-alignment ↔ `2409.07253`(v1 2024-09-11) · ai-wireless-reasoning ↔ `2509.09193`(v1 2025-09-11) · llm-edge-inference ↔ `2604.22906`(v1 2026-04-24, 날짜 동일). 두 topic 의 cutoff 가 앞당겨지고 제외 키 40 → 43. 세 twin 은 KISTI 에 없어 view 편수 불변 | `build_topic_policy.py` 에 TWIN 3행, 근거 캐시 갱신, `topic_policy.kisti-2608.jsonl` 재생성 (`6cef3d7`) |
+| 09-28 | **view `kisti-2608-r2`**(1,696,254편, sha `6727c7b8`) = kisti-2608 + KISTI arXiv 2026 초록 결손분 32,550편(스냅샷 초록·v1 제출일 overlay). cutoff 불변, 분모는 kv-cache-serving 61 → 63 만 | `topic_policy.kisti-2608-r2.jsonl`(`0c5f0c6`) · `database_kisti-kisti-2608-r2/`(append 32,550, 7분 26초) — **09-30 삭제**, 지문 `REPRODUCTION.md` §3-C |
+| 09-30 | **view `kisti-2608-r4`**(1,697,512편, sha `32a77a48`) = r2 + GT survey reference 원문 확보분 1,258편(arXiv v1 e-print 784 · OA/무료 proceedings PDF 114 · t0 구제 · 날짜 정밀화). GT 1-hop coverage 51.5% → 81.2%. cutoff 불변, **분모 합 2,543 → 4,010**. r3(`ae27f069`)는 발행만 되고 채택되지 않았다 | `topic_policy.kisti-2608-r4.jsonl`(`1527a80`) · `database_kisti-kisti-2608-r4/`(r2 + 1,258 append, **현행**) · sidecar r4 판 복사 |
+
+- **r4 검증**(corpus 측): title·abs 1,697,512벡터 정합, 검색 스모크 OK. `check_db.py` §4 최저 cos 0.9798 '문제 있음' 은 기록된 nomic 오탐 — base 구간은 r2 와 바이트 동일(표본 5,002행), 추가분은 재임베딩 cos 1.0. **재빌드 금지.**
+- **r4 PoC**(AutoSurvey, 09-30): llm-agent-optimization 허용 1,541,302 · 지문 `efe95869`(corpus 측 기대치와 일치) · recall 13/190 · 누수 0. `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`.
+- 다른 agent 주의(corpus 측 기록): SurveyForge 는 `SURVEYFORGE_PAPER_DATES` 를 r4 sidecar 로 지정하지 않으면 r4 에 새로 들어온 문헌이 '날짜 불명'으로 빠진다. AutoSurvey 는 DB 디렉터리의 `paper_dates.json` 을 읽으므로 해당 없음 — **DB 디렉터리에 같은 판 sidecar 가 있는지가 전부다.**
