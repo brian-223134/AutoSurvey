@@ -12,7 +12,7 @@ corpus 를 `kisti-2608-r4` 로 바꾼 뒤의 첫 편. 입력 교체(DB·정책 �
 | cutoff | **2025-03-16** (twin v1) — 문헌 공개일 상한 < cutoff |
 | DB | `database_kisti-kisti-2608-r4/` (1,697,512편, view papers.parquet sha `32a77a48…`) + sidecar `paper_dates.json`(r4 판) |
 | 정책 파일 | `data/topic_policy.kisti-2608-r4.jsonl` (`1527a80`) |
-| 채점 분모 | `n_gt_refs_cutoff` = **190** (pool 197) |
+| 채점 분모 | `n_gt_refs_cutoff` = **203** (pool 217) — 09-30 GT ref 식별자 보강 후. 실행 당시(보강 전) 190 / 197 |
 | 백본·디코딩 | llama-3.3-70b-instruct @ OpenRouter akashml/fp8 핀, temperature 0.6, max_tokens 8192 + 잘림 재요청 |
 | 인자 | `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200` (`--subsection_num` 미지정 — 본배치 논문 기본값) |
 | 환경 | `AUTOSURVEY_MAX_THREADS=1`(8섹션 × 1 = 동시 8) · `AUTOSURVEY_MAX_RETRY=10` · `AUTOSURVEY_DEVICE=cpu`(GPU 전량 점유) · `setsid nohup` |
@@ -30,14 +30,14 @@ main.py 와 같은 경로(`src.database.database(..., policy=policy_from_row(row
 | 제외 사유 | — | id 0 · 날짜없음 0 · cutoff 이후 day 98,272 / month 57,909 / year 29 · 날짜 출처 전부 sidecar |
 | 인덱스에 남은 제외 id | 0 | 0 (GT·twin 이 view 에 없음) |
 | 정책 행 | status ok, topic 문자열 일치 | 일치 |
-| GT 목록 | `gap_to_80_refs.jsonl` `tier == in_view` = 190 | 190 |
+| GT 목록 | `gap_to_80_refs.jsonl` `tier == in_view` = 190 (실행 당시) | 190 |
 
 ## 3. 결과
 
 | 항목 | 값 |
 |---|---|
-| **recall** | **13 / 190 = 6.84%** |
-| **precision** | **13 / 372 = 3.49%** |
+| **recall** | **15 / 203 = 7.39%** (보강 전 분모로는 13 / 190 = 6.84%) |
+| **precision** | **15 / 372 = 4.03%** (보강 전 13 / 372 = 3.49%) |
 | refs | 372 (본문 인용 474회) |
 | 구조 | 10섹션 / 34서브섹션 (`--section_num 8` 에서 +2 — 알려진 초과), 본문 약 22.8K단어(`.tex` 기준), 서브섹션당 694단어(계수 0.99) |
 | PDF | 63쪽, 에러 0 · 미해결 인용 0 |
@@ -45,9 +45,10 @@ main.py 와 같은 경로(`src.database.database(..., policy=policy_from_row(row
 | 비용 | **$0.4729** (outline $0.0993 · writer $0.3736) — OpenRouter `/api/v1/key` usage 증가분과 일치 |
 | 재시도 | 50회 — akashml 429 40건, 잘림 재요청 9건(버린 응답, 최종본 미포함) |
 
-- 제목 기준 대조 매칭도 12/190 으로, id 매칭(13)이 형식 차이로 놓친 것은 없다.
-- pool 197 중 190 이 분모 — corpus 결손은 거의 없고 recall 손실은 검색·인용 단계 몫이다.
-- **r2 이전 결과와 같은 표에 놓지 않는다**(분모 합 2,543 → 4,010). run-to-run 편차 잠정 ±1.7%p.
+- **재채점(2026-09-30 후속)**: corpus 측이 식별자 없던 GT ref 를 제목 대조로 복구해 분모가 190 → 203 이 됐다(`kisti_data/analysis/gt-ref-resolve.md`). view·인덱스·cutoff 불변이라 재실행 없이 `score_kisti.py` 로 다시 채점했다 — 새로 식별된 13편 중 2편이 이미 refs 에 있었다. **이후 표에는 15/203 을 쓴다.**
+- 제목 기준 대조 매칭은 12/203 으로 id 매칭(15)보다 적다 — id 매칭이 형식 차이로 놓친 것은 없다.
+- pool 217 중 203 이 분모 — corpus 결손은 적고 recall 손실은 검색·인용 단계 몫이다.
+- **r2 이전 결과와 같은 표에 놓지 않는다**(분모 합 2,543 → 4,010 → 4,173). run-to-run 편차 잠정 ±1.7%p.
 
 ## 4. 누수 검사 — 통과
 

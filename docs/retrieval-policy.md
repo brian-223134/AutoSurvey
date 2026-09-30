@@ -15,7 +15,7 @@ publish 날짜 이전까지만 retrieval** 할 수 있게 한다. 이 문서는 
 | 문헌 날짜 | DB 디렉터리의 sidecar `paper_dates.json`: arXiv id → 투고월(month), DOI → OpenAlex `publication_date`(day), 나머지 KISTI 연도(year). **현행은 corpus 측 `kisti_data/data/views/kisti-2608-r4/paper_dates.json` 사본**(4 agent 공통, `adapter/common/paper_dates.py`; AutoSurvey 의 `scripts/build_paper_dates.py` 와 같은 규칙·형식). sidecar 없으면 arXiv 월 + 연 단위로 판정 |
 | 기록 | `<topic>.json['retrieval_policy']`(정책·허용 편수·허용 집합 sha256·제외 사유별 편수) → `collect_run.py` 가 `run.json` 으로 |
 | corpus | **view `kisti-2608-r4`**(2026-09-30, 1,697,512편, **시간 컷 없음**) — corpus 는 스냅샷 전체를 두고 topic 정책이 자른다. AutoSurvey DB `database_kisti-kisti-2608-r4/` = kisti-2608 → r2(+32,550) → r4(+1,258) append. §10·§11 |
-| 영향 | 25 topic 중 **18편**은 arXiv 판(선행판 v1·GT 자체) 날짜가 cutoff 라 2022-11 ~ 2026-04; **7편**은 Crossref 근거(2025-12 ~ 2026-07). 허용 corpus 70~100%. 분모 합 **4,010**(r4). §5 표 |
+| 영향 | 25 topic 중 **18편**은 arXiv 판(선행판 v1·GT 자체) 날짜가 cutoff 라 2022-11 ~ 2026-04; **7편**은 Crossref 근거(2025-12 ~ 2026-07). 허용 corpus 70~100%. 분모 합 **4,173**(r4 + 09-30 GT ref 식별자 보강). §5 표 |
 
 ## 1. 왜 바꾸는가
 
@@ -91,42 +91,43 @@ twin ↔ topic 매핑은 asg-common-corpus `candidates/GT-SURVEYS.md`(2026-09-02
 | agentic-satellite-networks | 2026-02-03 | Crossref created | twin 없음 |
 | ai-video-streaming | 2024-06-04 | twin 2406.02302 v1 | |
 
-## 5. corpus 와 채점 분모에 미치는 영향 (view `kisti-2608-r4`, `scripts/policy_report.py`, 2026-09-30)
+## 5. corpus 와 채점 분모에 미치는 영향 (view `kisti-2608-r4`, `scripts/policy_report.py`, 2026-09-30 — GT ref 식별자 보강 반영)
 
 allowed = 허용 편수 / 1,697,512. **n_gt_refs_cutoff** = corpus 측이 재계산한 채점 분모(`kisti_data/data/topics.kisti.jsonl`, `n_gt_refs_cutoff_view` = `kisti-2608-r4 32a77a48`; 규칙 identifiable ∧
 ref 공개일 상한 < cutoff ∧ view 안 ∧ 레코드 날짜 상한 < cutoff). `gap_to_80_refs.jsonl` 의 `tier == in_view` 와 **25/25 일치**.
-blocked = view 엔 있지만 레코드 날짜가 거칠어 정책이 막는 ref(`in_view_blocked`, 합 2). undated = 날짜 없는 ref(합 3). pool = cutoff 이전 identifiable
+blocked = view 엔 있지만 레코드 날짜가 거칠어 정책이 막는 ref(`in_view_blocked`, 합 2). undated = 날짜 없는 ref(합 33). pool = cutoff 이전 identifiable
 ref 전체(이론적 ceiling 분모). 출처 = cutoff 근거.
 
 | topic_id | cutoff | 출처 | allowed | n_gt_refs_cutoff | blocked | undated | pool |
 |---|---|---|---:|---:|---:|---:|---:|
-| instruction-tuning-llms | 2023-08-21 | arxiv:2308.10792 | 1,305,390 (77%) | 131 | 0 | 0 | 138 |
-| llm-function-calling | 2026-01-14 | crossref:10.1145/3788284 | 1,655,800 (98%) | 153 | 0 | 0 | 157 |
-| model-merging | 2024-08-14 | arxiv:2408.07666 | 1,461,094 (86%) | 211 | 1 | 1 | 222 |
-| diffusion-model-alignment | 2024-09-11 | arxiv:2409.07253 | 1,470,953 (87%) | 179 | 0 | 0 | 189 |
-| llm-agent-optimization | 2025-03-16 | arxiv:2503.12434 | 1,541,302 (91%) | 190 | 0 | 0 | 197 |
+| instruction-tuning-llms | 2023-08-21 | arxiv:2308.10792 | 1,305,390 (77%) | 133 | 0 | 2 | 143 |
+| llm-function-calling | 2026-01-14 | crossref:10.1145/3788284 | 1,655,800 (98%) | 159 | 0 | 0 | 171 |
+| model-merging | 2024-08-14 | arxiv:2408.07666 | 1,461,094 (86%) | 215 | 1 | 1 | 230 |
+| diffusion-model-alignment | 2024-09-11 | arxiv:2409.07253 | 1,470,953 (87%) | 194 | 0 | 3 | 212 |
+| llm-agent-optimization | 2025-03-16 | arxiv:2503.12434 | 1,541,302 (91%) | 203 | 0 | 0 | 217 |
 | retrieval-explainability | 2022-12-14 | arxiv:2212.07126 | 1,202,705 (71%) | 141 | 0 | 0 | 171 |
-| trustworthy-rag | 2025-02-08 | arxiv:2502.06872 | 1,529,357 (90%) | 116 | 0 | 0 | 133 |
-| large-models-timeseries | 2023-10-16 | arxiv:2310.10196 | 1,327,286 (78%) | 281 | 0 | 1 | 325 |
-| deep-graph-clustering | 2022-11-23 | arxiv:2211.12875 | 1,191,311 (70%) | 110 | 0 | 0 | 142 |
-| negative-sampling-recsys | 2026-01-28 | crossref:10.1145/3793855 | 1,658,303 (98%) | 172 | 0 | 0 | 249 |
+| trustworthy-rag | 2025-02-08 | arxiv:2502.06872 | 1,529,357 (90%) | 122 | 0 | 2 | 145 |
+| large-models-timeseries | 2023-10-16 | arxiv:2310.10196 | 1,327,286 (78%) | 283 | 0 | 1 | 330 |
+| deep-graph-clustering | 2022-11-23 | arxiv:2211.12875 | 1,191,311 (70%) | 111 | 0 | 2 | 143 |
+| negative-sampling-recsys | 2026-01-28 | crossref:10.1145/3793855 | 1,658,303 (98%) | 173 | 0 | 2 | 252 |
 | mllm-adversarial-attacks | 2026-03-30 | arxiv:2603.27918 | 1,676,337 (99%) | 106 | 0 | 0 | 109 |
-| llm-training-data-detection | 2026-01-07 | crossref:10.1145/3779430 | 1,654,323 (97%) | 87 | 0 | 0 | 109 |
-| physical-adversarial-attacks | 2022-11-03 | arxiv:2211.01671 | 1,186,719 (70%) | 158 | 0 | 0 | 183 |
-| harmful-finetuning | 2024-09-26 | arxiv:2409.18169 | 1,473,965 (87%) | 144 | 0 | 0 | 145 |
-| llm-watermarking | 2025-12-05 | crossref:10.1145/3773028 | 1,642,570 (97%) | 80 | 0 | 0 | 105 |
-| moe-inference-optimization | 2024-12-18 | arxiv:2412.14219 | 1,504,520 (89%) | 174 | 1 | 0 | 191 |
-| kv-cache-serving | 2026-07-01 | crossref:10.18653/v1/2026.findings-acl.1916 | 1,696,084 (100%) | 135 | 0 | 0 | 142 |
-| edge-slm-cloud-llm | 2025-07-22 | arxiv:2507.16731 | 1,592,410 (94%) | 231 | 0 | 1 | 262 |
-| llm-edge-inference | 2026-04-24 | arxiv:2604.22906 | 1,682,901 (99%) | 135 | 0 | 0 | 163 |
-| llm-distributed-training | 2024-07-29 | arxiv:2407.20018 | 1,452,414 (86%) | 223 | 0 | 0 | 310 |
-| edge-cloud-collaboration | 2025-05-03 | arxiv:2505.01821 | 1,562,699 (92%) | 240 | 0 | 0 | 346 |
-| wireless-foundation-models | 2025-12-26 | crossref:10.1109/comst.2025.3648785 | 1,644,939 (97%) | 238 | 0 | 0 | 284 |
-| ai-wireless-reasoning | 2025-09-11 | arxiv:2509.09193 | 1,611,575 (95%) | 127 | 0 | 0 | 154 |
-| agentic-satellite-networks | 2026-02-03 | crossref:10.1109/comst.2026.3660854 | 1,665,588 (98%) | 151 | 0 | 0 | 307 |
-| ai-video-streaming | 2024-06-04 | arxiv:2406.02302 | 1,432,358 (84%) | 97 | 0 | 0 | 204 |
+| llm-training-data-detection | 2026-01-07 | crossref:10.1145/3779430 | 1,654,323 (97%) | 90 | 0 | 0 | 113 |
+| physical-adversarial-attacks | 2022-11-03 | arxiv:2211.01671 | 1,186,719 (70%) | 162 | 0 | 0 | 187 |
+| harmful-finetuning | 2024-09-26 | arxiv:2409.18169 | 1,473,965 (87%) | 147 | 0 | 0 | 154 |
+| llm-watermarking | 2025-12-05 | crossref:10.1145/3773028 | 1,642,570 (97%) | 143 | 0 | 0 | 207 |
+| moe-inference-optimization | 2024-12-18 | arxiv:2412.14219 | 1,504,520 (89%) | 179 | 1 | 0 | 198 |
+| kv-cache-serving | 2026-07-01 | crossref:10.18653/v1/2026.findings-acl.1916 | 1,696,084 (100%) | 140 | 0 | 2 | 154 |
+| edge-slm-cloud-llm | 2025-07-22 | arxiv:2507.16731 | 1,592,410 (94%) | 234 | 0 | 2 | 268 |
+| llm-edge-inference | 2026-04-24 | arxiv:2604.22906 | 1,682,901 (99%) | 142 | 0 | 3 | 174 |
+| llm-distributed-training | 2024-07-29 | arxiv:2407.20018 | 1,452,414 (86%) | 227 | 0 | 0 | 316 |
+| edge-cloud-collaboration | 2025-05-03 | arxiv:2505.01821 | 1,562,699 (92%) | 243 | 0 | 1 | 351 |
+| wireless-foundation-models | 2025-12-26 | crossref:10.1109/comst.2025.3648785 | 1,644,939 (97%) | 240 | 0 | 0 | 288 |
+| ai-wireless-reasoning | 2025-09-11 | arxiv:2509.09193 | 1,611,575 (95%) | 130 | 0 | 6 | 170 |
+| agentic-satellite-networks | 2026-02-03 | crossref:10.1109/comst.2026.3660854 | 1,665,588 (98%) | 151 | 0 | 1 | 307 |
+| ai-video-streaming | 2024-06-04 | arxiv:2406.02302 | 1,432,358 (84%) | 105 | 0 | 5 | 217 |
 
-- 25편 분모 합 **4,010**(kisti-2608 2,559 → 09-28 twin 등록 2,541 → r2 2,543 → r4 4,010). r4 가 GT survey reference 원문 확보분 1,258편을 넣어 topic 별로 최대 2배 넘게 커졌다(예: agentic-satellite-networks 66 → 151, llm-agent-optimization 102 → 190). **r2 이전 결과와 recall 을 같은 표에 놓지 않는다.**
+- 25편 분모 합 **4,173**(kisti-2608 2,559 → 09-28 twin 등록 2,541 → r2 2,543 → r4 4,010 → **GT ref 식별자 보강 4,173**), pool 합 5,227. r4 가 GT survey reference 원문 확보분 1,258편을 넣어 topic 별로 최대 2배 넘게 커졌고(예: agentic-satellite-networks 66 → 151, llm-agent-optimization 102 → 190), 같은 날 식별자 보강으로 다시 늘었다(llm-agent-optimization 190 → 203, llm-watermarking 80 → 143). **r2 이전 결과와 recall 을 같은 표에 놓지 않는다.**
+- **GT ref 식별자 보강**(corpus 측 09-30, `kisti_data/analysis/gt-ref-resolve.md`): 식별자 없던 GT ref 870건 중 371건을 제목 대조로 복구(llm-watermarking 은 Crossref 참고문헌 재추출), 못 푼 499건은 **채점 제외 규칙**으로 명시. view·인덱스·cutoff·허용 편수는 불변 → **재실행 불필요, 재채점만**(`score_kisti.py` 는 채점 시점에 `gap_to_80_refs.jsonl` 을 읽는다). 보강 전 분모(합 4,010)로 낸 수치는 다시 채점한다.
 - 09-28 twin 등록(§11)으로 diffusion-model-alignment(2026-02-10 → 2024-09-11)·ai-wireless-reasoning(2026-04-23 → 2025-09-11)의 cutoff 가 앞당겨졌다. 두 topic 의 이전 허용 집합은 무효.
 - `in_view_blocked` 합 37(09-14) → 2(r4). r4 는 corpus 측 날짜 정밀화(overlay `published_at`)를 포함한다.
 - 2026년 cutoff topic 은 2026년 문헌을 본다(예: kv-cache-serving 07-01 → 1,696,084). arXiv 2026 논문은 월 단위라 cutoff 달의 것은 제외된다(보수적).
@@ -199,7 +200,7 @@ python scripts/policy_report.py --policy data/topic_policy.kisti-2608-r4.jsonl -
 1. **arXiv 레코드의 버전** — KISTI 의 arXiv 레코드(`10.48550/arxiv.<id>`)는 버전 없는 키라 초록이 최신판일 수 있다. 월 단위 상한으로 "v1 이 cutoff 이전"임은 보장하지만 제공하는 초록이 v1 것이라는 보장은 없다(origin 문서 §4.4 "v1 만 허용되는 경우 원문·파생자료도 v1 인지"). 해결하려면 arXiv 판별 재수확이 필요 — 미착수.
 2. **OpenAlex `publication_date` 의 의미** — 저널판의 게재일이다. 같은 논문의 arXiv 판이 corpus 에 따로 있으면 그 레코드는 자기 월로 판정되므로 판별 규칙과 어긋나지 않는다.
 3. **twin 없는 GT — 12편 → 7편**(09-28 에 3편 등록, §11; 남은 7편은 cutoff 가 Crossref 근거) — 등록된 선행판이 없을 뿐, 존재하지 않는다는 확인은 아니다(kv-cache-serving 등 ACL 논문은 있을 가능성이 높다). 발견되면 `candidate.yaml gt.arxiv_id` 또는 TWIN 표에 등록하고 정책을 재생성한다. view 에서의 제외(누수)는 corpus 측 재작업.
-4. **채점 분모** — corpus 측이 09-14 에 재계산 완료(`n_gt_refs_cutoff`, §5). 남은 것: `in_view_blocked` 37건을 ceiling 손실로 둘지 날짜를 정밀화할지, `llm-watermarking` S2 재추출. → **09-30 r4 로 재계산(합 4,010, `in_view_blocked` 2)**, §5.
+4. **채점 분모** — corpus 측이 09-14 에 재계산 완료(`n_gt_refs_cutoff`, §5; 09-30 GT ref 식별자 보강으로 합 4,173, 식별 못 한 499건은 채점 제외 규칙). 남은 것: `in_view_blocked` 37건을 ceiling 손실로 둘지 날짜를 정밀화할지, `llm-watermarking` S2 재추출. → **09-30 r4 로 재계산(합 4,010 → 식별자 보강 후 4,173, `in_view_blocked` 2)**, §5.
 5. **기존 산출물** — sec #3 4편은 정책 없이(cutoff 2025-12-31 view) 생성됐다. 새 규약에서는 비교 대상이 아니므로 재실행한다.
 6. **GT reference 보강**(origin 문서 §4.3) — corpus 에 없는 GT ref 추가는 이번 범위 밖. 추가하더라도 cutoff 이전 판만 허용된다는 규칙은 이 코드가 그대로 적용한다(sidecar 에 날짜만 넣으면 됨). → **09-30 r4 가 GT reference 원문 확보분 1,258편을 corpus 에 넣었다**(§11). 규칙은 그대로 적용됐다.
 7. 다른 3개 agent(SurveyForge·SurveyX·LLM×MR)에도 같은 topic 정책 파일을 적용해야 통제 실험이 성립한다 — corpus 측이 공통 판정 모듈 `adapter/common/retrieval_policy.py` 와 공통 sidecar 를 마련했고(09-14), 각 agent 의 검색 경로 적용은 그쪽 세션 몫(`AGENT-HANDOFF.md` §0).
@@ -231,7 +232,8 @@ corpus 측 이력은 `kisti_data/docs/asg/AGENT-HANDOFF.md` §0. AutoSurvey 쪽�
 | 09-28 | **twin 3편 등록**(CSUR 2026 GT pool 수확에서 발견): diffusion-model-alignment ↔ `2409.07253`(v1 2024-09-11) · ai-wireless-reasoning ↔ `2509.09193`(v1 2025-09-11) · llm-edge-inference ↔ `2604.22906`(v1 2026-04-24, 날짜 동일). 두 topic 의 cutoff 가 앞당겨지고 제외 키 40 → 43. 세 twin 은 KISTI 에 없어 view 편수 불변 | `build_topic_policy.py` 에 TWIN 3행, 근거 캐시 갱신, `topic_policy.kisti-2608.jsonl` 재생성 (`6cef3d7`) |
 | 09-28 | **view `kisti-2608-r2`**(1,696,254편, sha `6727c7b8`) = kisti-2608 + KISTI arXiv 2026 초록 결손분 32,550편(스냅샷 초록·v1 제출일 overlay). cutoff 불변, 분모는 kv-cache-serving 61 → 63 만 | `topic_policy.kisti-2608-r2.jsonl`(`0c5f0c6`) · `database_kisti-kisti-2608-r2/`(append 32,550, 7분 26초) — **09-30 삭제**, 지문 `REPRODUCTION.md` §3-C |
 | 09-30 | **view `kisti-2608-r4`**(1,697,512편, sha `32a77a48`) = r2 + GT survey reference 원문 확보분 1,258편(arXiv v1 e-print 784 · OA/무료 proceedings PDF 114 · t0 구제 · 날짜 정밀화). GT 1-hop coverage 51.5% → 81.2%. cutoff 불변, **분모 합 2,543 → 4,010**. r3(`ae27f069`)는 발행만 되고 채택되지 않았다 | `topic_policy.kisti-2608-r4.jsonl`(`1527a80`) · `database_kisti-kisti-2608-r4/`(r2 + 1,258 append, **현행**) · sidecar r4 판 복사 |
+| 09-30 | **GT ref 식별자 보강**(corpus 측 `candidates/resolve_gt_refs.py`, `kisti_data/analysis/gt-ref-resolve.md`): 식별자 없던 GT ref 870건 중 371건을 제목 대조로 복구(llm-watermarking 은 Crossref 참고문헌 재추출 — 논문집 이름이 제목 자리에 들어간 추출 오류), 499건은 **채점 제외 규칙**. 분모 합 4,010 → **4,173**, coverage 81.22% → 79.84%(80% 이상 16/25). view·인덱스·cutoff·허용 편수 불변 | `topic_policy.kisti-2608-r4.jsonl` 재생성 — `n_gt_refs_cutoff`·`_pool` 만 변경(25/25 in_view 일치 확인). PoC 재채점 13/190 → 15/203 |
 
 - **r4 검증**(corpus 측): title·abs 1,697,512벡터 정합, 검색 스모크 OK. `check_db.py` §4 최저 cos 0.9798 '문제 있음' 은 기록된 nomic 오탐 — base 구간은 r2 와 바이트 동일(표본 5,002행), 추가분은 재임베딩 cos 1.0. **재빌드 금지.**
-- **r4 PoC**(AutoSurvey, 09-30): llm-agent-optimization 허용 1,541,302 · 지문 `efe95869`(corpus 측 기대치와 일치) · recall 13/190 · 누수 0. `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`.
+- **r4 PoC**(AutoSurvey, 09-30): llm-agent-optimization 허용 1,541,302 · 지문 `efe95869`(corpus 측 기대치와 일치) · recall 15/203(식별자 보강 후 재채점; 실행 당시 13/190) · 누수 0. `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`.
 - 다른 agent 주의(corpus 측 기록): SurveyForge 는 `SURVEYFORGE_PAPER_DATES` 를 r4 sidecar 로 지정하지 않으면 r4 에 새로 들어온 문헌이 '날짜 불명'으로 빠진다. AutoSurvey 는 DB 디렉터리의 `paper_dates.json` 을 읽으므로 해당 없음 — **DB 디렉터리에 같은 판 sidecar 가 있는지가 전부다.**

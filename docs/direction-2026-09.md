@@ -14,8 +14,8 @@
 | 디코딩 프로파일 | **temperature 0.6 · max_tokens 8192 · 잘림 재요청 on** (§3) |
 | 출력 분량 | **통제하지 않는다** (§4). 본배치는 논문 기본값(8섹션, 서브섹션 상한 없음, `subsection_len` 700) |
 | **검색 정책 (09-14)** | **topic 별 cutoff = GT survey 최초 공개일**(arXiv 선행판 v1 > Crossref created). 문헌 공개일 상한 < cutoff 일 때만 검색 후보. `--topic_policy data/topic_policy.kisti-2608-r4.jsonl --topic_id <slug>` (cutoff 값은 view 무관; `corpus_snapshot_id`·분모만 판 별 — **DB 와 같은 판끼리**). 정본 [`retrieval-policy.md`](retrieval-policy.md) |
-| 평가 | recall + precision 병기, refs 수 공변량, run-to-run ±1.7%p(잠정), topic ceiling 병기 (§5). **분모 = `topics.kisti.jsonl` 의 `n_gt_refs_cutoff`**(topic cutoff ∧ view ∧ 레코드 날짜 허용; **r4 25편 합 4,010** — r2 이전 2,543 과 같은 표 금지). 채점 `scripts/score_kisti.py` |
-| 진행 | **r4 PoC 1편 완료**(llm-agent-optimization, recall 13/190 = 6.8% · precision 3.5% · 누수 0 · 31분 · $0.47, `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`). 나머지 **24편 본배치 미착수** — 약 $11.3 필요, OpenRouter 키 잔여 $10.16(09-30). sec #3 4편은 view v1·정책 없음 → 비교 대상 아님 |
+| 평가 | recall + precision 병기, refs 수 공변량, run-to-run ±1.7%p(잠정), topic ceiling 병기 (§5). **분모 = `topics.kisti.jsonl` 의 `n_gt_refs_cutoff`**(topic cutoff ∧ view ∧ 레코드 날짜 허용; **r4 25편 합 4,173**(09-30 GT ref 식별자 보강 후; 보강 전 4,010) — r2 이전 2,543 과 같은 표 금지). 채점 `scripts/score_kisti.py` |
+| 진행 | **r4 PoC 1편 완료**(llm-agent-optimization, recall 15/203 = 7.4% · precision 4.0%(보강 후 재채점) · 누수 0 · 31분 · $0.47, `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`). 나머지 **24편 본배치 미착수** — 약 $11.3 필요, OpenRouter 키 잔여 $10.16(09-30). sec #3 4편은 view v1·정책 없음 → 비교 대상 아님 |
 | 워크스페이스 | corpus·adapter·topic 선정: `/data2/chanjoong/kisti_data/` (별도 git, remote 없음). AutoSurvey 쪽은 이 저장소 |
 
 ## 1. 목표와 설계
@@ -37,7 +37,7 @@
 | view v1 (2026-09-07) | 1,651,701편, sha `c7b8d4e7…`. `data/views/kisti-2512-v1/`에 보존. sec #3 4편은 전부 v1 | 〃 |
 | view `kisti-2608` (2026-09-14) | **1,663,704편** = v2 + 2026년 12,005 + arXiv `2601.*` 212 복귀. **시간 컷 없음**(스냅샷 260825 전체) — topic cutoff 는 agent 정책이 담당. papers.parquet sha **`c1a0c6b3…`**, created_at `2026-09-14T13:18:56Z`. arXiv id 460,772 · DOI 1,202,932. `data/views/kisti-2608/`, sidecar `paper_dates.json` 동봉 | `kisti_data/docs/asg/AGENT-HANDOFF.md` §0 |
 | view `kisti-2608-r2` (2026-09-28) | 1,696,254편 = kisti-2608 + KISTI arXiv 2026 초록 결손분 32,550(스냅샷 초록·v1 제출일 overlay 로 편입, non-CS 4,508 거부). sha `6727c7b8` | 〃 |
-| **view `kisti-2608-r4` (2026-09-30, 현행)** | **1,697,512편** = r2 + GT survey reference 원문 확보분 1,258(arXiv v1 e-print 784 · OA/무료 proceedings PDF 114 · t0 구제 · 날짜 정밀화). GT 1-hop coverage 51.5% → **81.2%**(80% 이상 17/25). sha **`32a77a48`**, sidecar 동봉 | 〃 · `kisti_data/analysis/coverage-status.md` |
+| **view `kisti-2608-r4` (2026-09-30, 현행)** | **1,697,512편** = r2 + GT survey reference 원문 확보분 1,258(arXiv v1 e-print 784 · OA/무료 proceedings PDF 114 · t0 구제 · 날짜 정밀화). GT 1-hop coverage 51.5% → 81.2%(80% 이상 17/25) → GT ref 식별자 보강 후 **79.84%(16/25)**. sha **`32a77a48`**, sidecar 동봉 | 〃 · `kisti_data/analysis/coverage-status.md` |
 | id 규칙 B | `10.48550/arxiv.<id>` → arXiv base id, 그 외 DOI 소문자. url은 각각 arxiv.org/abs · doi.org | `adapter/common/ids.py` |
 | export | `data/exports/kisti-2512.autosurvey.json` — v2 1,651,487 레코드, content_sha256 `1bca9e73…` (v1은 `54b4e7b4…`) | manifest |
 | 특징 | 출판 venue 논문(IEEE·Springer·ACM…)이 72%, 전편 원문 보유. **2023–2025 arXiv 수록률 56–63%**라 LLM 시대 topic의 ceiling이 낮다(25편 21~68%) | `topic-selection.md` §7 |
@@ -101,7 +101,7 @@ AUTOSURVEY_DEVICE=cpu               # GPU 전량 점유 시 질의 임베딩만 
 ## 7. 다음 단계
 
 1. **나머지 24편 본배치** — 조건 §3·§4 + **topic 정책**(`--db_path ./database_kisti-kisti-2608-r4 --topic_policy data/topic_policy.kisti-2608-r4.jsonl --topic_id <slug>`). r4 PoC 실측 편당 약 31분·$0.47 → 24편 약 $11.3(sec #3 도 정책으로 재실행). **OpenRouter 키 한도 상향 필요**(잔여 $10.16, 09-30). 실행·후처리·채점 템플릿은 `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md` §6.
-1-1. ~~채점 분모 재계산~~ — corpus 측 완료(09-14, r4 판 09-30 합 4,010). `in_view_blocked` 37 → 2(r4). `llm-watermarking` S2 재추출은 여전히 권장.
+1-1. ~~채점 분모 재계산~~ — corpus 측 완료(09-14, r4 판 09-30 합 4,010 → GT ref 식별자 보강 4,173). `in_view_blocked` 37 → 2(r4). `llm-watermarking` S2 재추출은 여전히 권장.
 1-2. **twin 미확인 GT 7편의 선행판 확인** — 09-28 에 3편 등록(`retrieval-policy.md` §11). 남은 7편(cutoff 가 Crossref 근거)도 있으면 등록 후 정책 재생성(`retrieval-policy.md` §9-3).
 2. **DOI id 저자 보강** 후처리(`authors.parquet`) — 참고문헌 표기 품질용, 채점에는 무관.
 3. **재요청 소진 대비** — 10회 다 쓰는 경우가 나오면 재요청 시 temperature 상향/프롬프트 변형.
@@ -128,6 +128,7 @@ AUTOSURVEY_DEVICE=cpu               # GPU 전량 점유 시 질의 임베딩만 
 | 09-28 | view `kisti-2608-r2` 채택(arXiv 2026 초록 보강 32,550) — 정책 파일·DB append | `0c5f0c6` |
 | **09-30** | **view `kisti-2608-r4` 채택**(GT reference 원문 1,258편, 분모 합 4,010, coverage 81.2%). 정책 파일 `topic_policy.kisti-2608-r4.jsonl`, DB `database_kisti-kisti-2608-r4/`. 결과 버전 열 `32a77a48 / 2026-09-30`. PoC 1편(llm-agent-optimization) 통과 | `1527a80`, `3827687`, `docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md` |
 | 09-30 | 쓰지 않는 AutoSurvey DB 3개 삭제(`-2512-v1`·`-2512`·`-2608-r2`, 37 GB). 지문·메타데이터 보존 | `REPRODUCTION.md` §3-C, `docs/db-manifests/` |
+| 09-30 | corpus 측 **GT ref 식별자 보강**(870건 중 371 복구, 499 채점 제외 규칙) → 분모 합 4,010 → **4,173**, coverage 79.84%(16/25). 정책 파일은 `n_gt_refs_cutoff`·`_pool` 만 갱신(cutoff·허용 편수 불변). PoC 재채점 13/190 → **15/203** | kisti_data `99cb340`·`067a125`, `kisti_data/analysis/gt-ref-resolve.md` |
 
 ## 9. 관련 문서
 

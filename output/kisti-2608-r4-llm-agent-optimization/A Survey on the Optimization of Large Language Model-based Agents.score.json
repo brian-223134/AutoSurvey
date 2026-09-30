@@ -1,11 +1,11 @@
 {
   "topic_id": "llm-agent-optimization",
-  "denominator": 190,
+  "denominator": 203,
   "refs": 372,
-  "gt_hit": 13,
-  "recall": 0.0684,
-  "refs_in_gt": 13,
-  "precision": 0.0349,
+  "gt_hit": 15,
+  "recall": 0.0739,
+  "refs_in_gt": 15,
+  "precision": 0.0403,
   "leak_exclude_ids": {
     "10.1145/3789261": 0,
     "2503.12434": 0

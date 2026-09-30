@@ -174,11 +174,11 @@ v4-flash 두 편의 섹션/서브섹션은 **중복 헤딩 제거 후** 기준�
 
 ### 현행 — view `kisti-2608-r4` + topic 정책 (2026-09-30 ~)
 
-DB `database_kisti-kisti-2608-r4`(1,697,512편) + `data/topic_policy.kisti-2608-r4.jsonl`, 프로파일 temp 0.6 + 8K 가드 + 잘림 재요청, 인자 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200`. 결과 버전 열 **`32a77a48 / 2026-09-30`**. 채점은 `scripts/score_kisti.py`(분모 `n_gt_refs_cutoff`, 누수 검사) → `<topic>.score.json`. **아래 이전 표(v1·정책 없음, 분모 다름)와 같은 표에 놓지 않는다.**
+DB `database_kisti-kisti-2608-r4`(1,697,512편) + `data/topic_policy.kisti-2608-r4.jsonl`, 프로파일 temp 0.6 + 8K 가드 + 잘림 재요청, 인자 `--section_num 8 --subsection_len 700 --rag_num 60 --outline_reference_num 1200`. 결과 버전 열 **`32a77a48 / 2026-09-30`**. 채점은 `scripts/score_kisti.py`(분모 `n_gt_refs_cutoff`, 누수 검사) → `<topic>.score.json`. 분모는 09-30 GT ref 식별자 보강 후 값(합 4,173) — 분모가 바뀌면 재채점. **아래 이전 표(v1·정책 없음, 분모 다름)와 같은 표에 놓지 않는다.**
 
 | 디렉터리 | topic_id | cutoff | 허용 / 지문 | 섹션/서브 | 단어 | refs (arXiv/DOI) | 쪽 | 소요 / 비용 | recall / precision (분모) | 누수 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| `kisti-2608-r4-llm-agent-optimization/` | llm-agent-optimization | 2025-03-16 | 1,541,302 / `efe95869` | 10 / 34 | 23,596 | 372 (271/101) | 63 | 31분 / $0.473 | **6.8% / 3.5%** (190) | 0 |
+| `kisti-2608-r4-llm-agent-optimization/` | llm-agent-optimization | 2025-03-16 | 1,541,302 / `efe95869` | 10 / 34 | 23,596 | 372 (271/101) | 63 | 31분 / $0.473 | **7.4% / 4.0%** (203) | 0 |
 
 기록: `../docs/experiments/kisti-2608-r4-poc-llm-agent-optimization.md`.
 

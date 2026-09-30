@@ -20,7 +20,7 @@
 | [`experiments/kisti-2512-sec3-physical-adversarial-attacks.md`](experiments/kisti-2512-sec3-physical-adversarial-attacks.md) | **KISTI DB `kisti-2512` 첫 편** — 인덱스 빌드·argmax 검증, DOI/arXiv 혼합 id 처리, 누수 차단, §2.1 반복 루프 결함과 본배치 전 미결 4건 |
 | [`experiments/probe-temp06-length-coefficient.md`](experiments/probe-temp06-length-coefficient.md) | **디코딩 프로파일 변경(temp 0.6 · max_tokens 8K) 근거 + 길이 계수 재측정** — 프로브 12회, 초안 계수 1.51×/1.86×, run-to-run CV 11~24%, 잘림 0, `--subsection_len 520` 유지 결정 |
 | [`experiments/kisti-2512-sec3-temp06-runs.md`](experiments/kisti-2512-sec3-temp06-runs.md) | **temp 0.6 본편 3회(r1 가드만 / r2·r3 가드+잘림 재요청)** — 루프 오염 2→0, 같은 코드 쌍 recall 8.1 vs 11.4%(±1.7%p 잠정), refs Jaccard 0.11~0.18, 분량은 통제하지 않기로 결정 |
-| [`experiments/kisti-2608-r4-poc-llm-agent-optimization.md`](experiments/kisti-2608-r4-poc-llm-agent-optimization.md) | **corpus r4 + topic 정책 첫 편(PoC)** — 허용 집합 지문 사전 점검, recall 13/190·precision 3.5%·누수 0, 31분·$0.47, 24편 본배치 비용 추정 · **현행 실행 템플릿** |
+| [`experiments/kisti-2608-r4-poc-llm-agent-optimization.md`](experiments/kisti-2608-r4-poc-llm-agent-optimization.md) | **corpus r4 + topic 정책 첫 편(PoC)** — 허용 집합 지문 사전 점검, recall 15/203·precision 4.0%(GT ref 식별자 보강 후 재채점)·누수 0, 31분·$0.47, 24편 본배치 비용 추정 · **현행 실행 템플릿** |
 
 수치는 전부 저장소의 실측값입니다. 출처를 각 표 아래에 적어 뒀으니
 발표 중 근거를 물으면 그 파일·스크립트를 열면 됩니다.
